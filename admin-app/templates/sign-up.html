@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="bg-[url({{ url_for('static', filename='img/bge.png') }})] w-screen bg-cover h-screen overflow-y-scroll">
+    <div class="sm:max-w-[640px] max-w-full mx-auto">
+      <div class="row justify-center min-h-screen py-2 items-center">
+          <div class="view show p-5 text-center card" id="signin-view">
+            <div class="flex justify-center max-h-40">
+              <img class=" object-contain" src="{{ url_for('static', filename='img/logoi.png') }}" />
+            </div>
+            <h2>Portail administrateur</h2>
+            {{ error }}
+            <form
+              class="needs-validation mt-5"
+              method="POST"
+            >
+              <div class="input-group mb-3">
+                <i
+                  class="
+                    ai-mail
+                    position-absolute
+                    top-50
+                    start-0
+                    translate-middle-y
+                    ms-3
+                  "
+                ></i>
+                <input
+                  class="form-control rounded"
+                  type="text"
+                  placeholder="Courriel"
+                  required
+                  name="email"
+                />
+              </div>
+
+
+
+              <div class="input-group mb-3">
+                <i
+                  class="
+                    ai-mail
+                    position-absolute
+                    top-50
+                    start-0
+                    translate-middle-y
+                    ms-3
+                  "
+                ></i>
+                <input
+                  class="form-control rounded"
+                  type="text"
+                  placeholder="Nom complet"
+                  required
+                  name="name"
+                />
+              </div>
+            
+
+               <div class="input-group mb-3">
+                <i
+                  class="
+                    ai-lock
+                    position-absolute
+                    top-[45%]
+                    start-0
+                    translate-middle-y
+                    ms-3
+                  "
+                ></i>
+                <div class="password-toggle w-100">
+                  <input
+                    class="form-control mb-2"
+                    type="password"
+                    placeholder="Mot de passe"
+                    required
+                    name="password"
+                  />
+                  <label
+                    class="password-toggle-btn"
+                    aria-label="Show/hide password"
+                  >
+                    <input class="password-toggle-check" type="checkbox" /><span
+                      class="password-toggle-indicator"
+                    ></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="flex justify-center">
+                <div class="w-48">
+                  <button
+                    class="py-2 rounded-lg bg-blue-500 text-white d-block w-100 mt-3 mb-2"
+                    type="submit"
+                  >
+                    S'INSCRIRE
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+ {% endblock %} 
+
+
