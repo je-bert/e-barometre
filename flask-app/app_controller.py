@@ -1,15 +1,15 @@
 from flask import Blueprint, session
-from auth_decorator import auth
+from auth import auth
 
-main = Blueprint('main', __name__)
+main_router = Blueprint('main_router', __name__)
 
-@main.route('/')
+@main_router.route('/')
 @auth
 def index():
     if 'email' in session:
         return f'Logged in as {session["email"]}'
     return "Logged out" 
 
-@main.route('/profile')
+@main_router.route('/profile')
 def profile():
     return 'Profile'

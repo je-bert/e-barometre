@@ -5,6 +5,6 @@ def auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not 'email' in session:
-            return redirect(url_for('auth.sign_in', next=request.url))
+            return redirect(url_for('auth_page.sign_in', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
