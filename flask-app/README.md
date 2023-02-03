@@ -11,7 +11,7 @@ pip freeze > requirements.txt
 3. Navigate into the project directory
 
    ```bash
-   $ cd admin-app
+   $ cd flask-app
    ```
 
 4. Create a new virtual environment
