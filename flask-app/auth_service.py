@@ -11,7 +11,6 @@ def sign_in():
     auth = request.form
   
     if not auth or not auth.get('email') or not auth.get('password'):
-        # returns 401 if any email or / and password is missing
         return render_template('sign-in.html', error='Invalid credentials.')
   
     user = User.query\
