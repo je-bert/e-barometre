@@ -10,7 +10,7 @@ DB_PATH = "{}/{}".format(DB_ROOT_DIR, DB_NAME)
 
 db = SQLAlchemy()
 
-def init_app(app):
+def init(app):
   app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
   if not path.exists(DB_PATH) or (len(argv) > 1 and argv[1] == '--new'):
       run_seeds(app)

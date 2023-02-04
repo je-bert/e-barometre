@@ -9,7 +9,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'kdxhfds iefhsdbf'
 
-    db.init_app(app)
+    db.init(app)
 
     app.register_blueprint(auth_router, url_prefix='/auth')
 
