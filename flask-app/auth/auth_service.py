@@ -1,6 +1,5 @@
 from flask import session, redirect, url_for, render_template, request
 from  werkzeug.security import generate_password_hash, check_password_hash
-import uuid
 from database import db
 from user import User
 from datetime import datetime
