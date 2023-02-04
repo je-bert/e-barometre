@@ -3,17 +3,12 @@ from  werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from database import db
 from user import User
-from datetime import datetime
-
-
 
 def sign_in():
     if request.method == 'GET':
         return render_template('sign-in.html'); 
         
     auth = request.form
-
-
   
     if not auth or not auth.get('email') or not auth.get('password'):
         return render_template('sign-in.html', error='Invalid credentials.')
@@ -21,15 +16,13 @@ def sign_in():
     user = User.query\
         .filter_by(email = auth.get('email'))\
         .first()
-
-
   
     if not user:
         return render_template('sign-in.html', error='Invalid credentials.')
   
     if check_password_hash(user.password, auth.get('password')):
         session['email'] = user.email
-        return redirect(url_for('main_router.index'))
+        return redirect(url_for('main.index'))
 
     return render_template('sign-in.html', error='Invalid credentials.')
   
@@ -49,27 +42,24 @@ def sign_up():
 
     if not user:
         user = User(
-            first_name = "test",
-            last_name = "test",
+            user_id = str(uuid.uuid4()),
+            name = name,
             email = email,
-            phone_number = "418-888-8888",
-            date_logged_in = datetime.now(),
-            date_created = datetime.now(),
-            password = generate_password_hash(password),
-            role = "admin"
+            password = generate_password_hash(password)
+            
         )
         db.session.add(user)
         db.session.commit()
 
         session['email'] = request.form['email']
-        return redirect(url_for('main_router.index'))
+        return redirect(url_for('main.index'))
     else:
         return render_template('sign-up.html', error='User already exists. Please Log in.')
 
 
 def sign_out():
     session.pop('email', None)
-    return redirect(url_for('auth_router.sign_in'))
+    return redirect(url_for('auth.sign_in'))
 
 
     
