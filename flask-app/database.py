@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from pandas import ExcelFile
+from pandas import ExcelFile, options
 from os import path
 from sys import argv
 
@@ -19,14 +19,21 @@ def init(app):
       run_seeds()
 
 def run_seeds():
+  # importing models is required for ORM
+  from surveys import Survey
+  from categories import category_model
+  from users import User
+  from choices import Choice
+  from questions import Question
+  from labels import Label
   if app_context != None:
     with app_context:
       xl = ExcelFile('seeds.xlsx')
-      if path.exists(DB_PATH):
-        db.drop_all() # Drop previous tables
+      db.reflect()
+      db.drop_all() # Drop previous tables
       db.create_all()  # Create tables
-      for sheet_name in ['user']: #TODO (jeremie): Add seeds for other sheets (xl.sheet_names)
+      for sheet_name in xl.sheet_names:
         sheet = xl.parse(sheet_name)
         sheet.to_sql(name=sheet_name, con=db.engine, if_exists='append', index=False)
-        print("Created seeds for table", sheet_name)
+        print(" * DB: Created seeds for table", sheet_name)
 

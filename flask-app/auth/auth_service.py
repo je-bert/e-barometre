@@ -1,17 +1,15 @@
 from flask import session, redirect, url_for, render_template, request
 from  werkzeug.security import generate_password_hash, check_password_hash
 from database import db
-from user import User
+from users import User
 from datetime import datetime
-
-
 
 def sign_in():
     if request.method == 'GET':
         return render_template('sign-in.html'); 
         
     auth = request.form
-
+    next = request.args.get('next')
 
   
     if not auth or not auth.get('email') or not auth.get('password'):
@@ -28,7 +26,7 @@ def sign_in():
   
     if check_password_hash(user.password, auth.get('password')):
         session['email'] = user.email
-        return redirect(url_for('main_router.index'))
+        return redirect(url_for('main_router.index') if next == None else next)
 
     return render_template('sign-in.html', error='Invalid credentials.')
   
