@@ -1,4 +1,4 @@
-## How to add a package
+## How to install a package
 
    MacOS & Linux:
    ```bash
