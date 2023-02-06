@@ -40,7 +40,8 @@ tailwind.config = {
     'Segoe UI Emoji', 
     'Segoe UI Symbol', 
     'Noto Color Emoji'
-  ]
+  ],
+      'serif': ['ui-serif', 'Georgia']
     }
   }
 }

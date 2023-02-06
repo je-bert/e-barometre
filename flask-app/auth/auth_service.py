@@ -6,6 +6,8 @@ from datetime import datetime
 
 def sign_in():
     if request.method == 'GET':
+        if 'email' in session:
+            return redirect(url_for('auth_router.sign_out'))
         return render_template('sign-in.html'); 
         
     auth = request.form
@@ -32,6 +34,8 @@ def sign_in():
   
 def sign_up():
     if request.method == 'GET':
+        if 'email' in session:
+            return redirect(url_for('auth_router.sign_out'))
         return render_template('sign-up.html')
 
     data = request.form
