@@ -11,4 +11,4 @@ def find_all():
 
 @surveys_router.route('/<id>', methods = ['GET'])
 def find_one(id):
-  return "Find " + id
+  return surveys_service.find_one(id)

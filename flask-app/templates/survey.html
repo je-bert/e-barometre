@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% set active_page = "surveys" %}
+
+{% block title %} {{ survey.name }} {% endblock %}
+
+{% block content %}
+  <div class="bg-[{{ survey.color }}] w-full h-full">
+    <h1>TODO: Kui : Faire la page survey en se basant sur surveys.html</h1>
+    Nom du questionnaire: {{ survey.name }}
+    <h2>Questions</h2>
+    <ul>
+      {% for question in questions %}
+        <li>
+          {{ question.title }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

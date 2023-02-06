@@ -15,7 +15,7 @@ def sign_in():
 
   
     if not auth or not auth.get('email') or not auth.get('password'):
-        return render_template('sign-in.html', error='Invalid credentials.')
+        return render_template('sign-in.html', error='Identifiants invalides.')
   
     user = User.query\
         .filter_by(email = auth.get('email'))\
@@ -24,13 +24,13 @@ def sign_in():
 
   
     if not user:
-        return render_template('sign-in.html', error='Invalid credentials.')
+        return render_template('sign-in.html', error='Identifiants invalides.')
   
     if check_password_hash(user.password, auth.get('password')):
         session['email'] = user.email
         return redirect(url_for('main_router.index') if next == None else next)
 
-    return render_template('sign-in.html', error='Invalid credentials.')
+    return render_template('sign-in.html', error='Identifiants invalides.')
   
 def sign_up():
     if request.method == 'GET':
@@ -65,7 +65,7 @@ def sign_up():
         session['email'] = request.form['email']
         return redirect(url_for('main_router.index'))
     else:
-        return render_template('sign-up.html', error='User already exists. Please Log in.')
+        return render_template('sign-up.html', error="Ce nom d'utilisateur n'est pas disponible.")
 
 
 def sign_out():
