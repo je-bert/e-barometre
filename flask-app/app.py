@@ -3,6 +3,7 @@ from auth import auth_router
 from app_controller import main_router
 from surveys import surveys_router
 from questions import questions_router
+from labels import labels_router
 import database as db
 
 def create_app():
@@ -13,6 +14,7 @@ def create_app():
     app.register_blueprint(main_router)
     app.register_blueprint(surveys_router, url_prefix='/surveys')
     app.register_blueprint(questions_router, url_prefix='/questions')
+    app.register_blueprint(labels_router, url_prefix='/labels')
 
     @app.errorhandler(404)
     def not_found(e):
