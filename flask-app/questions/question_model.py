@@ -23,3 +23,5 @@ class Question(db.Model):
   red_flag = db.Column(db.Integer, nullable = True)
   past_intro	= db.Column(db.String(255), nullable = True)
   past_title = db.Column(db.String(255), nullable = True)
+  def as_dict(self):
+       return {c.name: getattr(self, c.name) for c in self.__table__.columns}
