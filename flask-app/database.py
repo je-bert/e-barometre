@@ -18,7 +18,7 @@ def init(app):
   if not path.exists(DB_PATH) or (len(argv) > 1 and argv[1] == '--new'):
       run_seeds()
 
-def run_seeds():
+def run_seeds(file_name = 'seeds.xlsx'):
   # importing models is required for ORM
   from surveys import Survey
   from categories import Category
@@ -28,12 +28,13 @@ def run_seeds():
   from labels import Label
   if app_context != None:
     with app_context:
-      xl = ExcelFile('seeds.xlsx')
+      xl = ExcelFile(file_name)
       db.reflect()
       db.drop_all() # Drop previous tables
       db.create_all()  # Create tables
-      for sheet_name in xl.sheet_names:
-        sheet = xl.parse(sheet_name)
-        sheet.to_sql(name=sheet_name, con=db.engine, if_exists='append', index=False)
-        print(" * DB: Created seeds for table", sheet_name)
+      for model in [Survey, Category, User, Choice, Question, Label]:
+        if model.__tablename__ in xl.sheet_names:
+          sheet = xl.parse(model.__tablename__)
+          sheet.to_sql(name=model.__tablename__, con=db.engine, if_exists='append', index=False)
+          print(" * DB: Created seeds for table", model.__tablename__)
 

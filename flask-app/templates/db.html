@@ -1,5 +1,11 @@
 <html>
   <body>
-    Hello. <a href="/db/export">Click me.</a>
+    Hello. <a href="/db/export">export</a>    <a href="/db/reset">reset</a>
+    <h1>Upload Excel File (.xlsx)</h1>
+    <form action="/db/import" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+        <input type="submit" value="Upload">
+    </form>
   </body>
 </html>
