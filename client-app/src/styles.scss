@@ -1,0 +1,300 @@
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --questionnaire-color: rgb(226, 114, 90);
+  --primary-color: #50b8ff;
+}
+
+body,
+.mat-expansion-panel-header-description,
+.datagrid-table .datagrid-cell,
+html {
+  font-family: "Nunito Sans" !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.mat-expansion-panel-header-title,
+button,
+.btn {
+  font-family: Poppins !important;
+  font-weight: 500 !important;
+}
+
+h1 {
+  font-size: 3.5rem !important;
+  font-weight: 600;
+  line-height: 1;
+}
+
+header {
+  font-family: Poppins;
+  text-transform: uppercase;
+}
+
+/* custom */
+
+.btn {
+  text-transform: uppercase !important;
+  border-radius: 2rem;
+  padding-top: 0.7rem !important;
+  padding-bottom: 0.7rem !important;
+  font-size: 12px !important;
+}
+
+// overwrite material snackbar styles
+
+.mat-snack-bar-container {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+// overwrite material btn style
+
+.mat-fab.mat-primary,
+.mat-mini-fab.mat-primary {
+  background-color: #030d45 !important;
+}
+
+// overwrite primary button from bootstrap
+
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #fff;
+}
+
+//overwrite bootstrap styles
+.bg-secondary {
+  background-color: #aadbfc26 !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+//
+
+@media only screen and (max-width: 800px) {
+  body {
+    background-color: lightblue;
+  }
+}
+
+body {
+  @media only screen and (max-width: 600px) {
+    background-color: lightblue;
+  }
+}
+
+// admin styles
+
+.mat-drawer-container {
+  height: 100vh !important;
+}
+
+// info bubbles
+
+.popover-arrow::before,
+.popover-arrow::after {
+  content: none !important;
+}
+
+app-info-bubble button {
+  animation-name: infoBubbleGlow;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes infoBubbleGlow {
+  0% {
+    transform: scale(0.8);
+  }
+
+  35% {
+    transform: scale(0.95);
+  }
+
+  65% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+.datagrid .datagrid-column {
+  background-color: #50b8ff !important;
+  padding: 0.95rem 0.6rem 0.95rem !important;
+}
+
+.datagrid-column-title {
+  margin-top: 0 !important;
+
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: white !important;
+}
+
+.datagrid-cell {
+  padding: 0.95rem 0.6rem 0.95rem !important;
+}
+
+.datagrid-action-overflow .action-item:hover,
+.datagrid-action-overflow .action-item:focus {
+  background-color: #aadbfc26 !important;
+}
+
+.datagrid-row:hover {
+  background-color: #aadbfc26 !important;
+}
+
+app-admin-panel label {
+  margin-bottom: 0.75rem !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  margin-top: 1rem !important;
+}
+
+pre {
+  background-color: white !important;
+}
+
+clr-dg-row-detail {
+  background-color: #aadbfc26 !important;
+}
+
+.datagrid-row:hover .datagrid-row-sticky {
+  background-color: #aadbfc26 !important;
+}
+
+.clr-select-wrapper select option,
+.clr-multiselect-wrapper select option {
+  border-radius: 0 !important;
+  padding: 1rem !important;
+}
+
+.datagrid-table .datagrid-cell {
+  font-size: 14px !important;
+  font-family: "Nunito Sans" !important;
+  color: #737491 !important;
+  line-height: 1.5em !important;
+}
+
+.mat-expansion-panel {
+  @apply tw-py-16;
+}
+
+.datagrid-footer {
+  background-color: #50b8ff !important;
+}
+
+_ngcontent-nbp-c290 {
+  padding-bottom: 1rem !important;
+}
+
+.datagrid-table .datagrid-cell:focus {
+  outline: none !important;
+}
+
+.btn-outline-primary {
+  color: var(--questionnaire-color) !important;
+  border-color: var(--questionnaire-color) !important;
+
+  &:hover {
+    background-color: var(--questionnaire-color) !important;
+    color: white !important;
+  }
+}
+
+app-question-details .btn-success {
+  background-color: var(--questionnaire-color) !important;
+  border-color: var(--questionnaire-color) !important;
+}
+
+app-integer {
+  .form-control {
+    border-color: var(--questionnaire-color) !important;
+    color: var(--questionnaire-color) !important;
+    border-radius: 2rem !important;
+    font-weight: 500 !important;
+    font-size: 12px;
+    font-family: "Poppins" !important;
+    text-align: center;
+  }
+
+  .btn {
+    color: var(--questionnaire-color) !important;
+    font-weight: 500 !important;
+    font-size: 1.5rem !important;
+  }
+}
+
+app-labeled-ladder {
+  .app-answer-so {
+    .mat-radio-label {
+      flex-direction: row-reverse !important;
+    }
+    .mat-radio-label-content {
+      margin-top: 0 !important;
+    }
+  }
+  .mat-ripple-element {
+    background-color: var(--questionnaire-color) !important;
+  }
+
+  .mat-radio-inner-circle {
+    background-color: var(--questionnaire-color) !important;
+  }
+
+  .mat-radio-outer-circle {
+    border-color: var(--questionnaire-color) !important;
+  }
+
+  .mat-radio-label-content {
+    @apply tw-font-medium tw-uppercase tw-text-base tw-mt-3 tw-mx-5;
+    color: var(--questionnaire-color) !important;
+    font-family: "Poppins" !important;
+  }
+
+  .mat-radio-label {
+    @apply tw-flex tw-flex-col;
+  }
+}
+
+.tw-text-questionnaire {
+  color: var(--questionnaire-color) !important;
+  font-family: "Poppins" !important;
+  font-weight: 500 !important;
+}
+
+._ngcontent-saw-c320 {
+  font-family: "Poppins" !important;
+  font-weight: 500 !important;
+  color: red;
+}
+
+.app-svg {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.mat-radio-label-content {
+  font-size: 12px !important;
+}
+
+// dashboard svg styles
+
+#dashboard-svg {
+  .svg-hair {
+    fill: #302e41 !important;
+  }
+
+  .svg-skin {
+    fill: #ffb6b6 !important;
+  }
+}

@@ -1,0 +1,525 @@
+<section
+  class="
+    position-relative
+    bg-dark
+    pt-7
+    pb-5 pb-md-7
+    bg-size-cover bg-attachment-fixed
+  "
+  style="background-image: url('/assets/img/bge.png')"
+>
+  <div class="shape shape-bottom shape-curve bg-body bg-light">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 185.4">
+      <path
+        fill="currentColor"
+        d="M3000,0v185.4H0V0c496.4,115.6,996.4,173.4,1500,173.4S2503.6,115.6,3000,0z"
+      ></path>
+    </svg>
+  </div>
+  <div class="container position-relative zindex-5 text-center my-lg-3">
+    <h1 class="text-light mb-0 display-3">Portail admin</h1>
+  </div>
+</section>
+
+<section
+  *ngIf="!isReloadingQuestionnaires"
+  class="pt-5 mt-lg-3 mt-xl-4 mt-xxl-5"
+>
+  <div class="row">
+    <div class="col">
+      <app-admin-surveys-table
+        (onOpenPanel)="handleOpenQuestionnairesPanel()"
+        (onViewQuestions)="handleViewQuestions($event)"
+        (onEditSurvey)="handleEditSurvey($event)"
+      ></app-admin-surveys-table>
+    </div>
+  </div>
+</section>
+
+<section
+  *ngIf="surveyId !== '' && !isReloadingSingleQuestionnaire"
+  class="pt-5 mt-lg-3 mt-xl-4 mt-xxl-5"
+>
+  <div class="row">
+    <div class="col">
+      <app-admin-survey-table
+        (onEditQuestion)="handleEditQuestion($event)"
+        [surveyId]="surveyId"
+      ></app-admin-survey-table>
+    </div>
+  </div>
+</section>
+
+<clr-modal></clr-modal>
+
+<clr-modal
+  *ngIf="editSurveyId !== ''"
+  [(clrModalOpen)]="editSurveyModalOpened"
+  [clrModalStaticBackdrop]="false"
+>
+  <h3 class="modal-title h5 tw-text-center tw-mt-5">
+    Modifier le questionnaire {{ (editSurvey$ | async)?.name || "" }}
+  </h3>
+  <div class="modal-body">
+    <form
+      (ngSubmit)="handleConfirmEditSurvey()"
+      #form="ngForm"
+      *ngIf="editSurvey$ | async as survey"
+      class="clr-form tw-mb-4"
+    >
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Nom</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input
+              type="text"
+              id="example"
+              placeholder=""
+              name="name"
+              [(ngModel)]="editSurveyFormData.name"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext">Le nom visible par les utilisateurs</span>
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Description</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input
+              type="text"
+              id="example"
+              placeholder=""
+              name="description"
+              [(ngModel)]="editSurveyFormData.description"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >La description visible par les utilisateurs</span
+          >
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Statut</label>
+        <div class="clr-control-container">
+          <div class="clr-select-wrapper">
+            <select
+              name="status"
+              [(ngModel)]="editSurveyFormData.status"
+              class="clr-select"
+            >
+              <option selected value="{{ survey.status }}">
+                {{ survey.status }}
+              </option>
+              <option *ngIf="survey.status !== 'active'" value="active">
+                active
+              </option>
+              <option *ngIf="survey.status !== 'inactive'" value="inactive">
+                inactive
+              </option>
+            </select>
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >Un statut actif indique que le questionnaire sera visible par les
+            utilisateurs. Un statut inactif indique que le questionnaire sera
+            seulement visible par les administrateurs</span
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="editSurveyModalOpened = false"
+    >
+      Annuler
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="handleConfirmEditSurvey()"
+    >
+      Enregistrer
+    </button>
+  </div>
+</clr-modal>
+
+<clr-modal
+  *ngIf="editQuestionId !== ''"
+  [(clrModalOpen)]="editQuestionModalOpened"
+  [clrModalStaticBackdrop]="false"
+>
+  <h3 class="modal-title h4 tw-text-center tw-mt-5">
+    Modifier la question {{ editQuestionId }}
+  </h3>
+  <div class="modal-body">
+    <form
+      (ngSubmit)="handleConfirmEditQuestion()"
+      #form="ngForm"
+      *ngIf="editQuestion$ | async as question"
+      class="clr-form"
+    >
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label"
+          >Phrase introductive</label
+        >
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input
+              type="text"
+              placeholder=""
+              name="edit-question-info"
+              [(ngModel)]="editQuestionFormData.intro"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext">L'introduction de la question</span>
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label"
+          >Question | Sous-question <strong> au présent </strong>
+        </label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input
+              type="text"
+              placeholder=""
+              name="edit-question-title"
+              [(ngModel)]="editQuestionFormData.title"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >Question utilisée lors d’une analyse au présent</span
+          >
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label"
+          >Question | Sous-question
+
+          <strong> au passé </strong>
+        </label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <!-- TODO ngmodel -->
+            <input
+              type="text"
+              placeholder=""
+              name="edit-question-title"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >Question utilisée lors d’une analyse rétrospective</span
+          >
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Info bulle</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input
+              type="text"
+              id="example"
+              placeholder=""
+              name="edit-question-info-bubble"
+              [(ngModel)]="editQuestionFormData.info_bubble_text"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >Précision sur la question ou information additionnelle</span
+          >
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Drapeau rouge</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <!-- TODO ngmodel -->
+            <input
+              type="text"
+              id="example"
+              placeholder=""
+              name="edit-question-info-bubble"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext">TODO Lorem</span>
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Intensité de base</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <input
+              type="number"
+              id="example"
+              placeholder=""
+              name="edit-question-intensity"
+              [(ngModel)]="editQuestionFormData.intensity"
+              class="clr-input"
+            />
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >Sévérité du comportement sur une échelle de 1: léger à 3:
+            sévère</span
+          >
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label"
+          >Intensité conditionnelle</label
+        >
+        <div class="clr-control-container">
+          <div class="clr-textarea-wrapper">
+            <textarea
+              name="edit-question-intensity-conditional"
+              id="example"
+              placeholder=""
+              name="edit-question-intensity-conditional"
+              [(ngModel)]="editQuestionFormData.conditional_intensity"
+              class="clr-textarea"
+            >
+            </textarea>
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >Condition qui provoque un changement de l'intensité de base</span
+          >
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Conditions</label>
+        <div class="clr-control-container">
+          <div class="clr-textarea-wrapper">
+            <textarea
+              type="text"
+              id="example"
+              placeholder=""
+              name="edit-question-condition"
+              [(ngModel)]="editQuestionFormData.condition"
+              class="clr-textarea"
+            ></textarea>
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+          <span class="clr-subtext"
+            >Condition d'ouverture d'une question ou d'une sous-question)</span
+          >
+        </div>
+      </div>
+
+      <div class="clr-form-control">
+        <label for="example" class="clr-control-label">Échelle CEV</label>
+        <div class="clr-control-container">
+          <div class="clr-input-wrapper">
+            <div class="cev-ladder">
+              <input
+                type="number"
+                id="example"
+                placeholder="C"
+                name="edit-question-ladderC"
+                [(ngModel)]="editQuestionFormData.ladderC"
+                class="clr-input"
+              />
+
+              <input
+                type="number"
+                id="example"
+                placeholder="E"
+                name="edit-question-ladderE"
+                [(ngModel)]="editQuestionFormData.ladderE"
+                class="clr-input"
+              />
+
+              <input
+                type="number"
+                id="example"
+                placeholder="V"
+                name="edit-question-ladderV"
+                [(ngModel)]="editQuestionFormData.ladderV"
+                class="clr-input"
+              />
+            </div>
+            <span class="clr-subtext"
+              >Entre le pourcentage réparti selon le caractère du comportement
+              C: comportemental, E: Émotif, V: Verbal)</span
+            >
+
+            <clr-control-error
+              *ngIf="combinedLadderAbove100()"
+              class="tw-text-red-500"
+              >La somme des valeurs ne doit pas dépasser 100</clr-control-error
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="clr-form-control tw-mt-12">
+        <label for="" class="clr-control-label">Choix de réponses</label>
+        <div class="clr-control-container">
+          <pre>
+            TODO
+
+    
+          </pre>
+        </div>
+      </div>
+
+      <div class="clr-form-control tw-mt-12">
+        <label for="example" class="clr-control-label">Catégorie</label>
+        <div class="clr-control-container">
+          <div class="clr-select-wrapper">
+            <select
+              name="categorie"
+              [(ngModel)]="editQuestionFormData.categorie"
+              class="clr-select"
+            >
+              <option selected value="{{ editQuestionFormData.categorie }}">
+                {{ editQuestionFormData.categorie }}
+              </option>
+
+              <ng-container
+                *ngFor="let category of surveyQuestionCategories$ | async"
+              >
+                <option
+                  *ngIf="
+                    editQuestionFormData.categorie !== category.category_id
+                  "
+                  value="{{ category.category_id }}"
+                >
+                  {{ category.category_id }}
+                </option>
+              </ng-container>
+            </select>
+            <cds-icon
+              class="clr-validate-icon"
+              shape="exclamation-circle"
+            ></cds-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="clr-form-control tw-mt-8">
+        <label for="example" class="clr-control-label"
+          >Question violence conjugale</label
+        >
+        <div class="clr-control-container">
+          <div class="">
+            <input
+              type="checkbox"
+              name="violence_related"
+              [(ngModel)]="editQuestionFormData.violence_related"
+            />
+            <span class="clr-subtext"
+              >Cochez si et seulement si la question est liée à la violence
+              conjugale</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="clr-form-control tw-mt-8">
+        <label for="example" class="clr-control-label">Question active</label>
+        <div class="clr-control-container">
+          <div class="">
+            <input
+              type="checkbox"
+              name="status"
+              [(ngModel)]="editQuestionFormData.active"
+            />
+            <span class="clr-subtext">Lorem</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tw-mt-8">
+        <label for="">Question dépendantes</label>
+
+        <ul *ngIf="relatedConditional$ | async as relatedQuestions">
+          <li *ngFor="let relatedQuestion of relatedQuestions">
+            {{ relatedQuestion.question_id }}
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline"
+      (click)="editQuestionModalOpened = false; editQuestionId = ''"
+    >
+      annuler
+    </button>
+    <button
+      [disabled]="!isValidQuestionEdit()"
+      (click)="handleConfirmEditQuestion()"
+      type="button"
+      class="btn btn-primary"
+    >
+      enregistrer
+    </button>
+  </div>
+
+  {{ surveyQuestionCategories$ | async }}
+</clr-modal>

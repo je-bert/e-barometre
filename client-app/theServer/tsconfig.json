@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./build",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node"
+  },
+  "exclude": ["node_modules", "build"],
+  "ts-node": {
+    "transpileOnly": true
+  }
+}

@@ -1,0 +1,118 @@
+<form
+  (ngSubmit)="onSubmit()"
+  #contactForm="ngForm"
+  class="card-body needs-validation p-5"
+  action="/contact.php"
+  method="POST"
+  [hidden]="submitted"
+>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="mb-3 pb-1">
+        <label class="form-label" for="cont-fn"
+          >Full name<sup class="text-danger ms-1">*</sup></label
+        >
+        <input
+          class="form-control"
+          type="text"
+          id="cont-fn"
+          placeholder="John Doe"
+          required
+          [(ngModel)]="fullName"
+          name="Full name"
+          minlength="1"
+        />
+        <div *ngIf="contactForm.invalid" class="invalid-feedback">
+          Please enter your full name!
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="mb-3 pb-1">
+        <label class="form-label" for="cont-email"
+          >Email address<sup class="text-danger ms-1">*</sup></label
+        >
+        <input
+          class="form-control"
+          type="email"
+          id="cont-email"
+          placeholder="j.doe@example.com"
+          required
+          [(ngModel)]="email"
+          name="Email"
+        />
+        <div class="invalid-feedback">Please enter a valid email address!</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="mb-3 pb-1">
+        <label class="form-label" for="cont-phone">Phone number</label>
+        <input
+          class="form-control bg-image-0"
+          type="text"
+          id="cont-phone"
+          data-format="custom"
+          data-delimiter="-"
+          data-blocks="2 4 2 2"
+          placeholder="00-0000-00-00"
+          [(ngModel)]="phone"
+          name="Phone"
+        />
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="mb-3 pb-1">
+        <label class="form-label" for="cont-company"
+          >Comment avez-vous entendu parler de nous?</label
+        >
+        <input
+          class="form-control bg-image-0"
+          type="text"
+          id="cont-company"
+          placeholder="Your company"
+          [(ngModel)]="howDidYouHear"
+          name="How did you hear about us"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="mb-3 pb-1">
+    <label class="form-label" for="cont-subject"
+      >Subject<sup class="text-danger ms-1">*</sup></label
+    >
+    <input
+      class="form-control"
+      type="text"
+      id="cont-subject"
+      placeholder="Title of your message"
+      required
+      [(ngModel)]="subject"
+      name="Subject"
+    />
+    <div class="invalid-feedback">Please enter a subject!</div>
+  </div>
+  <div class="mb-3 pb-1">
+    <label class="form-label" for="cont-message"
+      >Message<sup class="text-danger ms-1">*</sup></label
+    >
+    <textarea
+      class="form-control"
+      id="cont-message"
+      rows="5"
+      placeholder="Write your message here"
+      required
+      [(ngModel)]="message"
+      name="Message"
+    ></textarea>
+    <div class="invalid-feedback">Please write a message!</div>
+  </div>
+  <div class="text-center pt-2">
+    <button class="btn btn-primary" type="submit">Send Message</button>
+  </div>
+</form>
+
+<div *ngIf="submitted">
+  <p>TODO merci !</p>
+</div>
