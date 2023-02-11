@@ -21,7 +21,7 @@ def init(app):
 def run_seeds():
   # importing models is required for ORM
   from surveys import Survey
-  from categories import category_model
+  from categories import Category
   from users import User
   from choices import Choice
   from questions import Question
