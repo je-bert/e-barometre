@@ -58,7 +58,7 @@ export const signUp = async (req, res) => {
 
       const token = jwt.sign(
         { user_id: user.user_id, email: email, role: user.role },
-        process.env.JWT_SECRET,
+        "SECRET TOKEN 123",
         {
           expiresIn: "1h", // 60s = 60 seconds - (60m = 60 minutes, 2h = 2 hours, 2d = 2 days)
         }

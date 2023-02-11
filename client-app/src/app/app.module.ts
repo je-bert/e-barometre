@@ -12,7 +12,6 @@ import { PageHeaderComponent } from './components/shared/page-header/page-header
 import { FooterComponent } from './components/shared/footer/footer.component';
 import { ContactFormComponent } from './components/shared/contact-form/contact-form.component';
 import { HelpComponent } from './components/auth/help/help.component';
-import { AdminComponent } from './components/admin/admin.component';
 import { ForgotPasswordComponent } from './components/auth-wall/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/auth-wall/login/login.component';
 import { SignupComponent } from './components/auth-wall/signup/signup.component';
@@ -43,9 +42,6 @@ import { LabeledLadderComponent } from './components/auth/questionnaire/question
 import { IntegerComponent } from './components/auth/questionnaire/question-details/integer/integer.component';
 import { SelectSingleComponent } from './components/auth/questionnaire/question-details/select-single/select-single.component';
 import { SelectMultipleComponent } from './components/auth/questionnaire/question-details/select-multiple/select-multiple.component';
-import { AdminPanelComponent } from './components/admin/admin-panel/admin-panel.component';
-import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
-import { AdminSurveysTableComponent } from './components/admin/admin-surveys-table/admin-surveys-table.component';
 
 // material
 
@@ -66,15 +62,10 @@ import { MatRadioModule } from '@angular/material/radio';
 // clarity design
 
 import { ClarityModule } from '@clr/angular';
-import { AdminSurveyTableComponent } from './components/admin/admin-survey-table/admin-survey-table.component';
-import { AdminAnswersComponent } from './components/admin/admin-answers/admin-answers.component';
-import { AdminSurveyChoicesComponent } from './components/admin/admin-survey-choices/admin-survey-choices.component';
-import { AdminSurveyAnswersComponent } from './components/admin/admin-survey-answers/admin-survey-answers.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/shared/dialog/dialog.component';
 import { AvailableQuestionnairesComponent } from './components/auth/my-account/available-questionnaires/available-questionnaires.component';
 import { FinalReportsComponent } from './components/auth/my-account/final-reports/final-reports.component';
-import { AdminGlossaryComponent } from './components/admin/admin-glossary/admin-glossary.component';
 import { SvgParentRepondantComponent } from './components/auth/svg/svg-parent-repondant/svg-parent-repondant.component';
 import { SvgEnfantComponent } from './components/auth/svg/svg-enfant/svg-enfant.component';
 import { SvgCoparentComponent } from './components/auth/svg/svg-coparent/svg-coparent.component';
@@ -88,7 +79,6 @@ import { SvgNouveauConjointComponent } from './components/auth/svg/svg-nouveau-c
     FooterComponent,
     ContactFormComponent,
     HelpComponent,
-    AdminComponent,
     ForgotPasswordComponent,
     LoginComponent,
     SignupComponent,
@@ -120,17 +110,9 @@ import { SvgNouveauConjointComponent } from './components/auth/svg/svg-nouveau-c
 
     SelectSingleComponent,
     SelectMultipleComponent,
-    AdminPanelComponent,
-    AdminLoginComponent,
-    AdminSurveysTableComponent,
-    AdminSurveyTableComponent,
-    AdminAnswersComponent,
-    AdminSurveyChoicesComponent,
-    AdminSurveyAnswersComponent,
     DialogComponent,
     AvailableQuestionnairesComponent,
     FinalReportsComponent,
-    AdminGlossaryComponent,
     SvgParentRepondantComponent,
     SvgEnfantComponent,
     SvgCoparentComponent,
