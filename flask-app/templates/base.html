@@ -1,9 +1,9 @@
 {% set navigation_bar = [
-    ('/surveys', 'surveys', 'Questionnaires'),
-    ('/glossary', 'glossary', 'Documentation'),
-    ('/labels', 'labels', 'Échelles'),
-    ('/results', 'results', 'Résultats'),
-    ('/db', 'db', 'Base de données'),
+    ('/admin/surveys', 'surveys', 'Questionnaires'),
+    ('/admin/glossary', 'glossary', 'Documentation'),
+    ('/admin/labels', 'labels', 'Échelles'),
+    ('/admin/results', 'results', 'Résultats'),
+    ('/admin/db', 'db', 'Base de données'),
 ] -%}
 
 <!DOCTYPE html>
@@ -23,12 +23,12 @@
 {% if session['email'] %}
 <nav class="bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
   <div class="flex flex-wrap items-center justify-between mx-auto">
-  <a href="/" class="flex items-center h-6 sm:h-9">
+  <a href="/admin/surveys" class="flex items-center h-6 sm:h-9">
       <img src="{{ url_for('static', filename='img/logoi.png') }}" class="h-full mr-1" alt="EConstellation Logo">
       <span class="text-xl h-full font-serif leading-6 sm:leading-9 dark:text-white">constellation</span>
   </a>
   <div class="flex lg:order-2">
-      <a href="/auth/sign-out" class="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 lg:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Se déconnecter</a>
+      <a href="/admin/auth/sign-out" class="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 lg:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Se déconnecter</a>
       <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
         <span class="sr-only">Ouvrir le menu</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>

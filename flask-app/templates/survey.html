@@ -49,7 +49,7 @@
     <tbody class="dark:divide-gray-700 divide-y">
     {% for question in questions %}
     <!-- TODO Lorsque la page question sera créée mettre le bon location -->
-      <tr onclick="window.location='/question/{{ question.question_id }}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
+      <tr onclick="window.location='/admin/questions/{{ question.question_id }}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
         <th class="px-5 py-4 hidden sm:table-cell text-center">
           {{ question.question_id }}
         </th>
@@ -75,7 +75,7 @@
 <script>
   function onEditClick(event, question_id) {
     event.stopPropagation();
-    window.location = '/questions/update/' + question_id;
+    window.location = '/admin/questions/update/' + question_id;
   }
 </script>
 

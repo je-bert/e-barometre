@@ -77,7 +77,7 @@ export class QuestionsService {
 
     this.http
       .put<{ message: string }>(
-        environment.apiUrl + '/answer',
+        environment.apiUrl + '/answers',
         { answers },
         { observe: 'response' }
       )
@@ -112,12 +112,12 @@ export class QuestionsService {
   }
 
   public getAllQuestionnaires(): Observable<Questionnaire[]> {
-    return this.http.get<Questionnaire[]>(environment.apiUrl + '/survey');
+    return this.http.get<Questionnaire[]>(environment.apiUrl + '/surveys');
   }
 
   public async getSingleQuestionnaire(questionnaireID: string) {
     this.http
-      .get<Questionnaire>(`${environment.apiUrl}/survey/${questionnaireID}`)
+      .get<Questionnaire>(`${environment.apiUrl}/surveys/${questionnaireID}`)
       .pipe(
         map((questionnaire) => {
           const questions = [

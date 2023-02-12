@@ -36,7 +36,7 @@ export class SignupComponent {
     this.http
       .post<{ token: string }>(
         environment.apiUrl + '/auth/sign-up',
-
+        
         {
           first_name: this.firstName,
           last_name: this.lastName,

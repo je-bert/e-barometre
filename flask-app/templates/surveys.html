@@ -28,7 +28,7 @@
           </thead>
           <tbody class="dark:divide-gray-700 divide-y">
             {% for survey in surveys %}
-              <tr onclick="window.location='/surveys/{{ survey.survey_id }}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
+              <tr onclick="window.location='/admin/surveys/{{ survey.survey_id }}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
                   <th scope="row" class="pl-5 py-4 font-medium text-gray-900 dark:text-white">
                     <div>
                       <p class="font-semibold break-words">{{ survey.name }}</p>
@@ -62,7 +62,7 @@
   <script>
     function onEditClick(event, survey_id) {
       event.stopPropagation();
-      window.location = '/surveys/update/' + survey_id;
+      window.location = '/admin/surveys/update/' + survey_id;
     }
   </script>
 {% endblock %}

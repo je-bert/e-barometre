@@ -43,9 +43,9 @@
     $( "#mainForm" ).submit(async function( event ) {
       event.preventDefault();
       const formData = new FormData(document.getElementById('mainForm'));
-      const response = await fetch(`/surveys/update/{{survey.survey_id}}`,{ body: formData,method: "post" });
+      const response = await fetch(`/admin/surveys/update/{{survey.survey_id}}`,{ body: formData,method: "post" });
       if (response.ok) {
-        window.location = '/surveys';
+        window.location = '/admin/surveys';
       }
     });
   </script>

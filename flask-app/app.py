@@ -1,22 +1,19 @@
 from flask import Flask, render_template
-from auth import auth_router 
 from app_controller import main_router
-from surveys import surveys_router
-from questions import questions_router
-from labels import labels_router
-from db import db_router
+from api import api_router
+from admin import admin_router
 import database as db
+from flask_cors import CORS
+
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'kdxhfds iefhsdbf'
+    CORS(app)
 
-    app.register_blueprint(auth_router, url_prefix='/auth')
     app.register_blueprint(main_router)
-    app.register_blueprint(surveys_router, url_prefix='/surveys')
-    app.register_blueprint(questions_router, url_prefix='/questions')
-    app.register_blueprint(labels_router, url_prefix='/labels')
-    app.register_blueprint(db_router, url_prefix='/db')
+    app.register_blueprint(admin_router, url_prefix= '/admin')
+    app.register_blueprint(api_router, url_prefix = '/api')
 
     @app.errorhandler(404)
     def not_found(e):
@@ -27,4 +24,4 @@ def create_app():
     return app
     
 if __name__ == "__main__":
-    create_app().run(debug=True)
+    create_app().run(host='localhost', port=3000, debug=True)
