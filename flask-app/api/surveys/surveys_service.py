@@ -11,7 +11,7 @@ def find_all():
 
   return jsonify(surveys), 200
 
-def find_one(id):
+def find_one(current_user, id):
   survey = Survey.query\
         .filter_by(survey_id = id, status = 'active')\
         .first()
@@ -39,17 +39,15 @@ def find_one(id):
     if len(choices) > 0:
       question['choices'] = jsonify(choices).json
 
-    #TODO: real user_id
     answer = Answer.query\
-        .filter_by(question_id = question['question_id'], user_id = 0)\
+        .filter_by(question_id = question['question_id'], user_id = current_user.user_id)\
         .first()
 
     if answer != None:
       question['answer'] = answer.value
       if 'custom' in answer.value:
-        #TODO: real user_id
         custom_answer = CustomAnswer.query\
-          .filter_by(question_id = question['question_id'], user_id = 0)\
+          .filter_by(question_id = question['question_id'], user_id = current_user.user_id)\
           .first()
         if custom_answer != None:
           question['custom_answer'] = custom_answer.value

@@ -1,10 +1,10 @@
 
 from flask import request, jsonify
-from models import Question
+from models import Question, Answer
+from database import db
+from datetime import datetime
 
-def update():
-  #TODO: use real user_id
-  user_id = 0
+def update(current_user):
   json = request.json
   if not 'answers' in json:
     return "Erreur", 400
@@ -13,12 +13,21 @@ def update():
     if not 'question_id' in answer:
       return "Erreur", 400
 
+    if not 'value' in answer:
+      return "Erreur", 400
+
     question = Question.query\
         .filter_by(question_id = answer['question_id'])\
         .first()
     
     if not question:
-      return "Erreur", 400 
+      return "Erreur", 400
+    
+    ##TODO: Validation answer + custom answer
+
+    row = Answer(question_id = answer['question_id'], user_id = current_user.user_id, value = answer['value'], date_created = datetime.now())
+    db.session.merge(row)
+    db.session.commit()
     
   return jsonify("Vos réponses ont été sauvegardées!"), 200
 

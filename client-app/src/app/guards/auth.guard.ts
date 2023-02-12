@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     | UrlTree {
     const isAuth = window.sessionStorage.getItem('token');
 
-    //if (!isAuth) return this.router.navigateByUrl('/auth-wall');
+    if (!isAuth) return this.router.navigateByUrl('/auth-wall');
 
     return true;
   }
