@@ -1,5 +1,5 @@
 from flask import session, redirect, url_for, render_template, request
-from  werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from database import db
 from models import User
 from datetime import datetime
@@ -21,13 +21,13 @@ def sign_in():
         .filter_by(email = auth.get('email'))\
         .first()
 
-
-  
     if not user:
         return render_template('sign-in.html', error='Identifiants invalides.')
   
     if check_password_hash(user.password, auth.get('password')):
         session['email'] = user.email
+        user.date_logged_in = datetime.now()
+        db.session.commit()
         return redirect(url_for('main_router.index') if next == None else next)
 
     return render_template('sign-in.html', error='Identifiants invalides.')
@@ -40,7 +40,7 @@ def sign_up():
 
     data = request.form
   
-    name, email = data.get('name'), data.get('email')
+    email = data.get('email')
     password = data.get('password')
   
     # checking for existing user
