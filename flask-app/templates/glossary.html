@@ -4,9 +4,9 @@
 {% block title %} Doumentation {% endblock %}
 
 {% block content %}
-<div class="p-6 flex flex-col w-full min-h-full max-h-full">
-      <h2>Syntaxe condition</h2>
-      <h3 class="tw-mt-8">Opérandes</h3>
+<div class="p-6 flex flex-col w-full min-h-full max-h-full leading-7">
+      <h2 class="mb-10 text-3xl font-semibold text-gray-900 dark:text-white">Syntaxe condition</h2>
+      <h3 class="mb-5 text-2xl font-semibold text-gray-900 dark:text-white">Opérandes</h3>
       <p>
         L'opérande à la gauche d'un opérateur doit correspondre à un identifiant
         unique d'une question dans un questionnaire.
@@ -15,24 +15,24 @@
         correspondante.
       </p>
 
-      <h4>Exemples</h4>
-      <ul>
-        <li>
+      <h4 class="mt-8 text-xl font-semibold text-gray-900 dark:text-white">Exemples</h4>
+      <ul class="list-disc ml-6 mt-5">
+        <li class="mb-5">
           <em>Question B11a</em>
           <br />
-          <code>B11 >= 3</code> <br />
+          <code class="text-pink-600">B11 >= 3</code> <br />
           la valeur de la réponse à la question B01 doit être supérieure ou
           égale à 3 pour que la question soit affichée.
         </li>
-        <li>
+        <li class="mb-5">
           <em>Question B11a1</em>
           <br />
-          <code>B11A == 1</code>
+          <code class="text-pink-600">B11A == 1</code>
           <br />
           la réponse de la réponse à la question B11A doit être égale à 1 pour
           que la question soit affichée.
         </li>
-        <li>
+        <li class="mb-5">
           <em>Question B11c1</em>
           <br />
           <code>B11C == 0 || B11C == 1</code>
@@ -42,10 +42,10 @@
           <strong>ou</strong> 2 pour que la question B11c1 soit affichée.
         </li>
 
-        <li>
+        <li class="mb-5">
           <em>Question PFA30a1</em>
           <br />
-          <code>PFA30a >= 3 && PFA09 == 0 && PFA13b == 0</code>
+          <code class="text-pink-600">PFA30a >= 3 && PFA09 == 0 && PFA13b == 0</code>
           <br />
 
           La valeur de la réponse à la question PFA30a doit être supérieure ou
@@ -57,52 +57,44 @@
         </li>
       </ul>
 
-      <h3 class="tw-mt-8">Opérateurs disponibles</h3>
-      <ul class="tw-ml-8 tw-mt-4">
-        <li>
+      <h3 class="mt-5 text-2xl font-semibold text-gray-900 dark:text-white">Opérateurs disponibles</h3>
+      <ul class="list-disc ml-6 mt-5">
+        <li class="mb-5">
           <span> == </span>
         </li>
-        <li>
+        <li class="mb-5">
           <span> != </span>
         </li>
-        <li>
+        <li class="mb-5">
           <span> &lt;= </span>
         </li>
-        <li>
+        <li class="mb-5">
           <span> &gt;= </span>
         </li>
-        <li>
+        <li class="mb-5">
           <span> && </span>
           <br />
-          <br />
-
           Permet de combiner plusieurs conditions. Les deux conditions doivent
           être vraies pour que la condition globale soit vraie.
-
-          <br />
-          <br />
         </li>
-        <li>
+        <li class="mb-5">
           <span>||</span>
-          <br />
           <br />
           Permet de combiner plusieurs conditions. Une des conditions doit être
           vraie pour que la condition globale soit vraie.
         </li>
 
-        <li>
+        <li class="mb-5">
           <span>(...)</span>
-          <br />
           <br />
           Permet de spécifier l'ordre des opérations.
         </li>
       </ul>
-  <h2>Syntaxe intensité conditionnelle</h2>
-      <ul>
-        <li>
-          <em>Ex</em>
-          <br />
-          <code>1: B04 &lt;= 1 ; 2: B02 &lt;= 1 </code>
+      <h2 class="mt-8 text-3xl font-semibold text-gray-900 dark:text-white">Syntaxe intensité conditionnelle</h2>
+      <h4 class="mt-5 text-xl font-semibold text-gray-900 dark:text-white">Exemple</h4>    
+      <ul class="list-disc ml-6 mt-5">
+        <li class="mb-8">
+          <code class="text-pink-600">1: B04 &lt;= 1 ; 2: B02 &lt;= 1 </code>
           <br />
 
           Intensité 1 si la valeur de la réponse à la question B04 est
