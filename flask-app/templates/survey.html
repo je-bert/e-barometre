@@ -32,12 +32,16 @@
     <thead class="text-xs">
       <tr>
 
-        <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[90px] text-center">
+        <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[90px]">
           ID
         </th>
 
         <th scope="col" class="px-5 py-3">
             Titre
+        </th>
+
+        <th scope="col" class="px-5 py-3 hidden sm:table-cell">
+          Condition
         </th>
 
         <th scope="col" class="px-5 py-3 w-[100px] text-center">
@@ -50,12 +54,17 @@
     {% for question in questions %}
     <!-- TODO Lorsque la page question sera créée mettre le bon location -->
       <tr onclick="window.location='/admin/questions/{{ question.question_id }}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
-        <th class="px-5 py-4 hidden sm:table-cell text-center">
+        <th class="px-5 py-4 hidden sm:table-cell">
           {{ question.question_id }}
         </th>
         <td scope="row" class="pl-5 py-4 font-medium text-gray-900 dark:text-white">
           <div>
             <p class="font-semibold break-words">{{ question.title }}</p>
+          </div>
+        </td>
+        <td scope="row" class="pl-5 py-4 hidden sm:table-cell font-medium text-gray-900 dark:text-white">
+          <div>
+            <p class="break-words">{{ question.condition }}</p>
           </div>
         </td>
         <td class="px-5 py-4">
