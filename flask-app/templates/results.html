@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% set active_page = "results" %}
+
+{% block title %} Résultats {% endblock %}
+
+{% block content %}
+  <div class="p-6 flex flex-col w-full min-h-full max-h-full leading-7">
+      TODO : Kui Hua 
+    <ul class="flex flex-col">
+      {% for result in results %}
+        <a href="/admin/results/export/{{result}}">
+          {{result}}
+        </a>
+      {% endfor %}
+    </ul>
+  </div>
+  
+{% endblock %}
