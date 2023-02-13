@@ -1,8 +1,10 @@
 
-from flask import request, jsonify
-from models import Question, Answer
+from flask import request, jsonify, abort
+from models import Question, Answer, User
 from database import db
 from datetime import datetime
+from shutil import copyfile
+import os
 
 def update(current_user):
   json = request.json
@@ -28,6 +30,21 @@ def update(current_user):
     row = Answer(question_id = answer['question_id'], user_id = current_user.user_id, value = answer['value'], date_created = datetime.now())
     db.session.merge(row)
     db.session.commit()
+
+    user = User.query\
+      .filter_by(user_id = current_user.user_id)\
+      .first()
+
+    if not user:
+        return abort(400)
+
+    if not os.path.exists('master_results'):
+      os.makedirs('master_results')
+
+    template_file = 'b_results_template.xlsx'
+    output_file = 'master_results/{}_{}_{}.xlsx'.format(user.first_name, user.last_name, datetime.now().strftime('%Y_%m_%d_%H%M%S'))
+
+    copyfile(template_file, output_file)
     
   return jsonify("Vos réponses ont été sauvegardées!"), 200
 
