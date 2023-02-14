@@ -2,24 +2,24 @@
 {% set active_page = "surveys" %}
 
 {% set questionFields = [ 
-  ('intro', question.intro, 'Introduction'),
-  ('title', question.title, 'Titre'),
-  ('type', question.type, 'Type'),
-  ('label_id', question.label_id, 'Label ID'),
-  ('info_bubble_text', question.info_bubble_text, 'Bulle d\'information'),
-  ('condition', question.condition, 'Condition'),
-  ('intensity', question.intensity, 'Intensité'),
-  ('conditional_intensity', question.conditional_intensity, 'Intensité conditionel'),
-  ('order', question.order,'Ordre'),
-  ('min_value', question.min_value, 'Valeur minimum'),
-  ('max_value', question.max_value, 'Valeur maximum'),
-  ('parent', question.parent,'Parent'),
-  ('ladderC', question.ladderC,'Échelle C'),
-  ('ladderE', question.ladderE, 'Échelle E'),
-  ('ladderV', question.ladderV, 'Échelle V'),
-  ('red_flag', question.red_flag, 'Red flag'),
-  ('active', question.active, 'Active'),
-  ('violence_related', question.violence_related, 'Reliée à la violence'),
+  ('intro', question.intro, 'Introduction','enabled'),
+  ('title', question.title, 'Titre','enabled'),
+  ('type', question.type, 'Type',''),
+  ('label_id', question.label_id, 'Label ID',''),
+  ('info_bubble_text', question.info_bubble_text, 'Bulle d\'information',''),
+  ('condition', question.condition, 'Condition',''),
+  ('intensity', question.intensity, 'Intensité',''),
+  ('conditional_intensity', question.conditional_intensity, 'Intensité conditionel',''),
+  ('order', question.order,'Ordre',''),
+  ('min_value', question.min_value, 'Valeur minimum',''),
+  ('max_value', question.max_value, 'Valeur maximum',''),
+  ('parent', question.parent,'Parent',''),
+  ('ladderC', question.ladderC,'Échelle C',''),
+  ('ladderE', question.ladderE, 'Échelle E',''),
+  ('ladderV', question.ladderV, 'Échelle V',''),
+  ('red_flag', question.red_flag, 'Red flag',''),
+  ('active', question.active, 'Active',''),
+  ('violence_related', question.violence_related, 'Reliée à la violence',''),
 ] -%}
 
 {% block title %} {{ question.name }} {% endblock %}
@@ -35,7 +35,7 @@
           <label for="title" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Titre</label>
       </div> -->
 
-      {% for name,value,title in questionFields %}
+      {% for name,value,title,editable in questionFields %}
       {% if (name == 'violence_related' or name == 'active')  %}
       <div class="relative z-0 w-full mb-6 group">
         <label class="relative inline-flex items-center mb-4 cursor-pointer">
@@ -47,7 +47,7 @@
 
       {% else %}
       <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{value}}" required />
+        <input type="text" name="{{name}}" id="{{name}}" {{ '' if editable == 'enabled'  else 'disabled' }} class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{value}}" required />
         <label for="{{name}}" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{ title }}</label>
       </div>
       {% endif %}
