@@ -4,16 +4,49 @@
 {% block title %} Résultats {% endblock %}
 
 {% block content %}
-  <div class="p-6 flex flex-col w-full min-h-full max-h-full leading-7">
-      TODO : Kui Hua 
-    <ul class="flex flex-col">
+<div class="relative overflow-x-auto w-full p-5">
+  <h2 class="mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
+    Résultats
+  </h2>
+ 
+  <table class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800">
+    <thead class="text-xs">
+      <tr>
+
+        <th scope="col" class="px-5 py-3">
+          Fichier
+        </th>
+
+        <th scope="col" class="px-5 py-3 w-[100px] text-center">
+          Actions
+        </th>   
+      </tr>
+    </thead>
+    <tbody class="dark:divide-gray-700 divide-y">
+    
       {% for result in results %}
-        <a href="/admin/results/export/{{result}}">
-          {{result}}
-        </a>
-        <a href="/admin/results/delete/{{result}}">delete</a>
-      {% endfor %}
-    </ul>
-  </div>
-  
+      <tr onclick="window.location='/admin/results/export/{{result}}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th class="px-5 py-4 hidden sm:table-cell">
+          {{ result }}
+        </th>
+        <td class="px-5 py-4">
+          <div class="flex items-center justify-center space-x-4 text-sm">
+            <button onclick="onEditClick(event, '{{ result }}');" class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
+              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+  function onEditClick(event, result) {
+    event.stopPropagation();
+    window.location = '/admin/results/delete/' + result;
+  }
+</script>
 {% endblock %}
