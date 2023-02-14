@@ -14,4 +14,9 @@ def find_all():
 def export_one(file_name):
   return results_service.export_one(file_name)
 
+@results_router.route('/delete/<file_name>', methods = ['GET'])
+@auth
+def delete_one(file_name):
+  return results_service.delete_one(file_name)
+
   
