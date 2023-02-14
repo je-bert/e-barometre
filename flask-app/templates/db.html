@@ -1,11 +1,16 @@
-<html>
-  <body>
-    Hello. <a href="/admin/db/export">export</a>    <a href="/admin/db/reset">reset</a>
-    <h1>Upload Excel File (.xlsx)</h1>
+{% extends 'base.html' %}
+{% set active_page = "db" %}
+
+{% block content %}
+<div class="relative overflow-x-auto w-full p-5">
+  <h2 class="mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
+    Upload Excel File (.xlsx)
+  </h2>
+  <a href="/admin/db/export">export</a>    <a href="/admin/db/reset">reset</a>
     <form action="/admin/db/import" method="post" enctype="multipart/form-data">
         <input type="file" name="file"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-        <input type="submit" value="Upload">
+        <input type="submit" value="Upload" disabled>
     </form>
-  </body>
-</html>
+</div>
+{% endblock %}

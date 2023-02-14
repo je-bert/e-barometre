@@ -36,6 +36,7 @@
       </div> -->
 
       {% for name,value,title,editable in questionFields %}
+      
       {% if (name == 'violence_related' or name == 'active')  %}
       <div class="relative z-0 w-full mb-6 group">
         <label class="relative inline-flex items-center mb-4 cursor-pointer">
@@ -51,6 +52,7 @@
         <label for="{{name}}" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{ title }}</label>
       </div>
       {% endif %}
+
       {% endfor %}
       
       <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
