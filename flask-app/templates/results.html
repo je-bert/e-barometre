@@ -44,9 +44,17 @@
   </table>
 </div>
 <script>
-  function onDeleteClick(event, result) {
+  async function onDeleteClick(event, result) {
     event.stopPropagation();
-    window.location = '/admin/results/delete/' + result;
+    const response = await fetch('/admin/results/delete/' + result);
+    // TODO error handling for if response not ok, since now no error is thrown when trying to delete something not existing
+      if (response.ok) {
+        window.location = '/admin/results';
+      } else {
+        const text = await response.text();
+        $('#error').html(text).show();
+      }
   }
+  
 </script>
 {% endblock %}
