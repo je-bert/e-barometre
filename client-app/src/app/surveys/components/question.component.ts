@@ -1,11 +1,23 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ElementRef,
+} from '@angular/core';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-question',
   template: `
   <app-question-info-bubble
+  *ngIf="question.info_bubble_text"
+  [text]="question.info_bubble_text"
 
-  [question]="question"/>
+ />
+
+ {{question.question_id | json}}
+ {{question.condition | json}}
 
 
 <div [ngSwitch]="question.type" class="card shadow-lg tw-relative">
@@ -42,13 +54,17 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
     <ng-container *ngSwitchCase="'integer'">
       <app-question-integer
+      (questionAnswered)="questionAnswered.emit($event)"
+        [answer]="answer"
     
         [question]="question" />
     </ng-container>
 
     <ng-container *ngSwitchCase="'select-single'">
+    
       <app-question-select-single
       (questionAnswered)="questionAnswered.emit($event)"
+      [answer]="answer"
     
         [question]="question" />
     </ng-container>
@@ -56,13 +72,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     <ng-container *ngSwitchCase="'select-multiple'">
       <app-question-select-multiple
 
+      (questionAnswered)="questionAnswered.emit($event)"
+        [answer]="answer"
         [question]="question"
       />
     </ng-container>
 
     <ng-container *ngSwitchCase="'binary'">
       <app-question-select-single
-
+       (questionAnswered)="questionAnswered.emit($event)"
+        [answer]="answer"
         [question]="question" />
     </ng-container>
 
@@ -85,31 +104,39 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     </ng-container>
   </div>
 
-  <div
-    *ngIf="question.type === 'select-multiple'"
-    class="tw-flex tw-justify-center tw-mb-12"
-  >
-    <button
-      class="btn btn-primary"
-      [disabled]="question.answer === null"
-    >
-      <span *ngIf="question.isConfirmed">Réponse confirmé</span>
-      <span *ngIf="!question.isConfirmed">Confirmer les choix</span>
-    </button>
-  </div>
+ 
 </div>
 
   `,
-  styles: [
-  ]
+  styles: [``],
 })
 export class QuestionComponent {
+  @Input() question!: any;
+  @Input() answer!: string | null;
 
-  @Input() question!: any
+  @Output() questionAnswered = new EventEmitter<{
+    questionId: string;
+    questionAnswer: string;
+  }>();
 
+  self: HTMLElement | null = null;
 
+  onQuestionAnswered(event: any) {
+    this.questionAnswered.emit(event);
+  }
 
-  @Output() questionAnswered = new EventEmitter<{ questionId: string; questionAnswer: string }>();
+  constructor(private elRef: ElementRef) {
+    this.self = elRef.nativeElement as HTMLElement;
 
-
+    this.self.addEventListener('click', (event) => {
+      timer(150).subscribe(() => {
+        this.self?.parentElement?.nextElementSibling?.firstElementChild?.scrollIntoView(
+          {
+            behavior: 'smooth',
+            block: 'center',
+          }
+        );
+      });
+    });
+  }
 }

@@ -1,8 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, tap, share } from 'rxjs/operators';
-
-import { environment } from 'src/environments/environment';
 
 type QuestionID = string;
 type Operator = '>' | '<' | '>=' | '<=' | '=';
@@ -13,29 +9,8 @@ type ParsedConditional = [QuestionID, Operator, NumberToCompare];
 @Injectable({
   providedIn: 'root',
 })
-export class SurveysService {
-  constructor(private http: HttpClient) {}
-
-  getDemoQuestions() {
-    return this.http
-      .get<{ questions: { question_id: string; condition: string }[] }>(
-        environment.apiUrl + '/surveys/B'
-      )
-      .pipe(
-        map((survey) => survey.questions),
-        share()
-      );
-  }
-
-  demoSubmitAnswer(answers: Record<string, string | null>) {
-    const answerList = Object.entries(answers)
-      .filter(([_, value]) => value !== null)
-      .map(([key, value]) => ({ question_id: key, value }));
-
-    return this.http.put(environment.apiUrl + '/answers', {
-      answers: answerList,
-    });
-  }
+export class ConditionalParserService {
+  constructor() {}
 
   parse(statement: string): ParsedConditional[] {
     const statements = statement.split('and');
@@ -132,3 +107,11 @@ export class SurveysService {
     return [questionId, conditionalOperator, +numberToCompare];
   }
 }
+
+/* 
+
+ID   operator        string|number
+
+A1    > < >= <= =     
+
+*/

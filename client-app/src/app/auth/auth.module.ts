@@ -7,8 +7,7 @@ import { AuthComponent } from './auth.component';
 import { LoginFormComponent } from './containers/login-form.component';
 import { SignupFormComponent } from './containers/signup-form.component';
 import { ForgotPasswordFormComponent } from './containers/forgot-password-form.component';
-
-
+import { LogoutComponent } from './containers/logout.component';
 
 @NgModule({
   declarations: [
@@ -16,12 +15,8 @@ import { ForgotPasswordFormComponent } from './containers/forgot-password-form.c
     LoginFormComponent,
     SignupFormComponent,
     ForgotPasswordFormComponent,
-
+    LogoutComponent,
   ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    FormsModule
-  ]
+  imports: [CommonModule, AuthRoutingModule, FormsModule],
 })
-export class AuthModule { }
+export class AuthModule {}

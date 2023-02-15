@@ -19,10 +19,8 @@ import { QuestionSelectMultipleComponent } from './components/question-select-mu
 import { QuestionSelectSingleComponent } from './components/question-select-single.component';
 
 import { MatRadioModule } from '@angular/material/radio';
-import { MatIconModule } from '@angular/material/icon'
-import { MatButtonModule } from '@angular/material/button'
-
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -39,7 +37,7 @@ import { MatButtonModule } from '@angular/material/button'
     QuestionIntegerComponent,
     QuestionNumericLadderComponent,
     QuestionSelectMultipleComponent,
-    QuestionSelectSingleComponent
+    QuestionSelectSingleComponent,
   ],
   imports: [
     CommonModule,
@@ -47,10 +45,7 @@ import { MatButtonModule } from '@angular/material/button'
     SharedModule,
     MatRadioModule,
     MatIconModule,
-    MatButtonModule
-
-
-
-  ]
+    MatButtonModule,
+  ],
 })
-export class SurveysModule { }
+export class SurveysModule {}

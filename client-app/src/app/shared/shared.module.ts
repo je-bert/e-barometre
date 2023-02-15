@@ -4,21 +4,9 @@ import { NavbarComponent } from './components/navbar.component';
 import { FooterComponent } from './components/footer.component';
 import { HeaderComponent } from './components/header.component';
 
-
-
 @NgModule({
-  declarations: [
-    NavbarComponent,
-    FooterComponent,
-    HeaderComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    NavbarComponent,
-    FooterComponent,
-    HeaderComponent
-  ]
+  declarations: [NavbarComponent, FooterComponent, HeaderComponent],
+  imports: [CommonModule],
+  exports: [NavbarComponent, FooterComponent, HeaderComponent],
 })
-export class SharedModule { }
+export class SharedModule {}

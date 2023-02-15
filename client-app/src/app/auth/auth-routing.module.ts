@@ -4,30 +4,39 @@ import { AuthComponent } from './auth.component';
 import { ForgotPasswordFormComponent } from './containers/forgot-password-form.component';
 import { LoginFormComponent } from './containers/login-form.component';
 import { SignupFormComponent } from './containers/signup-form.component';
+import { LogoutComponent } from './containers/logout.component';
 
 const routes: Routes = [
   {
-    path: '', component: AuthComponent, children: [
+    path: '',
+    component: AuthComponent,
+    children: [
       {
-        path: 'login', component: LoginFormComponent
+        path: 'login',
+        component: LoginFormComponent,
       },
       {
-        path: 'signup', component: SignupFormComponent
+        path: 'signup',
+        component: SignupFormComponent,
       },
       {
-
-        path: 'forgot-password', component: ForgotPasswordFormComponent
+        path: 'forgot-password',
+        component: ForgotPasswordFormComponent,
       },
       {
-        path: '**', redirectTo: 'login'
-      }
-    ]
+        path: 'logout',
+        component: LogoutComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'login',
+      },
+    ],
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

@@ -3,15 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { SingleSurveyComponent } from './containers/single-survey.component';
 import { SurveysComponent } from './surveys.component';
 
-const routes: Routes = [{
-  path: '', component: SurveysComponent, children: [
-    { path: 'demo', component: SingleSurveyComponent },
-    { path: '**', redirectTo: 'demo' }
-  ]
-}];
+const routes: Routes = [
+  {
+    path: '',
+    component: SurveysComponent,
+    children: [
+      { path: 'demo', component: SingleSurveyComponent },
+      { path: '**', redirectTo: 'demo' },
+    ],
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SurveysRoutingModule { }
+export class SurveysRoutingModule {}
