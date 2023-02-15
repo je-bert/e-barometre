@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from pandas import ExcelFile
+from pandas import ExcelFile, set_option
 from os import path
 from sys import argv
 
@@ -30,6 +30,7 @@ def run_seeds(file_name = 'seeds.xlsx'):
       for model in [Survey, Category, User, Choice, Question, Label, Answer, CustomAnswer]:
         if model.__tablename__ in xl.sheet_names:
           sheet = xl.parse(model.__tablename__)
+          
           sheet.to_sql(name=model.__tablename__, con=db.engine, if_exists='append', index=False)
           print(" * DB: Created seeds for table", model.__tablename__)
 
