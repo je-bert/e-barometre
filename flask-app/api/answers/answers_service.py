@@ -9,6 +9,7 @@ from openpyxl import load_workbook
 
 def update(current_user):
   json = request.json
+  answers = json['answers']
 
   #TODO: Code for real db answers save
   # if not 'answers' in json:
@@ -50,10 +51,29 @@ def update(current_user):
 
   # Load the workbook and access the sheet we'll paste into
   wb = load_workbook(output_file)
+
+  # Demo code
   ws = wb['TEST_pour application']
 
-  for i in range(4, 33):
-    ws['B' + str(i)] = "0" #TODO: Real values
+  ws['B4'] = answers[0]["value"]
+
+  for i in range(4, 17):
+    ws['B' + str(i)] = answers[i - 4]["value"]
+
+  i = 17
+  for answer in answers[13]["value"].split(','):
+    ws['B' + str(i)] = answer
+    i += 1
+  
+  i = 23
+  for answer in answers[14]["value"].split(','):
+    ws['B' + str(i)] = answer
+    i += 1
+
+  for i in range(30, 32):
+    ws['B' + str(i)] = answers[i - 15]["value"]
+
+  ws['B' + str(i)] = answers[17]["value"].split(',')[0]
 
   wb.save(output_file)
     
