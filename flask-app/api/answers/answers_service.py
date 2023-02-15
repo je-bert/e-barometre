@@ -46,7 +46,7 @@ def update(current_user):
     os.makedirs('master_results')
 
   template_file = 'b_results_template.xlsx'
-  output_file = 'master_results/{}_{}_{}.xlsx'.format(user.first_name, user.last_name, datetime.now().strftime('%Y_%m_%d_%H%M%S'))
+  output_file = 'master_results/{}_{}_{}_{}.xlsx'.format(user.user_id, user.last_name, user.first_name, datetime.now().strftime('%Y_%m_%d_%H%M%S'))
   copyfile(template_file, output_file)
 
   # Load the workbook and access the sheet we'll paste into
