@@ -3,22 +3,8 @@
 {% block title %} {{ survey.name }} {% endblock %} 
 
 {% block content %}
-<!-- <div class="bg-[{{ survey.color }}] w-full h-full">
-  <h1>
-    TODO: Kui : Faire la page survey en se basant sur surveys.html pour afficher
-    la liste de questions du questionnaires
-  </h1>
-  Nom du questionnaire: {{ survey.name }}
-  <h2>Questions</h2>
-  <ul>
-    {% for question in questions %}
-    <li>{{ question.title }} {{ question.survey_id }}</li>
-    {% endfor %}
-  </ul>
-</div> -->
-
 <div class="relative overflow-x-auto w-full p-5">
-  <h2 class="mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
+  <h1 class="mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
     {{ survey.name }}
     <p class="text-xs break-words pt-2s">
       ID: {{ survey.survey_id }}
@@ -26,8 +12,7 @@
     <p class="text-xs break-words pt-2s">
       {{ survey.description }}
     </p>
-  </h2>
- 
+  </h1>
   <table class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800">
     <thead class="text-xs">
       <tr>
@@ -87,5 +72,4 @@
     window.location = '/admin/questions/update/' + question_id;
   }
 </script>
-
 {% endblock %}
