@@ -3,26 +3,26 @@
 
 {% block content %}
 <div class="relative overflow-x-auto w-full p-5">
-  <h1 class="mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
+  <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
     Base de données
   </h1>
 
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-4 p-4">
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-8 p-6">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white" >Réinitialiser la base de données</h2>
     <p>La base de données sera complètement réinitialisée aux valeurs d'origine et toutes les données seront effacées et perdues. </p>
-    <a href="/admin/db/reset" class="text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Réinitialiser</a>
+    <a href="/admin/db/reset" class="mt-3 text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Réinitialiser</a>
   </div>  
 
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-4 p-4">
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-8 p-6">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Exporter la base de données</h2>
-    <p>La base de données sera transformée en un fichier excel qui sera téléchargée localement. </p>
-    <a href="/admin/db/export" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Exporter</a>
+    <p>La base de données sera transformée en un fichier excel qui sera téléchargé localement. </p>
+    <a href="/admin/db/export" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Exporter</a>
   </div>
   
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-4 p-4">
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-8 p-6">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Téléverser une base de données</h2>
     <p>Téléverser un fichier excel local qui sera utilisé comme base de données pour l'application.</p>
-    <div class="flex items-center justify-center w-full">
+    <div class="flex items-center justify-center w-full mt-3">
       <form action="/admin/db/import" method="post" class="w-full" enctype="multipart/form-data">
         <div class='relative w-full flex flex-col items-start'>
         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">

@@ -4,10 +4,10 @@
 
 {% block content %}
 <div class="relative overflow-x-auto w-full p-5">
-  <h1 class="mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
+  <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
     {{ survey.name }}
-    <p class="text-xs break-words pt-2s">
-      ID: {{ survey.survey_id }}
+    <p class="text-xs break-words pt-2s mt-3">
+      Identifiant unique: {{ survey.survey_id }}
     </p>
     <p class="text-xs break-words pt-2s">
       {{ survey.description }}
@@ -38,15 +38,15 @@
     <tbody class="dark:divide-gray-700 divide-y">
     {% for question in questions %}
       <tr onclick="window.location='/admin/questions/update/{{ question.question_id }}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
-        <th class="px-5 py-4 hidden sm:table-cell">
+        <td class="px-5 py-4 hidden sm:table-cell">
           {{ question.question_id }}
-        </th>
-        <td scope="row" class="pl-5 py-4 font-medium text-gray-900 dark:text-white">
+        </td>
+        <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
           <div>
-            <p class="font-semibold break-words">{{ question.title }}</p>
+            <p class="break-words">{{ question.title }}</p>
           </div>
         </td>
-        <td scope="row" class="pl-5 py-4 hidden sm:table-cell font-medium text-gray-900 dark:text-white">
+        <td scope="row" class="pl-5 py-4 hidden sm:table-cell  text-gray-900 dark:text-white">
           <div>
             <p class="break-words">{{ question.condition }}</p>
           </div>

@@ -5,24 +5,24 @@
 
 {% block content %}
 <!-- TODO make black theme -->
-<div class="p-5 flex flex-col w-full min-h-full overflow-y-auto max-h-full leading-7 space-y-5">
-      <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Syntaxe pour créer des conditions</h1>
-      <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-4 p-4 space-y-4">
+<div class="p-5 flex flex-col w-full min-h-full overflow-y-auto max-h-full leading-7 space-y-8">
+      <h1 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white">Syntaxe pour créer des conditions</h1>
+      <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col items-start rounded shadow-md p-6 space-y-4">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Opérandes</h2>
         <p>
           L'opérande à la gauche d'un opérateur doit correspondre à un identifiant
           unique d'une question dans un questionnaire.
-          <br />
+
           L'opérande à la droite doit être une valeur possible pour la question
           correspondante.
         </p>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Exemples</h3>
-        <ul class="list-[square] ml-6 mt-5 space-y-3">
+        <h3 class="font-semibold text-gray-900 dark:text-white">Exemples</h3>
+        <ul class="list-[square] ml-6 mt-5 space-y-6">
           <li>
             <em>Question B11a</em>
             <br />
             <code class="text-pink-600">B11 >= 3</code> <br />
-            la valeur de la réponse à la question B01 doit être supérieure ou
+            La valeur de la réponse à la question B01 doit être supérieure ou
             égale à 3 pour que la question soit affichée.
           </li>
           <li>
@@ -30,16 +30,16 @@
             <br />
             <code class="text-pink-600">B11A == 1</code>
             <br />
-            la réponse de la réponse à la question B11A doit être égale à 1 pour
+            La réponse de la réponse à la question B11A doit être égale à 1 pour
             que la question soit affichée.
           </li>
           <li>
             <em>Question B11c1</em>
             <br />
-            <code>B11C == 0 || B11C == 1</code>
+            <code class="text-pink-600">B11C == 0 || B11C == 1</code>
             <br />
 
-            la valeur de la réponse à la question B11C doit être égale à 1
+            La valeur de la réponse à la question B11C doit être égale à 1
             <strong>ou</strong> 2 pour que la question B11c1 soit affichée.
           </li>
 
@@ -59,9 +59,9 @@
         </ul>
       </div> 
 
-      <div class="bg-white dark:bg-gray-800  dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-4 p-4 space-y-4">
+      <div class="bg-white dark:bg-gray-800  dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md p-6 space-y-4">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Opérateurs disponibles</h2>
-        <ul class="list-[square] ml-6 space-y-3">
+        <ul class="list-[square] ml-6 space-y-4">
           <li>
             <span> == </span>
           </li>
@@ -94,9 +94,9 @@
           </li>
         </ul>
       </div> 
-      <div class="bg-white mb-5 dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md mb-4 p-4 space-y-4">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Syntaxe intensité conditionnelle</h2>
-        <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Exemple</h2>    
+      <div class="bg-white mb-5 dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md p-6 space-y-3">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Syntaxe intensité conditionnelle</h2>
+        <h2 class="font-semibold text-gray-900 dark:text-white">Exemple</h2>    
         <ul class="list-[square] ml-6">
           <li>
             <code class="text-pink-600">1: B04 &lt;= 1 ; 2: B02 &lt;= 1 </code>
