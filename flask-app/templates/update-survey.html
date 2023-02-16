@@ -13,18 +13,28 @@
           <input type="text" name="name" id="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{survey.name}}" required />
           <label for="name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
       </div>
-      
+
       <div class="relative z-0 w-full mb-6 group">
           <input type="text" name="description" id="description" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{survey.description}}" required />
           <label for="description" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
       </div>
 
       <div class="relative z-0 w-full mb-6 group">
-          <input type="text" name="color" id="color" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{survey.color}}" required />
-          <label for="color" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Couleur</label>
+        <p class="text-xs text-gray-500 dark:text-gray-400 pb-4">Couleur</p>
+        <span class="color-picker">
+          <label for="colorPicker">
+            <input type="color" value="#1DB8CE" id="colorPicker" name="color">
+          </label>
+        </span>
       </div>
+      
+      <!-- <div class="relative z-0 w-full mb-6 group">
+          <input type="color" value="#1DB8CE" id="colorPicker" name="color" required>
+          <label for="color" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Couleur</label>
+      </div> -->
 
-      <div>
+      <div class="relative z-0 w-full mb-6 group">
+        <!-- TODO verify file input if it's value -->
         <p class="text-xs text-gray-500 dark:text-gray-400 pb-4">Image de couverture</p>
         <div class="flex items-center justify-center w-full relative z-0 w-full mb-6 group">
           <label for="cover_picture_url" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
@@ -33,7 +43,7 @@
                   <p id="fileName" class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquer pour téléverser</span> ou glisser et déposer</p>
                   <p class="text-xs text-gray-500 dark:text-gray-400">.png ou .jpeg</p>
               </div>
-              <input id="cover_picture_url" name="cover_picture_url" type="file" class="hidden" accept="image/png, image/gif, image/jpeg" value="{{survey.cover_picture_url}}" required>  
+              <input id="cover_picture_url" name="cover_picture_url" type="file" class="hidden" accept="image/png, image/gif, image/jpeg" required>  
           </label>
         </div>   
       </div>
@@ -61,5 +71,53 @@
         window.location = '/admin/surveys';
       }
     });
+  </script>
+
+  <style>
+    code {
+    padding: 5px 8px;
+    border-radius: 10px;
+    background-color: #f8f9f9;
+    color: #CC0066;
+    }
+
+    [type='color'] {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      padding: 0;
+      width: 15px;
+      height: 15px;
+      border: none;
+    }
+
+    [type='color']::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    [type='color']::-webkit-color-swatch {
+      border: none;
+    }
+
+    .color-picker {
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background-color: #f8f9f9;
+    }
+  </style>
+  <script>
+    document.querySelectorAll('input[type=color]').forEach(function(picker) {
+    var targetLabel = document.querySelector('label[for="' + picker.id + '"]'),
+    codeArea = document.createElement('span');
+  
+    codeArea.innerHTML = picker.value;
+    targetLabel.appendChild(codeArea);
+  
+    picker.addEventListener('change', function() {
+      codeArea.innerHTML = picker.value;
+      targetLabel.appendChild(codeArea);
+    });
+  });
   </script>
 {% endblock %}
