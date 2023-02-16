@@ -30,6 +30,9 @@ def sign_up():
   data = request.json
   
   email = data.get('email')
+  first_name = data.get('first_name')
+  last_name = data.get('last_name')
+  phone_number = data.get('phone_number')
   password = data.get('password')
 
   # checking for existing user
@@ -39,10 +42,10 @@ def sign_up():
 
   if not user:
       user = User(
-          first_name = "test",
-          last_name = "test",
+          first_name = first_name,
+          last_name = last_name,
           email = email,
-          phone_number = "418-888-8888",
+          phone_number = phone_number, 
           date_logged_in = datetime.now(),
           date_created = datetime.now(),
           password = generate_password_hash(password),
