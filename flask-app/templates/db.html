@@ -23,26 +23,54 @@
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Téléverser une base de données</h2>
     <p>Téléverser un fichier excel local qui sera utilisé comme base de données pour l'application.</p>
     <div class="flex items-center justify-center w-full">
-      <form action="/admin/db/import" method="post" class="w-full flex flex-col items-start" enctype="multipart/form-data">
+      <form action="/admin/db/import" method="post" class="w-full" enctype="multipart/form-data">
+        <div class='relative w-full flex flex-col items-start'>
         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                <p id="fileName" class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquer pour téléverser</span> ou glisser et déposer</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">.xlsx ou .xlsm</p>
-            </div>
-            <input id="dropzone-file" onchange="onChangeFile()" name="file" type="file" class="hidden" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">  
-        </label>
-        <button type="submit" class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Téléverser</button>
+                    <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    <p id="fileName" class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquer pour téléverser</span> ou glisser et déposer</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">.xlsx ou .xlsm</p>
+              </div>
+              <input id="dropzone-file"  name="file" type="file" class="opacity-0 w-full h-full absolute z-40" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">  
+          </label>
+          </div>
+          <button type="submit" class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Téléverser</button>
       </form>
     </div> 
   </div>
 </div>
 
+
+<template id="uploaded-excel-file-template">
+
+  <div class="absolute w-full h-full justify-center items-center flex z-50">
+    <div class="relative mb-16 w-12">
+        <svg class="mt-4" enable-background="new 0 0 30 30" height="30px" id="Layer_1" version="1.1" viewBox="0 0 30 30" width="30px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path clip-rule="evenodd" d="M28.705,7.506l-5.461-6.333l-1.08-1.254H9.262   c-1.732,0-3.133,1.403-3.133,3.136V7.04h1.942L8.07,3.818c0.002-0.975,0.786-1.764,1.758-1.764l11.034-0.01v5.228   c0.002,1.947,1.575,3.523,3.524,3.523h3.819l-0.188,15.081c-0.003,0.97-0.79,1.753-1.759,1.761l-16.57-0.008   c-0.887,0-1.601-0.87-1.605-1.942v-1.277H6.138v1.904c0,1.912,1.282,3.468,2.856,3.468l17.831-0.004   c1.732,0,3.137-1.41,3.137-3.139V8.966L28.705,7.506" fill="#434440" fill-rule="evenodd"/><path d="M20.223,25.382H0V6.068h20.223V25.382 M1.943,23.438h16.333V8.012H1.943" fill="#08743B"/><polyline fill="#08743B" points="15.73,20.822 12.325,20.822 10.001,17.538 7.561,20.822 4.14,20.822 8.384,15.486 4.957,10.817    8.412,10.817 10.016,13.355 11.726,10.817 15.242,10.817 11.649,15.486 15.73,20.822  "/></g></svg> 
+    </div>
+  </div>
+
+</template>
+
 <script>
-// TODO fix bug to make file input appear
-function onChangeFile(){
-  alert($("dropzone-file").val())
-  document.getElementById("dropzone-file").value ="hi"
-}
+
+
+
+   $('#dropzone-file').on('change',function(event){
+ 
+     // TODO (kui) -> add file name + delete icon
+     console.log(this.files[0])
+
+     const template = $($('#uploaded-excel-file-template').html())
+
+     template.attr('id','uploaded-excel-file')
+
+     $('form label div').css('opacity','0');
+
+     $('form div').append(template);
+
+
+   })
+
+  
 </script>
 {% endblock %}
