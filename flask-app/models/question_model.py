@@ -8,11 +8,10 @@ class Question(db.Model):
   intro: str
   title: str
   type: str
-  type: str
   label_id: str
   info_bubble_text: str
   condition: str
-  intensity: str
+  intensity: int
   conditional_intensity: str
   order: int
   question_id = db.Column(db.String(20), primary_key = True)
@@ -23,7 +22,7 @@ class Question(db.Model):
   label_id = db.Column(db.String(20), nullable = True)
   info_bubble_text = db.Column(db.String(255), nullable = True)
   condition = db.Column(db.String(50), nullable = True)
-  intensity = db.Column(db.String(255), nullable = True)
+  intensity = db.Column(db.Integer, nullable = True)
   conditional_intensity = db.Column(db.String(50), nullable = True)
   order = db.Column(db.Integer)
   min_value = db.Column(db.Integer, nullable = True)

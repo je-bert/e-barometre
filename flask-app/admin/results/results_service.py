@@ -1,4 +1,5 @@
-from flask import render_template, request, send_file
+from flask import render_template, send_file
+from models import User
 import os
 
 
@@ -9,7 +10,11 @@ def find_all():
 
   for path in os.listdir(dir):
       if os.path.isfile(dir + path):
-          results.append(path)
+          user = User.query\
+            .filter_by(user_id = path.split('.')[0])\
+            .first()
+          if user:
+            results.append({"file": path, "name": user.first_name + " " + user.last_name, "user_id": user.user_id})
 
   return render_template('results.html', results = results)
 
