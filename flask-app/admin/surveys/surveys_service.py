@@ -1,6 +1,8 @@
 from models import Survey, Question
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
+from werkzeug.utils import secure_filename
+import os
 
 def find_all():
   surveys = Survey.query.all()
@@ -34,7 +36,7 @@ def update_one(id):
 
   data = request.form
 
-  if not data.get('name') or not data.get('description') or not data.get('color') or not data.get('cover_picture_url'):
+  if not data.get('name') or not data.get('description') or not data.get('color'):
     return make_response("Forumulaire invalide.", 400)
 
   survey = Survey.query\
@@ -44,10 +46,21 @@ def update_one(id):
   if not survey:
     return make_response("Le questionnaire n'existe pas.", 404)
 
+  # Update cover picture
+  if 'cover_picture_file' in request.files:
+    file = request.files['cover_picture_file']
+    if file:
+      file.filename = "{}.{}".format(survey.survey_id, secure_filename(file.filename.split('.')[-1]))
+      filename = os.path.join('static/img/survey_covers/', file.filename)
+      os.makedirs(os.path.dirname(filename), exist_ok=True)
+      file.save(filename)
+      survey.cover_picture_url = '/' + filename
+  
+  #TODO: Can we remove cover picture?
+
   survey.name = data.get('name')
   survey.description = data.get('description')
   survey.color = data.get('color')
-  survey.cover_picture_url = data.get('cover_picture_url')
   survey.status = 'inactive' if not data.get('status') else 'active'
   db.session.commit()
   return jsonify(survey)
