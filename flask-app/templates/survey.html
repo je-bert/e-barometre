@@ -48,7 +48,7 @@
         </td>
         <td scope="row" class="pl-5 py-4 hidden sm:table-cell  text-gray-900 dark:text-white">
           <div>
-            <p class="break-words">{{ question.condition }}</p>
+            <p class="break-words">{{ question.condition if question.condition else '' }}</p>
           </div>
         </td>
         <td class="px-5 py-4">
