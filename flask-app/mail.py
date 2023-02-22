@@ -13,11 +13,13 @@ def init(app):
   global mail
   mail = Mail(app)
 
-def send_reset_password(email, id, token):
+def send_reset_password(email, id, token, admin_app = False):
   global mail
   if mail:
     msg = Message('Réinitialiser mon mot de passe', sender = 'yourId@gmail.com', recipients = [email])
-    msg.html = render_template('mail/reset-password.html', id = id, token = token)
+    link_admin = "http://localhost:3000/admin/auth/complete-reset-password?id={}&token={}".format(id, token)
+    link_client = "http://localhost:4200/auth/complete-reset-password?id={}&token={}".format(id, token)
+    msg.html = render_template('mail/reset-password.html', link = link_admin if admin_app else link_client)
     mail.send(msg)
 
 def send_confirm_reset_password(email):

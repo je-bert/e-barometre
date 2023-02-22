@@ -98,9 +98,9 @@ def complete_reset_password():
             return redirect(url_for('admin_router.auth_router.sign_out'))
         user_id = request.args.get('id')
         token = request.args.get('token')
-        return render_template('complete-reset-password.html', user_id = user_id, token = token) 
+        return render_template('complete-reset-password.html', id = user_id, token = token) 
 
-    user_id = request.form.get('user_id')
+    user_id = request.form.get('id')
     token = request.form.get('token')
     password = request.form.get('password')
 
@@ -158,7 +158,7 @@ def reset_password():
 
     token_str = str(uuid4())
     
-    send_reset_password(user.email, user.user_id, token_str)
+    send_reset_password(user.email, user.user_id, token_str, True)
 
     token = ResetPasswordToken(
         user_id = user.user_id,
