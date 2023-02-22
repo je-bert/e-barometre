@@ -1,4 +1,5 @@
 from flask_mail import Mail, Message
+from flask import render_template
 
 mail = None
 
@@ -16,12 +17,12 @@ def send_reset_password(email, id, token):
   global mail
   if mail:
     msg = Message('Réinitialiser mon mot de passe', sender = 'yourId@gmail.com', recipients = [email])
-    msg.body = "http://localhost:3000/admin/auth/complete-reset-password?id={}&token={}".format(id, token)
+    msg.html = render_template('mail/reset-password.html', id = id, token = token)
     mail.send(msg)
 
 def send_confirm_reset_password(email):
   global mail
   if mail:
     msg = Message('Mot de passe réinitialisé', sender = 'yourId@gmail.com', recipients = [email])
-    msg.body = "Votre mot de passe a été réinitialisé avec succès"
+    msg.html = render_template('mail/confirm-reset-password.html')
     mail.send(msg)
