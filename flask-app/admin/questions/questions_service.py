@@ -26,6 +26,29 @@ def update_one(id):
   if not question:
     return make_response("La question n'existe pas.", 404)
 
+  question.intro = data.get('intro') if data.get('intro') else None
   question.title = data.get('title')
+  question.info_bubble_text = data.get('info_bubble_text') if data.get('info_bubble_text') else None
+  question.condition = data.get('condition') if data.get('condition') else None
+  intensity = data.get('intensity')
+  question.intensity = int(intensity) if intensity and intensity.isdigit() else None
+  question.conditional_intensity = data.get('conditional_intensity') if data.get('conditional_intensity') else None
+  order = data.get('order')
+  question.order = int(order) if order and order.isdigit() else None
+  question.active = 0 if not data.get('active') else 1
+  question.violence_related = 0 if not data.get('violence_related') else 1
+  if question.type == 'integer':
+    min_value = data.get('min_value')
+    question.min_value = int(min_value) if min_value and min_value.isdigit() else None
+    max_value = data.get('max_value')
+    question.max_value = int(max_value) if max_value and max_value.isdigit() else None
+  ladderC = data.get('ladderC')
+  question.ladderC = int(ladderC) if ladderC and ladderC.isdigit() else None
+  ladderE = data.get('ladderE')
+  question.ladderE = int(ladderE) if ladderE and ladderE.isdigit() else None
+  ladderV = data.get('ladderV')
+  question.ladderV = int(ladderV) if ladderV and ladderV.isdigit() else None
+  question.parent = data.get('parent') if data.get('parent') else None
+  question.red_flag = None #TODO: Is it a string?
   db.session.commit()
   return jsonify(question)

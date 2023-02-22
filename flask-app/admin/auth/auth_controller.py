@@ -14,3 +14,11 @@ def sign_up():
 @auth_router.route('/sign-out')
 def sign_out():
     return auth_service.sign_out()
+
+@auth_router.route('/complete-reset-password', methods =['GET', 'POST'])
+def complete_reset_password():
+    return auth_service.complete_reset_password()
+
+@auth_router.route('/reset-password', methods =['GET', 'POST'])
+def reset_password():
+    return auth_service.reset_password()

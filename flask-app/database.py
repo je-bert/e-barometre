@@ -20,7 +20,7 @@ def init(app):
 
 def run_seeds(file_name = 'seeds.xlsx'):
   # importing models is required for ORM
-  from models import Survey, Category, User, Choice, Question, Label, Answer, CustomAnswer
+  from models import Survey, Category, User, Choice, Question, Label, Answer, CustomAnswer, ResetPasswordToken
   if app_context != None:
     with app_context:
       xl = ExcelFile(file_name)
