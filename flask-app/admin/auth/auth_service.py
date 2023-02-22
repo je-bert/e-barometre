@@ -5,6 +5,8 @@ from models import User, ResetPasswordToken
 from datetime import datetime
 from utils import check_email, check_password
 from uuid import uuid4
+from flask_mail import Message
+from mail import send_reset_password, send_confirm_reset_password
 
 def sign_in():
     if request.method == 'GET':
@@ -107,7 +109,6 @@ def complete_reset_password():
     
     if not check_password(password):
         return "Mot de passe invalide", 400
-
     
     reset_password_token = ResetPasswordToken.query\
         .filter_by(user_id = user_id)\
@@ -133,7 +134,7 @@ def complete_reset_password():
     user.password = generate_password_hash(password)
     db.session.commit()
 
-    #TODO: Send confirm reset password email to the user
+    send_confirm_reset_password(user.email)
 
     return redirect(url_for('admin_router.auth_router.sign_in'))
 
@@ -156,8 +157,8 @@ def reset_password():
         return "Cet utilisateur n'existe pas", 400
 
     token_str = str(uuid4())
-
-    #TODO: Send email with reset link to user
+    
+    send_reset_password(user.email, user.user_id, token_str)
 
     token = ResetPasswordToken(
         user_id = user.user_id,

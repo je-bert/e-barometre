@@ -4,6 +4,7 @@ from api import api_router
 from admin import admin_router
 import database as db
 from flask_cors import CORS
+import mail
 
 
 def create_app():
@@ -20,6 +21,8 @@ def create_app():
         return render_template("404.html")
 
     db.init(app)
+    mail.init(app)
+
 
     return app
     
