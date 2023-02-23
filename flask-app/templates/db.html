@@ -46,22 +46,16 @@
     </div> 
   </div>
 </div>
-
 <script>
-
-
-
    $('#dropzone-file').on('change',function(event){
      $('#emptyFile').hide();
      $('#fileName').text(this.files[0].name)
      $('#uploadedFile').show();
    })
-
    function deleteFile(){
     event.preventDefault();
     $('#emptyFile').show();
     $('#uploadedFile').hide();
    }
-
 </script>
 {% endblock %}

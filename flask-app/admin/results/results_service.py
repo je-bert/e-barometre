@@ -1,7 +1,6 @@
-from flask import render_template, send_file
+from flask import render_template, send_file, abort
 from models import User
 import os
-
 
 def find_all():
   dir = os.getcwd() + '/master_results/'
@@ -17,6 +16,17 @@ def find_all():
             results.append({"file": path, "name": user.first_name + " " + user.last_name, "user_id": user.user_id})
 
   return render_template('results.html', results = results)
+
+def find_one(user_id):
+
+  user = User.query\
+    .filter_by(user_id = user_id)\
+    .first()
+
+  if not user:
+    return abort(404)
+
+  return render_template('user-results.html', user = user)
 
 def export_one(file_name):
   dir = os.getcwd() + '/master_results/'
