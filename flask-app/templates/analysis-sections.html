@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% set active_page = "analysis-sections" %}
+
+{% block title %} TODO {% endblock %}
+
+
+
+
+
+{% block content %}
+<!-- TODO (kui) change the col names -->
+  <div class="relative overflow-x-auto w-full p-5">
+    <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
+      TODO
+    </h1>
+      <table class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800">
+          <thead class="text-xs">
+              <tr>
+                  <th scope="col" class="px-5 py-3">
+                      Nom
+                  </th>
+                  <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[90px] text-center">
+                      Questions
+                  </th>
+                  <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[90px] text-center">
+                      Statut
+                  </th>
+                  <th scope="col" class="px-5 py-3 w-[100px] text-center">
+                      Actions
+                  </th>
+              </tr>
+          </thead>
+          <tbody class="dark:divide-gray-700 divide-y">
+
+            <!-- TODO (kui) check surveys -->
+       
+          </tbody>
+      </table>
+
+
+
+    <pre>
+              {% for analysis_section in analysis_sections %} 
+
+                 
+                      {{analysis_section}}
+                    
+             
+
+
+              {% endfor %}
+
+      </pre>
+  </div>
+
+
+
+  <script>
+    function onEditClick(event, survey_id) {
+      event.stopPropagation();
+      window.location = '/admin/surveys/update/' + survey_id;
+    }
+  </script>
+{% endblock %}
