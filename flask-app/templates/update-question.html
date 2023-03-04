@@ -8,9 +8,9 @@
 ('label_id', question.label_id, 'Label ID','disabled','not required','text'),
 ('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text'),
 ('condition', question.condition, 'Condition','enabled','not required','text'),
-('intensity', question.intensity, 'Intensité','enabled','not required','text'),
+('intensity', question.intensity, 'Intensité','enabled','not required','number'),
 ('conditional_intensity', question.conditional_intensity, 'Intensité conditionel','enabled','not required','text'),
-('order', question.order,'Ordre','enabled','not required','text'),
+('order', question.order,'Ordre','enabled','not required','number'),
 ('min_value', question.min_value, 'Valeur minimum','enabled','required','number'),
 ('max_value', question.max_value, 'Valeur maximum','enabled','required','number'),
 ('parent', question.parent,'Parent','enabled','not required','text'),
@@ -30,10 +30,6 @@
     Modifier la question
   </h1>
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
-    <!-- <div class="relative z-0 w-full mb-6 group">
-          <input type="text" name="title" id="title" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{question.title}}" required />
-          <label for="title" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Titre</label>
-      </div> -->
 
     {% for name,value,title,editable,required,inputType in questionFields %}
 
@@ -50,14 +46,14 @@
     </div>
 
     <!-- For the rest. Min and max won't be rendered if type is not integer -->
-    {% else %}
-    <div class="relative z-0 w-full mb-6 group"{{'hidden' if question.type != 'integer' and (name =='min_value' or name=='max_value')}}>
+    {% elif (question.type == 'integer' or (name != 'min_value' and name != 'max_value')) %}
+    <div class="relative z-0 w-full mb-6 group">
       <input type="{{inputType}}" name="{{name}}" id="{{name}}" {{ '' if editable=='enabled' else 'disabled' }}
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        value="{{value if value else ''}}" {{'required' if required=='required'}} />
+        value="{{value if value != None else ''}}" {{'required' if required=='required'}} />
       <label for="{{name}}"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{
-        title }}</label>
+        title }}{{' *' if required=='required'}}</label>
     </div>
     {% endif %}
 
