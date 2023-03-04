@@ -3,6 +3,9 @@ from models import User
 import os
 
 def find_all():
+  if not os.path.exists('master_results'):
+    os.makedirs('master_results')
+    
   dir = os.getcwd() + '/master_results/'
 
   results = []

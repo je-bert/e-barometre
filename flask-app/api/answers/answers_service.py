@@ -28,7 +28,7 @@ def update(current_user):
   wb = load_workbook(output_file)
 
   # Demo code
-  ws = wb['TEST_pour application']
+  ws = wb.worksheets[0]
 
   json = request.json
 
@@ -49,25 +49,24 @@ def update(current_user):
     if not question:
       return "Erreur", 400
     
-    ##TODO: Validation answer + custom answer
+    #TODO: Validation answer + custom answer
 
     new_answer = Answer(question_id = answer['question_id'], user_id = current_user.user_id, value = answer['value'], date_created = datetime.now())
     db.session.merge(new_answer)
-    db.session.commit()
 
     if question.type == 'select-multiple':
       answers = answer['value'].split(',')
-      i = 1
-      for cell in ws["A"]:
-        if cell.internal_value == question.question_id:
-          if str(i) in answers:
-            ws.cell(row=cell.row, column=2).value = i
+      i = 0
+      for cell in ws["C"]:
+        if type(cell).__name__ != 'MergedCell' and cell.internal_value == question.question_id:
+          ws.cell(row=cell.row, column=4).value = 1 if str(i) in answers else 0
           i += 1
     else:
-      for cell in ws["A"]:
-        if cell.internal_value == question.question_id:
-            ws.cell(row=cell.row, column=2).value = answer['value']
+      for cell in ws["C"]:
+        if type(cell).__name__ != 'MergedCell' and cell.internal_value == question.question_id:
+            ws.cell(row=cell.row, column=4).value = answer['value']
 
+  db.session.commit()
   wb.save(output_file)
     
   return jsonify("Vos réponses ont été sauvegardées!"), 200
