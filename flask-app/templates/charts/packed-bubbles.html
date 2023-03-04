@@ -3,9 +3,11 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-<figure class="highcharts-figure">
-    <div id="{{ id }}"></div>
-</figure>
+<div class="bg-white dark:bg-gray-800 dark:text-gray-400 relative w-full rounded shadow-md mb-8 p-6">
+  <figure class="highcharts-figure">
+      <div id="{{ id }}"></div>
+  </figure>
+</div>
 
 <script>
   const series = {{ series | tojson }};

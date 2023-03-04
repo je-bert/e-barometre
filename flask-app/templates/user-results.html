@@ -9,14 +9,8 @@
   <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
     Résultats de {{ user.first_name }} {{ user.last_name }}
   </h1>
-  <div class="bg-white space-y-4 dark:bg-gray-800 dark:text-gray-400 flex flex-col sm:flex-row sm:space-y-0 sm:justify-evenly w-full rounded shadow-md mb-8 p-6">
-    {{ barometer | safe }}
-  </div>
-  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 relative w-full rounded shadow-md mb-8 p-6">
-    {{ funnel | safe }}
-  </div>
-   <div class="bg-white dark:bg-gray-800 dark:text-gray-400 relative w-full rounded shadow-md mb-8 p-6">
-    {{ packed_bubbles | safe }}
-  </div>
+  {{ barometer | safe }}
+  {{ funnel | safe }}
+  {{ packed_bubbles | safe }}
 </div>
 {% endblock %}

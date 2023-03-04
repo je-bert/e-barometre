@@ -1,11 +1,13 @@
-from flask import render_template, send_file, abort, jsonify
+from flask import render_template, send_file, abort
 from models import User
 import os
+from pycel import ExcelCompiler
+
 
 def find_all():
   if not os.path.exists('master_results'):
     os.makedirs('master_results')
-    
+
   dir = os.getcwd() + '/master_results/'
 
   results = []
@@ -29,55 +31,45 @@ def find_one(user_id):
   if not user:
     return abort(404)
   
-  series = [
-    {
+  filename = 'master_results/{}.xlsx'.format(user_id)
+
+  if not os.path.exists(filename):
+    return abort(404)
+  
+  if not os.path.exists('master_results'):
+    os.makedirs('master_results')
+
+  excel = ExcelCompiler(filename=filename)
+
+  #TODO: Validate excel data
+  cl = excel.evaluate("'TEST_pour PROTOTYPE'!D425") / excel.evaluate("'TEST_pour PROTOTYPE'!G425")
+  css = excel.evaluate("'TEST_pour PROTOTYPE'!D426") / excel.evaluate("'TEST_pour PROTOTYPE'!G426")
+  ap = excel.evaluate("'TEST_pour PROTOTYPE'!D427") / excel.evaluate("'TEST_pour PROTOTYPE'!G427")
+  flag = excel.evaluate("'TEST_pour PROTOTYPE'!I428")
+  barometer = render_template('charts/barometer.html', cl = cl, css = css, ap = ap, flag = flag)
+
+  #TODO: Validate excel data
+  series = []
+  series.append({
         "name": 'Parent répondant',
         "draggable": False,
-        "data": []
-        
-    }, {
-      "name": 'Coparent',
-      "draggable": False,
-      "data": [
-        {
-          "value": 30,
-          "name": 'Déforme les souvenirs',
-        },
-        {
-          "value": 21,
-          "name": "Communique fréquemment avec l'enfant lorsqu'il est chez l'autre"
-        },
-        {
-          "value": 20,
-          "name": "En compétition avec l'autre pour l'amour de l'enfant"
-        },
-        {
-          "value": 21,
-          "name": "Cherche à blesser l'autre"
-        },
-        {
-          "value": 21,
-          "name": "L'enfant est assez mature pour choisir"
-        },
-        {
-          "value": 21,
-          "name": "Demande à l'enfant de faire les messages"
-        }
-      ]
-    }, {
+        "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 482)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 482))} for i in range(6)]
+  })
+  series.append({
+        "name": 'Coparent',
+        "draggable": False,
+        "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 489)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 489))} for i in range(7)]
+  })
+  series.append({
         "name": 'Nouveau conjoint·e (lle cas échéant)',
         "draggable": False,
-        "data": [
-        {
-          "value": 20,
-          "name": "S'impose responsable de la logistique familiale"
-        }
-      ]
-    }
-  ]
+        "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 497)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 497))} for i in range(5)]
+  })
   packed_bubbles = render_template('charts/packed-bubbles.html', id = 1, series = series)
+
+  #TODO: Take data from excel file
   funnel = render_template('charts/funnel.html')
-  barometer = render_template('charts/barometer.html')
+
   return render_template('user-results.html', user = user, packed_bubbles = packed_bubbles, funnel = funnel, barometer = barometer)
 
 def export_one(file_name):
