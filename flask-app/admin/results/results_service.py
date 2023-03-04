@@ -1,4 +1,4 @@
-from flask import render_template, send_file, abort
+from flask import render_template, send_file, abort, jsonify
 from models import User
 import os
 
@@ -25,8 +25,57 @@ def find_one(user_id):
 
   if not user:
     return abort(404)
-
-  return render_template('user-results.html', user = user)
+  
+  series = [
+    {
+        "name": 'Parent répondant',
+        "draggable": False,
+        "data": []
+        
+    }, {
+      "name": 'Coparent',
+      "draggable": False,
+      "data": [
+        {
+          "value": 30,
+          "name": 'Déforme les souvenirs',
+        },
+        {
+          "value": 21,
+          "name": "Communique fréquemment avec l'enfant lorsqu'il est chez l'autre"
+        },
+        {
+          "value": 20,
+          "name": "En compétition avec l'autre pour l'amour de l'enfant"
+        },
+        {
+          "value": 21,
+          "name": "Cherche à blesser l'autre"
+        },
+        {
+          "value": 21,
+          "name": "L'enfant est assez mature pour choisir"
+        },
+        {
+          "value": 21,
+          "name": "Demande à l'enfant de faire les messages"
+        }
+      ]
+    }, {
+        "name": 'Nouveau conjoint·e (lle cas échéant)',
+        "draggable": False,
+        "data": [
+        {
+          "value": 20,
+          "name": "S'impose responsable de la logistique familiale"
+        }
+      ]
+    }
+  ]
+  packed_bubbles = render_template('charts/packed-bubbles.html', id = 1, series = series)
+  funnel = render_template('charts/funnel.html')
+  barometer = render_template('charts/barometer.html')
+  return render_template('user-results.html', user = user, packed_bubbles = packed_bubbles, funnel = funnel, barometer = barometer)
 
 def export_one(file_name):
   dir = os.getcwd() + '/master_results/'

@@ -1,4 +1,11 @@
-function generateFunnel(id) {
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<div id="funnel"></div>
+
+<script>
+  const id = 'funnel';
   am5.ready(function() {
     $("#" + id).addClass("w-full h-[500px]")
     // Create root element
@@ -61,4 +68,4 @@ function generateFunnel(id) {
       </p>
     </div>`).insertAfter("#" + id)
   }); // end am5.ready()
-}
+</script>

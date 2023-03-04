@@ -1,0 +1,76 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="{{ id }}"></div>
+</figure>
+
+<script>
+  const series = {{ series | tojson }};
+  Highcharts.chart('{{ id }}', {
+    chart: {
+        type: 'packedbubble',
+    },
+    title: {
+        text: null,
+    },
+    exporting: {
+      enabled: false,
+    },
+    credits: {
+      enabled: false
+    },
+    tooltip: {
+        useHTML: true,
+        pointFormat: '<b>{point.name}:</b> {point.value}'
+    },
+    plotOptions: {
+        packedbubble: {
+            minSize: '20%',
+            maxSize: '80%',
+            layoutAlgorithm: {
+                splitSeries: true,
+                enableSimulation: false,
+                parentNodeLimit: true,
+            },
+        }
+    },
+    series: series
+});
+</script>
+
+<style>
+  .highcharts-figure,
+  .highcharts-data-table table {
+      min-width: 100%;
+      margin: 1em auto;
+  }
+
+  .highcharts-data-table caption {
+      padding: 1em 0;
+      font-size: 1.2em;
+      color: #555;
+  }
+
+  .highcharts-data-table th {
+      font-weight: 600;
+      padding: 0.5em;
+  }
+
+  .highcharts-data-table td,
+  .highcharts-data-table th,
+  .highcharts-data-table caption {
+      padding: 0.5em;
+  }
+
+  .highcharts-data-table thead tr,
+  .highcharts-data-table tr:nth-child(even) {
+      background: #f8f8f8;
+  }
+
+  .highcharts-data-table tr:hover {
+      background: #f1f7ff;
+  }
+</style>
