@@ -28,6 +28,10 @@
           <th scope="col" class="px-5 py-3 hidden sm:table-cell">
             Description
           </th>
+
+          <th scope="col" class="px-5 py-3 w-[100px] text-center">
+            Sous-sections
+          </th>
   
           <th scope="col" class="px-5 py-3 w-[100px] text-center">
             Actions
@@ -49,6 +53,12 @@
           <td scope="row" class="pl-5 py-4 hidden sm:table-cell  text-gray-900 dark:text-white">
             <div>
               <p class="break-words">{{ analysis_section.description }}</p>
+            </div>
+          </td>
+          <!-- TODO count of sous sections -->
+          <td class="px-5 py-4">
+            <div class="flex items-center justify-center space-x-4 text-sm">
+              <p>0</p>
             </div>
           </td>
           <td class="px-5 py-4">
