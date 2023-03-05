@@ -17,7 +17,7 @@ def update_one(id):
   data = request.form
 
   if not data.get('title'):
-    return make_response("Forumulaire invalide.", 400)
+    return make_response("Formulaire invalide.", 400)
 
   question = Question.query\
         .filter_by(question_id = id)\
