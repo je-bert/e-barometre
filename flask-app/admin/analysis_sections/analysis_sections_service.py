@@ -1,4 +1,4 @@
-from models import AnalysisSection 
+from models import AnalysisSection, AnalysisSubsection
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 
@@ -8,6 +8,18 @@ def find_all():
     analysis_sections = AnalysisSection.query.all()
 
     return render_template('analysis-sections.html',analysis_sections = analysis_sections)
+
+
+# def find_one(id):
+#   analysis_section = AnalysisSection.query\
+#                       .filter(analysis_section_id = id)\
+#                       .first()
+#   if not analysis_section:
+#     return abort(404)
+  
+
+#   analysis_subsection = AnalysisSubsection.query\
+#                         .filter()
 
 def update_one(id):
   if request.method == 'GET':

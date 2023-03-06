@@ -4,6 +4,10 @@ from admin.auth import auth
 
 analysis_sections_router = Blueprint('analysis_sections_router',__name__)
 
+@analysis_sections_router.route('/<id>',methods=['GET'])
+@auth
+def find_one(id):
+    return analysis_sections_service.find_one(id)
 
 @analysis_sections_router.route('/',methods=['GET'])
 @auth
@@ -14,3 +18,4 @@ def find_all():
 @auth
 def update_one(id):
     return analysis_sections_service.update_one(id)
+
