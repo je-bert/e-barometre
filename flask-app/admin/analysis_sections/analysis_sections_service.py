@@ -10,16 +10,22 @@ def find_all():
     return render_template('analysis-sections.html',analysis_sections = analysis_sections)
 
 
-# def find_one(id):
-#   analysis_section = AnalysisSection.query\
-#                       .filter(analysis_section_id = id)\
-#                       .first()
-#   if not analysis_section:
-#     return abort(404)
+def find_one(id):
+  analysis_section = AnalysisSection.query\
+                      .filter_by(analysis_section_id = id)\
+                      .first()
+  if not analysis_section:
+    return abort(404)
   
+  # to return all the analysis subsections related to the section TODO remove comment after
+  analysis_subsections = AnalysisSubsection.query\
+                        .filter_by(analysis_section_id = id)\
+                        .all()
 
-#   analysis_subsection = AnalysisSubsection.query\
-#                         .filter()
+  if not analysis_subsections:
+    return abort(404)
+
+  return render_template('analysis-subsections.html',analysis_section = analysis_section,analysis_subsections = analysis_subsections)
 
 def update_one(id):
   if request.method == 'GET':

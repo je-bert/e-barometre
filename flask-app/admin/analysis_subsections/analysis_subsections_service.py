@@ -2,25 +2,6 @@ from models import AnalysisSubsection
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 
-
-
-def find_all():
-    analysis_subsections = AnalysisSubsection.query.all()
-
-    return render_template('analysis-subsections.html',analysis_subsections = analysis_subsections)
-
-
-# def find_one(id):
-#   analysis_section = AnalysisSection.query\
-#                       .filter(analysis_section_id = id)\
-#                       .first()
-#   if not analysis_section:
-#     return abort(404)
-  
-
-#   analysis_subsection = AnalysisSubsection.query\
-#                         .filter()
-
 def update_one(id):
   if request.method == 'GET':
     analysis_subsection = AnalysisSubsection.query\
