@@ -6,6 +6,7 @@ from admin.db import db_router
 from admin.auth import auth_router
 from admin.results import results_router
 from admin.analysis_sections import analysis_sections_router
+from admin.analysis_subsections import analysis_subsections_router
 
 
 admin_router = Blueprint('admin_router', __name__)
@@ -17,6 +18,7 @@ admin_router.register_blueprint(db_router, url_prefix='/db')
 admin_router.register_blueprint(auth_router, url_prefix='/auth')
 admin_router.register_blueprint(results_router, url_prefix='/results')
 admin_router.register_blueprint(analysis_sections_router,url_prefix='/analysis-sections')
+admin_router.register_blueprint(analysis_subsections_router,url_prefix='/analysis-subsections')
 
 
 @admin_router.route('/glossary')

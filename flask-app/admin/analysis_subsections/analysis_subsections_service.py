@@ -1,0 +1,55 @@
+from models import AnalysisSubsection
+from flask import render_template, abort, request, make_response, jsonify
+from database import db
+
+
+
+def find_all():
+    analysis_subsections = AnalysisSubsection.query.all()
+
+    return render_template('analysis-subsections.html',analysis_subsections = analysis_subsections)
+
+
+# def find_one(id):
+#   analysis_section = AnalysisSection.query\
+#                       .filter(analysis_section_id = id)\
+#                       .first()
+#   if not analysis_section:
+#     return abort(404)
+  
+
+#   analysis_subsection = AnalysisSubsection.query\
+#                         .filter()
+
+def update_one(id):
+  if request.method == 'GET':
+    analysis_subsection = AnalysisSubsection.query\
+        .filter_by(analysis_section_id = id)\
+        .first()
+  
+    if not analysis_subsection:
+      return abort(404)
+    
+    return render_template('update-analysis-section.html', analysis_section = analysis_subsection)
+
+  data = request.form
+
+# TODO title should be mandatory right?
+  if not data.get('title'):
+    return make_response("Formulaire invalide.", 400)
+
+  analysis_subsection = AnalysisSubsection.query\
+        .filter_by(analysis_section_id = id)\
+        .first()
+
+  if not analysis_subsection:
+    return make_response("La section d'analyse n'existe pas.", 404)
+
+# TODO check the required fields 
+  analysis_subsection.title = data.get('title')
+  analysis_subsection.description = data.get('description') if data.get('description') else None
+  analysis_subsection.order = data.get('order') #TODO what should be the default value for order?
+  analysis_subsection.display_condition = data.get('display_condition') if data.get('display_condition') else None
+  analysis_subsection.schema_type = data.get('schema_type') if data.get('schema_type') else None
+  db.session.commit()
+  return jsonify(analysis_subsection)
