@@ -44,6 +44,7 @@ def update_one(id):
   if not data.get('title'):
     return make_response("Formulaire invalide.", 400)
 
+#TODO this line of code can be simplified by not putting the top one in the if? 
   analysis_section = AnalysisSection.query\
         .filter_by(analysis_section_id = id)\
         .first()

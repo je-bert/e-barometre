@@ -5,13 +5,13 @@ from database import db
 def update_one(id):
   if request.method == 'GET':
     analysis_subsection = AnalysisSubsection.query\
-        .filter_by(analysis_section_id = id)\
+        .filter_by(analysis_subsection_id = id)\
         .first()
   
     if not analysis_subsection:
       return abort(404)
     
-    return render_template('update-analysis-section.html', analysis_section = analysis_subsection)
+    return render_template('update-analysis-subsection.html', analysis_subsection = analysis_subsection)
 
   data = request.form
 
