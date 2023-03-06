@@ -18,10 +18,11 @@ def update_one(id):
     if not analysis_section:
       return abort(404)
     
-    return render_template('update-analysis_section.html', analysis_section = analysis_section)
+    return render_template('update-analysis-section.html', analysis_section = analysis_section)
 
   data = request.form
 
+# TODO title should be mandatory right?
   if not data.get('title'):
     return make_response("Formulaire invalide.", 400)
 
@@ -30,4 +31,11 @@ def update_one(id):
         .first()
 
   if not analysis_section:
-    return make_response("La section analyse n'existe pas.", 404)
+    return make_response("La section d'analyse n'existe pas.", 404)
+
+# TODO check the required fields 
+  analysis_section.title = data.get('title')
+  analysis_section.description = data.get('description') if data.get('description') else None
+  analysis_section.order = data.get('order') #TODO what should be the default value for order?
+  db.session.commit()
+  return jsonify(analysis_section)

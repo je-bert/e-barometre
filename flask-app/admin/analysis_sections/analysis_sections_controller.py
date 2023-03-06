@@ -9,3 +9,8 @@ analysis_sections_router = Blueprint('analysis_sections_router',__name__)
 @auth
 def find_all():
     return analysis_sections_service.find_all()
+
+@analysis_sections_router.route('/update/<id>',methods=['GET','POST'])
+@auth
+def update_one(id):
+    return analysis_sections_service.update_one(id)
