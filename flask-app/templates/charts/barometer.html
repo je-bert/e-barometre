@@ -1,21 +1,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.min.js"></script>
 
 
-<div class="bg-white space-y-4 dark:bg-gray-800 dark:text-gray-400 flex flex-col w-full rounded shadow-md mb-8 p-6">
-  <div class="flex flex-col sm:flex-row sm:space-y-0 sm:justify-evenly w-full">
-    <div class="flex flex-col items-center">
-      <div id="gauge1"></div>
-    </div>
-    <div class="flex flex-col items-center">
-      <div id="gauge2"></div>
-    </div>
-    <div class="flex flex-col items-center">
-      <div id="gauge3"></div>
-    </div>
+<div class="flex flex-col sm:flex-row sm:space-y-0 sm:justify-evenly w-full">
+  <div class="flex flex-col items-center">
+    <div id="gauge1"></div>
   </div>
-  {{ "<p class='w-full text-center'>{}</p>".format(flag) | safe if flag }}
-
+  <div class="flex flex-col items-center">
+    <div id="gauge2"></div>
+  </div>
+  <div class="flex flex-col items-center">
+    <div id="gauge3"></div>
+  </div>
 </div>
+{{ "<p class='w-full text-center'>{}</p>".format(flag) | safe if flag }}
+
 
 <script>
   const percentToDegree = p => p * 360;

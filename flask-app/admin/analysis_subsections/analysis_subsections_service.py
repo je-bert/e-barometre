@@ -17,14 +17,14 @@ def update_one(id):
 
 # TODO title should be mandatory right?
   if not data.get('title'):
-    return make_response("Formulaire invalide.", 400)
+    return "Formulaire invalide.", 400
 
   analysis_subsection = AnalysisSubsection.query\
-        .filter_by(analysis_section_id = id)\
+        .filter_by(analysis_subsection_id = id)\
         .first()
 
   if not analysis_subsection:
-    return make_response("La section d'analyse n'existe pas.", 404)
+    return "La section d'analyse n'existe pas.", 404
 
 # TODO check the required fields 
   analysis_subsection.title = data.get('title')

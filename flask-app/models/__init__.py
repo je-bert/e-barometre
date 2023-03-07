@@ -7,5 +7,5 @@ from .question_model import *
 from .survey_model import *
 from .user_model import *
 from .reset_password_token_model import *
-from .analysis_section_model import *
 from .analysis_subsection_model import *
+from .analysis_section_model import *

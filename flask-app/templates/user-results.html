@@ -9,8 +9,8 @@
   <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
     Résultats de {{ user.first_name }} {{ user.last_name }}
   </h1>
-  {{ barometer | safe }}
-  {{ funnel | safe }}
-  {{ packed_bubbles | safe }}
+  {% for section in sections_to_render %}
+  {{ section | safe }}
+  {% endfor %}
 </div>
 {% endblock %}

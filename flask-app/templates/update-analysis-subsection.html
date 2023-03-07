@@ -47,9 +47,9 @@
   $("#mainForm").submit(async function (event) {
     event.preventDefault();
     const formData = new FormData(document.getElementById('mainForm'));
-    const response = await fetch(`/admin/analysis-subsections/update/{{analysis_subsections.analysis_subsections_id}}`, { body: formData, method: "post" });
+    const response = await fetch(`/admin/analysis-subsections/update/{{analysis_subsection.analysis_subsections_id}}`, { body: formData, method: "post" });
     if (response.ok) {
-      window.location = '/admin/analysis-sections/{{analysis_subsections.analysis_subsections_id}}';
+      window.location = '/admin/analysis-sections/{{analysis_subsection.analysis_subsections_id}}';
     }
   });
 </script>
