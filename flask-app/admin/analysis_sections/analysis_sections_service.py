@@ -1,13 +1,22 @@
 from models import AnalysisSection, AnalysisSubsection
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
+from sqlalchemy import func
 
 
 
 def find_all():
-    analysis_sections = AnalysisSection.query.all()
-
-    return render_template('analysis-sections.html',analysis_sections = analysis_sections)
+    analysis_sections = db.session.query(
+      AnalysisSection.analysis_section_id, 
+      AnalysisSection.description, 
+      AnalysisSection.order, 
+      AnalysisSection.title, 
+      func.count(AnalysisSubsection.analysis_subsection_id).label("subsections_count")
+      )\
+      .select_from(AnalysisSection).outerjoin(AnalysisSubsection)\
+      .group_by(AnalysisSection.analysis_section_id)\
+      .all()
+    return render_template('analysis-sections.html', analysis_sections = analysis_sections)
 
 
 def find_one(id):

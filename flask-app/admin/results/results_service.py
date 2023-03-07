@@ -1,6 +1,7 @@
 from flask import render_template, send_file, abort
-from models import User, AnalysisSection
+from models import User, AnalysisSection, AnalysisSubsection
 import os
+from database import db
 from pycel import ExcelCompiler
 
 
@@ -39,7 +40,8 @@ def find_one(user_id):
   if not os.path.exists('master_results'):
     os.makedirs('master_results')
 
-  sections = AnalysisSection.query\
+  sections = db.session.query(AnalysisSection)\
+    .join(AnalysisSubsection)\
     .order_by(AnalysisSection.order)\
     .all()
   
@@ -48,7 +50,10 @@ def find_one(user_id):
   sections_to_render = []
 
   for section in sections:
-     sections_to_render.append(render_template('analysis-section.html', section = section, content = generate_content(section.analysis_section_id, excel)))
+    content = ""
+    for subsection in section.subsections:
+      content += generate_content(subsection.schema_type, excel)
+    sections_to_render.append(render_template('analysis-section.html', section = section, content = content))
 
   return render_template('user-results.html', user = user, sections_to_render = sections_to_render)
 
@@ -67,14 +72,14 @@ def delete_one(file_name):
 
 def generate_content(type, excel):
    #TODO: Validate excel data
-  if type == "1":
+  if type == "barometers":
     cl = excel.evaluate("'TEST_pour PROTOTYPE'!D425") / excel.evaluate("'TEST_pour PROTOTYPE'!G425")
     css = excel.evaluate("'TEST_pour PROTOTYPE'!D426") / excel.evaluate("'TEST_pour PROTOTYPE'!G426")
     ap = excel.evaluate("'TEST_pour PROTOTYPE'!D427") / excel.evaluate("'TEST_pour PROTOTYPE'!G427")
     flag = excel.evaluate("'TEST_pour PROTOTYPE'!I428")
     return render_template('charts/barometer.html', cl = cl, css = css, ap = ap, flag = flag)
   
-  elif type == "2":
+  elif type == "packed_bubbles":
     series = []
     series.append({
           "name": 'Parent répondant',
@@ -92,6 +97,7 @@ def generate_content(type, excel):
           "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 497)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 497))} for i in range(5)]
     })
     return render_template('charts/packed-bubbles.html', id = 1, series = series)
-
+  elif type == "funnel":
+     return render_template('charts/funnel.html')
   else:
-    return render_template('charts/funnel.html')
+    return type
