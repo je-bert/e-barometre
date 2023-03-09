@@ -50,10 +50,10 @@ def find_one(user_id):
   sections_to_render = []
 
   for section in sections:
-    content = ""
+    subsections = []
     for subsection in section.subsections:
-      content += generate_content(subsection.schema_type, excel)
-    sections_to_render.append(render_template('analysis-section.html', section = section, content = content))
+      subsections.append(render_template('analysis-subsection.html', subsection = subsection, content = generate_content(subsection.schema_type, excel)))
+    sections_to_render.append(render_template('analysis-section.html', section = section, subsections = subsections))
 
   return render_template('user-results.html', user = user, sections_to_render = sections_to_render)
 
@@ -98,6 +98,10 @@ def generate_content(type, excel):
     })
     return render_template('charts/packed-bubbles.html', id = 1, series = series)
   elif type == "funnel":
+    #TODO: XLOOKUP
+    #  data = [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!X{}".format(i + 608)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!Y{}".format(i + 608))} for i in range(26)]
+    #  for i in data:
+    #     print(i.value)
      return render_template('charts/funnel.html')
   else:
     return type
