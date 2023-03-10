@@ -1,6 +1,10 @@
-<div class="space-y-4 dark:bg-gray-800 dark:text-gray-400 flex flex-col w-full">
-  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ subsection.title }}</h2>
-  <p>{{ subsection.description }}</p>
-  {{ content | safe }}
+<div class="space-y-4 dark:bg-gray-800 py-4 dark:text-gray-400 flex flex-col w-full">
+  <div class="flex flex-col w-full">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ subsection.title }}</h3>
+    <p>{{ subsection.description }}</p>
+  </div>
+  {% if content != None %}
+    {{ content | safe }}
+  {% endif %}
 </div>
 
