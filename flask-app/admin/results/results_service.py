@@ -98,10 +98,13 @@ def generate_content(type, excel):
     })
     return render_template('charts/packed-bubbles.html', id = 1, series = series)
   elif type == "funnel":
-    #TODO: XLOOKUP
-    #  data = [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!X{}".format(i + 608)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!Y{}".format(i + 608))} for i in range(26)]
-    #  for i in data:
-    #     print(i.value)
-     return render_template('charts/funnel_v2.html', elements = [{"title": "Premier"}, {"title": "Deuxieme"}, {"title": "Troisieme"}])
+     data = []
+     for i in range(36):
+       value = excel.evaluate("'TEST_pour PROTOTYPE'!Y{}".format(i + 608))
+       if isinstance(value, int) and value > 0:
+          title = excel.evaluate("'TEST_pour PROTOTYPE'!X{}".format(i + 608))
+          data.append({"title": title, "value": value})
+     data = sorted(data, key=lambda d: d['value'], reverse=True)
+     return render_template('charts/funnel_v2.html', elements = data)
   else:
     return type
