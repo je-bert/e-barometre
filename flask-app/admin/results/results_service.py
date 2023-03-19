@@ -102,6 +102,6 @@ def generate_content(type, excel):
     #  data = [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!X{}".format(i + 608)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!Y{}".format(i + 608))} for i in range(26)]
     #  for i in data:
     #     print(i.value)
-     return render_template('charts/funnel.html')
+     return render_template('charts/funnel_v2.html', elements = [{"title": "Premier"}, {"title": "Deuxieme"}, {"title": "Troisieme"}])
   else:
     return type
