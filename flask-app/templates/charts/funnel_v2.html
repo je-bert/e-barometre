@@ -1,0 +1,12 @@
+<div class="relative">
+  <div id="funnel">
+    The max value is {{ elements[0].value }}
+    {% for element in elements %}
+      <div>
+      
+        {{ element.title}} - {{ element.value }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
