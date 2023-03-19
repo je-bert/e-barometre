@@ -15,8 +15,7 @@ def update_one(id):
 
   data = request.form
 
-# TODO title should be mandatory right?
-  if not data.get('title'):
+  if not data.get('title') or not data.get('description') or not data.get('order'):
     return "Formulaire invalide.", 400
 
   analysis_subsection = AnalysisSubsection.query\
@@ -26,9 +25,8 @@ def update_one(id):
   if not analysis_subsection:
     return "La section d'analyse n'existe pas.", 404
 
-# TODO check the required fields 
   analysis_subsection.title = data.get('title')
-  analysis_subsection.description = data.get('description') if data.get('description') else None
+  analysis_subsection.description = data.get('description')
   analysis_subsection.order = data.get('order') #TODO what should be the default value for order?
   analysis_subsection.display_condition = data.get('display_condition') if data.get('display_condition') else None
   analysis_subsection.schema_type = data.get('schema_type') if data.get('schema_type') else None

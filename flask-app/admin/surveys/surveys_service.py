@@ -56,8 +56,6 @@ def update_one(id):
       file.save(filename)
       survey.cover_picture_url = '/' + filename
   
-  #TODO: Can we remove cover picture?
-
   survey.name = data.get('name')
   survey.description = data.get('description')
   survey.color = data.get('color')

@@ -49,7 +49,7 @@ def update_one(id):
 
   data = request.form
 
-  if not data.get('title') or not data.get('order'):
+  if not data.get('title') or not data.get('description') or not data.get('order'):
     return "Formulaire invalide.", 400
 
   analysis_section = AnalysisSection.query\
@@ -60,7 +60,7 @@ def update_one(id):
     return "La section d'analyse n'existe pas.", 404
 
   analysis_section.title = data.get('title')
-  analysis_section.description = data.get('description') if data.get('description') else None
+  analysis_section.description = data.get('description')
   analysis_section.order = data.get('order')
   db.session.commit()
   
