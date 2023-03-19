@@ -4,13 +4,13 @@
     {% for element in elements %}
     <div
       class="w-full px-[{{ (1 - (element.value/elements[0].value)) * 15 }}rem] lg:px-[{{ (1 - (element.value/elements[0].value)) * 25 }}rem] xl:px-[{{ (1 - (element.value/elements[0].value)) * 40 }}rem] text-center my-1">
-      <p data-tooltip-target="tooltip-default"
+      <p data-tooltip-target="tooltip-{{loop.index0}}"
         class="text-white font-extrabold bg-red-{{ 900 - (loop.index0 * 100)}} py-6 px-16 flex items-center justify-center rounded">
         {{
         element.title }}
       </p>
 
-      <div id="tooltip-default" role="tooltip"
+      <div id="tooltip-{{loop.index0}}" role="tooltip"
         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
         {{ element.value }}
         <div class="tooltip-arrow" data-popper-arrow></div>
