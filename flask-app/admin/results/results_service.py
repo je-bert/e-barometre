@@ -71,15 +71,13 @@ def delete_one(file_name):
   return "Le fichier n'existe pas", 400
 
 def generate_content(type, excel):
-   #TODO: Validate excel data
-  if type == "barometers":
+  if type == "coparenting-dynamics":
     cl = excel.evaluate("'TEST_pour PROTOTYPE'!D425") / excel.evaluate("'TEST_pour PROTOTYPE'!G425")
     css = excel.evaluate("'TEST_pour PROTOTYPE'!D426") / excel.evaluate("'TEST_pour PROTOTYPE'!G426")
     ap = excel.evaluate("'TEST_pour PROTOTYPE'!D427") / excel.evaluate("'TEST_pour PROTOTYPE'!G427")
     flag = excel.evaluate("'TEST_pour PROTOTYPE'!I428")
-    return render_template('charts/barometer.html', cl = cl, css = css, ap = ap, flag = flag)
-  
-  elif type == "packed_bubbles":
+    return render_template('charts/barometers.html', cl = cl, css = css, ap = ap, flag = flag)
+  elif type == "harmful-behaviors-bubbles":
     series = []
     series.append({
           "name": 'Parent répondant',
@@ -96,7 +94,66 @@ def generate_content(type, excel):
           "draggable": False,
           "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 497)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 497))} for i in range(5)]
     })
-    return render_template('charts/packed-bubbles.html', id = 1, series = series)
+    return render_template('charts/packed-bubbles.html', id = type, series = series)
+  elif type == "alienating-behaviors-bubbles":
+    series = []
+    series.append({
+          "name": "Nature des comportements aliénants des parents",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(i + 660)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 660))} for i in range(3)]
+    })
+    series.append({
+          "name": "Nature de la réaction de l'enfant",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(i + 667)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 667))} for i in range(3)]
+    })
+    return render_template('charts/packed-bubbles.html', id = type, series = series) 
+  elif type == "child-response-bubbles":
+    series = []
+    series.append({
+          "name": "Alliance",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 579)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 579))} for i in range(2)]
+    })
+    series.append({
+          "name": "Altération/dévoiement de la réalité",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 582)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 582))} for i in range(2)]
+    })
+    series.append({
+          "name": "Chantage affectif, loyauté, manipulation",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 585)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 585))} for i in range(2)]
+    })
+    series.append({
+          "name": "Dénigrement",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 588)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 588))} for i in range(2)]
+    })
+    series.append({
+          "name": "Interférence temps et/ou communication",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 591)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 591))} for i in range(3)]
+    })
+    series.append({
+          "name": "Interférence lien affectif ou symbolique",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 595)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 595))} for i in range(2)]
+    })
+    series.append({
+          "name": "Parentification",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 598)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 598))} for i in range(2)]
+    })
+    series.append({
+          "name": "Rôle actif, Réponse au CC, r",
+          "draggable": False,
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 601)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 601))} for i in range(3)]
+    })
+    return render_template('charts/packed-bubbles.html', id = type, series = series)
+  elif type == "child-behaviors-index":
+    value = excel.evaluate("'TEST_pour PROTOTYPE'!C646") / excel.evaluate("'TEST_pour PROTOTYPE'!I646")
+    return render_template('charts/barometer.html', id = type, value = value, title = "Sévérité")
   elif type == "funnel":
      data = []
      for i in range(36):
