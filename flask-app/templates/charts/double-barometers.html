@@ -1,19 +1,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.min.js"></script>
 
 
-<div class="flex flex-col justify-center items-center w-full">
-    <div id="{{id}}" data-tooltip-target="tooltip-{{id}}"></div>
-    <div id="tooltip-{{id}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-      {{title}} ({{ ((value * 100|round(2))|string).split('.')[0] }}%)
+
+<div class="flex flex-col sm:flex-row sm:space-y-0 sm:justify-center sm:space-x-4 w-full">
+  <div class="flex flex-col items-center">
+    <div id="{{id}}-1" data-tooltip-target="tooltip-{{id}}-1"></div>
+    <h2 class="text-xl flex grow font-semibold text-center items-end text-gray-900 dark:text-white mb-4">{{big.title}}</h2>
+    <div id="tooltip-{{id}}-1" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+      {{big.tooltip}} ({{ ((big.value * 100|round(2))|string).split('.')[0] }}%)
       <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
+  </div>
+  <div class="flex flex-col items-center">
+    <div id="{{id}}-2" data-tooltip-target="tooltip-{{id}}-2" class="sm:flex sm:h-[88px] sm:items-end"></div>
+    <h2 class="text-xl flex grow font-semibold text-center items-end text-gray-900 dark:text-white mb-4">{{small.title}}</h2>
+    <div id="tooltip-{{id}}-2" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+      {{small.tooltip}} ({{ ((small.value * 100|round(2))|string).split('.')[0] }}%)
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+  </div>
 </div>
 
 
 <script>
-  
-
-  function generateGauge(id, value, title) {
+  function generateGauge(id, value, size = 1) {
     const percentToDegree = p => p * 360;
     const degreeToRadian = d => d * Math.PI / 180;
     const percentToRadian = p => degreeToRadian(percentToDegree(p));
@@ -132,8 +142,7 @@
           .append("path")
           .attr("d", arc)
           .attr("fill", "url(#c-chart-gauge__gradient)")
-          .attr("transform", `translate(${this.outerRadius},${this.outerRadius})`)
-
+          .attr("transform", `translate(${this.outerRadius},${this.outerRadius})`);
           
         this.needle.render();
       }
@@ -146,14 +155,14 @@
         .attr('class', 'c-chart-gauge');
     const gaugeChart = new GaugeChart({
       svg: svg,
-      outerRadius: 80,
-      innerRadius: 60
+      outerRadius: 80 * size,
+      innerRadius: 60 * size
     });
 
     
     gaugeChart.render();
-    $(`<h2 class="text-xl flex grow font-semibold text-center items-center text-gray-900 dark:text-white mb-4">${title}</h2>`).insertAfter("#" + id);
     gaugeChart.animateTo(value);
   }
-  generateGauge("{{ id }}", {{ value }}, "{{title}}");
+  generateGauge("{{ id }}-1", {{ big.value }});
+  generateGauge("{{ id }}-2", {{ small.value }}, 0.5);
 </script>

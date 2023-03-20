@@ -3,20 +3,35 @@
 
 <div class="flex flex-col sm:flex-row sm:space-y-0 sm:justify-evenly w-full">
   <div class="flex flex-col items-center sm:w-[33%]">
-    <div id="gauge1"></div>
+    <div id="gauge-css" data-tooltip-target="tooltip-gauge-css"></div>
+    <h2 class="text-xl flex grow font-semibold text-center items-center text-gray-900 dark:text-white mb-4">CSS</h2>
+    <div id="tooltip-gauge-css" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+      Conflit sévère de séparation ({{ ((css * 100|round(2))|string).split('.')[0] }}%)
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
   </div>
   <div class="flex flex-col items-center sm:w-[33%]">
-    <div id="gauge2"></div>
+    <div id="gauge-cl" data-tooltip-target="tooltip-gauge-cl"></div>
+    <h2 class="text-xl flex grow font-semibold text-center items-center text-gray-900 dark:text-white mb-4">CL</h2>
+    <div id="tooltip-gauge-cl" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+      Conflit de loyauté ({{ ((cl * 100|round(2))|string).split('.')[0] }}%)
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
   </div>
   <div class="flex flex-col items-center sm:w-[33%]">
-    <div id="gauge3"></div>
+   <div id="gauge-ap" data-tooltip-target="tooltip-gauge-ap"></div>
+    <h2 class="text-xl flex grow font-semibold text-center items-center text-gray-900 dark:text-white mb-4">AP</h2>
+    <div id="tooltip-gauge-ap" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+      Aliénation parentale ({{ ((ap * 100|round(2))|string).split('.')[0] }}%)
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
   </div>
 </div>
 {{ "<p class='w-full text-center'>{}</p>".format(flag) | safe if flag }}
 
 
 <script>
-  function generateGauge(id, value, title) {
+  function generateGauge(id, value) {
       const percentToDegree = p => p * 360;
       const degreeToRadian = d => d * Math.PI / 180;
       const percentToRadian = p => degreeToRadian(percentToDegree(p));
@@ -155,10 +170,9 @@
 
     
     gaugeChart.render();
-    $(`<h2 class="text-xl flex grow font-semibold text-center items-center text-gray-900 dark:text-white mb-4">${title}</h2>`).insertAfter("#" + id);
     gaugeChart.animateTo(value);
   }
-  generateGauge("gauge1", {{ css }}, "Conflit sévère de séparation");
-  generateGauge("gauge2", {{ cl }}, "Conflit de loyauté");
-  generateGauge("gauge3", {{ ap }}, "Aliénation parentale");
+  generateGauge("gauge-css", {{ css }});
+  generateGauge("gauge-cl", {{ cl }});
+  generateGauge("gauge-ap", {{ ap }});
 </script>

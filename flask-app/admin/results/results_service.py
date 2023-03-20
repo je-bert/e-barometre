@@ -77,6 +77,10 @@ def generate_content(type, excel):
     ap = excel.evaluate("'TEST_pour PROTOTYPE'!D427") / excel.evaluate("'TEST_pour PROTOTYPE'!G427")
     flag = excel.evaluate("'TEST_pour PROTOTYPE'!I428")
     return render_template('charts/barometers.html', cl = cl, css = css, ap = ap, flag = flag)
+  elif type == "child-faced-behaviors-index":
+    big_value = excel.evaluate("'TEST_pour PROTOTYPE'!C453") / excel.evaluate("'TEST_pour PROTOTYPE'!I453")
+    small_value = excel.evaluate("'TEST_pour PROTOTYPE'!C454") / excel.evaluate("'TEST_pour PROTOTYPE'!I454")
+    return render_template('charts/double-barometers.html', id = type, big = {"title": "PA", "tooltip": "Indice de sévérité chez les parents", "value": big_value}, small = {"title": "NC", "tooltip": "Indice de contribution chez le nouveau|nouvelle conjoint·e", "value": small_value}) 
   elif type == "harmful-behaviors-bubbles":
     series = []
     series.append({
@@ -154,7 +158,7 @@ def generate_content(type, excel):
   elif type == "child-behaviors-index":
     value = excel.evaluate("'TEST_pour PROTOTYPE'!C646") / excel.evaluate("'TEST_pour PROTOTYPE'!I646")
     return render_template('charts/barometer.html', id = type, value = value, title = "Sévérité")
-  elif type == "funnel":
+  elif type == "child-response-to-alienating-behaviors":
      data = []
      for i in range(36):
        value = excel.evaluate("'TEST_pour PROTOTYPE'!Y{}".format(i + 608))
