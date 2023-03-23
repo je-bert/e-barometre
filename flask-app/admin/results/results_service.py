@@ -167,5 +167,111 @@ def generate_content(type, excel):
           data.append({"title": title, "value": value})
      data = sorted(data, key=lambda d: d['value'], reverse=True)
      return render_template('charts/funnel_v2.html', elements = data)
+  elif type == "coparenting-convergence-divergence":
+     return "TODO: Kui (render_template)"
   else:
-    return type
+    # TODO: Create remaining subsections
+    return create_linear_gauge("Insomnie", ['Jamais ', 'Rarement ',
+            'Occasion. ', 'Régul. ',
+            'Souvent ', 'Tjrs '], 3)
+  
+
+import plotly.offline as pyo
+import plotly.graph_objs as go
+
+def create_linear_gauge(title, labels, value, difference=0):
+  chart_width = 200
+
+  # Put all elements of the layout together
+  layout = {
+      'shapes': [{
+          'type': 'rect',
+          'x0': 0.02,
+          'x1': 0.98,
+          'y0': 0,
+          'y1': len(labels) - 1,
+          'xref': 'x1',
+          'yref': 'y1'
+      }],
+      'xaxis1': {
+          'domain': [0, 1],
+          'range': [0, 1],
+          'showgrid': False,
+          'showline': False,
+          'zeroline': False,
+          'showticklabels': False
+      },
+      'yaxis1': {
+          'anchor': 'x1',
+          'range': [-.5, len(labels) - 1 + 0.5],
+          'showgrid': False,
+          'showline': False,
+          'zeroline': False,
+          'ticks': 'inside',
+          'ticklen': chart_width / 5,
+          'ticktext': labels,
+          'tickvals': [i for i in range(0, len(labels))],
+          'title': {
+              'text': title,
+              'standoff': chart_width / 2,
+              'font': {'size': 20, 'color': '#000'}
+          }
+      },
+      'autosize': False,
+      'width': chart_width,
+      'height': 600,
+      'paper_bgcolor': 'rgba(0,0,0,0)',
+      'plot_bgcolor': 'rgba(0,0,0,0)'
+  }
+
+  traces = []
+
+  if difference < 0:
+      color = 'green'
+      orientation = 'down'
+  elif difference == 0:
+      color = "#29ABD6"
+  else:
+      color = 'red'
+      orientation = 'up'
+
+  traces.append(go.Scatter(
+      x=[0.5],
+      y=[value],
+      xaxis='x1',
+      yaxis='y1',
+      mode='markers',
+      marker={'size': 16, 'color': color},
+      text="4.5",
+      hoverinfo='text',
+      showlegend=False
+  ))
+
+  if difference != 0:
+      traces.append(go.Scatter(
+          x=[0.5],
+          y=[value + difference],
+          xaxis='x1',
+          yaxis='y1',
+          mode='markers',
+          marker={'size': 16, 'color': color, 'symbol': 'triangle-' + orientation},
+          text="4.5",
+          hoverinfo='text',
+          showlegend=False
+      ))
+
+      # Draw a line connecting the value marker and the difference arrow
+      traces.append(
+          go.Scatter(
+              x=[0.5, 0.5],
+              y=[value + difference, value],
+              xaxis='x1',
+              yaxis='y1',
+              mode='lines',
+              line={'color': color, 'width': 2},
+              showlegend=False
+          )
+      )
+
+  fig = go.Figure(data=traces, layout=layout)
+  return "<div class='w-full flex justify-center overflow-auto'>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
