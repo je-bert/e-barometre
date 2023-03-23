@@ -191,6 +191,28 @@ def generate_content(type, excel):
         "answers":[7,7,2,7,0,1,7,7,0,2,10,2],
       }
     })
+  elif type == "coparenting-context":
+    labels = ['Absent ', 'Faible ','Modéré ', 'Élevé ']
+    value = excel.evaluate("'TEST_pour PROTOTYPE'!C462")
+    for i in range(len(labels)):
+      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 465))
+      if (value < min): break
+      max = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 465))
+      if (value > max): continue
+      return create_linear_gauge("Risque de conflit du contexte de coparentalité", labels, i + (value - min) / (max - min))
+    return "TODO"
+  elif type == "parental-exclusion-index":
+    labels = ['Aucune ', 'Faible ','Possible ', 'Probable ']
+    value = excel.evaluate("'TEST_pour PROTOTYPE'!C512")
+    for i in range(len(labels)):
+      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 514))
+      if (value < min): break
+      max = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 514))
+      if (value > max): continue
+      return create_linear_gauge("Indice d'exclusion parentale", labels, i + (value - min) / (max - min))
+    return "TODO"
+    
+     
   else:
     # TODO: Create remaining subsections
     return create_linear_gauge("Insomnie", ['Jamais ', 'Rarement ',
@@ -211,7 +233,7 @@ def create_linear_gauge(title, labels, value, difference=0):
           'x0': 0.02,
           'x1': 0.98,
           'y0': 0,
-          'y1': len(labels) - 1,
+          'y1': len(labels),
           'xref': 'x1',
           'yref': 'y1'
       }],
@@ -225,19 +247,18 @@ def create_linear_gauge(title, labels, value, difference=0):
       },
       'yaxis1': {
           'anchor': 'x1',
-          'range': [-.5, len(labels) - 1 + 0.5],
+          'range': [-.5, len(labels) + 0.5],
           'showgrid': False,
           'showline': False,
           'zeroline': False,
-          'ticks': 'inside',
-          'ticklen': chart_width / 5,
+          'ticks': '',
           'ticktext': labels,
-          'tickvals': [i for i in range(0, len(labels))],
+          'tickvals': [i + 0.5 for i in range(0, len(labels))],
           'title': {
               'text': title,
               'standoff': chart_width / 2,
               'font': {'size': 20, 'color': '#000'}
-          }
+          },
       },
       'autosize': False,
       'width': chart_width,
@@ -264,7 +285,7 @@ def create_linear_gauge(title, labels, value, difference=0):
       yaxis='y1',
       mode='markers',
       marker={'size': 16, 'color': color},
-      text="4.5",
+      text=value,
       hoverinfo='text',
       showlegend=False
   ))
@@ -294,6 +315,20 @@ def create_linear_gauge(title, labels, value, difference=0):
               showlegend=False
           )
       )
+
+  # Draw ticks
+  for i in range(len(labels) - 1):
+    traces.append(
+        go.Scatter(
+            x=[0, 1],
+            y=[i + 1, i + 1],
+            xaxis='x1',
+            yaxis='y1',
+            mode='lines',
+            line={'color': "rgb(42, 63, 95, 1)", 'width': 2},
+            showlegend=False
+        )
+    )
 
   fig = go.Figure(data=traces, layout=layout)
   return "<div class='w-full flex justify-center overflow-auto'>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
