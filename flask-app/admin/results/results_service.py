@@ -168,7 +168,29 @@ def generate_content(type, excel):
      data = sorted(data, key=lambda d: d['value'], reverse=True)
      return render_template('charts/funnel_v2.html', elements = data)
   elif type == "coparenting-convergence-divergence":
-     return "TODO: Kui (render_template)"
+     return render_template('charts/barstack.html', elements = {
+      "id":type,
+      "categories":["Maturité de l'enfant face à ses choix",
+                    "L'enfant coome messager de la logisique",
+                    "Fait lire les communications à l'enfant",
+                    "Impose sa présence hors de son temps de garde",
+                    "Liberté du choix de l'enfant",
+                    "Prise de décision sans consentement",
+                    "Reproche et dénigrement de l'autre devant l'enfant",
+                    "Réaction en présence de l'autre parent",
+                    "Transport d'objet entre les deux domiciles",
+                    "Valeur du co-parent est en compétition",
+                    "Exigence de coparentalité",
+                    "Interogatoires au retour de garde"],
+      "partyA":{
+        "name":"Parent répondant",
+        "answers":[4,1,4,1,4,2,2,0,7,4,10,1],
+      },
+      "partyB":{
+        "name":"Coparent",
+        "answers":[7,7,2,7,0,1,7,7,0,2,10,2],
+      }
+    })
   else:
     # TODO: Create remaining subsections
     return create_linear_gauge("Insomnie", ['Jamais ', 'Rarement ',

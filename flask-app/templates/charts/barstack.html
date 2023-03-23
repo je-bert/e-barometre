@@ -1,0 +1,133 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container"></div>
+</figure>
+
+<script type="text/javascript">
+    // Age categories
+    var categories = {{ elements.categories| tojson }};
+
+    Highcharts.chart('container', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+        text: null,
+        },
+        exporting: {
+        enabled: false,
+        },
+        credits: {
+        enabled: false
+        },
+        xAxis: [{
+            categories: categories,
+            reversed: false,
+            labels: {
+                step: 1
+            },
+            accessibility: {
+                description: `Échelle ${ {{elements.partyA.name | tojson}} }`
+            }
+        }, { // mirror axis on right side
+            opposite: true,
+            reversed: false,
+            categories: categories,
+            linkedTo: 0,
+            labels: {
+                step: 1
+            },
+            accessibility: {
+                description: `Échelle ${ {{elements.partyB.name | tojson}} }`
+            }
+        }],
+        yAxis: {
+            title: {
+                text: null
+            },
+            labels: {
+                formatter: function () {
+                    return Math.abs(this.value);
+                }
+            },
+            accessibility: {
+                description: 'Opinion comportement',
+                rangeDescription: 'Range: 0 to 10'
+            }
+        },
+
+        plotOptions: {
+            series: {
+                stacking: 'normal'
+            }
+        },
+
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + ', ' + this.point.category + '</b><br/>' +
+                    'Valeur: ' + Highcharts.numberFormat(Math.abs(this.point.y), 1);
+            }
+        },
+
+        series: [{
+            name: {{elements.partyA.name | tojson}},
+            data:{{elements.partyA.answers | tojson}}.map((value)=> -value)
+        }, {
+            name: {{elements.partyA.name | tojson}},
+            data:{{elements.partyB.answers | tojson}}
+        }]
+    });
+</script>
+
+
+<style>
+    #container-{{elements.id}} {
+        height: 400px;
+    }
+
+    .highcharts-figure-{{elements.id}},
+    .highcharts-data-table-{{elements.id}} table {
+        width: max-content;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table-{{elements.id}} table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #ebebeb;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table-{{elements.id}} caption-{{elements.id}} {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table-{{elements.id}} th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table-{{elements.id}} td,
+    .highcharts-data-table-{{elements.id}} th,
+    .highcharts-data-table-{{elements.id}} caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table-{{elements.id}} thead tr,
+    .highcharts-data-table-{{elements.id}} tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table-{{elements.id}} tr:hover {
+        background: #f1f7ff;
+    }
+</style>
