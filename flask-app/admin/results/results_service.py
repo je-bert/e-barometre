@@ -195,36 +195,74 @@ def generate_content(type, excel):
     labels = ['Absent ', 'Faible ','Modéré ', 'Élevé ']
     value = excel.evaluate("'TEST_pour PROTOTYPE'!C462")
     for i in range(len(labels)):
-      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 465))
-      if (value < min): break
       max = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 465))
       if (value > max): continue
-      return create_linear_gauge("Risque de conflit du contexte de coparentalité", labels, i + (value - min) / (max - min))
+      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 465))
+      return "<div class='flex w-full overflow-x-auto'>" + create_linear_gauge("Risque de conflit du contexte de coparentalité", labels, i + (value - min) / (max - min), center_labels=True) + "</div>"
     return "TODO"
   elif type == "parental-exclusion-index":
     labels = ['Aucune ', 'Faible ','Possible ', 'Probable ']
     value = excel.evaluate("'TEST_pour PROTOTYPE'!C512")
     for i in range(len(labels)):
-      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 514))
-      if (value < min): break
       max = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 514))
       if (value > max): continue
-      return create_linear_gauge("Indice d'exclusion parentale", labels, i + (value - min) / (max - min))
+      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 514))
+      return "<div class='flex w-full overflow-x-auto'>" + create_linear_gauge("Indice d'exclusion parentale", labels, i + (value - min) / (max - min), center_labels=True) + "</div>"
     return "TODO"
-    
-     
+  elif type == "child-symptoms":
+    labels = ['Jamais ', 'Rarement ','Occasion. ', 'Régul. ', 'Souvent ', 'Tjrs ']
+    titles = ["Insomnie", "Anxiété", "Isolement et difficulté à socialiser", "Trouble de l'opposition", "Trouble alimentaire"]
+    scale = [0, 1, 2, 4, 7, 10]
+    values = []
+    for i in range(len(titles)):
+      value = {"value": excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(531 + i)), "to": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(531 + i)) * -1}
+      value['to'] = get_value_from_scale(value['value'] + value['to'], scale)
+      value['value'] = get_value_from_scale(value['value'], scale)
+      values.append(value)
+    return "<div class='flex w-full overflow-x-auto'>" + "".join([create_linear_gauge(titles[i], labels, values[i]['value'], values[i]['to'], down_color='green') for i in range(len(titles))]) + "</div>"
+  elif type == "attitudes-during-custody-transfers":
+    labels = ['Calme ', 'Neutre ','Enjoué ', 'Taciturne ', 'Anxieux ', 'Agressif ']
+    first_value = 0
+    second_value = 0
+    for i in range(6):
+      if excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(547 + i)) == 1:
+        first_value = 5 - i
+      if excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(547 + i)) == 1:
+        second_value = 5 - i
+    excel.evaluate("'TEST_pour PROTOTYPE'!C512")
+    first = create_linear_gauge("Au départ", labels, first_value)
+    second = create_linear_gauge("Au retour", labels, second_value)
+    return "<div class='flex w-full overflow-x-auto'>{}{}</div>".format(first, second)
+  elif type == "family-relationship-changes":
+    titles = ['Relation parent-parent', "Relation enfant et le coparent", "Relation entre l'enfant et le parent répondant", "Relation entre l'enfant et la famille élargie du parent répondant"]
+    labels = ['Mauvaise ', 'Faible ', 'Moyenne ', 'Bonne ', 'Très bonne ', 'Excellente ']
+    scale = [0, 1, 2, 4, 7, 10]
+    values = []
+    for i in range(len(titles)):
+      value = {"value": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(560 + i)), "to": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(560 + i))}
+      value['to'] = get_value_from_scale(value['value'] + value['to'], scale)
+      value['value'] = get_value_from_scale(value['value'], scale)
+      values.append(value)
+    return "<div class='flex w-full overflow-x-auto'>" + "".join([create_linear_gauge(titles[i], labels, values[i]['value'], values[i]['to']) for i in range(len(titles))]) + "</div>"
   else:
-    # TODO: Create remaining subsections
-    return create_linear_gauge("Insomnie", ['Jamais ', 'Rarement ',
-            'Occasion. ', 'Régul. ',
-            'Souvent ', 'Tjrs '], 3)
+     return type
   
 
 import plotly.offline as pyo
 import plotly.graph_objs as go
 
-def create_linear_gauge(title, labels, value, difference=0):
-  chart_width = 200
+def get_value_from_scale(value, scale):
+  i = 1
+  while (value > scale[i]): i += 1
+  return (i - 1) + (value - scale[i - 1]) / (scale[i] - scale[i - 1])
+
+
+def create_linear_gauge(title, labels, value, to = -1, down_color = 'red', center_labels = False, chart_width = 200, chart_height = 600):
+
+  # Range safety
+  value = min(max(value, 0), len(labels) - 1)
+  if to != -1:
+     to = min(max(to, 0), len(labels) - 1)
 
   # Put all elements of the layout together
   layout = {
@@ -233,7 +271,7 @@ def create_linear_gauge(title, labels, value, difference=0):
           'x0': 0.02,
           'x1': 0.98,
           'y0': 0,
-          'y1': len(labels),
+          'y1': len(labels) + (0 if center_labels else -1),
           'xref': 'x1',
           'yref': 'y1'
       }],
@@ -247,37 +285,34 @@ def create_linear_gauge(title, labels, value, difference=0):
       },
       'yaxis1': {
           'anchor': 'x1',
-          'range': [-.5, len(labels) + 0.5],
+          'range': [-0.5, len(labels) + (0 if center_labels else -1) + 0.5],
           'showgrid': False,
           'showline': False,
           'zeroline': False,
           'ticks': '',
           'ticktext': labels,
-          'tickvals': [i + 0.5 for i in range(0, len(labels))],
-          'title': {
-              'text': title,
-              'standoff': chart_width / 2,
-              'font': {'size': 20, 'color': '#000'}
-          },
+          'tickvals': [i + (0.5 if center_labels else 0) for i in range(0, len(labels))],
       },
       'autosize': False,
       'width': chart_width,
-      'height': 600,
+      'height': chart_height,
+      'margin': {'t': 0, 'b': 0},
       'paper_bgcolor': 'rgba(0,0,0,0)',
       'plot_bgcolor': 'rgba(0,0,0,0)'
   }
 
+  if to == value or to == -1:
+    color = "#29ABD6"
+  elif to < value:
+    color = down_color
+    orientation = 'down'
+  else:
+    color = 'green' if down_color == 'red' else 'red'
+    orientation = 'up'
+
   traces = []
 
-  if difference < 0:
-      color = 'green'
-      orientation = 'down'
-  elif difference == 0:
-      color = "#29ABD6"
-  else:
-      color = 'red'
-      orientation = 'up'
-
+  # Draw the marker 'from'
   traces.append(go.Scatter(
       x=[0.5],
       y=[value],
@@ -290,28 +325,29 @@ def create_linear_gauge(title, labels, value, difference=0):
       showlegend=False
   ))
 
-  if difference != 0:
+  if to != -1 and to != value:
+      #Draw the marker 'to'
       traces.append(go.Scatter(
           x=[0.5],
-          y=[value + difference],
+          y=[to],
           xaxis='x1',
           yaxis='y1',
           mode='markers',
           marker={'size': 16, 'color': color, 'symbol': 'triangle-' + orientation},
-          text="4.5",
+          text=to,
           hoverinfo='text',
           showlegend=False
       ))
 
-      # Draw a line connecting the value marker and the difference arrow
+      # Draw a line connecting the markers
       traces.append(
           go.Scatter(
               x=[0.5, 0.5],
-              y=[value + difference, value],
+              y=[value, to],
               xaxis='x1',
               yaxis='y1',
               mode='lines',
-              line={'color': color, 'width': 2},
+              line={'color': color, 'width': 4},
               showlegend=False
           )
       )
@@ -331,4 +367,4 @@ def create_linear_gauge(title, labels, value, difference=0):
     )
 
   fig = go.Figure(data=traces, layout=layout)
-  return "<div class='w-full flex justify-center overflow-auto'>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
+  return "<div class='w-full flex flex-col justify-center items-center'><h3 class='font-bold text-center flex items-center grow -mb-8'>" + title + "</h3>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
