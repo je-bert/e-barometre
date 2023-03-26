@@ -1,73 +1,45 @@
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+{% set colors=[
+( '#FFC107', '#FFA000' ),
+( '#2196F3', '#1976D2' ),
+( '#E91E63', '#C2185B' ),
+( '#8BC34A', '#689F38' ),
+( '#9C27B0', '#7B1FA2' ),
+( '#03A9F4', '#0277BD' ),
+( '#FF5722', '#E64A19' ),
+( '#00BCD4', '#00838F' ) ]
+-%}
 
 <div class="relative">
-  <div id="funnel"></div>
+    <div class="flex flex-col items-center pb-5">
+        {% for element in elements %}
+        <div class="-mb-7 relative flex justify-center w-full px-[{{ (1 - (element.value/elements[0].value)) * 10 }}rem] lg:px-[{{ (1 - (element.value/elements[0].value)) * 25 }}rem] xl:px-[{{ (1 - (element.value/elements[0].value)) * 40 }}rem] text-center my-1"
+            style="z-index: {{ loop.revindex }};">
+
+            <p data-tooltip-target="tooltip-{{loop.index0}}"
+                class="absolute -bottom-2 w-full text-white font-bold py-6 px-[{{ (1 - (element.value/elements[0].value)) * 10 }}rem] lg:px-[{{ (1 - (element.value/elements[0].value)) * 25 }}rem] xl:px-[{{ (1 - (element.value/elements[0].value)) * 40 }}rem] flex items-center justify-center rounded text-sm md:text-lg">
+                {{ element.title }}
+            </p>
+
+            <svg width="100%" height="6rem" viewBox="0 0 332 43" preserveAspectRatio="none" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="166" cy="33" rx="166" ry="10" fill="{{ colors[loop.index0][0] }}" />
+                <rect y="10" width="332" height="23" fill="{{ colors[loop.index0][0] }}" />
+                <path
+                    d="M331.5 10C331.5 10.0521 331.441 10.2642 330.888 10.5924C330.374 10.897 329.578 11.2143 328.486 11.5357C326.31 12.1763 323.078 12.8002 318.884 13.3974C310.504 14.591 298.365 15.6674 283.35 16.572C253.322 18.3808 211.833 19.5 166 19.5C120.167 19.5 78.6776 18.3808 48.6503 16.572C33.6348 15.6674 21.4955 14.591 13.1156 13.3974C8.92222 12.8002 5.68961 12.1763 3.51373 11.5357C2.42202 11.2143 1.62558 10.897 1.11213 10.5924C0.558827 10.2642 0.5 10.0521 0.5 10C0.5 9.94786 0.558827 9.7358 1.11213 9.40759C1.62558 9.10302 2.42202 8.78569 3.51373 8.4643C5.68961 7.82374 8.92222 7.1998 13.1156 6.60255C21.4955 5.40904 33.6348 4.33258 48.6503 3.42803C78.6776 1.61916 120.167 0.5 166 0.5C211.833 0.5 253.322 1.61916 283.35 3.42803C298.365 4.33258 310.504 5.40904 318.884 6.60255C323.078 7.1998 326.31 7.82374 328.486 8.4643C329.578 8.78569 330.374 9.10302 330.888 9.40759C331.441 9.7358 331.5 9.94786 331.5 10Z"
+                    fill="{{ colors[loop.index0][1] }}" />
+                <path
+                    d="M331.5 10C331.5 10.0521 331.441 10.2642 330.888 10.5924C330.374 10.897 329.578 11.2143 328.486 11.5357C326.31 12.1763 323.078 12.8002 318.884 13.3974C310.504 14.591 298.365 15.6674 283.35 16.572C253.322 18.3808 211.833 19.5 166 19.5C120.167 19.5 78.6776 18.3808 48.6503 16.572C33.6348 15.6674 21.4955 14.591 13.1156 13.3974C8.92222 12.8002 5.68961 12.1763 3.51373 11.5357C2.42202 11.2143 1.62558 10.897 1.11213 10.5924C0.558827 10.2642 0.5 10.0521 0.5 10C0.5 9.94786 0.558827 9.7358 1.11213 9.40759C1.62558 9.10302 2.42202 8.78569 3.51373 8.4643C5.68961 7.82374 8.92222 7.1998 13.1156 6.60255C21.4955 5.40904 33.6348 4.33258 48.6503 3.42803C78.6776 1.61916 120.167 0.5 166 0.5C211.833 0.5 253.322 1.61916 283.35 3.42803C298.365 4.33258 310.504 5.40904 318.884 6.60255C323.078 7.1998 326.31 7.82374 328.486 8.4643C329.578 8.78569 330.374 9.10302 330.888 9.40759C331.441 9.7358 331.5 9.94786 331.5 10Z"
+                    stroke="none" />
+                <path
+                    d="M331.5 10C331.5 10.0521 331.441 10.2642 330.888 10.5924C330.374 10.897 329.578 11.2143 328.486 11.5357C326.31 12.1763 323.078 12.8002 318.884 13.3974C310.504 14.591 298.365 15.6674 283.35 16.572C253.322 18.3808 211.833 19.5 166 19.5C120.167 19.5 78.6776 18.3808 48.6503 16.572C33.6348 15.6674 21.4955 14.591 13.1156 13.3974C8.92222 12.8002 5.68961 12.1763 3.51373 11.5357C2.42202 11.2143 1.62558 10.897 1.11213 10.5924C0.558827 10.2642 0.5 10.0521 0.5 10C0.5 9.94786 0.558827 9.7358 1.11213 9.40759C1.62558 9.10302 2.42202 8.78569 3.51373 8.4643C5.68961 7.82374 8.92222 7.1998 13.1156 6.60255C21.4955 5.40904 33.6348 4.33258 48.6503 3.42803C78.6776 1.61916 120.167 0.5 166 0.5C211.833 0.5 253.322 1.61916 283.35 3.42803C298.365 4.33258 310.504 5.40904 318.884 6.60255C323.078 7.1998 326.31 7.82374 328.486 8.4643C329.578 8.78569 330.374 9.10302 330.888 9.40759C331.441 9.7358 331.5 9.94786 331.5 10Z"
+                    stroke="none" stroke-opacity="0.2" />
+            </svg>
+        </div>
+        <div id="tooltip-{{loop.index0}}" role="tooltip"
+            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            {{ element.value }}
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-
-<script>
-  const id = 'funnel';
-  am5.ready(function() {
-    $("#" + id).addClass("w-full h-[500px]")
-    // Create root element
-    var root = am5.Root.new(id);
-    root._logo.dispose();
-
-    // Set themes
-    root.setThemes([
-      am5themes_Animated.new(root)
-    ]);
-
-    // Create chart
-    var chart = root.container.children.push(am5percent.SlicedChart.new(root, {
-      layout: root.verticalLayout,
-    }));
-
-    // Create series
-    var series = chart.series.push(am5percent.FunnelSeries.new(root, {
-      alignLabels: false,
-      orientation: "vertical",
-      valueField: "value",
-      categoryField: ""
-    }));
-
-    // Set data
-    series.data.setAll([
-      { value: 10 },
-      { value: 9 },
-      { value: 8 },
-      { value: 7 },
-    ]);
-
-    // hide labels
-    series.labels.template.setAll({
-      fontSize: 20,
-      textAlign: "center",
-      fill: am5.color(0xffffff),
-      text: "{category}",
-      oversizedBehavior: "hide",
-      maxWidth: 0
-    });
-
-    // Play initial series animation
-    series.appear();
-
-    // Make stuff animate on load
-    chart.appear(1000, 100);
-    $(` <div class="animate-fade-in absolute flex items-center flex-col top-0 left-0 bottom-0 right-0 py-7 px-11 text-white text-xl text-center">
-      <p class="max-w-[100%] h-[25%] items-center flex">
-        Subit de la pression pour passer plus de temps chez l'autre
-      </p>
-      <p class="max-w-[90%] h-[25%] items-center flex">
-        Est informé du contexte juridique ou autre sujet associé au conflit
-      </p>
-      <p class="max-w-[80%] h-[25%] items-center flex">
-        Déforme les souvenirs
-      </p>
-      <p class="max-w-[70%] h-[25%] items-center flex">
-        Change d'attitude lorsqu'il est en présence des deux parents
-      </p>
-    </div>`).insertAfter("#" + id)
-  }); // end am5.ready()
-</script>

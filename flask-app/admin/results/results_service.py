@@ -166,7 +166,7 @@ def generate_content(type, excel):
           title = excel.evaluate("'TEST_pour PROTOTYPE'!X{}".format(i + 608))
           data.append({"title": title, "value": value})
      data = sorted(data, key=lambda d: d['value'], reverse=True)
-     return render_template('charts/funnel_v3.html', elements = data)
+     return render_template('charts/funnel.html', elements = data)
   elif type == "coparenting-convergence-divergence":
      return render_template('charts/barstack.html', elements = {
       "id":type,
