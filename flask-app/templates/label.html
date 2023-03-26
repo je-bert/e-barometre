@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% set active_page = "labels" %}
 
-{% block title %} {{ labels[0].label_id }} {% endblock %}
+{% block title %} {{ label.label_id }} {% endblock %}
 
 {% block content %}
-  TODO: Kui
+  {{label | tojson }}
+  <br/>
+  <br/>
+  {{label_items | tojson}}
+  <br/>
+  <br/>
+  TODO: Kui, on peut edit un label item en utilisant ce lien: http://localhost:3000/admin/label-items/update/"label_item_id"
 {% endblock %}

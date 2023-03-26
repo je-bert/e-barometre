@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% set active_page = "labels" %}
 
-{% block title %} {{ label.label_id }} {% endblock %}
+{% block title %} {{ label_item.label_id }} {% endblock %}
 
 {% block content %}
-  {{label | tojson}}
+  {{label_item | tojson}}
 {% endblock %}
