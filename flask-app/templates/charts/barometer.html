@@ -1,5 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.min.js"></script>
-
 
 <div class="flex flex-col justify-center items-center w-full">
     <div id="{{id}}" data-tooltip-target="tooltip-{{id}}"></div>
@@ -11,8 +9,6 @@
 
 
 <script>
-  
-
   function generateGauge(id, value, title) {
     const percentToDegree = p => p * 360;
     const degreeToRadian = d => d * Math.PI / 180;
