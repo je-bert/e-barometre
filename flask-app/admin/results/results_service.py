@@ -213,13 +213,21 @@ def generate_content(type, excel):
     labels = ['Jamais ', 'Rarement ','Occasion. ', 'Régul. ', 'Souvent ', 'Tjrs ']
     titles = ["Insomnie", "Anxiété", "Isolement et difficulté à socialiser", "Trouble de l'opposition", "Trouble alimentaire"]
     scale = [0, 1, 2, 4, 7, 10]
+    flags = []
+    for i in range (3):
+      label = excel.evaluate("'TEST_pour PROTOTYPE'!K{}".format(532 + i * 2))
+      label = label[0].upper() + label[1:]
+      flags.append({"label": label, "value": 1 if excel.evaluate("'TEST_pour PROTOTYPE'!L{}".format(532 + i * 2)) == 1 else 0})
     values = []
     for i in range(len(titles)):
       value = {"value": excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(531 + i)), "to": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(531 + i)) * -1}
       value['to'] = get_value_from_scale(value['value'] + value['to'], scale)
       value['value'] = get_value_from_scale(value['value'], scale)
       values.append(value)
-    return "<div class='flex w-full overflow-x-auto'>" + "".join([create_linear_gauge(titles[i], labels, values[i]['value'], values[i]['to'], down_color='green') for i in range(len(titles))]) + "</div>"
+    retval = "<div class='flex w-full flex-col'><div class='flex w-full mb-4 items-center shadow-md bg-blue-100 justify-center py-4 sm:space-x-6 flex-col space-y-4 sm:space-y-0 sm:flex-row'>"
+    for flag in flags:
+      retval += "<div class='flex flex-col text-center'><b>{}</b><p>{}</p></div>".format(flag['label'], "Oui" if flag['value'] == 1 else "Non")
+    return retval + "</div><div class='flex w-full overflow-x-auto'>" + "".join([create_linear_gauge(titles[i], labels, values[i]['value'], values[i]['to'], down_color='green') for i in range(len(titles))]) + "</div></div>"
   elif type == "attitudes-during-custody-transfers":
     labels = ['Calme ', 'Neutre ','Enjoué ', 'Taciturne ', 'Anxieux ', 'Agressif ']
     first_value = 0
@@ -246,6 +254,7 @@ def generate_content(type, excel):
     return "<div class='flex w-full overflow-x-auto'>" + "".join([create_linear_gauge(titles[i], labels, values[i]['value'], values[i]['to']) for i in range(len(titles))]) + "</div>"
   else:
      return type
+
   
 
 import plotly.offline as pyo
