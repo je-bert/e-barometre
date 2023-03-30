@@ -23,7 +23,7 @@
     $( "#mainForm" ).submit(async function( event ) {
       event.preventDefault();
       const formData = new FormData(document.getElementById('mainForm'));
-      const response = await fetch(`/admin/labels/update/{{label.label_id}}`,{ body: formData, method: "post" });
+      const response = await fetch(`/admin/labels/update/{{ label.label_id }}`,{ body: formData, method: "post" });
       if (response.ok) {
         window.location = '/admin/labels';
       }

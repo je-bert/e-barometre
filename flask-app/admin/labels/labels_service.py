@@ -34,7 +34,7 @@ def update_one(id):
 
   data = request.form
 
-  if not data.get('label') or not data.get('value'):
+  if not data.get('title'):
     return make_response("Forumulaire invalide.", 400)
 
   label = Label.query\
@@ -44,7 +44,6 @@ def update_one(id):
   if not label:
     return make_response("L'échelle n'existe pas.", 404)
 
-  label.label = data.get('label')
-  label.value = data.get('value')
+  label.title = data.get('title')
   db.session.commit()
   return jsonify(label)
