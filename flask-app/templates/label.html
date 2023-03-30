@@ -41,7 +41,6 @@
     </thead>
     <tbody class="dark:divide-gray-700 divide-y">
     {% for label_item in label_items %}
-      <tr onclick="window.location='/admin/label-items/update/{{ label_item.label_item_id }}';" class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600">
         <td class="px-5 py-4 hidden sm:table-cell">
           {{ label_item.label_item_id }}
         </td>
