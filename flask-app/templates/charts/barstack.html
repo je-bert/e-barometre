@@ -28,22 +28,32 @@
             categories: categories,
             reversed: false,
             labels: {
-                step: 1
+                step: 1,
+                overflow: "allow"
             },
+
             accessibility: {
                 description: `Échelle ${ {{elements.partyA.name | tojson}} }`
-            }
+            },
+            scrollbar: {
+                enabled: true
+            },
+            
         }, { // mirror axis on right side
             opposite: true,
             reversed: false,
             categories: categories,
             linkedTo: 0,
             labels: {
-                step: 1
+                step: 1,
+                overflow: "allow"
             },
             accessibility: {
                 description: `Échelle ${ {{elements.partyB.name | tojson}} }`
-            }
+            },
+            scrollbar: {
+                enabled: true
+            },
         }],
         yAxis: {
             title: {
@@ -132,4 +142,6 @@
     .highcharts-data-table-{{elements.id}} tr:hover {
         background: #f1f7ff;
     }
+
+    
 </style>
