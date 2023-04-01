@@ -63,7 +63,6 @@ def add_one():
       if Label.query.filter_by(label_id = data.get('label_id')).first():
         return make_response("Le ID pour l'échelle existe déjà", 400)
        
-
       label = Label(title=data.get('title'), label_id=data.get('label_id'))
       db.session.add(label)
       db.session.commit()
