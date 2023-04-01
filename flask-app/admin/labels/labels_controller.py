@@ -18,4 +18,9 @@ def update_one(id):
 @auth
 def find_one(id):
   return labels_service.find_one(id)
+
+@labels_router.route('/add', methods = ['GET','POST'])
+@auth
+def add_one():
+  return labels_service.add_one()
   

@@ -47,3 +47,23 @@ def update_one(id):
   label.title = data.get('title')
   db.session.commit()
   return jsonify(label)
+
+def add_one():
+    
+  if request.method == 'POST':
+      data = request.form
+
+      if not data.get('title'):
+          return make_response("Formulaire invalide.", 400)
+      
+      if Label.query.filter_by(label_id = data.get('label_id')).first():
+        return make_response("Le ID pour l'échelle existe déjà", 400)
+      
+
+      label = Label(title=data.get('title'), label_id=data.get('label_id'))
+      db.session.add(label)
+      db.session.commit()
+
+      return jsonify(label)
+
+  return render_template('add-label.html')
