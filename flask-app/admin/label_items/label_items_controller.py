@@ -8,5 +8,10 @@ label_items_router = Blueprint('label_items_router', __name__)
 @auth
 def update_one(id):
   return label_items_service.update_one(id)
+
+@label_items_router.route('/add/<id>', methods = ['GET', 'POST'])
+@auth
+def add_one(id):
+  return label_items_service.add_one(id)
   
 

@@ -26,6 +26,7 @@ def update_one(id):
   if not label_item:
     return make_response("L'item n'existe pas.", 404)
 
+  # TODO, change label for titre? to keep consistency with the html template? or vice versa
   order = data.get('order')
   label_item.order = int(order) if order and order.isdigit() else None
   value = data.get('value')
@@ -33,3 +34,30 @@ def update_one(id):
   label_item.label = data.get('label')
   db.session.commit()
   return jsonify(label_item)
+
+def add_one(id):
+  label_id = id
+
+  # TODO this will "break" chronological order of label items, but is the easiest to do, instead of having to shift all the ids.
+  label_item_id = LabelItem.query.count() + 1
+  if request.method == 'POST':
+      data = request.form
+
+      if not data.get('value') or not data.get('label') or not data.get('order'):
+        return make_response("Formulaire invalide.", 400)
+
+      label_item = LabelItem()
+      label_item.label_item_id = label_item_id
+      label_item.label_id = label_id
+      order = data.get('order')
+      label_item.order = int(order) if order and order.isdigit() else None
+      value = data.get('value')
+      label_item.value = int(value) if value and value.isdigit() else -1
+      label_item.label = data.get('label')
+
+      db.session.add(label_item)
+      db.session.commit()
+
+      return jsonify(label_item)
+
+  return render_template('add-label-item.html',label_id = label_id, label_item_id = label_item_id)
