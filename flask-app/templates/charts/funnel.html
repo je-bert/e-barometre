@@ -9,6 +9,10 @@
 ( '#00BCD4', '#00838F' ) ]
 -%}
 
+<!-- TODO find better ways of doing it?  -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" /> 
+
+
 <div class="relative">
     <div class="flex flex-col items-center pb-5">
         {% for element in elements %}
@@ -35,11 +39,19 @@
                     stroke="none" stroke-opacity="0.2" />
             </svg>
         </div>
-        <div id="tooltip-{{loop.index0}}" role="tooltip"
-            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-            {{ element.value }}
+        <div id="tooltip-{{loop.index0}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-gray-900 bg-gray-100 border border-[{{colors[loop.index0][0]}}] rounded-none shadow-sm opacity-0 tooltip">
+            <!-- TODO is title important? -->
+            <p class=" text-xs">• {{element.title}}</p>
+            <p class="text-xs font-bold">{{ element.value }}</p>
             <div class="tooltip-arrow" data-popper-arrow></div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+<style>
+    .flow-bite .tooltip .arrow {
+  border: 5px solid black!important;
+}
+
+</style>
