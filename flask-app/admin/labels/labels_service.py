@@ -73,6 +73,9 @@ def delete_one(id):
         .filter_by(label_id = id)\
         .first()
     
+    label_item_count = LabelItem.query.filter_by(label_id = id).count()
+    if label_item_count > 0:
+      return make_response("Il y a des élements dans l'échelle",404)
     if not label:
       return make_response("L'item n'existe pas.", 404)
     
