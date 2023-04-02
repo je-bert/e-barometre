@@ -38,9 +38,12 @@ def update_one(id):
 def add_one(id):
   label_id = id
 
-  # TODO this will "break" chronological order of label items, but is the easiest to do, instead of having to shift all the ids.
-  label_item_id = LabelItem.query.count() + 1
-    #TODO bug above for id, when deleting one, since the the id is based on the count of label items
+  last_label_item = LabelItem.query.order_by(LabelItem.label_item_id.desc()).first()
+  if last_label_item:
+    label_item_id = last_label_item.label_item_id + 1
+  else:
+    label_item_id = 1
+
   if request.method == 'POST':
       data = request.form
 
