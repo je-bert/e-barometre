@@ -6,9 +6,21 @@
 
 {% block content %}
 <div class="relative overflow-x-auto w-full p-5">
-  <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
-    Échelles
-  </h1>
+  <div class="flex justify-between items-center my-6">
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
+      Échelles
+    </h1>
+    <div class="flex justify-center itmes-center h-10 w-10"data-tooltip-target="tooltip-default">
+      <a href="/admin/labels/add" 
+        class="bg-gray-100 h-full w-full rounded-full text-green-600 flex justify-center border-2 border-green-600 items-center hover:bg-green-600 hover:text-white text-2xl">+
+      </a>
+  
+      <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+        Ajouter une échelle
+      <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+    </div>
+  </div>
   <table
     class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800">
     <thead class="text-xs">
@@ -61,10 +73,6 @@
       {% endfor %}
     </tbody>
   </table>
-
-  <div class="flex justify-center m-4">
-    <a href="/admin/labels/add" class="text-white cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 lg:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ajouter une nouvelle échelle</a>
-  </div>
 </div>
 
 
