@@ -57,9 +57,6 @@ def add_one():
       if not data.get('title'):
           return make_response("Formulaire invalide.", 400)
       
-      if not re.match(r'^E\d[A-Z]$', data.get('label_id')):
-        return make_response('Invalid ID format.', 400)
-      
       if Label.query.filter_by(label_id = data.get('label_id')).first():
         return make_response("Le ID pour l'échelle existe déjà", 400)
        
