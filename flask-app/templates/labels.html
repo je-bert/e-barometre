@@ -75,9 +75,11 @@
     window.location = '/admin/labels/update/' + label_id;
   }
 
-  function onDeleteClick(event, label_id) {
+  async function onDeleteClick(event, label_id) {
     event.stopPropagation();
-    window.location = '/admin/labels/delete/' + label_id;
+    const response = await fetch('/admin/labels/delete/' + label_id)
+    if(response.ok)
+      window.location = '/admin/labels/'
   }
 </script>
 {% endblock %}
