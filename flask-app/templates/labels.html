@@ -80,6 +80,7 @@
     const response = await fetch('/admin/labels/delete/' + label_id)
     if(response.ok)
       window.location.reload();
+      //TODO is using reload okay?
   }
 </script>
 {% endblock %}
