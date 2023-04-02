@@ -76,8 +76,7 @@ def delete_one(id):
         .filter_by(label_id = id)\
         .first()
     
+    #TODO should there be verification of deletion?
     db.session.delete(label)
     db.session.commit()
-
-    labels = Label.query.all()
-    return render_template('labels.html', labels = labels)
+    return 'Échelle supprimée'

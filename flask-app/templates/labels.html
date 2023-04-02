@@ -79,7 +79,7 @@
     event.stopPropagation();
     const response = await fetch('/admin/labels/delete/' + label_id)
     if(response.ok)
-      window.location = '/admin/labels/'
+      window.location.reload();
   }
 </script>
 {% endblock %}

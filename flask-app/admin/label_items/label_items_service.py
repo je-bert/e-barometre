@@ -61,3 +61,12 @@ def add_one(id):
       return jsonify(label_item)
 
   return render_template('add-label-item.html',label_id = label_id, label_item_id = label_item_id)
+
+def delete_one(id):
+    label_item = LabelItem.query\
+        .filter_by(label_item_id = id)\
+        .first()
+    
+    db.session.delete(label_item)
+    db.session.commit()
+    return 'Enfant de l\'échelle supprimée'
