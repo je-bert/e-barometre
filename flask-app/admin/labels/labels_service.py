@@ -1,4 +1,4 @@
-from models import Label, LabelItem
+from models import Label, LabelItem,Question
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 import re
@@ -76,6 +76,11 @@ def delete_one(id):
     label_item_count = LabelItem.query.filter_by(label_id = id).count()
     if label_item_count > 0:
       return make_response("Il y a des élements dans l'échelle",404)
+    
+    question_label_count = Question.query.filter_by(label_id = id).count()
+    if question_label_count > 0:
+      return make_response("Il y a des questions liées l'échelle",404)
+    
     if not label:
       return make_response("L'item n'existe pas.", 404)
     
