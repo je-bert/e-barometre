@@ -24,3 +24,7 @@ def find_one(id):
 def add_one():
   return labels_service.add_one()
   
+@labels_router.route('/delete/<id>', methods = ['GET'])
+@auth
+def delete_one(id):
+  return labels_service.delete_one(id)

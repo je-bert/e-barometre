@@ -70,3 +70,14 @@ def add_one():
       return jsonify(label)
 
   return render_template('add-label.html')
+
+def delete_one(id):
+    label = Label.query\
+        .filter_by(label_id = id)\
+        .first()
+    
+    db.session.delete(label)
+    db.session.commit()
+
+    labels = Label.query.all()
+    return render_template('labels.html', labels = labels)
