@@ -76,7 +76,9 @@ def delete_one(id):
         .filter_by(label_id = id)\
         .first()
     
-    #TODO should there be verification of deletion?
+    if not label:
+      return make_response("L'item n'existe pas.", 404)
+    
     db.session.delete(label)
     db.session.commit()
     return 'Échelle supprimée'

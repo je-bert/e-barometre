@@ -67,6 +67,9 @@ def delete_one(id):
         .filter_by(label_item_id = id)\
         .first()
     
+    if not label_item:
+      return make_response("L'item n'existe pas.", 404)
+    
     db.session.delete(label_item)
     db.session.commit()
     return 'Enfant de l\'échelle supprimée'
