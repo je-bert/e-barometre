@@ -40,7 +40,7 @@ def add_one(id):
 
   last_label_item = LabelItem.query.order_by(LabelItem.label_item_id.desc()).first()
   if last_label_item:
-    label_item_id = last_label_item.label_item_id + 1
+    label_item_id = int(last_label_item.label_item_id) + 1
   else:
     label_item_id = 1
 
