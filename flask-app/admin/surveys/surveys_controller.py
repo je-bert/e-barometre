@@ -18,5 +18,10 @@ def update_one(id):
 @auth
 def find_one(id):
   return surveys_service.find_one(id)
+
+@surveys_router.route('/add', methods = ['GET','POST'])
+@auth
+def add_one(id):
+  return surveys_service.add_one(id)
   
 
