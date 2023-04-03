@@ -44,7 +44,7 @@
         window.location = `/admin/labels/{{ label_id }}`;
       }
       else
-        alert('unexpected error occuered');
+        alert(await response.text());
     });
   </script>
 {% endblock %}
