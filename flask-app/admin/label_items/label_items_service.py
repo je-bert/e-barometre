@@ -1,4 +1,4 @@
-from models import LabelItem
+from models import LabelItem,Label,Answer,Question
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 
@@ -40,7 +40,7 @@ def add_one(id):
 
   last_label_item = LabelItem.query.order_by(LabelItem.label_item_id.desc()).first()
   if last_label_item:
-    label_item_id = int(last_label_item.label_item_id) + 1
+    label_item_id = last_label_item.label_item_id
   else:
     label_item_id = 1
 
@@ -73,7 +73,7 @@ def delete_one(id):
     
     if not label_item:
       return make_response("L'item n'existe pas.", 404)
-    
+  
     db.session.delete(label_item)
     db.session.commit()
-    return 'Enfant de l\'échelle supprimée'
+    return jsonify(label_item)

@@ -28,9 +28,10 @@
       event.preventDefault();
       const formData = new FormData(document.getElementById('mainForm'));
       const response = await fetch(`/admin/labels/add`,{ body: formData, method: "post" });
-      if (response.ok) {
+      if (response.ok) 
         window.location = '/admin/labels';
-      }
+      else
+        alert('unexpected error')
     });
   </script>
 {% endblock %}
