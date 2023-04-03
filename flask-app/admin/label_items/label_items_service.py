@@ -38,9 +38,9 @@ def update_one(id):
 def add_one(id):
   label_id = id
 
-  last_label_item = LabelItem.query.order_by(LabelItem.label_item_id.desc()).first()
+  last_label_item = LabelItem.query.order_by(LabelItem.label_id.desc(),LabelItem.label_item_id.desc()).first()
   if last_label_item:
-    label_item_id = last_label_item.label_item_id
+    label_item_id = int(last_label_item.label_item_id) + 1
   else:
     label_item_id = 1
 
@@ -51,7 +51,7 @@ def add_one(id):
         return make_response("Formulaire invalide.", 400)
 
       label_item = LabelItem()
-      label_item.label_item_id = label_item_id
+      label_item.label_item_id = str(label_item_id)
       label_item.label_id = label_id
       order = data.get('order')
       label_item.order = int(order) if order and order.isdigit() else None
