@@ -33,9 +33,10 @@
       const response = await fetch(`/admin/labels/add`,{ body: formData, method: "post" });
       if (response.ok) 
         window.location = '/admin/labels';
-      else
+      else{
         error = await response.text();
         $("#error").html(error).show();
+      }
     });
   </script>
 {% endblock %}
