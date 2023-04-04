@@ -85,7 +85,7 @@
     $( "#mainForm" ).submit(async function( event ) {
       event.preventDefault();
       const formData = new FormData(document.getElementById('mainForm'));
-      const response = await fetch(`/admin/surveys/add/`,{ body: formData,method: "post" });
+      const response = await fetch(`/admin/surveys/add`,{ body: formData,method: "post" });
       if (response.ok) {
         window.location = '/admin/surveys';
       }
