@@ -70,6 +70,9 @@ def add_one(id):
 
       # if not regex.match(question.question_id):
       #   make_response("Formulaire invalide.", 400)
+
+      if Question.query.filter_by(question_id = id).first():
+        return make_response("Une question existe déja avec le ID", 400)
       question.survey_id = survey_id
       question.intro = data.get('intro') if data.get('intro') else None
       question.title = data.get('title')
