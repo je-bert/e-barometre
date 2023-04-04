@@ -1,6 +1,7 @@
 from models import Question
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
+import re
 
 
 def update_one(id):
@@ -59,11 +60,17 @@ def add_one(id):
   if request.method == 'POST':
       data = request.form
 
-      if not data.get('value') or not data.get('label') or not data.get('order'):
+      if not data.get('question_id') or not data.get('order') or not data.get('title'):
         return make_response("Formulaire invalide.", 400)
 
       question = Question()
       question.question_id = data.get('question_id') # TODO add verification for regex, to match it with the right survey id letter start
+      # regex_str = r'^{}'.format(survey_id)
+      # regex = re.compile(regex_str)
+
+      # if not regex.match(question.question_id):
+      #   make_response("Formulaire invalide.", 400)
+      question.survey_id = survey_id
       question.intro = data.get('intro') if data.get('intro') else None
       question.title = data.get('title')
       question.info_bubble_text = data.get('info_bubble_text') if data.get('info_bubble_text') else None
@@ -94,7 +101,7 @@ def add_one(id):
 
       return jsonify(question)
 
-  return render_template('add-question.html',survey_id = survey_id, question_id = question.question_id)
+  return render_template('add-question.html',survey_id = survey_id)
 
 def delete_one(id):
     question = Question.query\

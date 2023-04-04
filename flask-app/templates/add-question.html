@@ -2,36 +2,37 @@
 {% set active_page = "surveys" %}
 
 {% set questionFields = [
-('intro', question.intro, 'Introduction','enabled','not required','text'),
-('title', question.title, 'Titre','enabled','required','text'),
-('type', question.type, 'Type','disabled','not required','text'),
-('label_id', question.label_id, 'Label ID','disabled','not required','text'),
-('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text'),
-('condition', question.condition, 'Condition','enabled','not required','text'),
-('intensity', question.intensity, 'Intensité','enabled','not required','number'),
-('conditional_intensity', question.conditional_intensity, 'Intensité conditionel','enabled','not required','text'),
-('order', question.order,'Ordre','enabled','required','number'),
-('min_value', question.min_value, 'Valeur minimum','enabled','required','number'),
-('max_value', question.max_value, 'Valeur maximum','enabled','required','number'),
-('parent', question.parent,'Parent','enabled','not required','text'),
-('ladderC', question.ladderC,'Échelle C','enabled','not required','number'),
-('ladderE', question.ladderE, 'Échelle E','enabled','not required','number'),
-('ladderV', question.ladderV, 'Échelle V','enabled','not required','number'),
-('red_flag', question.red_flag, 'Red flag','enabled','not required','text'),
-('active', question.active, 'Active','enabled','not required','checkbox'),
-('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox'),
+('question_id','ID','required','text'),
+('intro', 'Introduction','not required','text'),
+('title', 'Titre','required','text'),
+('type','Type','not required','text'),
+('label_id', 'Label ID','not required','text'),
+('info_bubble_text', 'Bulle d\'information','not required','text'),
+('condition', 'Condition','not required','text'),
+('intensity', 'Intensité','not required','number'),
+('conditional_intensity', 'Intensité conditionel','not required','text'),
+('order','Ordre','required','number'),
+('min_value', 'Valeur minimum','required','number'),
+('max_value', 'Valeur maximum','required','number'),
+('parent','Parent','not required','text'),
+('ladderC','Échelle C','not required','number'),
+('ladderE', 'Échelle E','not required','number'),
+('ladderV','Échelle V','not required','number'),
+('red_flag', 'Red flag','not required','text'),
+('active', 'Active','not required','checkbox'),
+('violence_related', 'Reliée à la violence','not required','checkbox'),
 ] -%}
 
-{% block title %} {{ question.name }} {% endblock %}
+{% block title %} Ajouter une question {% endblock %}
 
 {% block content %}
 <div class="w-full h-full p-5">
   <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
-    Modifier la question
+  Ajouter une question
   </h1>
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
 
-    {% for name,value,title,editable,required,inputType in questionFields %}
+    {% for name,title,required,inputType in questionFields %}
 
     <!-- For the swithces -->
     {% if (name == 'violence_related' or name == 'active') %}
@@ -46,11 +47,11 @@
     </div>
 
     <!-- For the rest. Min and max won't be rendered if type is not integer -->
-    {% elif (question.type == 'integer' or (name != 'min_value' and name != 'max_value')) %}
+    {% else %}
     <div class="relative z-0 w-full mb-6 group">
-      <input type="{{inputType}}" name="{{name}}" id="{{name}}" {{ '' if editable=='enabled' else 'disabled' }}
+      <input type="{{inputType}}" name="{{name}}" id="{{name}}"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        value="{{value if value != None else ''}}" {{'required' if required=='required'}} />
+        {{'required' if required=='required'}} />
       <label for="{{name}}"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{
         title }}{{' *' if required=='required'}}</label>
@@ -58,7 +59,9 @@
     {% endif %}
 
     {% endfor %}
-
+    <div class="">
+      <p id="error" class="my-2 text-sm text-red-600 dark:text-red-500"></p>
+    </div>
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
       <button onclick="history.back()"
         class="py-2 px-4 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Annuler</button>
@@ -71,10 +74,14 @@
   $("#mainForm").submit(async function (event) {
     event.preventDefault();
     const formData = new FormData(document.getElementById('mainForm'));
-    const response = await fetch(`/admin/questions/update/{{question.question_id}}`, { body: formData, method: "post" });
+    const response = await fetch(`/admin/questions/add/{{survey_id}}`, { body: formData, method: "post" });
     if (response.ok) {
-      window.location = '/admin/surveys/{{question.survey_id}}';
+      window.location = '/admin/surveys/{{survey_id}}';
     }
+    else{
+        error = await response.text();
+        $("#error").html(error).show();
+      }
   });
 </script>
 {% endblock %}
