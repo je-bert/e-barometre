@@ -21,7 +21,7 @@ def find_one(id):
 
 @surveys_router.route('/add', methods = ['GET','POST'])
 @auth
-def add_one(id):
-  return surveys_service.add_one(id)
+def add_one():
+  return surveys_service.add_one()
   
 

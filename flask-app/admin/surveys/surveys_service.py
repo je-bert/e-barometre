@@ -91,7 +91,7 @@ def add_one():
     survey.description = data.get('description')
     survey.color = data.get('color')
     survey.status = 'inactive' if not data.get('status') else 'active'
-
+    
     db.session.add(survey)
     db.session.commit()
 
