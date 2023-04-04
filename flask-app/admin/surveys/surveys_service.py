@@ -101,7 +101,7 @@ def add_one():
 
 def delete_one(id):
   survey = Survey.query\
-      .filter_by(label_id = id)\
+      .filter_by(survey_id = id)\
       .first()
     
   question_count = Question.query.filter_by(survey_id = id).count()

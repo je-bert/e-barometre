@@ -23,5 +23,10 @@ def find_one(id):
 @auth
 def add_one():
   return surveys_service.add_one()
+
+@surveys_router.route('/delete/<id>', methods = ['GET'])
+@auth
+def delete_one(id):
+  return surveys_service.delete_one(id)
   
 
