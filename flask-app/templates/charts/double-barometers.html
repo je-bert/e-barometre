@@ -19,7 +19,7 @@
 
 
 <script>
-  function generateGauge(id, value, size = 1) {
+  function generateGauge(id, value, size = 1, green_stop = 0.33) {
     const percentToDegree = p => p * 360;
     const degreeToRadian = d => d * Math.PI / 180;
     const percentToRadian = p => degreeToRadian(percentToDegree(p));
@@ -110,21 +110,21 @@
           .attr('height', this.height);
 
         gradient
-          .append('stop')
-          .attr('offset', '0%')
-          .attr('style', 'stop-color: green;');
+            .append('stop')
+            .attr('offset', '0%')
+            .attr('style', 'stop-color: green;');
         gradient
-          .append('stop')
-          .attr('offset', '33%')
-          .attr('style', 'stop-color: orange;');
+            .append('stop')
+            .attr('offset', Math.round(green_stop * 100).toString() + '%')
+            .attr('style', 'stop-color: orange;');
         gradient
-          .append('stop')
-          .attr('offset', '66%')
-          .attr('style', 'stop-color: orange;');
+            .append('stop')
+            .attr('offset', Math.round((green_stop + 0.33) * 100).toString() + '%')
+            .attr('style', 'stop-color: orange;');
         gradient
-          .append('stop')
-          .attr('offset', '100%')
-          .attr('style', 'stop-color: red;');
+            .append('stop')
+            .attr('offset', '100%')
+            .attr('style', 'stop-color: red;');
 
         arc
           .innerRadius(this.innerRadius)

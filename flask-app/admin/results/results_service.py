@@ -72,9 +72,13 @@ def delete_one(file_name):
 
 def generate_content(type, excel):
   if type == "coparenting-dynamics":
-    cl = excel.evaluate("'TEST_pour PROTOTYPE'!D425") / excel.evaluate("'TEST_pour PROTOTYPE'!G425")
-    css = excel.evaluate("'TEST_pour PROTOTYPE'!D426") / excel.evaluate("'TEST_pour PROTOTYPE'!G426")
-    ap = excel.evaluate("'TEST_pour PROTOTYPE'!D427") / excel.evaluate("'TEST_pour PROTOTYPE'!G427")
+    cl = { "val": excel.evaluate("'TEST_pour PROTOTYPE'!D425") / excel.evaluate("'TEST_pour PROTOTYPE'!G425"), 
+          "green_stop": excel.evaluate("'TEST_pour PROTOTYPE'!F425") / excel.evaluate("'TEST_pour PROTOTYPE'!G425")
+        }
+    css ={ "val": excel.evaluate("'TEST_pour PROTOTYPE'!D426") / excel.evaluate("'TEST_pour PROTOTYPE'!G426"),
+          "green_stop": excel.evaluate("'TEST_pour PROTOTYPE'!F426") / excel.evaluate("'TEST_pour PROTOTYPE'!G426")}
+    ap = { "val": excel.evaluate("'TEST_pour PROTOTYPE'!D427") / excel.evaluate("'TEST_pour PROTOTYPE'!G427"),
+          "green_stop": excel.evaluate("'TEST_pour PROTOTYPE'!F427") / excel.evaluate("'TEST_pour PROTOTYPE'!G427")}
     flag = excel.evaluate("'TEST_pour PROTOTYPE'!I428")
     return render_template('charts/barometers.html', cl = cl, css = css, ap = ap, flag = flag)
   elif type == "child-faced-behaviors-index":
