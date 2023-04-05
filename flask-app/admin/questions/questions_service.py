@@ -71,8 +71,9 @@ def add_one(id):
       # if not regex.match(question.question_id):
       #   make_response("Formulaire invalide.", 400)
 
-      if Question.query.filter_by(question_id = id).first():
+      if Question.query.filter_by(question_id = question.question_id).first():
         return make_response("Une question existe déja avec le ID", 400)
+      
       question.survey_id = survey_id
       question.intro = data.get('intro') if data.get('intro') else None
       question.title = data.get('title')
@@ -85,6 +86,7 @@ def add_one(id):
       question.order = int(order) if order and order.isdigit() else None
       question.active = 0 if not data.get('active') else 1
       question.violence_related = 0 if not data.get('violence_related') else 1
+      question.label_id = data.get('label_id') if data.get('label_id') else None
       if question.type == 'integer':
         min_value = data.get('min_value')
         question.min_value = int(min_value) if min_value and min_value.isdigit() else None
