@@ -1,4 +1,4 @@
-from models import Question
+from models import Question, Label
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 import re
@@ -56,7 +56,7 @@ def update_one(id):
 
 def add_one(id):
   survey_id = id
-
+  labels = Label.query.all()
   if request.method == 'POST':
       data = request.form
 
@@ -104,7 +104,7 @@ def add_one(id):
 
       return jsonify(question)
 
-  return render_template('add-question.html',survey_id = survey_id)
+  return render_template('add-question.html',survey_id = survey_id,labels = labels)
 
 def delete_one(id):
     question = Question.query\

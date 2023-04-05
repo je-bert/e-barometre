@@ -6,7 +6,7 @@
 ('intro', 'Introduction','not required','text'),
 ('title', 'Titre','required','text'),
 ('type','Type','not required','text'),
-('label_id', 'Label ID','not required','text'),
+('label_id', 'Label ID','not required','select'),
 ('info_bubble_text', 'Bulle d\'information','not required','text'),
 ('condition', 'Condition','not required','text'),
 ('intensity', 'Intensité','not required','number'),
@@ -44,6 +44,18 @@
         </div>
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{title}}</span>
       </label>
+    </div>
+
+    {% elif name == 'label_id'%}
+    <div class="relative z-0 w-full mb-6 group">
+      <label for="{{name}}"class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">Label ID</label>
+
+      <select name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+        <option value="" disabled selected>Choisir une option</option>
+        {% for label in labels %}
+        <option value="{{label.label_id}}">{{label.label_id}} : {{label.title}}</option>
+        {% endfor %}
+      </select>
     </div>
 
     <!-- For the rest. Min and max won't be rendered if type is not integer -->

@@ -88,9 +88,9 @@
     const response = await fetch('/admin/surveys/delete/' + survey_id)
     if(response.ok)
       window.location.reload();
-    else{
+    else
       alert(await response.text());
-    }
+    
   }
   </script>
 {% endblock %}
