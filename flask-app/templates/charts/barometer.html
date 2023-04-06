@@ -1,10 +1,11 @@
 
 <div class="flex flex-col justify-center items-center w-full">
     <div id="{{id}}" data-tooltip-target="tooltip-{{id}}"></div>
-    <div id="tooltip-{{id}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-      {{title}} ({{ ((value * 100|round(2))|string).split('.')[0] }}%)
-      <div class="tooltip-arrow" data-popper-arrow></div>
-    </div>
+    <div id="tooltip-{{id}}" role="tooltip" class="absolute bg-white invisible z-20 inline-block px-3 py-2 text-gray-900 bg-gray-100 border border-[#000000] rounded-none shadow-sm opacity-0 tooltip" style="position: relative;">
+        <p class=" text-xs">{{title}}</p>
+        <p class="text-xs font-bold">{{ ((value * 100|round(2))|string).split('.')[0] }}%</p>
+        <div class="tooltip-arrow" data-popper-arrow></div>
+     </div>
 </div>
 
 
