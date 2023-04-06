@@ -13,11 +13,12 @@ def update_one(id):
     if not question:
       return abort(404)
     
+    labels = Label.query.all()
     typeEdit = True
     if Answer.query.filter_by(question_id = id).count() > 0:
       typeEdit = False
     
-    return render_template('update-question.html', question = question, typeEdit = typeEdit)
+    return render_template('update-question.html', question = question, typeEdit = typeEdit,labels = labels)
 
   data = request.form
 
@@ -38,6 +39,7 @@ def update_one(id):
   intensity = data.get('intensity')
   question.intensity = int(intensity) if intensity and intensity.isdigit() else None
   question.conditional_intensity = data.get('conditional_intensity') if data.get('conditional_intensity') else None
+  question.label_id = data.get('label_id') if data.get('label_id') else None
   order = data.get('order')
   question.order = int(order) if order and order.isdigit() else None
   question.type = data.get('type')
@@ -80,6 +82,7 @@ def add_one(id):
         return make_response("Une question existe déja avec le ID", 400)
       
       question.survey_id = survey_id
+      question.type = data.get('type')
       question.intro = data.get('intro') if data.get('intro') else None
       question.title = data.get('title')
       question.info_bubble_text = data.get('info_bubble_text') if data.get('info_bubble_text') else None
