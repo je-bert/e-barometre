@@ -1,4 +1,4 @@
-from models import Question, Label
+from models import Question, Label, Answer
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 import re
@@ -13,7 +13,11 @@ def update_one(id):
     if not question:
       return abort(404)
     
-    return render_template('update-question.html', question = question)
+    typeEdit = True
+    if Answer.query.filter_by(question_id = id).count() > 0:
+      typeEdit = False
+    
+    return render_template('update-question.html', question = question, typeEdit = typeEdit)
 
   data = request.form
 
@@ -26,7 +30,7 @@ def update_one(id):
 
   if not question:
     return make_response("La question n'existe pas.", 404)
-
+  
   question.intro = data.get('intro') if data.get('intro') else None
   question.title = data.get('title')
   question.info_bubble_text = data.get('info_bubble_text') if data.get('info_bubble_text') else None
@@ -36,6 +40,7 @@ def update_one(id):
   question.conditional_intensity = data.get('conditional_intensity') if data.get('conditional_intensity') else None
   order = data.get('order')
   question.order = int(order) if order and order.isdigit() else None
+  question.type = data.get('type')
   question.active = 0 if not data.get('active') else 1
   question.violence_related = 0 if not data.get('violence_related') else 1
   if question.type == 'integer':
@@ -115,6 +120,10 @@ def delete_one(id):
     
     if not question:
       return make_response("La question n'existe pas.", 404)
+    
+    # TODO performance wise is count or first() better?
+    if Answer.query.filter_by(question_id = id).count() > 0:
+      return make_response("La question est associée à des réponses",404)
   
     db.session.delete(question)
     db.session.commit()
