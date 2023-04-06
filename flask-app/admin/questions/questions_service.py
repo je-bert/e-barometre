@@ -14,11 +14,11 @@ def update_one(id):
       return abort(404)
     
     labels = Label.query.all()
-    typeEdit = True
+    canEdit = True
     if Answer.query.filter_by(question_id = id).count() > 0:
-      typeEdit = False
+      canEdit = False
     
-    return render_template('update-question.html', question = question, typeEdit = typeEdit,labels = labels)
+    return render_template('update-question.html', question = question, canEdit = canEdit,labels = labels)
 
   data = request.form
 
