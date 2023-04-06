@@ -116,7 +116,8 @@
     const response = await fetch('/admin/label-items/delete/' + label_item_id)
     if (response.ok)
       window.location.reload();
-    //TODO reload
+    else
+      alert(await response.text());
   }
 </script>
 {% endblock %}

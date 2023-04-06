@@ -71,6 +71,14 @@ def delete_one(id):
         .filter_by(label_item_id = id)\
         .first()
     
+    has_linked_answers = db.session.query(Answer) \
+        .join(Question, Answer.question_id == Question.question_id) \
+        .filter(Question.label_id == label_item.label_id) \
+        .count() > 0
+
+    if has_linked_answers:
+        return make_response("L'item ne peut pas être supprimé car il est lié à des réponses.", 404)
+
     if not label_item:
       return make_response("L'item n'existe pas.", 404)
   
