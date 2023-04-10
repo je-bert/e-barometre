@@ -11,7 +11,7 @@ db = SQLAlchemy()
 app_context = None
 
 def init(app):
-  app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+  app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mysql:fe6a88eaf7c463289369@e-constellations_mysql:3306/e-constellations'
   db.init_app(app)
   global app_context
   app_context = app.app_context()
