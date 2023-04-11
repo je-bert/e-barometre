@@ -1,9 +1,9 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim-buster
 
-# Install MySQL client
+# Install default MySQL client
 RUN apt-get update && \
-    apt-get install -y mysql-client && \
+    apt-get install -y default-mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory to /app
