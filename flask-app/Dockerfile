@@ -33,8 +33,8 @@ ENV DB_HOST=localhost \
     DB_USER=root \
     DB_PASSWORD=secret
 
-# Make port 3000 available to the world outside this container
-EXPOSE 3000
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
 # Define environment variable
 ENV FLASK_APP=app.py
