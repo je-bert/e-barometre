@@ -12,7 +12,7 @@ class AnalysisSection(db.Model):
     order: int 
 
     analysis_section_id = db.Column(db.String(20), primary_key = True)
-    title = db.Column(db.String(100))
-    description = db.Column(db.String(100))
+    title = db.Column(db.String(255))
+    description = db.Column(db.String(255))
     order = db.Column(db.Integer)
     subsections = db.relationship('AnalysisSubsection', backref='analysis_section', lazy='dynamic')
