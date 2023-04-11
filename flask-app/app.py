@@ -25,6 +25,3 @@ def create_app():
 
 
     return app
-    
-if __name__ == "__main__":
-    create_app().run(host='localhost', port=3000, debug=True)
