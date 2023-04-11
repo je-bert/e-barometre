@@ -12,4 +12,4 @@ class LabelItem(db.Model):
     label_id = db.Column(db.String(20), db.ForeignKey( "label.label_id"))
     order = db.Column(db.Integer, primary_key = True)
     value = db.Column(db.Integer)
-    label = db.Column(db.String(100))
+    label = db.Column(db.String(255))

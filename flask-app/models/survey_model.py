@@ -14,8 +14,8 @@ class Survey(db.Model):
     status: str
     order: str
     survey_id = db.Column(db.String(20), primary_key = True)
-    name = db.Column(db.String(100))
-    description = db.Column(db.String(100))
+    name = db.Column(db.String(255))
+    description = db.Column(db.String(255))
     color = db.Column(db.String(20))
     cover_picture_url = db.Column(db.String(255))
     status = db.Column(db.String(20))

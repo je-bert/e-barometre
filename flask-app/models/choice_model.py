@@ -9,5 +9,5 @@ class Choice(db.Model):
     label: str
     question_id = db.Column(db.String(20), primary_key = True)
     order = db.Column(db.Integer, primary_key = True)
-    value = db.Column(db.String(20))
-    label = db.Column(db.String(100))
+    value = db.Column(db.String(255))
+    label = db.Column(db.String(255))
