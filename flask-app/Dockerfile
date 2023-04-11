@@ -6,6 +6,11 @@ RUN apt-get update && \
     apt-get install -y default-mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
+# Install libmysqlclient-dev
+RUN apt-get update && \
+    apt-get install -y libmysqlclient-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 # Set the working directory to /app
 WORKDIR /app
 
