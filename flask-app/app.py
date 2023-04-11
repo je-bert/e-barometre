@@ -27,5 +27,4 @@ def create_app():
     return app
     
 if __name__ == "__main__":
-    from waitress import serve
-    serve(create_app(), host="0.0.0.0", port=5000)
+    create_app().run(host='localhost', port=3000, debug=True)
