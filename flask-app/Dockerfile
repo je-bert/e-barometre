@@ -11,6 +11,11 @@ RUN apt-get update && \
     apt-get install -y libmariadb-dev-compat && \
     rm -rf /var/lib/apt/lists/*
 
+# Install GCC compiler
+RUN apt-get update && \
+    apt-get install -y build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
 # Set the working directory to /app
 WORKDIR /app
 
