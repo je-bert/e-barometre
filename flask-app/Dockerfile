@@ -6,9 +6,9 @@ RUN apt-get update && \
     apt-get install -y default-mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
-# Install libmysqlclient-dev
+# Install libmariadb-dev-compat
 RUN apt-get update && \
-    apt-get install -y libmysqlclient-dev && \
+    apt-get install -y libmariadb-dev-compat && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory to /app
