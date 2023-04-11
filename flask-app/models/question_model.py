@@ -20,7 +20,7 @@ class Question(db.Model):
   title = db.Column(db.String(255))
   type = db.Column(db.String(20))
   label_id = db.Column(db.String(20), nullable = True)
-  info_bubble_text = db.Column(db.String(255), nullable = True)
+  info_bubble_text = db.Column(db.String(1000), nullable = True)
   condition = db.Column(db.String(255), nullable = True)
   intensity = db.Column(db.Integer, nullable = True)
   conditional_intensity = db.Column(db.String(255), nullable = True)
