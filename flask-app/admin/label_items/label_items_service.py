@@ -66,7 +66,7 @@ def add_one(id):
 
       return jsonify(label_item)
 
-  return render_template('add-label-item.html',label_id = label_id)
+  return render_template('add-label-item.html')
 
 def delete_one(id):
     label_item = LabelItem.query\
