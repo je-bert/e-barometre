@@ -49,6 +49,9 @@ def add_one(id):
 
       if not data.get('value') or not data.get('label') or not data.get('order'):
         return make_response("Formulaire invalide.", 400)
+      
+      while LabelItem.query.filter_by(label_item_id = label_item_id).first():
+        label_item_id += 1
 
       label_item = LabelItem()
       label_item.label_item_id = str(label_item_id)
