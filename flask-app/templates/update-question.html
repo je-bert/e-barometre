@@ -72,8 +72,8 @@
     </div>
 
     <!-- For the rest except for type since it's a dropdown. Min and max won't be rendered if type is not integer -->
-    {% elif (question.type == 'integer' or (name != 'min_value' and name != 'max_value')) %}
-    <div class="relative z-0 w-full mb-6 group">
+    {% else %}
+    <div class="relative z-0 w-full mb-6 group" id="{{name}}Div" {{'hidden' if not (question.type == 'integer' or (name != 'min_value' and name != 'max_value')) }}>
       <input type="{{inputType}}" name="{{name}}" id="{{name}}" {{ '' if editable =='enabled' else 'disabled' }}
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         value="{{value if value != None else ''}}" {{'required' if required=='required'}} />
@@ -109,5 +109,21 @@
       window.location = '/admin/surveys/{{question.survey_id}}';
     }
   });
+
+  $("#type").change(()=>{
+    if($("#type").val() != 'integer')
+    {
+      $("#min_value").prop('disabled',true);
+      $("#min_valueDiv").hide();
+      $("#max_value").prop('disabled',true);
+      $("#max_valueDiv").hide();
+    }
+    else{
+      $("#min_value").prop('disabled',false);
+      $("#min_valueDiv").show();
+      $("#max_value").prop('disabled',false);
+      $("#max_valueDiv").show();
+    }
+  })
 </script>
 {% endblock %}
