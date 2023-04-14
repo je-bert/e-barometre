@@ -89,39 +89,14 @@
     </tbody>
   </table>
 </div>
-
+{% set label='le questionnaire' %}
+{% set endpoint='/admin/surveys/delete/' %}
 {% include 'modal.html' %}
 
 <script>
-  let selectedId;
-  let selectedName;
-  function setSelectedId(event, survey_id, name) {
-    event.stopPropagation();
-    selectedId = survey_id;
-    selectedName = name;
-    $("#modalLabel").html(`Voulez-vous supprimer le questionnaire ${selectedName}`)
-    $("#deleteButton").show();
-    $("#closeButton").html('Annuler');
-    $("#modal").show()
-  }
-
   function onEditClick(event, survey_id) {
     event.stopPropagation();
     window.location = '/admin/surveys/update/' + survey_id;
-  }
-
-  async function onDeleteClick(event) {
-    event.stopPropagation();
-    $("#modal").hide()
-    const response = await fetch('/admin/surveys/delete/' + selectedId)
-    if (response.ok)
-      window.location.reload();
-    else {
-      $("#deleteButton").hide();
-      $("#closeButton").html('OK');
-      $("#modalLabel").html(await response.text())
-      $("#modal").show()
-    }
   }
 </script>
 {% endblock %}

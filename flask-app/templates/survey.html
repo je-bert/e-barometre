@@ -93,35 +93,14 @@
   </table>
 </div>
 
-{% include 'modal.html' %}
+{% set label='la question' %}
+{% set endpoint='/admin/questions/delete/' %}
+{% include 'modal.html'%}
 
 <script>
-  let selectedId;
-  let selectedName;
-  function setSelectedId(event, id, name) {
-    event.stopPropagation();
-    selectedId = id;
-    selectedName = name;
-    $("#modalLabel").html(`Voulez-vous supprimer la question ${selectedName}`)
-    $("#deleteButton").show();
-    $("#closeButton").html('Annuler');
-    $("#modal").show()
-  }
   function onEditClick(event, question_id) {
     event.stopPropagation();
     window.location = '/admin/questions/update/' + question_id;
-  }
-  async function onDeleteClick(event) {
-    event.stopPropagation();
-    const response = await fetch('/admin/questions/delete/' + selectedId)
-    if (response.ok)
-      window.location.reload();
-    else {
-      $("#deleteButton").hide();
-      $("#closeButton").html('OK');
-      $("#modalLabel").html(await response.text())
-      $("#modal").show()
-    }
   }
 </script>
 {% endblock %}
