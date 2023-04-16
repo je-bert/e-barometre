@@ -57,3 +57,15 @@ def add_one(id):
       return jsonify(analysis_subsection)
 
   return render_template('add-analysis-subsection.html')
+
+def delete_one():
+  analysis_subsection = AnalysisSubsection.query\
+    .filter_by(analysis_subsection_id = id)\
+    .first()
+
+  if not analysis_subsection:
+    return make_response("L'item n'existe pas.", 404)
+
+  db.session.delete(analysis_subsection)
+  db.session.commit()
+  return jsonify(analysis_subsection)
