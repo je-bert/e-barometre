@@ -60,7 +60,7 @@ def add_one(id):
 
   return render_template('add-analysis-subsection.html', analysis_section_id = id)
 
-def delete_one():
+def delete_one(id):
   analysis_subsection = AnalysisSubsection.query\
     .filter_by(analysis_subsection_id = id)\
     .first()
