@@ -19,3 +19,15 @@ def find_all():
 def update_one(id):
     return analysis_subsections_service.update_one(id)
 
+@analysis_subsections_router.route('/delete/<id>',methods=['GET','POST'])
+@auth
+def delete_one(id):
+    return analysis_subsections_service.delete_one(id)
+
+@analysis_subsections_router.route('/add/<id>',methods=['GET','POST'])
+@auth
+def add_one(id):
+    return analysis_subsections_service.add_one(id)
+
+
+

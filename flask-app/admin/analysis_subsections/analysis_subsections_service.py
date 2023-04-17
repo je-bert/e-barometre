@@ -56,7 +56,7 @@ def add_one(id):
       db.session.commit()
       return jsonify(analysis_subsection)
 
-  return render_template('add-analysis-subsection.html')
+  return render_template('add-analysis-subsection.html', analysis_section_id = id)
 
 def delete_one():
   analysis_subsection = AnalysisSubsection.query\
