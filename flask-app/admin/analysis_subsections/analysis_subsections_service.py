@@ -37,7 +37,7 @@ def add_one(id):
   if request.method == 'POST':
       data = request.form
 
-      last_analysis_subsection = AnalysisSubsection.query.order_by(AnalysisSubsection.label_id.desc(),AnalysisSubsection.analysis_subsection_id.desc()).first()
+      last_analysis_subsection = AnalysisSubsection.query.order_by(AnalysisSubsection.analysis_section_id.desc(),AnalysisSubsection.analysis_subsection_id.desc()).first()
       if last_analysis_subsection:
         analysis_subsection_id = int(last_analysis_subsection.analysis_subsection_id) + 1
       else:
@@ -53,6 +53,8 @@ def add_one(id):
       analysis_subsection.order = data.get('order') #TODO what should be the default value for order?
       analysis_subsection.display_condition = data.get('display_condition') if data.get('display_condition') else None
       analysis_subsection.schema_type = data.get('schema_type') if data.get('schema_type') else None
+      
+      db.session.add(analysis_subsection)
       db.session.commit()
       return jsonify(analysis_subsection)
 
