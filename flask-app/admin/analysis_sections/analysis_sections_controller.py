@@ -19,3 +19,13 @@ def find_all():
 def update_one(id):
     return analysis_sections_service.update_one(id)
 
+@analysis_sections_router.route('/add',methods=['GET','POST'])
+@auth
+def add_one():
+    return analysis_sections_service.add_one()
+
+@analysis_sections_router.route('/delete/<id>',methods=['GET','POST'])
+@auth
+def delete_one(id):
+    return analysis_sections_service.delete_one(id)
+

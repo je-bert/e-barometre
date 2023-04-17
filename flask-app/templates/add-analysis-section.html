@@ -34,10 +34,12 @@
     $( "#mainForm" ).submit(async function( event ) {
       event.preventDefault();
       const formData = new FormData(document.getElementById('mainForm'));
-      const response = await fetch(`/admin/analysis-sections/update/{{analysis_section.analysis_section_id}}`,{ body: formData,method: "post" });
+      const response = await fetch(`/admin/analysis-sections/add`,{ body: formData,method: "post" });
       if (response.ok) {
         window.location = '/admin/analysis-sections';
       }
+      else
+        alert('An error occurred'); //
     });
   </script>
 {% endblock %}

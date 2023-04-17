@@ -5,9 +5,22 @@
 
 {% block content %}
   <div class="relative overflow-x-auto w-full p-5">
-    <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
-      Sections d'analyse
-    </h1>
+    <div class="flex justify-between items-center my-6">
+      <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
+        Sections d'analyse
+      </h1>
+      <div class="flex justify-center items-center " data-tooltip-target="tooltip-default">
+        <a href="/admin/analysis-sections/add"
+          class="pb-1 h-10 w-10 bg-gray-100 rounded-full text-green-600 flex justify-center border-2 border-green-600 items-center hover:bg-green-600 hover:text-white text-2xl">+
+        </a>
+  
+        <div id="tooltip-default" role="tooltip"
+          class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+          Ajouter un élement
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+      </div>
+    </div>
     <table class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800">
       <thead class="text-xs">
         <tr>
