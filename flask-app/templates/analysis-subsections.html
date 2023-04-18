@@ -38,6 +38,10 @@
           Description
         </th>
 
+        <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[90px] text-center">
+          Statut
+        </th>
+
         <th scope="col" class="px-5 py-3 w-[100px] text-center">
           Actions
         </th>
@@ -60,6 +64,14 @@
             <p class="break-words">{{ analysis_subsection.description }}</p>
           </div>
         </td>
+        <!-- TODO add status -->
+        <td class="px-5 py-4 hidden sm:table-cell text-center">
+          <span
+            class="px-2 py-1 text-xs font-semibold leading-tight rounded-lg {{ 'bg-green-700' if analysis_subsection.status == 'active' else 'bg-orange-600' }} text-white">
+            {{ 'Actif' if analysis_subsection.status == 'active' else 'Inactif' }}
+          </span>
+        </td>
+
         <td class="px-5 py-4">
           <div class="flex items-center justify-center space-x-4 text-sm">
             <button onclick="onEditClick(event, '{{ analysis_subsection.analysis_subsection_id}}');"
