@@ -25,11 +25,13 @@ def update_one(id):
   if not analysis_subsection:
     return "La section d'analyse n'existe pas.", 404
 
+# TODO add comments field for add and update
   analysis_subsection.title = data.get('title')
   analysis_subsection.description = data.get('description')
   analysis_subsection.order = data.get('order') #TODO what should be the default value for order?
   analysis_subsection.display_condition = data.get('display_condition') if data.get('display_condition') else None
   analysis_subsection.schema_type = data.get('schema_type') if data.get('schema_type') else None
+  analysis_subsection.comments = data.get('comments') if data.get('schema_type') == 'text' else None
   analysis_subsection.status = 'inactive' if not data.get('status') else 'active'
   db.session.commit()
   return jsonify(analysis_subsection)
@@ -54,6 +56,7 @@ def add_one(id):
       analysis_subsection.order = data.get('order') #TODO what should be the default value for order?
       analysis_subsection.display_condition = data.get('display_condition') if data.get('display_condition') else None
       analysis_subsection.schema_type = data.get('schema_type') if data.get('schema_type') else None
+      analysis_subsection.comments = data.get('comments') if data.get('schema_type') == 'text' else None
       analysis_subsection.status = 'inactive' if not data.get('status') else 'active'
       
       db.session.add(analysis_subsection)

@@ -65,12 +65,12 @@
     </div>
   
     <!-- TODO add placeholder and value when backend implement field -->
-    <div hidden class="relative z-0 w-full mb-6 group" id="textDiv">
-      <input type="text" name="text" id="text"
+    <div {{'hidden' if analysis_subsection.schema_type != 'text' }} class="relative z-0 w-full mb-6 group" id="commentsDiv">
+      <input type="text" name="comments" id="comments"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder=" "  />
-      <label for="text"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Texte</label>
+        value="{{ analysis_subsection.comments }}" placeholder=" "  />
+      <label for="comments"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Commentaires</label>
     </div>
 
     <div class="relative z-0 w-full mb-6 group">
@@ -80,7 +80,7 @@
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Statut</span>
       </label>
     </div>
-    
+
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
       <button onclick="history.back()"
         class="py-2 px-4 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Annuler</button>
@@ -103,12 +103,12 @@
   $("#schema_type").change(()=>{
     if($("#schema_type").val() == 'text')
     {
-      $("#textDiv").show()
-      $("text").prop('disabled',false);
+      $("#commentsDiv").show()
+      $("comments").prop('disabled',false);
     }
     else{
-      $("#textDiv").hide()
-      $("text").prop('disabled',false);
+      $("#commentsDiv").hide()
+      $("comments").prop('disabled',false);
     }
   })
 </script>
