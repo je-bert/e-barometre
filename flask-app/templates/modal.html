@@ -24,11 +24,9 @@
 <script>
   let selectedId;
   let selectedName;
-  function setSelectedId(event, id, name) {
+  function setSelectedId(event, id) {
     event.stopPropagation();
-    selectedId = id;
-    selectedName = name;
-    $("#modalLabel").html(`Voulez-vous supprimer {{label}} ${selectedName}`)
+    $("#modalLabel").html(`Voulez-vous supprimer {{label}}`);
     $("#deleteButton").show();
     $("#closeButton").html('Annuler');
     $("#modal").show()
