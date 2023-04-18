@@ -4,7 +4,7 @@
 {% set schemaTypes = ['coparenting-convergence-divergence', 'child-faced-behaviors-index', 'coparenting-context',
 'harmful-behaviors-bubbles', 'parental-exclusion-index', 'child-symptoms', 'attitudes-during-custody-transfers',
 'family-relationship-changes', 'alienating-behaviors-bubbles', 'child-response-to-alienating-behaviors',
-'child-behaviors-index', 'child-response-bubbles'] %}
+'child-behaviors-index', 'child-response-bubbles', 'text'] %}
 
 
 {% block title %} Sous-section d'analyse {% endblock %}
@@ -63,7 +63,15 @@
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Type
         de schéma</label>
     </div>
-   
+  
+    <!-- TODO add placeholder and value when backend implement field -->
+    <div hidden class="relative z-0 w-full mb-6 group" id="textDiv">
+      <input type="text" name="text" id="text"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" "  />
+      <label for="text"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Texte</label>
+    </div>
 
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
       <button onclick="history.back()"
@@ -82,5 +90,18 @@
       window.location = '/admin/analysis-sections/{{analysis_subsection.analysis_section_id}}';
     }
   });
+
+
+  $("#schema_type").change(()=>{
+    if($("#schema_type").val() == 'text')
+    {
+      $("#textDiv").show()
+      $("text").prop('disabled',false);
+    }
+    else{
+      $("#textDiv").hide()
+      $("text").prop('disabled',false);
+    }
+  })
 </script>
 {% endblock %}
