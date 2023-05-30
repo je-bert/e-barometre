@@ -1,4 +1,4 @@
-from models import Choice, Label, Answer, CustomAnswer, Survey, Question
+from models import Choice, Label, Answer, CustomAnswer, Survey, Question,LabelItem
 from flask import abort, jsonify
 
 def find_all():
@@ -30,6 +30,7 @@ def find_one(current_user, id):
     choices = []
     if question['type'] == 'labeled-ladder':
       choices = Label.query\
+        .join(LabelItem, LabelItem.label_id == Label.label_id)\
         .filter_by(label_id = question['label_id'])\
         .all()
     else:
