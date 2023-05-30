@@ -1,25 +1,289 @@
-{% extends 'base.html' %}
-{% set active_page = "results" %}
-
-{% block title %} Résultats {% endblock %}
-
-{% block head %} 
+{% extends 'base.html' %} {% set active_page = "results" %} {% block title %}
+Résultats {% endblock %} {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.3.3/d3.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-more.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
-{% endblock %}
 
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap"
+/>
 
-{% block content %}
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800&display=swap"
+/>
+
+<link
+  href="https://e-demo2.netlify.app/css/theme.min.css"
+  type="text/css"
+  rel="stylesheet"
+/>
+
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+/>
+
+<style>
+  nav {
+    display: none !important;
+  }
+
+  nav + div {
+    display: none !important;
+  }
+
+  .h1 {
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    font-size: 2.4rem !important;
+    color: #4a4b65 !important;
+  }
+
+  .h2 {
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    font-size: 26px !important;
+    color: #4a4b65 !important;
+  }
+
+  .h5 {
+    font-weight: 500 !important;
+    color: #4a4b65 !important;
+    line-height: 1.4 !important;
+
+    font-size: 1.125rem !important;
+  }
+
+  h4 {
+    font-weight: 500 !important;
+  }
+
+  p {
+    font-family: "Nunito Sans" !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #737491 !important;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem !important;
+  }
+
+  #intro-container.hide-intro ~ .card {
+    display: none;
+  }
+
+  .hide-intro #dropdown-toggle {
+    transform: rotate(180deg);
+  }
+
+  .plotly-graph-div.switched {
+    transform: rotate(90deg);
+  }
+
+  [data-tooltip-target].py-6 {
+    padding: 1.5rem !important;
+  }
+</style>
+
+{% endblock %} {% block content %}
 <div class="relative overflow-x-auto w-full p-5">
-  <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
+  <h1 class="my-6 h1 dark:text-white text-center">
     Résultats de {{ user.first_name }} {{ user.last_name }}
   </h1>
-  {% for section in sections_to_render %}
-  {{ section | safe }}
-  {% endfor %}
+
+  <div
+    class="bg-white space-y-4 dark:bg-gray-800 divide-y dark:text-gray-400 flex flex-col w-full rounded shadow-md mb-8 p-6"
+  >
+    <div id="intro-container" class="flex flex-col w-full relative">
+      <div id="dropdown-toggle" class="absolute -top-4 right-4">
+        <span class="material-symbols-outlined"> expand_circle_down </span>
+      </div>
+      <h2 class="dark:text-white h2">Introduction</h2>
+      <p class="text-base">
+        Find aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </div>
+    <div class="card border-0 h-100 shadow my-4">
+      <div class="card-body">
+        <div class="pt-3 mt-2 mt-lg-3">
+          <div class="flex flex-col w-full">
+            <h3 class="h5 text-lg font-semibold text-gray-900 dark:text-white">
+              Comment lire ce rapport?
+            </h3>
+            <h4 class="mb-2">Pourquoi cet outil?</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+              consectetur sollicitudin leo in ullamcorper. Quisque facilisis
+              lacus non urna congue efficitur. Cras mollis magna vel quam
+              interdum, nec finibus arcu vestibulum. Sed ut mi non odio
+              pellentesque dignissim. Pellentesque commodo diam sed nisi porta,
+              ac tristique turpis accumsan. Curabitur eget augue dolor. Mauris
+              sit amet leo ac ex laoreet accumsan. Quisque molestie nulla nec
+              dui auctor, et eleifend justo convallis. Nunc a placerat diam, eu
+              suscipit mauris.
+            </p>
+
+            <h4 class="mb-2">Sa structure</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+              consectetur sollicitudin leo in ullamcorper. Quisque facilisis
+              lacus non urna congue efficitur. Cras mollis magna vel quam
+              interdum, nec finibus arcu vestibulum. Sed ut mi non odio
+              pellentesque dignissim. Pellentesque commodo diam sed nisi porta,
+              ac tristique turpis accumsan. Curabitur eget augue dolor. Mauris
+              sit amet leo ac ex laoreet accumsan. Quisque molestie nulla nec
+              dui auctor, et eleifend justo convallis. Nunc a placerat diam, eu
+              suscipit mauris.
+            </p>
+
+            <h4 class="mb-2">Icônes de lecture</h4>
+            <p>
+              Les icônes suivantes vous guideront tout au long de votre lecture.
+            </p>
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 mb-grid-gutter">
+                <a class="card h-100 border-0 shadow card-hover">
+                  <div
+                    class="card-body ps-grid-gutter pe-grid-gutter text-center"
+                  >
+                    <span class="material-symbols-outlined"> psychology </span>
+                    <h4>Paroles d'experts</h4>
+                    <p class="fs-sm text-body">
+                      Recommandations ou informations pratiques en lien avec le
+                      sujet.
+                    </p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-6 col-sm-6 mb-grid-gutter">
+                <a class="card h-100 border-0 shadow card-hover">
+                  <div
+                    class="card-body ps-grid-gutter pe-grid-gutter text-center"
+                  >
+                    <span class="material-symbols-outlined"> flag </span>
+                    <h4>Drapeau rouge</h4>
+                    <p class="fs-sm text-body">
+                      Questions à se poser pour identifier un problème
+                      potentiel.
+                    </p>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-lg-6 col-sm-6 mb-grid-gutter">
+                <a class="card h-100 border-0 shadow card-hover">
+                  <div
+                    class="card-body ps-grid-gutter pe-grid-gutter text-center"
+                  >
+                    <span class="material-symbols-outlined"> live_help </span>
+                    <h4>Pour approfondir la question</h4>
+                    <p class="fs-sm text-body">
+                      Lectures en lien avec le sujet.
+                    </p>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-6 col-sm-6 mb-grid-gutter">
+                <a class="card h-100 border-0 shadow card-hover">
+                  <div
+                    class="card-body ps-grid-gutter pe-grid-gutter text-center"
+                  >
+                    <span class="material-symbols-outlined">
+                      partner_exchange
+                    </span>
+                    <h4>Trouver de l'aide</h4>
+                    <p class="fs-sm text-body">
+                      Ressources utiles à consulter en ligne, par téléphone ou
+                      en personne.
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0 h-100 shadow my-4">
+      <div class="card-body">
+        <div class="pt-3 mt-2 mt-lg-3">
+          <div class="flex flex-col w-full">
+            <h3 class="h5 text-lg font-semibold text-gray-900 dark:text-white">
+              Notes importantes
+            </h3>
+            <h4 class="mb-2">Disclaimer sur la validité</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+              consectetur sollicitudin leo in ullamcorper. Quisque facilisis
+              lacus non urna congue efficitur.
+            </p>
+
+            <h4 class="mb-2">Outil personnel: Honnêteté dans les réponses</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+              consectetur sollicitudin leo in ullamcorper. Quisque facilisis
+              lacus non urna congue efficitur.
+            </p>
+
+            <h4 class="mb-2">L'importance de suivre la progression</h4>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+              consectetur sollicitudin leo in ullamcorper. Quisque facilisis
+              lacus non urna congue efficitur.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% for section in sections_to_render %} {{ section | safe }} {% endfor %}
 </div>
+
+<script>
+  const toggle = document.getElementById("dropdown-toggle");
+  const introContainer = document.getElementById("intro-container");
+
+  toggle.addEventListener("click", () => {
+    introContainer.classList.toggle("hide-intro");
+  });
+</script>
+
+<script type="module">
+  const graphToSwitch = document.querySelectorAll(".plotly-graph-div");
+
+  graphToSwitch[0].classList.add("switched");
+  graphToSwitch[1].classList.add("switched");
+
+  const divToReduce = document.querySelectorAll(".yololo");
+
+  console.log(divToReduce);
+
+  divToReduce[0].style.height = "200px";
+  divToReduce[1].style.height = "200px";
+
+  const paths = document.querySelectorAll(".switched .ytick");
+
+  paths.forEach((path, index) => {
+    const bbox = path.getBBox();
+    const centerX = bbox.x + bbox.width / 2;
+    const centerY = bbox.y + bbox.height / 2;
+    const rotationAngle = 270; // The rotation angle in degrees
+
+    path.setAttribute(
+      "transform",
+      `rotate(${rotationAngle}, ${centerX}, ${centerY}) ${
+        index % 2 !== 0 ? "translate(0,-4)" : ""
+      }`
+    );
+  });
+</script>
+
 {% endblock %}

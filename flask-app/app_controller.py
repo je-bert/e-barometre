@@ -4,4 +4,5 @@ main_router = Blueprint('main_router', __name__)
 
 @main_router.route('/')
 def index():
+    print("main route!")
     return redirect(url_for("admin_router.surveys_router.find_all"))

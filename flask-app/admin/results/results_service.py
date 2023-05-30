@@ -280,6 +280,7 @@ def create_linear_gauge(title, labels, value, to = -1, down_color = 'red', cente
   # Put all elements of the layout together
   layout = {
       'shapes': [{
+   
           'type': 'rect',
           'x0': 0.02,
           'x1': 0.98,
@@ -380,4 +381,4 @@ def create_linear_gauge(title, labels, value, to = -1, down_color = 'red', cente
     )
 
   fig = go.Figure(data=traces, layout=layout)
-  return "<div class='w-full flex flex-col justify-center items-center'><h3 class='font-bold text-center flex items-center grow -mb-8'>" + title + "</h3>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
+  return "<div class='yololo w-full flex flex-col justify-center items-center'><h3 class='font-bold text-center flex items-center grow -mb-8'>" + title + "</h3>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
