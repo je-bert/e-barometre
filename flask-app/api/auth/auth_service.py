@@ -14,6 +14,9 @@ def sign_in():
   password = auth.get('password')
   email = auth.get('email')
 
+  print(password)
+  print(email)
+
   if not auth or not email or not password:
       return 'Identifiants invalides.', 400
     
@@ -23,6 +26,10 @@ def sign_in():
   user = User.query\
       .filter_by(email = auth.get('email'))\
       .first()
+
+
+
+
 
   if not user:
       return 'Identifiants invalides.', 400
@@ -44,6 +51,8 @@ def sign_up():
   phone_number = data.get('phone_number')
   password = data.get('password')
 
+  print(data)
+
   if not check_email(email):
         return 'Courriel invalide.', 400
 
@@ -64,7 +73,7 @@ def sign_up():
           date_logged_in = datetime.now(),
           date_created = datetime.now(),
           password = generate_password_hash(password),
-          role = "admin"
+          role = "user"
       )
       db.session.add(user)
       db.session.commit()
