@@ -29,18 +29,19 @@ def find_one(current_user, id):
   res['questions'] = jsonify(questions).json
   # write res to a file to see what it looks like
 
-  with open('logs.txt', 'a') as f:
-    f.write('\nRes: \n')
-    f.write(str(res))
-    f.write('\n')
 
-    f.write('\nQuestions: \n')
-    f.write(str(questions))
-    f.write('\n')
-    
-
+  
 
   for question in res['questions']:
+
+    with open('logs.txt', 'a') as f:
+      f.write('\n\nQuestion: \n')
+      f.write(str(question))
+      f.write('\n\n')
+
+
+
+    
     choices = []
     if question['type'] == 'labeled-ladder':
       choices = Label.query\
