@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from models import User, ResetPasswordToken
-import datetime, timedelta
+import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import db
 import jwt
