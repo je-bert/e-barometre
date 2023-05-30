@@ -2,24 +2,24 @@
 {% set active_page = "surveys" %}
 
 {% set questionFields = [
-('intro', question.intro, 'Phrase introductive','enabled','not required','text'),
-('title', question.title, 'Titre','enabled','required','text'),
-('type', question.type, 'Type','disabled','not required','text'),
-('label_id', question.label_id, 'Label ID','disabled','not required','text'),
-('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text'),
-('condition', question.condition, 'Condition','enabled','not required','text'),
-('intensity', question.intensity, 'Intensité','enabled','not required','number'),
-('conditional_intensity', question.conditional_intensity, 'Intensité conditionel','enabled','not required','text'),
-('order', question.order,'Ordre','enabled','required','number'),
-('min_value', question.min_value, 'Valeur minimum','enabled','required','number'),
-('max_value', question.max_value, 'Valeur maximum','enabled','required','number'),
-('parent', question.parent,'Parent','enabled','not required','text'),
-('ladderC', question.ladderC,'Échelle C','enabled','not required','number'),
-('ladderE', question.ladderE, 'Échelle E','enabled','not required','number'),
-('ladderV', question.ladderV, 'Échelle V','enabled','not required','number'),
-('red_flag', question.red_flag, 'Red flag','enabled','not required','text'),
-('active', question.active, 'Active','enabled','not required','checkbox'),
-('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox'),
+('intro', question.intro, 'Phrase introductive','enabled','not required','text','tooltip'),
+('title', question.title, 'Titre','enabled','required','text','coucou'),
+('type', question.type, 'Type','disabled','not required','text','),
+('label_id', question.label_id, 'Label ID','disabled','not required','text',''),
+('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text',''),
+('condition', question.condition, 'Condition','enabled','not required','text',''),
+('intensity', question.intensity, 'Intensité','enabled','not required','number',''),
+('conditional_intensity', question.conditional_intensity, 'Intensité conditionel','enabled','not required','text',''),
+('order', question.order,'Ordre','enabled','required','number',''),
+('min_value', question.min_value, 'Valeur minimum','enabled','required','number',''),
+('max_value', question.max_value, 'Valeur maximum','enabled','required','number',''),
+('parent', question.parent,'Parent','enabled','not required','text',''),
+('ladderC', question.ladderC,'Échelle C','enabled','not required','number',''),
+('ladderE', question.ladderE, 'Échelle E','enabled','not required','number',''),
+('ladderV', question.ladderV, 'Échelle V','enabled','not required','number',''),
+('red_flag', question.red_flag, 'Red flag','enabled','not required','text',''),
+('active', question.active, 'Active','enabled','not required','checkbox',''),
+('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox',''),
 ] -%}
 
 {%
@@ -43,7 +43,9 @@
 
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
 
-    {% for name,value,title,editable,required,inputType in questionFields %}
+    {% for name,value,title,editable,required,inputType,tooltip in questionFields %}
+
+    <div data-tooltip="{{tooltip}}">
 
     <!-- For the swithces -->
     {% if (name == 'violence_related' or name == 'active') %}
@@ -92,6 +94,7 @@
 
     {% endif %}
 
+    </div>
     {% endfor %}
     {% if not canEdit %}
       <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
