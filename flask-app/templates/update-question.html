@@ -2,24 +2,28 @@
 {% set active_page = "surveys" %}
 
 {% set questionFields = [
-('intro', question.intro, 'Phrase introductive','enabled','not required','text','tooltip'),
-('title', question.title, 'Titre','enabled','required','text','coucou'),
+('intro', question.intro, 'Phrase introductive','enabled','not required','text',''),
+('title', question.title, 'Titre','enabled','required','text',''),
 ('type', question.type, 'Type','disabled','not required','text',''),
 ('label_id', question.label_id, 'Label ID','disabled','not required','text',''),
-('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text',''),
+('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text','Précision sur la question ou information additionnelle'),
 ('condition', question.condition, 'Condition','enabled','not required','text',''),
-('intensity', question.intensity, 'Intensité','enabled','not required','number',''),
-('conditional_intensity', question.conditional_intensity, 'Intensité conditionel','enabled','not required','text',''),
+('intensity', question.intensity, 'Intensité','enabled','not required','number','Sévérité du comportement sur une échelle de 1 : léger à 3 : sévère'),
+('conditional_intensity', question.conditional_intensity, 'Intensité conditionelle','enabled','not required','text','Condition qui provoque un changement de l’intensité de base'),
 ('order', question.order,'Ordre','enabled','required','number',''),
 ('min_value', question.min_value, 'Valeur minimum','enabled','required','number',''),
 ('max_value', question.max_value, 'Valeur maximum','enabled','required','number',''),
 ('parent', question.parent,'Parent','enabled','not required','text',''),
-('ladderC', question.ladderC,'Échelle C','enabled','not required','number',''),
-('ladderE', question.ladderE, 'Échelle E','enabled','not required','number',''),
-('ladderV', question.ladderV, 'Échelle V','enabled','not required','number',''),
+('ladderC', question.ladderC,'Échelle C','enabled','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+Émotif, V : Verbal'),
+('ladderE', question.ladderE, 'Échelle E','enabled','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+Émotif, V : Verbal'),
+('ladderV', question.ladderV, 'Échelle V','enabled','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+Émotif, V : Verbal'),
 ('red_flag', question.red_flag, 'Red flag','enabled','not required','text',''),
 ('active', question.active, 'Active','enabled','not required','checkbox',''),
-('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox',''),
+('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox','Cochez si et seulement si la question est liée à la violence
+conjugale'),
 ] -%}
 
 {%
