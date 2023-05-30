@@ -43,7 +43,15 @@ def find_one(current_user, id):
 
     
     choices = []
+    
     if question['type'] == 'labeled-ladder':
+
+      with open('logs.txt', 'a') as f:
+        f.write('\n\nLabel: \n')
+        f.write(str(question['label_id']))
+        f.write('\n\n')
+
+
       choices = Label.query\
         .join(LabelItem, LabelItem.label_id == Label.label_id)\
         .filter_by(label_id = question['label_id'])\
