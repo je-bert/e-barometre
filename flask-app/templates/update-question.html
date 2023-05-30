@@ -17,7 +17,7 @@
 ('ladderC', question.ladderC,'Échelle C','enabled','not required','number'),
 ('ladderE', question.ladderE, 'Échelle E','enabled','not required','number'),
 ('ladderV', question.ladderV, 'Échelle V','enabled','not required','number'),
-('red_flag', question.red_flag, 'Drapeau rouge','enabled','not required','text'),
+('red_flag', question.red_flag, 'Red flag','enabled','not required','text'),
 ('active', question.active, 'Active','enabled','not required','checkbox'),
 ('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox'),
 ] -%}
@@ -35,6 +35,12 @@
   <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
     Modifier la question
   </h1>
+
+
+ <pre>
+  {{question | tojson | safe }}
+ </pre>
+
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
 
     {% for name,value,title,editable,required,inputType in questionFields %}
