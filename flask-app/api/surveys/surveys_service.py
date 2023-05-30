@@ -23,8 +23,22 @@ def find_one(current_user, id):
         .filter_by(survey_id = id)\
         .all()
 
+
+
   res = jsonify(survey).json
   res['questions'] = jsonify(questions).json
+  # write res to a file to see what it looks like
+
+  with open('logs.txt', 'a') as f:
+    f.write('\nRes: \n')
+    f.write(str(res))
+    f.write('\n')
+
+    f.write('\nQuestions: \n')
+    f.write(str(questions))
+    f.write('\n')
+    
+
 
   for question in res['questions']:
     choices = []
