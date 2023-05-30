@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from models import User, ResetPasswordToken
-import datetime
+import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import db
 import jwt
@@ -15,7 +15,6 @@ def sign_in():
   email = auth.get('email')
 
   print(password)
-  print(email)
 
   if not auth or not email or not password:
       return 'Identifiants invalides.', 400
@@ -27,16 +26,12 @@ def sign_in():
       .filter_by(email = auth.get('email'))\
       .first()
 
-
-
-
-
   if not user:
       return 'Identifiants invalides.', 400
 
   if check_password_hash(user.password, auth.get('password')):
-      token = jwt.encode({'user_id' : user.user_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=45)}, "kdxhfds iefhsdbf", "HS256")
-      user.date_logged_in = datetime.now()
+      token = jwt.encode({'user_id' : user.user_id, 'exp' : datetime.utcnow() + timedelta(minutes=45)}, "kdxhfds iefhsdbf", "HS256")
+      user.date_logged_in = datetime.datetime.now()
       db.session.commit()
       return jsonify({"message": "The account has been created.","token": token})
 
@@ -50,8 +45,6 @@ def sign_up():
   last_name = data.get('last_name')
   phone_number = data.get('phone_number')
   password = data.get('password')
-
-  print(data)
 
   if not check_email(email):
         return 'Courriel invalide.', 400
@@ -70,10 +63,10 @@ def sign_up():
           last_name = last_name,
           email = email,
           phone_number = phone_number, 
-          date_logged_in = datetime.now(),
-          date_created = datetime.now(),
+          date_logged_in = datetime.datetime.now(),
+          date_created = datetime.datetime.now(),
           password = generate_password_hash(password),
-          role = "user"
+          role = "admin"
       )
       db.session.add(user)
       db.session.commit()
@@ -106,7 +99,7 @@ def complete_reset_password():
     db.session.delete(reset_password_token)
     db.session.commit()
 
-    delta = datetime.now() - reset_password_token.date_created
+    delta = datetime.datetime.now() - reset_password_token.date_created
     if delta.total_seconds() > 600:
         return "Le lien est expiré.", 400
 
@@ -144,7 +137,7 @@ def reset_password():
     token = ResetPasswordToken(
         user_id = user.user_id,
         token = generate_password_hash(token_str),
-        date_created = datetime.now(),
+        date_created = datetime.datetime.now(),
     )
     db.session.merge(token)
     db.session.commit()
