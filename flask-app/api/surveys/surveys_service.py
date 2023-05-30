@@ -34,10 +34,6 @@ def find_one(current_user, id):
 
   for question in res['questions']:
 
-    with open('logs.txt', 'a') as f:
-      f.write('\n\nQuestion: \n')
-      f.write(str(question))
-      f.write('\n\n')
 
 
 
@@ -46,16 +42,15 @@ def find_one(current_user, id):
     
     if question['type'] == 'labeled-ladder':
 
-      with open('logs.txt', 'a') as f:
-        f.write('\n\nLabel: \n')
-        f.write(str(question['label_id']))
-        f.write('\n\n')
-
-
-      choices = Label.query\
-        .join(LabelItem, LabelItem.label_id == Label.label_id)\
+      choices = LabelItem.query\
         .filter_by(label_id = question['label_id'])\
         .all()
+
+
+
+      
+
+
 
     else:
       choices = Choice.query\
