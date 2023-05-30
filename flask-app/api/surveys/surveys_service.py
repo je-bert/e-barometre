@@ -34,7 +34,6 @@ def find_one(current_user, id):
         .filter_by(label_id = question['label_id'])\
         .all()
 
-        print(choices)
     else:
       choices = Choice.query\
         .filter_by(question_id = question['question_id'])\
