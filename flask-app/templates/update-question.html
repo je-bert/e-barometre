@@ -49,11 +49,11 @@ conjugale'),
 
     {% for name,value,title,editable,required,inputType,tooltip in questionFields %}
 
-    <div data-tooltip="{{tooltip}}">
+    <div class="mb-6" data-tooltip="{{tooltip}}">
 
     <!-- For the swithces -->
     {% if (name == 'violence_related' or name == 'active') %}
-    <div class="relative z-0 w-full mb-6 group">
+    <div class="relative z-0 w-full group">
       <label class="relative inline-flex items-center mb-4 cursor-pointer">
         <input name="{{name}}" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if value==1 else '' }}>
         <div
@@ -64,7 +64,7 @@ conjugale'),
     </div>
 
     {% elif name == 'label_id'%}
-    <div data-tooltip-target="tooltip-default" class="relative z-0 w-full mb-6 group {{ 'opacity-50' if not canEdit  }}">
+    <div data-tooltip-target="tooltip-default" class="relative z-0 w-full group {{ 'opacity-50' if not canEdit  }}">
       <label for="{{name}}"class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{title}}</label>
       <select {{ 'disabled' if not canEdit }} name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent rounded-none border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
         {% for label in labels %}
@@ -74,7 +74,7 @@ conjugale'),
     </div>
 
     {% elif name == 'type'%}
-    <div data-tooltip-target="tooltip-default" class="relative z-0 w-full mb-6 group {{ 'opacity-50' if not canEdit  }}">
+    <div data-tooltip-target="tooltip-default" class="relative z-0 w-full group {{ 'opacity-50' if not canEdit  }}">
       <label for="{{name}}"class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{title}}</label>
       <select  {{ 'disabled' if not canEdit }} name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
         {% for questionType in questionTypes %}
@@ -86,7 +86,7 @@ conjugale'),
     <!-- For the rest except for type since it's a dropdown. Min and max won't be rendered if type is not integer -->
     {% else %}
     {% if question.type == 'integer' or (name != 'min_value' and name != 'max_value') %}
-    <div class="relative z-0 w-full mb-6 group" id="{{name}}Div">
+    <div class="relative z-0 w-full group" id="{{name}}Div">
       <input type="{{inputType}}" name="{{name}}" id="{{name}}" {{ '' if editable =='enabled' else 'disabled' }}
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
         value="{{value if value != None else ''}}" {{'required' if required=='required'}} />
@@ -97,6 +97,17 @@ conjugale'),
     {% endif %}
 
     {% endif %}
+
+    <!-- if tooltip is not emtpy -->
+
+    {% if tooltip != '' %}
+
+    <p class="text-sm text-gray-500">
+      {{ tooltip }}
+    </p>
+
+    {% endif %}
+
 
     </div>
     {% endfor %}
