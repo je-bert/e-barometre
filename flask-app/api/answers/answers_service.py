@@ -7,6 +7,19 @@ from shutil import copyfile
 import os
 from openpyxl import load_workbook
 
+def create(current_user):
+  data = request.json
+  user_id = current_user.user_id
+  question_id = data['question_id']
+  value= data['value']
+  date_created = datetime.now()
+  answer = Answer(user_id=user_id,value=value, question_id=question_id, date_created=date_created)
+  db.session.add(answer)
+  db.session.commit()
+  return jsonify(answer), 200
+
+
+
 def update(current_user):
 
   user = User.query\
