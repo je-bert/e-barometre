@@ -1,5 +1,6 @@
 from models import User_Survey
 from flask import abort, jsonify, request
+from database import db
 
 
 
@@ -15,7 +16,10 @@ def create(current_user):
   
   user_survey = User_Survey(user_id=user_id, survey_id=survey_id, is_complete=is_complete)
   
-  user_survey.save()
+  db.session.add(user_survey)
+  
+  db.session.commit()
+  
 
 
 
