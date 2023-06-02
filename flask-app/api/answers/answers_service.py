@@ -14,8 +14,9 @@ def create(current_user):
   value= data['value']
   date_created = datetime.now()
   answer = Answer(user_id=user_id,value=value, question_id=question_id, date_created=date_created)
-  db.session.add(answer)
+  db.session.merge(answer)
   db.session.commit()
+
   return jsonify(answer), 200
 
 
