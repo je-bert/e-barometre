@@ -78,4 +78,4 @@ def update(current_user, id):
 
 
 
-  return jsonify(data,current_user,id), 200
+  return jsonify(data), 200
