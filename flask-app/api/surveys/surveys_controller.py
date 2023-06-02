@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from api.surveys import surveys_service
 from api.auth import auth
 
@@ -14,3 +14,9 @@ def find_all(current_user):
 @auth
 def find_one(current_user, id):
     return surveys_service.find_one(current_user, id)
+
+
+@surveys_router.route('/<id>', methods=['PATCH'])
+@auth
+def update(current_user, id):
+    return surveys_service.update(current_user, id)

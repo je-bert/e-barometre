@@ -1,5 +1,5 @@
 from models import Choice, Label, Answer, CustomAnswer, Survey, Question,LabelItem
-from flask import abort, jsonify
+from flask import abort, jsonify, request
 
 def find_all():
   surveys = Survey.query\
@@ -30,13 +30,8 @@ def find_one(current_user, id):
   # write res to a file to see what it looks like
 
 
-  
 
   for question in res['questions']:
-
-
-
-
     
     choices = []
     
@@ -72,3 +67,15 @@ def find_one(current_user, id):
         if custom_answer != None:
           question['custom_answer'] = custom_answer.value
   return res, 200
+
+
+
+def update(current_user, id):
+  data = request.json
+
+  data['req_id'] = id
+  data['user_id'] = current_user.user_id
+
+
+
+  return jsonify(data,current_user,id), 200
