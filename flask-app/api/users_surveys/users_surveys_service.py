@@ -1,4 +1,4 @@
-from models import UserSurvey
+from models import UserSurvey,Survey
 from flask import abort, jsonify, request
 from database import db
 
