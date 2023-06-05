@@ -23,5 +23,7 @@ def create_app():
     db.init(app)
     mail.init(app)
 
-
     return app
+    
+if __name__ == "__main__":
+    create_app().run(host='localhost', port=3000, debug=True)

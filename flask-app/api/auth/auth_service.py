@@ -30,7 +30,7 @@ def sign_in():
       return 'Identifiants invalides.', 400
 
   if check_password_hash(user.password, auth.get('password')):
-      token = jwt.encode({'user_id' : user.user_id, 'exp' : datetime.utcnow() + timedelta(minutes=45)}, "kdxhfds iefhsdbf", "HS256")
+      token = jwt.encode({'user_id' : user.user_id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=45)}, "kdxhfds iefhsdbf", "HS256")
       user.date_logged_in = datetime.datetime.now()
       db.session.commit()
       return jsonify({"message": "The account has been created.","token": token})
