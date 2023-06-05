@@ -1,0 +1,31 @@
+insert into condition (
+	[question_id],
+	[left_operand],
+	[operator],
+	[right_operand]
+) 
+values
+(
+	"PCR06a",
+	"PCR06",
+	">=",
+	"2"
+),
+(
+	"PCR12a",
+	"PCR12",
+	">=",
+	"4"
+),
+(
+	"PCR15a",
+	"PCR15",
+	">=",
+	"2"
+),
+(
+	"PCR16a",
+	"PCR16",
+	">=",
+	"3"
+);

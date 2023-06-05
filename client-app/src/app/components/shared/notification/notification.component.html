@@ -1,0 +1,22 @@
+<!-- Success alert -->
+<div
+  class="alert alert-{{ type }} alert-dismissible fade show tw-flex"
+  role="Notification"
+>
+  <span [ngSwitch]="type">
+    <i *ngSwitchCase="'success'" class="ai-check-circle fs-xl me-3"></i>
+    <i *ngSwitchCase="'danger'" class="ai-x-circle fs-xl me-3"></i>
+    <i *ngSwitchCase="'warning'" class="ai-alert-triangle fs-xl me-3"></i>
+    <i *ngSwitchDefault class="ai-alert-circle fs-xl me-3"></i>
+  </span>
+
+  <div class="tw-mt-[0.15rem]">
+    {{ message }}
+  </div>
+  <button
+    (click)="dismiss()"
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+  ></button>
+</div>

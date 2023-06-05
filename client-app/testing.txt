@@ -1,0 +1,17 @@
+Give an example of a web application where end to end might be useful + explain why
+
+Give an example of a web application where end to end testing might not be useful/overkill + explain why
+
+What is the framework used by cypress under the hood to select dom elements 
+
+How can you configure a base url for cy.visit()
+
+What is the syntax to execute code before each test in a block
+
+What is the syntax to execute only a single test from a complete suite 
+
+Why is it recommended to use data attributes to select elements instead of classes and ids ?
+
+What is the syntax to check the current url 
+
+What is the syntax to create + use a custom command 
