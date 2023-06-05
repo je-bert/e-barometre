@@ -47,7 +47,7 @@ def update(current_user):
     question_id = answer['question_id']
 
     question = Question.query\
-        .filter_by(question_id = question_id, user_id = user_id)\
+        .filter_by(question_id = question_id)\
         .first()
     
     if not question:
