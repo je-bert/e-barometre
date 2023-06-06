@@ -3,9 +3,6 @@ from flask import request, jsonify, abort
 from models import User, Question, Answer
 from database import db
 from datetime import datetime
-from shutil import copyfile
-import os
-from openpyxl import load_workbook
 
 def update(current_user):
 
@@ -18,31 +15,21 @@ def update(current_user):
   if not user:
       return abort(400)
 
-  # if not os.path.exists('master_results'):
-  #   os.makedirs('master_results')
-
-  # template_file = 'master_results_template.xlsx'
-  # output_file = 'master_results/{}.xlsx'.format(user.user_id)
-  # if not os.path.exists(output_file):
-  #    copyfile(template_file, output_file)
-
-  # Load the workbook and access the sheet we'll paste into
-  # wb = load_workbook(output_file)
-
-  # Demo code
-  # ws = wb.worksheets[0]
-
   json = request.json
 
   if not 'answers' in json:
     return "Erreur: le champ 'answers' est absent.", 400
+  
+  errors = []
 
-  for answer in json['answers']:
+  for index, answer in enumerate(json['answers']):
     if not 'question_id' in answer:
-      return "Erreur: le champ 'question_id' est manquant dans l'une des réponses.", 400
+      errors.append(f"answers[{index}]: Le champ 'question_id' est manquant dans l'une des réponses.")
+      continue
 
     if not 'value' in answer:
-      return "Erreur: le champ 'value' est absent dans l'une des réponses.", 400
+      errors.append(f"answers[{index}]: Le champ 'value' est absent dans l'une des réponses.")
+      continue
 
     question_id = answer['question_id']
 
@@ -50,8 +37,9 @@ def update(current_user):
         .filter_by(question_id = question_id)\
         .first()
     
-    if not question:
-      return f"Erreur: la question avec l'identifiant {question_id} n'existe pas." , 404
+    if  question:
+      errors.append(f"answers[{index}]: La question avec l'identifiant {question_id} n'existe pas.")
+      continue
     
     #TODO: Validation answer + custom answer
 
@@ -59,17 +47,7 @@ def update(current_user):
     db.session.merge(new_answer)
     db.session.commit()
 
-    # if question.type == 'select-multiple':
-    #   answers = answer['value'].split(',')
-    #   i = 0
-    #   for cell in ws["C"]:
-    #     if type(cell).__name__ != 'MergedCell' and cell.internal_value == question.question_id:
-    #       ws.cell(row=cell.row, column=4).value = 1 if str(i) in answers else 0
-    #       i += 1
-    # else:
-    #   for cell in ws["C"]:
-    #     if type(cell).__name__ != 'MergedCell' and cell.internal_value == question.question_id:
-    #         ws.cell(row=cell.row, column=4).value = answer['value']
-  # wb.save(output_file)
+  if len(errors) > 0:
+    return jsonify(errors), 200
     
   return jsonify("Vos réponses ont été sauvegardées!"), 200
