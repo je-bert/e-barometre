@@ -39,7 +39,7 @@ def generate(current_user):
           .first()
     if question.type == 'select-multiple':
       values = answer.value.split(',')
-      i = 0
+      i = 1
       for cell in ws["C"]:
         if type(cell).__name__ != 'MergedCell' and cell.internal_value == answer.question_id:
           ws.cell(row=cell.row, column=4).value = 1 if str(i) in values else 0
