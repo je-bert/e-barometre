@@ -1,10 +1,11 @@
-from flask import render_template, send_file, abort
+from flask import abort, jsonify
 from models import User, Answer, Question
 import os
 from database import db
 from shutil import copyfile
 import os
 from openpyxl import load_workbook
+from pycel import ExcelCompiler
 
 def generate(current_user):
   user_id = current_user.user_id
@@ -51,4 +52,68 @@ def generate(current_user):
   
   wb.save(output_file)
 
-  return render_template('results.html', results = [])
+  return jsonify("Votre rapport a été généré!"), 200
+
+def output():
+  user_id = 1
+
+  user = User.query\
+    .filter_by(user_id = user_id)\
+    .first()
+
+  if not user:
+      return abort(400)
+
+  if not os.path.exists('master_results'):
+    os.makedirs('master_results')
+
+  filename = 'master_results/{}.xlsx'.format(user_id)
+
+  if not os.path.exists(filename):
+     return abort(404)
+  
+  worksheet_name = 'Test de contenu du rapport'
+
+  excel = ExcelCompiler(filename=filename)
+
+  results = []
+
+  for i in range(1,400):
+    cell = excel.evaluate(f"'{worksheet_name}'!B{i}")
+    if cell:
+       results.append(cell)
+
+
+  return jsonify(results), 200
+
+def convert_xlookup_to_index_match():
+  filename = 'master_test_2.xlsx'
+  sheetname = 'Modèle Calcul A-R + Sommaire'
+  cell_range = 'D32:E800'
+
+  # Load the workbook
+  workbook = load_workbook(filename)
+  worksheet = workbook[sheetname]
+
+  # Get the cell range
+  cells = worksheet[cell_range]
+
+  for row in cells:
+      for cell in row:
+          # Get the formula from the cell
+          formula = cell.value
+          print(formula)
+          # Check if the formula is an XLOOKUP formula
+          if formula and formula.startswith('=_xlfn.XLOOKUP('):
+              lookup_args = formula[15:-1].split(',')
+              search_value = lookup_args[0].strip()
+              lookup_range = lookup_args[1].strip()
+              return_range = lookup_args[2].strip()
+
+              # Replace the XLOOKUP formula with INDEX and MATCH formula
+              index_match_formula = f'=_xlfn.INDEX({return_range}, _xlfn.MATCH({search_value}, {lookup_range}, 0), 1)'
+              cell.value = index_match_formula
+
+  # Save the updated workbook
+  workbook.save(filename)
+  return "Success",200

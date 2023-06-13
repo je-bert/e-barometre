@@ -34,12 +34,12 @@ def find_one(user_id):
   
   filename = 'master_results/{}.xlsx'.format(user_id)
 
-  if not os.path.exists(filename):
-    return abort(404)
-  
   if not os.path.exists('master_results'):
     os.makedirs('master_results')
 
+  if not os.path.exists(filename):
+    return abort(404)
+  
   sections = db.session.query(AnalysisSection)\
     .join(AnalysisSubsection)\
     .order_by(AnalysisSection.order)\
