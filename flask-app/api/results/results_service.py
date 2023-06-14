@@ -79,7 +79,7 @@ def output():
 
   results = []
 
-  for i in range(1,358):
+  for i in range(1,450):
     cell = excel.evaluate(f"'{worksheet_name}'!B{i}")
     if cell:
        results.append(cell)
