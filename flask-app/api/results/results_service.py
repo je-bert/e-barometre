@@ -1,4 +1,4 @@
-from flask import abort, jsonify
+from flask import abort, jsonify, render_template
 from models import User, Answer, Question
 import os
 from database import db
@@ -7,8 +7,9 @@ import os
 from openpyxl import load_workbook
 from pycel import ExcelCompiler
 
-def generate(current_user):
-  user_id = current_user.user_id
+def generate():
+  convert_xlookup_to_index_match()
+  user_id = 1
 
   user = User.query\
     .filter_by(user_id = user_id)\
@@ -20,7 +21,7 @@ def generate(current_user):
   if not os.path.exists('master_results'):
     os.makedirs('master_results')
 
-  template_file = 'master_test_2.xlsx'
+  template_file = 'Master_TEST_Barometre_230523_8h00_3.xlsx'
   worksheet_name = 'TEST_pour PROTOTYPE'
   output_file = 'master_results/{}.xlsx'.format(user.user_id)
   if not os.path.exists(output_file):
@@ -78,18 +79,17 @@ def output():
 
   results = []
 
-  for i in range(1,400):
+  for i in range(1,358):
     cell = excel.evaluate(f"'{worksheet_name}'!B{i}")
     if cell:
        results.append(cell)
 
-
-  return jsonify(results), 200
+  return render_template('results-test.html', user = user, results = results)
 
 def convert_xlookup_to_index_match():
-  filename = 'master_test_2.xlsx'
+  filename = 'Master_TEST_Barometre_230523_8h00_3.xlsx'
   sheetname = 'Modèle Calcul A-R + Sommaire'
-  cell_range = 'D32:E800'
+  cell_range = 'D32:U800'
 
   # Load the workbook
   workbook = load_workbook(filename)
@@ -104,7 +104,7 @@ def convert_xlookup_to_index_match():
           formula = cell.value
           print(formula)
           # Check if the formula is an XLOOKUP formula
-          if formula and formula.startswith('=_xlfn.XLOOKUP('):
+          if formula and not isinstance(formula, int) and  formula.startswith('=_xlfn.XLOOKUP('):
               lookup_args = formula[15:-1].split(',')
               search_value = lookup_args[0].strip()
               lookup_range = lookup_args[1].strip()
