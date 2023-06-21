@@ -226,62 +226,65 @@ def generate_content(type, excel):
     return render_template('charts/packed-bubbles.html', id = type, series = series) 
   elif type == "child-response-bubbles":
     series = []
-    series.append({
-          "name": "Alliance",
-          "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 579)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 579))} for i in range(2)]
-    })
+    # series.append({
+    #       "name": "Alliance",
+    #       "draggable": False,
+    #       "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 579)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 485))} for i in range(2)]
+    # })
     series.append({
           "name": "Altération/dévoiement de la réalité",
           "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 582)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 582))} for i in range(2)]
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 470)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 470))} for i in range(6) if excel.evaluate("'TEST_pour PROTOTYPE'!AM{}".format(i + 470)) == 'à inclure']
     })
     series.append({
           "name": "Chantage affectif, loyauté, manipulation",
           "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 585)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 585))} for i in range(2)]
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 477)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 477))} for i in range(6) if excel.evaluate("'TEST_pour PROTOTYPE'!AM{}".format(i + 477)) == 'à inclure']
     })
     series.append({
           "name": "Dénigrement",
           "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 588)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 588))} for i in range(2)]
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 484)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 484))} for i in range(4) if excel.evaluate("'TEST_pour PROTOTYPE'!AM{}".format(i + 484)) == 'à inclure']
     })
     series.append({
           "name": "Interférence temps et/ou communication",
           "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 591)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 591))} for i in range(3)]
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 489)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 489))} for i in range(9) if excel.evaluate("'TEST_pour PROTOTYPE'!AM{}".format(i + 489)) == 'à inclure']
     })
     series.append({
           "name": "Interférence lien affectif ou symbolique",
           "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 595)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 595))} for i in range(2)]
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 499)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 499))} for i in range(5) if excel.evaluate("'TEST_pour PROTOTYPE'!AM{}".format(i + 499)) == 'à inclure']
     })
     series.append({
           "name": "Parentification",
           "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 598)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 598))} for i in range(2)]
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 505)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 505))} for i in range(4) if excel.evaluate("'TEST_pour PROTOTYPE'!AM{}".format(i + 505)) == 'à inclure']
     })
     series.append({
-          "name": "Rôle actif, Réponse au CC, r",
+          "name": "Rôle actif de l'enfant",
           "draggable": False,
-          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 601)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 601))} for i in range(3)]
+          "data": [{"name": excel.evaluate("'TEST_pour PROTOTYPE'!AK{}".format(i + 510)), "value": excel.evaluate("'TEST_pour PROTOTYPE'!AL{}".format(i + 510))} for i in range(4) if excel.evaluate("'TEST_pour PROTOTYPE'!AM{}".format(i + 510)) == 'à inclure']
     })
     return render_template('charts/packed-bubbles.html', id = type, series = series)
+  elif type == "new-parent-contribution":
+    value = excel.evaluate("'TEST_pour PROTOTYPE'!C545") / excel.evaluate("'TEST_pour PROTOTYPE'!H545")
+    return render_template('charts/barometer.html', id = type, value = value, title = "Indice de contribution chez le nouveau|nouvelle conjoint·e")
   elif type == "child-behaviors-index":
     value = excel.evaluate("'TEST_pour PROTOTYPE'!C646") / excel.evaluate("'TEST_pour PROTOTYPE'!I646")
     return render_template('charts/barometer.html', id = type, value = value, title = "Sévérité")
   elif type == "child-response-to-alienating-behaviors":
      data = []
-     for i in range(36):
-       value = excel.evaluate("'TEST_pour PROTOTYPE'!Y{}".format(i + 608))
+     for i in range(30):
+       value = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 571))
        if isinstance(value, int) and value > 0:
-          title = excel.evaluate("'TEST_pour PROTOTYPE'!X{}".format(i + 608))
+          title = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 571))
           data.append({"title": title, "value": value})
      data = sorted(data, key=lambda d: d['value'], reverse=True)
      return render_template('charts/funnel.html', elements = data)
   elif type == "coparenting-convergence-divergence":
-     return render_template('charts/barstack.html', elements = {
-      "id":type,
+    return render_template('charts/barstack.html', elements = {
+      "id":type.replace('-', '_'),
       "categories":["Maturité de l'enfant face à ses choix",
                     "L'enfant coome messager de la logisique",
                     "Fait lire les communications à l'enfant",
@@ -303,6 +306,24 @@ def generate_content(type, excel):
         "answers":[7,7,2,7,0,1,7,7,0,2,10,2],
       }
     })
+  elif type == "coparenting-child-resentment":
+    return render_template('charts/barstack.html', elements = {
+      "id":type.replace('-', '_'),
+      "categories":["Accepte que les objets voyagent d’une maison à l’autre",
+                    "Protège l'enfant du rôle de messager",
+                    "Protège l'enfant des enjeux de séparation",
+                    "Évite de questionner l’enfant à son retour de garde",
+                    "Ne donne pas à l'enfant la responsabilité de choisir",
+                    ],
+      "partyA":{
+        "name":"Parent répondant",
+        "answers":[4,1,4,1,4],
+      },
+      "partyB":{
+        "name":"Coparent",
+        "answers":[7,7,2,7,0],
+      }
+    })
   elif type == "coparenting-context":
     labels = ['Absent ', 'Faible ','Modéré ', 'Élevé ']
     value = excel.evaluate("'TEST_pour PROTOTYPE'!C438")
@@ -314,11 +335,11 @@ def generate_content(type, excel):
     return "TODO"
   elif type == "parental-exclusion-index":
     labels = ['Aucune ', 'Faible ','Possible ', 'Probable ']
-    value = excel.evaluate("'TEST_pour PROTOTYPE'!C512")
+    value = excel.evaluate("'TEST_pour PROTOTYPE'!C524")
     for i in range(len(labels)):
-      max = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 514))
+      max = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 529))
       if (value > max): continue
-      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 514))
+      min = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 529))
       return "<div class='flex w-full overflow-x-auto'>" + create_linear_gauge("Indice d'exclusion parentale", labels, i + (value - min) / (max - min), center_labels=True) + "</div>"
     return "TODO"
   elif type == "child-symptoms":
@@ -489,4 +510,4 @@ def create_linear_gauge(title, labels, value, to = -1, down_color = 'red', cente
     )
 
   fig = go.Figure(data=traces, layout=layout)
-  return "<div class='yololo w-full flex flex-col justify-center items-center'><h3 class='font-bold text-center flex items-center grow -mb-8'>" + title + "</h3>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
+  return "<div class='w-full flex flex-col justify-center items-center'><h3 class='font-bold text-center flex items-center grow -mb-8'>" + title + "</h3>" + pyo.plot(fig, include_plotlyjs=True, output_type='div', config={'staticPlot': True}) + "</div>"
