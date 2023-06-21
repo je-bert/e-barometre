@@ -5,5 +5,5 @@
     <h2 class="dark:text-white h2">{{ section.title }}</h2>
     <p class="text-base">{{ section.description }}</p>
   </div>
-  {% for subsection in subsections %} {{ subsection | safe }} {% endfor %}
+  {% for subsection in section.subsections %} {{ subsection | safe }} {% endfor %}
 </div>

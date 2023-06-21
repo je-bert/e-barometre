@@ -1,17 +1,3 @@
-{#
-<div
-  class="space-y-4 dark:bg-gray-800 py-4 dark:text-gray-400 flex flex-col w-full"
->
-  <div class="flex flex-col w-full">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-      {{ subsection.title }}
-    </h3>
-    <p>{{ subsection.description }}</p>
-  </div>
-  {% if content != None %} {{ content | safe }} {% endif %}
-</div>
-#}
-
 <div class="card border-0 h-100 shadow my-4">
   <div class="card-body">
     <div class="pt-3 mt-2 mt-lg-3">
@@ -21,8 +7,44 @@
             {{ subsection.title }}
           </h3>
           <p>{{ subsection.description }}</p>
+          {% if content != None %} {{ content | safe }} {% endif %}
+          <p style="margin-top: 16px!important;"><b>À propos : </b>{{ subsection.about }}</p>
+        
+        <h3 class="h5 text-md font-semibold text-gray-900 dark:text-white">
+            Les constats :
+          </h3>
+            {% if subsection.themes != None %}
+              <ul>
+                {% for theme in subsection.themes %}
+                  <li style="display: flex; align-items: top;"><p class="mb-1">{{ theme }}</p></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if subsection.flag_introduction != None %}
+              <p style="margin-bottom: 8px!important;"><b>{{ subsection.flag_introduction }}</b></p>
+            {% endif %}
+            {% if subsection.yellow_flags != None %}
+              <ul>
+                {% for yellow_flag in subsection.yellow_flags %}
+                  <li style="display: flex; align-items: top;"><span class="material-symbols-outlined" style="color: #FFBF00;margin-right: 16px;"> flag </span><p class="mb-1">{{ yellow_flag }}</p></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if subsection.red_flags != None %}
+              <ul>
+                {% for red_flag in subsection.red_flags %}
+                  <li style="display: flex; align-items: top;"><span class="material-symbols-outlined" style="color: #EE4B2B;margin-right: 16px;"> flag </span><p class="mb-1">{{ red_flag }}</p></li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+            {% if subsection.ressources != None %}
+            <div style="display: flex; align-items: top;">
+              <span class="material-symbols-outlined" style="margin-right: 16px;">
+                      partner_exchange
+                    </span><p>{{ subsection.ressources }}</p>
+            </div>
+            {% endif %}
         </div>
-        {% if content != None %} {{ content | safe }} {% endif %}
       </div>
     </div>
   </div>

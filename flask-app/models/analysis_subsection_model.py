@@ -10,8 +10,6 @@ class AnalysisSubsection(db.Model):
     order: int 
     display_condition: str
     schema_type: str
-    status: str
-    comments: str
 
     analysis_subsection_id = db.Column(db.String(20), primary_key = True)
     analysis_section_id = db.Column(db.String(20), db.ForeignKey( "analysis_section.analysis_section_id"))
@@ -20,5 +18,3 @@ class AnalysisSubsection(db.Model):
     order = db.Column(db.Integer)
     display_condition = db.Column(db.String(255), nullable = True)
     schema_type = db.Column(db.String(255))
-    status = db.Column(db.String(20))
-    comments = db.Column(db.String(255))
