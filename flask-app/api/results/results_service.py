@@ -285,43 +285,27 @@ def generate_content(type, excel):
   elif type == "coparenting-convergence-divergence":
     return render_template('charts/barstack.html', elements = {
       "id":type.replace('-', '_'),
-      "categories":["Maturité de l'enfant face à ses choix",
-                    "L'enfant coome messager de la logisique",
-                    "Fait lire les communications à l'enfant",
-                    "Impose sa présence hors de son temps de garde",
-                    "Liberté du choix de l'enfant",
-                    "Prise de décision sans consentement",
-                    "Reproche et dénigrement de l'autre devant l'enfant",
-                    "Réaction en présence de l'autre parent",
-                    "Transport d'objet entre les deux domiciles",
-                    "Valeur du co-parent est en compétition",
-                    "Exigence de coparentalité",
-                    "Interogatoires au retour de garde"],
+      "categories":[excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(i + 455)) for i in range(8)],
       "partyA":{
         "name":"Parent répondant",
-        "answers":[4,1,4,1,4,2,2,0,7,4,10,1],
+        "answers":[excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 455)) for i in range(8)],
       },
       "partyB":{
         "name":"Coparent",
-        "answers":[7,7,2,7,0,1,7,7,0,2,10,2],
+        "answers":[excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 455)) for i in range(8)],
       }
     })
   elif type == "coparenting-child-resentment":
     return render_template('charts/barstack.html', elements = {
       "id":type.replace('-', '_'),
-      "categories":["Accepte que les objets voyagent d’une maison à l’autre",
-                    "Protège l'enfant du rôle de messager",
-                    "Protège l'enfant des enjeux de séparation",
-                    "Évite de questionner l’enfant à son retour de garde",
-                    "Ne donne pas à l'enfant la responsabilité de choisir",
-                    ],
+      "categories":[excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(i + 464)) for i in range(5)],
       "partyA":{
         "name":"Parent répondant",
-        "answers":[4,1,4,1,4],
+        "answers":[excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 464)) for i in range(5)],
       },
       "partyB":{
         "name":"Coparent",
-        "answers":[7,7,2,7,0],
+        "answers":[excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 464)) for i in range(5)],
       }
     })
   elif type == "coparenting-context":
