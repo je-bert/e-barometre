@@ -1,6 +1,5 @@
 from database import db
 from dataclasses import dataclass
-from sqlalchemy.orm import column_property
 from sqlalchemy import select, func
 from models import AnalysisSubsection
 
