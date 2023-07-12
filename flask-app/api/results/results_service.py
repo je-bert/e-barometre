@@ -101,37 +101,26 @@ def output():
     if cell and cell != '' and cell != ' ':
       value = excel.evaluate(f"'{worksheet_name}'!B{i}")
       if cell == 'endsubsection':
-        subsection = {"title": subsection_title, "about": about, "description": subsection_description, "themes": themes, "conclusion": conclusion, "flag_introduction": flag_introduction, "yellow_flags": yellow_flags, "red_flags": red_flags, "ressources": ressources}
-        subsections.append(render_template('analysis-subsection.html', subsection = subsection, content = generate_content(type, excel)))
-        subsection_title = None
-        type = None
-        about = None
-        subsection_description = None
+        sections.append(render_template('reports/themes.html', analysis_items = themes, observations = themes))
+        if len(red_flags) > 0 or len(yellow_flags) > 0:
+          sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags))
         themes = []
-        conclusion = None
-        flag_introduction = None
         yellow_flags = []
         red_flags = []
-        ressources = None
-      elif cell == 'endsection':
-        section = {"title": section_title, "subsections": subsections}
-        sections.append(render_template('analysis-section.html', section = section))
-        section_title = None
-        subsections = []
       elif not value or value == '' or value == ' ' or value == 0:
         continue
       elif cell == 'section':
-        section_title = value
+        sections.append(render_template('reports/section-title.html', content = value))
       elif cell == 'subsection':
-        subsection_title = value
+        sections.append(render_template('reports/subsection-title.html', content = value))
       elif cell == 'about':
-        about = value
+        sections.append(render_template('reports/about-barometer.html', content = value))
       elif cell == 'type':
-        type = value
+        sections.append(render_template('reports/report-1/barometer-1.html'))
       elif cell == 'description':
         subsection_description = value
       elif cell == 'ressources':
-        ressources = value
+        sections.append(render_template('reports/ressources.html', content = value))
       elif cell == 'theme':
         themes.append(value)
       elif cell == 'conclusion':
@@ -142,8 +131,9 @@ def output():
         yellow_flags.append(value)
       elif cell == 'red_flag':
         red_flags.append(value)
+  print(sections)
 
-  return render_template('results-test.html', user = user, sections_to_render = sections)
+  return render_template('reports/report-1/base.html', children = sections)
 
 def convert_xlookup_to_index_match():
   filename = 'Master_TEST_Barometre_230523_8h00_3.xlsx'

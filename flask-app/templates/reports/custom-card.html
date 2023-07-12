@@ -1,0 +1,13 @@
+<div class='bg-white py-4 px-[128px] rounded-[3.5rem] drop-shadow-xl mx-4 max-w-[950px] text-center'>
+  <h3> 
+    {% block title %} {% endblock %}
+  </h3>
+  <p>
+    {{ content | safe }}
+  </p>
+  {% if link %}
+    <a href="{{ link }}">
+      {% block link_label %} {% endblock %}
+    </a>
+  {% endif %}
+</div>

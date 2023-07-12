@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% set active_page = "results" %} 
+{% block title %} Rapport {% endblock %}
+{% block head %}
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800&display=swap"
+  />
+
+  <link
+    href="https://e-demo2.netlify.app/css/theme.min.css"
+    type="text/css"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+  />
+
+  <style>
+    body {
+      background-color: rgb(236, 243, 255) !important;
+    }
+
+    h3 {
+      font-family: "Nunito Sans" !important;
+      font-weight: 500 !important;
+      line-height: 1.5 !important;
+      color: rgb(28, 97, 189) !important;
+      font-size: 1.25rem !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    p {
+      font-family: "Nunito Sans" !important;
+      font-weight: 400 !important;
+      line-height: 1.5 !important;
+      color: #737491 !important;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem!important;
+    }
+
+    a {
+      font-family: "Nunito Sans" !important;
+      font-weight: 400 !important;
+      line-height: 1.5 !important;
+      color: rgb(62, 160, 236) !important;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem !important;
+    }
+
+  </style>
+{% endblock %}
+{% block content %}
+  <div class="flex flex-col items-center space-y-12 w-full">
+    <span class="max-h-0 mb-0 p-0 invisible">_</span>
+    {% for child in children %}
+      {{ child | safe }}
+    {% endfor %}
+    <span class="max-h-0 mb-0 p-0 invisible">_</span>
+  </div>
+{% endblock %}
