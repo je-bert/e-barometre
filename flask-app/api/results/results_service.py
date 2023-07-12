@@ -94,7 +94,6 @@ def output():
   flag_introduction = None
   yellow_flags = []
   red_flags = []
-  ressources = None
 
   for i in range (1, 400):
     cell = excel.evaluate(f"'{worksheet_name}'!A{i}")
@@ -131,7 +130,6 @@ def output():
         yellow_flags.append(value)
       elif cell == 'red_flag':
         red_flags.append(value)
-  print(sections)
 
   return render_template('reports/report-1/base.html', children = sections)
 
