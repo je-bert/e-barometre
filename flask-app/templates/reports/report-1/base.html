@@ -24,10 +24,14 @@
   />
 
   <style>
+    ::-webkit-scrollbar {
+      display: none!important;
+    }
+
     body {
       background-color: rgb(236, 243, 255) !important;
     }
-
+    
     h3 {
       font-family: "Nunito Sans" !important;
       font-weight: 500 !important;
@@ -58,7 +62,7 @@
   </style>
 {% endblock %}
 {% block content %}
-  <div class="flex flex-col items-center space-y-12 w-full">
+  <div class="flex flex-col items-center space-y-6 md:space-y-12 w-full">
     <span class="max-h-0 mb-0 p-0 invisible">_</span>
     {% for child in children %}
       {{ child | safe }}
