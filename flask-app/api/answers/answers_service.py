@@ -37,7 +37,7 @@ def update(current_user):
         .filter_by(question_id = question_id)\
         .first()
     
-    if  question:
+    if not question:
       errors.append(f"answers[{index}]: La question avec l'identifiant {question_id} n'existe pas.")
       continue
     
