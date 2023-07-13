@@ -6,6 +6,11 @@ import database as db
 from flask_cors import CORS
 import mail
 
+import json
+
+def to_pretty_json(value):
+    return json.dumps(value, sort_keys=True,
+                      indent=4, separators=(',', ': '), ensure_ascii=False)
 
 def create_app():
     app = Flask(__name__)
@@ -15,6 +20,8 @@ def create_app():
     app.register_blueprint(main_router)
     app.register_blueprint(admin_router, url_prefix= '/admin')
     app.register_blueprint(api_router, url_prefix = '/api')
+
+    app.jinja_env.filters['tojson_pretty'] = to_pretty_json
 
     @app.errorhandler(404)
     def not_found(e):
