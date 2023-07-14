@@ -1,3 +1,98 @@
-<div class="flex items-center justify-center rounded-full bg-white min-h-[300px] min-w-[300px] drop-shadow-xl">
-  {{ data | tojson_pretty }}
+<div
+  class="bg-white flex justify-center py-4 px-[32px] md:px-[64px] max-w-[1100px] w-[90%] lg:w-[80%] rounded-[3.5rem] drop-shadow-xl mx-4 text-center min-h-[350px] h-[350x] overflow-y-hidden"
+>
+  <div style="width: 400px; height: 321px" class="relative">
+    <svg
+      class="absolute -top-5"
+      width="400px"
+      height="321px"
+      viewBox="0 -35 100 200"
+    >
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="" style="stop-color: #7bb284; stop-opacity: 1" />
+          <stop offset="" style="stop-color: #deb064; stop-opacity: 1" />
+
+          <stop offset="" style="stop-color: #be536e; stop-opacity: 1" />
+        </linearGradient>
+      </defs>
+
+      <ellipse cx="50" cy="100" rx="98" ry="88" fill="url(#grad1)" />
+
+      <ellipse
+        cx="46"
+        cy="105"
+        rx="75"
+        ry="60"
+        style="fill: white; stroke-width: 2"
+      />
+
+      <rect x="-200" y="100" width="500" height="100" fill="white"></rect>
+
+      <line
+        x1="-54"
+        y1="107.5"
+        x2="154"
+        y2="107.5"
+        style="stroke: #6895e5; stroke-width: 1"
+      ></line>
+      <ellipse
+        cx="50"
+        cy="100"
+        rx="104"
+        ry="98"
+        fill="transparent"
+        stroke="#6895e5"
+      />
+      <rect x="-200" y="108" width="500" height="100" fill="white"></rect>
+    </svg>
+    <img
+      id="b6-pin"
+      class="absolute bottom-[35%] left-[15%]"
+      src="/static/img/b6-pin.png"
+    />
+  </div>
+
+  <script type="module">
+    const data = JSON.parse(`{{ data | tojson | safe }}`);
+
+    const pin = document.getElementById("b6-pin");
+
+    pin.setAttribute(
+      "style",
+      `
+      transform:rotate(${getRotation(
+        data.value
+      )}deg) scale(0.4); transform-origin: 85% 70%`
+    );
+
+    const stops = getOffsets(data.range);
+
+    const stopElements = document.querySelectorAll("stop");
+
+    stopElements.forEach((element, index) => {
+      element.setAttribute("offset", stops[index] + "%");
+    });
+
+    function getOffsets(range) {
+      const [_min, first, second, third, max] = range;
+
+      return [first, second, third].map((value) => (value / max) * 100);
+    }
+
+    function getRotation(value) {
+      const originalRangeMin = data.range[0];
+      const originalRangeMax = data.range[data.range.length - 1];
+      const newRangeMin = -19;
+      const newRangeMax = 165;
+
+      const normalizedValue =
+        (value - originalRangeMin) / (originalRangeMax - originalRangeMin);
+
+      const newValue =
+        normalizedValue * (newRangeMax - newRangeMin) + newRangeMin;
+
+      return newValue;
+    }
+  </script>
 </div>
