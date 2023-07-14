@@ -178,6 +178,7 @@ def generate_barometer_data(barometer, excel):
         data['result'] = r['name']
         break
     data['value'] = (data['value'] / data['range'][3]['max']) * 100
+    data['green'] = (data['range'][0]['max'] / data['range'][3]['max']) * 100
     data['yellow'] = (data['range'][1]['max'] / data['range'][3]['max']) * 100
     data['orange'] = (data['range'][2]['max'] / data['range'][3]['max']) * 100
     return data
@@ -257,6 +258,7 @@ def generate_barometer_data(barometer, excel):
         data['result'] = r['name']
         break
     data['value'] = (data['value'] / data['range'][3]['max']) * 100
+    data['green'] = (data['range'][0]['max'] / data['range'][3]['max']) * 100
     data['yellow'] = (data['range'][1]['max'] / data['range'][3]['max']) * 100
     data['orange'] = (data['range'][2]['max'] / data['range'][3]['max']) * 100
     return data
