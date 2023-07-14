@@ -173,6 +173,13 @@ def generate_barometer_data(barometer, excel):
         } for i in range(4)
       ] ,
     }
+    for r in data['range']:
+      if r['min'] <= data['value'] <= r['max']:
+        data['result'] = r['name']
+        break
+    data['value'] = (data['value'] / data['range'][3]['max']) * 100
+    data['yellow'] = (data['range'][1]['max'] / data['range'][3]['max']) * 100
+    data['orange'] = (data['range'][2]['max'] / data['range'][3]['max']) * 100
     return data
   elif barometer == "barometer-2":
     data = {
@@ -245,6 +252,13 @@ def generate_barometer_data(barometer, excel):
         } for i in range(4)
       ] ,
     }
+    for r in data['range']:
+      if r['min'] <= data['value'] <= r['max']:
+        data['result'] = r['name']
+        break
+    data['value'] = (data['value'] / data['range'][3]['max']) * 100
+    data['yellow'] = (data['range'][1]['max'] / data['range'][3]['max']) * 100
+    data['orange'] = (data['range'][2]['max'] / data['range'][3]['max']) * 100
     return data
   elif barometer == "barometer-6":
     data = {

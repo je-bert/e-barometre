@@ -1,3 +1,8 @@
-<div class="flex items-center justify-center rounded-full bg-white min-h-[300px] min-w-[300px] drop-shadow-xl">
-  {{ data | tojson_pretty }}
+<div class="flex flex-col items-center justify-center rounded-full bg-white aspect-square w-[300px] drop-shadow-xl relative">
+  <h4 class="uppercase">Indice d'exclusion parentale</h4>
+  <div class="relative w-[80%] mt-[48px] mb-[48px]">
+    <div style="background: linear-gradient(45deg, rgb(109 176 134) 0%, rgb(202 178  112) {{ data.yellow }}%, rgb(212 132 108) {{ data.orange }}%, rgb(201 91 111) 100%);" class="absolute left-0 top-0 w-full h-[12px] rounded-full"></div>
+    <div style="background-color: rgb(90 158 230);" class="absolute left-[{{ data.value }}%] top-[6px] border-[2px] border-white transform -translate-x-1/2 -translate-y-1/2 rounded-full w-[18px] h-[18px]"></div>
+  </div>
+  <h4 class="uppercase">{{ data.result }}</h4>
 </div>
