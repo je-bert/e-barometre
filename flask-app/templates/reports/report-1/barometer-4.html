@@ -1,3 +1,155 @@
-<div class="flex items-center justify-center rounded-full bg-white min-h-[300px] min-w-[300px] drop-shadow-xl">
-  {{ data | tojson_pretty }}
+<div class="flex" id="b4">
+  <div class="p-16 ml-12">
+    <div
+      class="flex items-center justify-center rounded-full w-[550px] h-[550px] drop-shadow-xl relative z-10 bg-[#f8faff]"
+    >
+      <svg
+        id="graph"
+        width="480"
+        height="480"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        viewBox="0 0 100 100"
+      ></svg>
+      <svg
+        style="max-width: 150%"
+        id="graph-labels"
+        class="absolute"
+        width="650"
+        height="650"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        viewBox="0 0 100 100"
+      ></svg>
+    </div>
+  </div>
+  <div class="flex justify-center items-center">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat, unde
+    dolor necessitatibus similique repellendus aperiam reiciendis reprehenderit?
+    Excepturi mollitia provident dolore natus quis eveniet commodi, reiciendis
+    reprehenderit aperiam voluptas accusamus.
+  </div>
 </div>
+
+<script type="module">
+  const data = JSON.parse(`{{ data | tojson | safe }}`);
+
+  const totalWeight = data.items.reduce((acc, item) => {
+    return acc + item.weight;
+  }, 0);
+
+  const svg = document.getElementById("graph");
+  const svgLabels = document.getElementById("graph-labels");
+
+  const COLORS = [
+    "#c2c0f2",
+    "#6562e1",
+    "#deb164",
+    "#ecd5ab",
+    "#a0262e",
+    "#be536e",
+    "#b8c3cb",
+  ];
+
+  // Outer circles
+
+  for (let i = 1; i < 10; i++) {
+    const outerCircle = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
+
+    outerCircle.setAttribute("cx", "50");
+    outerCircle.setAttribute("cy", "50");
+    outerCircle.setAttribute("r", i * 5);
+    outerCircle.setAttribute("fill", "transparent");
+    outerCircle.setAttribute("stroke", "#dee9fa");
+    outerCircle.setAttribute("stroke-width", "0.2");
+    svg.insertAdjacentElement("afterbegin", outerCircle);
+  }
+
+  let currentAngle = 0;
+
+  for (let i = 0; i < data.items.length; i++) {
+    const item = data.items[i];
+    const percent = (item.weight / totalWeight) * 100;
+    const angle = (percent * 360) / 100;
+
+    const radius = 40 * (0.85 + percent / 100);
+
+    const pieSlice = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path"
+    );
+
+    const path = getPath(currentAngle, currentAngle + angle, radius);
+
+    pieSlice.setAttribute("d", path);
+    pieSlice.setAttribute("fill", COLORS[i]);
+    pieSlice.style.zIndex = 10;
+
+    pieSlice.id = item.category;
+
+    svg.appendChild(pieSlice);
+
+    const bubbleElement = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
+    bubbleElement.setAttribute("class", "drop-shadow-sm");
+
+    const bubbleCoords = getXAndYCoords(currentAngle + angle / 2, 42.5);
+
+    bubbleElement.setAttribute("cx", bubbleCoords.x);
+    bubbleElement.setAttribute("cy", bubbleCoords.y);
+    bubbleElement.setAttribute("r", "7.8");
+    bubbleElement.setAttribute("fill", "white");
+
+    svgLabels.appendChild(bubbleElement);
+
+    const categoryWords = item.category.split(" ");
+
+    categoryWords.forEach((word, index, arr) => {
+      const fontSize = 1.4;
+
+      const bubbleText = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+      );
+
+      bubbleText.setAttribute("fill", "#102485");
+      bubbleText.setAttribute("x", bubbleCoords.x);
+      bubbleText.setAttribute(
+        "y",
+        +bubbleCoords.y + 0.5 - arr.length / 1.7 + index * 1.6
+      );
+      bubbleText.setAttribute("text-anchor", "middle");
+      bubbleText.setAttribute("alignment-baseline", "middle");
+      bubbleText.setAttribute("font-size", fontSize);
+      bubbleText.setAttribute("font-weight", 600);
+      bubbleText.setAttribute("font-family", "Poppins");
+      bubbleText.setAttribute("letter-spacing", "0.05");
+      bubbleText.textContent = word.toUpperCase();
+
+      svgLabels.appendChild(bubbleText);
+    });
+
+    currentAngle += angle;
+  }
+
+  function getPath(start, end, circleRadius) {
+    const startCoords = getXAndYCoords(start, circleRadius);
+    const endCoords = getXAndYCoords(end, circleRadius);
+
+    return `M50,50 L${startCoords.x},${startCoords.y} A${circleRadius},${circleRadius} 1 0,1 ${endCoords.x},${endCoords.y} `;
+  }
+
+  function getXAndYCoords(angleInDegrees, radius) {
+    let angleInRadians = (angleInDegrees * Math.PI) / 180;
+    let cx = 50;
+    let cy = 50;
+    let y = (cx + radius * Math.cos(angleInRadians)).toFixed(5);
+    let x = (cy - radius * Math.sin(angleInRadians)).toFixed(5);
+    return { x, y };
+  }
+</script>
