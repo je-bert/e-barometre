@@ -1,6 +1,5 @@
 <div class="flex flex-row w-full justify-center items-center space-x-12">
-  <div class="lg:w-[61%] flex justify-end hidden lg:flex">
-    <div class='bg-white py-4 px-[32px] w-[500px] rounded-[3.5rem] drop-shadow-xl mx-4 max-w-[950px] text-center'>
+    <div class='bg-white hidden lg:flex flex-col py-4 px-[32px] w-[500px] rounded-[3.5rem] drop-shadow-xl mx-4 max-w-[950px] text-center'>
       <h3> 
         À propos du baromètre
       </h3>
@@ -13,8 +12,6 @@
         </a>
       {% endif %}
     </div>
-  </div>
-  <div class="lg:w-[39%] flex justify-left w-100">
     <div class="flex flex-col items-center justify-center rounded-full bg-white aspect-square w-[300px] drop-shadow-xl relative min-h-[300px]">
       <h4 style="color: rgb(49 96 183);" class="uppercase text-sm">Indice d'exclusion parentale</h4>
       <div class="relative w-[80%] mt-[48px] mb-[48px]">
@@ -23,5 +20,4 @@
       </div>
       <h4 style="color: rgb(49 96 183);" class="uppercase text-sm">{{ data.result }}</h4>
     </div>
-  </div>
 </div>
