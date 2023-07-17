@@ -1,0 +1,7 @@
+.accordion-button::after {
+  width: 0 !important;
+}
+.accordion-item {
+  border-color: rgba(118, 109, 244, 0.35) !important;
+  box-shadow: 0.1875rem 0.1875rem 0.625rem -0.125rem rgba(0, 0, 0, 0.09) !important;
+}

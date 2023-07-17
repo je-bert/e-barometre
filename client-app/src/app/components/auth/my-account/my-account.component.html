@@ -1,0 +1,142 @@
+<app-page-header title="Portail"></app-page-header>
+<!-- Page content-->
+<section class="container position-relative zindex-5 pb-4 mb-md-3 pt-5">
+  <div class="row">
+    <!-- Sidebar-->
+
+    <div class="col-lg-4 mb-4 mb-lg-0">
+      <div class="bg-light rounded-3 shadow-lg">
+        <div class="px-4 py-4 mb-1 text-center">
+          <img
+            class="d-block rounded-circle mx-auto my-2"
+            src="/assets/img/Logoe_co.png"
+            at="Amanda Wilson"
+            width="110"
+          />
+          <h6 class="mb-0 pt-1">Amanda Wilson</h6>
+        </div>
+        <div class="d-lg-none px-4 pb-4 text-center">
+          <a class="btn btn-primary px-5 mb-2" data-bs-toggle="collapse"
+            ><i class="ai-menu me-2"></i>Account menu</a
+          >
+        </div>
+        <div class="d-lg-block collapse pb-2" id="account-menu">
+          <h3
+            class="
+              d-block
+              bg-secondary
+              fs-sm
+              fw-semibold
+              text-muted
+              mb-0
+              px-4
+              py-3
+            "
+          >
+            Commandes
+          </h3>
+          <a
+            routerLink="/dashboard/my-account/billing-informations"
+            routerLinkActive="active"
+            class="d-flex align-items-center nav-link-style px-4 py-3"
+            ><i class="ai-credit-card fs-lg opacity-60 me-2"></i>Détails de
+            facturation</a
+          >
+          <a
+            routerLink="/dashboard/my-account/orders"
+            routerLinkActive="active"
+            class="d-flex align-items-center nav-link-style px-4 py-3"
+            ><i class="ai-shopping-bag fs-lg opacity-60 me-2"></i>Historique des
+            factures</a
+          ><a
+            style="display: none !important"
+            routerLink="/dashboard/my-account/available-questionnaires"
+            routerLinkActive="active"
+            class="
+              d-flex
+              align-items-center
+              nav-link-style
+              px-4
+              py-3
+              border-top
+            "
+            ><i class="ai-message-square fs-lg opacity-60 me-2"></i
+            >Questionnaires<span class="nav-indicator"> </span
+            ><span class="text-muted fs-sm fw-normal ms-auto">4</span></a
+          ><a
+            routerLink="/dashboard/my-account/final-reports"
+            routerLinkActive="active"
+            class="
+              d-flex
+              align-items-center
+              nav-link-style
+              px-4
+              py-3
+              border-top
+            "
+            ><i class="ai-copy fs-lg opacity-60 me-2"></i>Forfaits</a
+          >
+
+          <h3
+            class="
+              d-block
+              bg-secondary
+              fs-sm
+              fw-semibold
+              text-muted
+              mb-0
+              px-4
+              py-3
+            "
+          >
+            Paramètres
+          </h3>
+          <a
+            routerLinkActive="active"
+            routerLink="/dashboard/my-account/profile"
+            class="d-flex align-items-center nav-link-style px-4 py-3"
+          >
+            <i class="ai-user fs-lg opacity-60 me-2"></i>
+            Profil</a
+          >
+          <!-- <div class="d-flex align-items-center border-top">
+            <a class="d-block w-100 nav-link-style px-4 py-3">Notifications</a>
+            <div class="ms-auto px-3">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="notifications-switch"
+                  data-master-checkbox-for="#notification-settings"
+                  checked
+                />
+                <label
+                  class="form-check-label"
+                  for="notifications-switch"
+                ></label>
+              </div>
+            </div>
+          </div> -->
+          <a
+            class="
+              d-flex
+              align-items-center
+              nav-link-style
+              px-4
+              py-3
+              border-top
+              tw-cursor-pointer
+            "
+            (click)="logout()"
+            ><i class="ai-log-out fs-lg opacity-60 me-2"></i>Déconnexion</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Content-->
+    <div class="col-lg-8">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</section>

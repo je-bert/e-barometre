@@ -1,0 +1,120 @@
+<div class="container tw-mt-24">
+  <div class="row">
+    <div class="col">
+      <h2>Syntaxe condition</h2>
+      <h3 class="tw-mt-8">Opérandes</h3>
+      <p>
+        L'opérande à la gauche d'un opérateur doit correspondre à un identifiant
+        unique d'une question dans un questionnaire.
+        <br />
+        L'opérande à la droite doit être une valeur possible pour la question
+        correspondante.
+      </p>
+
+      <h4>Exemples</h4>
+      <ul>
+        <li>
+          <em>Question B11a</em>
+          <br />
+          <code>B11 >= 3</code> <br />
+          la valeur de la réponse à la question B01 doit être supérieure ou
+          égale à 3 pour que la question soit affichée.
+        </li>
+        <li>
+          <em>Question B11a1</em>
+          <br />
+          <code>B11A == 1</code>
+          <br />
+          la réponse de la réponse à la question B11A doit être égale à 1 pour
+          que la question soit affichée.
+        </li>
+        <li>
+          <em>Question B11c1</em>
+          <br />
+          <code>B11C == 0 || B11C == 1</code>
+          <br />
+
+          la valeur de la réponse à la question B11C doit être égale à 1
+          <strong>ou</strong> 2 pour que la question B11c1 soit affichée.
+        </li>
+
+        <li>
+          <em>Question PFA30a1</em>
+          <br />
+          <code>PFA30a >= 3 && PFA09 == 0 && PFA13b == 0</code>
+          <br />
+
+          La valeur de la réponse à la question PFA30a doit être supérieure ou
+          égale à 3
+          <strong>et</strong> la réponse à la question PFA09 doit être égale à 0
+          <strong>et</strong>
+          la réponse à la question PFA13b doit être égale à 0 pour que la
+          question PFA30a1 soit affichée.
+        </li>
+      </ul>
+
+      <h3 class="tw-mt-8">Opérateurs disponibles</h3>
+      <ul class="tw-ml-8 tw-mt-4">
+        <li>
+          <span> == </span>
+        </li>
+        <li>
+          <span> != </span>
+        </li>
+        <li>
+          <span> &lt;= </span>
+        </li>
+        <li>
+          <span> &gt;= </span>
+        </li>
+        <li>
+          <span> && </span>
+          <br />
+          <br />
+
+          Permet de combiner plusieurs conditions. Les deux conditions doivent
+          être vraies pour que la condition globale soit vraie.
+
+          <br />
+          <br />
+        </li>
+        <li>
+          <span>||</span>
+          <br />
+          <br />
+          Permet de combiner plusieurs conditions. Une des conditions doit être
+          vraie pour que la condition globale soit vraie.
+        </li>
+
+        <li>
+          <span>(...)</span>
+          <br />
+          <br />
+          Permet de spécifier l'ordre des opérations.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container tw-mt-24 tw-mb-24">
+  <div class="row">
+    <div class="col">
+      <h2>Syntaxe intensité conditionnelle</h2>
+      <ul>
+        <li>
+          <em>Ex</em>
+          <br />
+          <code>1: B04 &lt;= 1 ; 2: B02 &lt;= 1 </code>
+          <br />
+
+          Intensité 1 si la valeur de la réponse à la question B04 est
+          inférieure à 1
+          <br />
+          Intensité 2 si la valeur de la réponse à la question B02 est
+          inférieure à 1
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

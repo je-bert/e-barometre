@@ -1,0 +1,70 @@
+<div class="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
+  <div class="py-2 p-md-3">
+    <!-- Title + Delete link-->
+    <div
+      class="
+        d-sm-flex
+        align-items-center
+        justify-content-between
+        text-center text-sm-start
+      "
+    >
+      <h2 class="h2 mb-2 text-nowrap">Factures</h2>
+    </div>
+
+    <div class="card border-0 py-1 p-md-2 p-xl-3 p-xxl-4">
+      <div class="card-body pb-4">
+        <!-- Orders accordion-->
+        <div class="accordion accordion-alt accordion-orders" id="orders">
+          <!-- Order-->
+
+          <div
+            *ngFor="let i of [1, 2, 3]"
+            class="accordion-item border-top mb-3"
+          >
+            <div class="accordion-header">
+              <a
+                class="
+                  accordion-button
+                  d-flex
+                  fs-4
+                  fw-normal
+                  text-decoration-none
+                  py-3
+                  collapsed
+                "
+                href="#orderOne"
+                data-bs-toggle="collapse"
+                aria-expanded="false"
+                aria-controls="orderOne"
+              >
+                <div
+                  class="d-flex justify-content-between w-100"
+                  style="max-width: 440px"
+                >
+                  <div class="me-3 me-sm-4">
+                    <div class="fs-sm text-muted">#78A6431D409</div>
+                    <span class="badge tw-bg-green-500 text-info fs-xs"
+                      >Payé</span
+                    >
+                  </div>
+                  <div class="me-3 me-sm-4">
+                    <div class="d-none d-sm-block fs-sm text-muted mb-2">
+                      Order date
+                    </div>
+                    <div class="d-sm-none fs-sm text-muted mb-2">Date</div>
+                    <div class="fs-sm fw-medium text-dark">Jan 27, 2022</div>
+                  </div>
+                  <div class="me-3 me-sm-4">
+                    <div class="fs-sm text-muted mb-2">Total</div>
+                    <div class="fs-sm fw-medium text-dark">$16.00</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
