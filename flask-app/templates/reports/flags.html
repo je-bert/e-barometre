@@ -1,10 +1,10 @@
 {% if ((yellow_flags and yellow_flags | length > 0) or (red_flags and red_flags | length > 0)) %}
-  <div class='border-blue-500 border-1 py-0 lg:!py-[48px] px-0 rounded-[3.5rem] max-w-[1100px] w-[90%] lg:w-[80%] text-center md:!text-left flex flex-col space-y-[48px] relative'>
+  <div class='border-blue-500 border-[1px] py-0 lg:!py-[48px] px-0 rounded-[3.5rem] max-w-[1100px] w-[90%] lg:w-[80%] text-center md:!text-left flex flex-col space-y-[48px] relative'>
     <div style="background-color: rgb(22 32 127);" class="hidden absolute lg:flex justify-end items-center top-[96px] w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
       <div style="background-image: linear-gradient(to right, rgb(22 32 127) , rgb(22 32 75));" class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
-        <span class="material-symbols-outlined text-white text-[24px] font-bold">
+        <i class="material-symbols-outlined text-white text-[24px] font-bold">
           visibility
-        </span>
+        </i>
         <div class="font-bold mr-[32px] text-white">
           À surveiller
         </div>
@@ -22,7 +22,9 @@
     {% for yellow_flag in yellow_flags %}
       <div class="flex flex-col md:flex-row items-center md:items-start px-[32px] md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
         <div class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[80px] min-h-[80px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
-          <i class="ai-flag"></i>
+          <i class="material-symbols-outlined text-[48px]">
+            flag
+          </i>
         </div>
         <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
           {{ yellow_flag | safe }}
@@ -32,7 +34,9 @@
     {% for red_flag in red_flags %}
       <div class="flex flex-col md:flex-row items-center md:items-start px-[32px] md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
         <div class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[80px] min-h-[80px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
-          <i class="ai-flag"></i>
+          <i class="material-symbols-outlined text-[48px]">
+            flag
+          </i>
         </div>
         <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
           {{ red_flag | safe }}

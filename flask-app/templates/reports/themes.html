@@ -1,10 +1,12 @@
 {% if ((analysis_items and analysis_items | length > 0) or (observations and observations | length > 0)) %}
-  <div class='border-blue-500 border-1 py-5 lg:py-[48px] px-0 rounded-[3.5rem] max-w-[1100px] w-[90%] lg:w-[80%] text-center md:!text-left flex flex-col space-y-[48px]'>
+  <div class='border-blue-500 border-[1px] !py-[48px] lg:py-[48px] px-0 rounded-[3.5rem] max-w-[1100px] w-[90%] lg:w-[80%] text-center md:!text-left flex flex-col space-y-[48px]'>
     {% if analysis_items and analysis_items | length > 0 %}
       <div class="relative">
         <div style="background-color: rgb(22 32 127);" class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
           <div style="background-image: linear-gradient(to right, rgb(22 32 127) , rgb(22 32 75));" class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
-            <i class="ai-search text-white text-[24px]"></i>
+            <i class="material-symbols-outlined text-white text-[24px] font-bold">
+              search
+            </i>
             <div class="font-bold mr-[32px] text-white">
               Analyse
             </div>
@@ -12,7 +14,9 @@
           </div>
         </div>
         <div style="background-image: linear-gradient(to right, rgb(22 32 127) , rgb(22 32 75));" class="flex py-2 pl-[24px] mb-5 lg:hidden rounded-r-full justify-left items-center w-[225px]">
-          <i class="ai-search text-white text-[24px]"></i>
+          <i class="material-symbols-outlined text-white text-[24px] font-bold">
+            search
+          </i>
           <div class="font-bold ml-4 w-full text-center mr-[48px] text-white">
             Analyse
           </div>
@@ -28,7 +32,9 @@
     <div class="relative">
       <div style="background-color: rgb(22 32 127);" class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
         <div style="background-image: linear-gradient(to right, rgb(22 32 127) , rgb(22 32 75));" class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
-         <i class="ai-file-text text-white text-[24px]"></i>
+         <i class="material-symbols-outlined text-white text-[24px] font-bold">
+            sticky_note_2
+          </i>
           <div class="font-bold mr-[32px] text-white">
             Constat
           </div>
@@ -36,7 +42,9 @@
         </div>
       </div>
       <div style="background-image: linear-gradient(to right, rgb(22 32 127) , rgb(22 32 75));" class="flex py-2 pl-[24px] mb-5 lg:hidden rounded-r-full justify-left items-center w-[225px]">
-        <i class="ai-file-text text-white text-[24px]"></i>
+        <i class="material-symbols-outlined text-white text-[24px] font-bold">
+          sticky_note_2
+        </i>
         <div class="font-bold ml-4 w-full text-center mr-[48px] text-white">
           Constat
         </div>

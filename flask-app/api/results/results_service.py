@@ -12,7 +12,7 @@ TEMPLATE_FILE = 'Master_TEST_Barometre_230700a.xlsx'
 
 def generate():
   convert_xlookup_to_index_match()
-  user_id = 1
+  user_id = 0
 
   user = User.query\
     .filter_by(user_id = user_id)\
@@ -59,7 +59,7 @@ def generate():
   return jsonify("Votre rapport a été généré!"), 200
 
 def output():
-  user_id = 1
+  user_id = 0
 
   user = User.query\
     .filter_by(user_id = user_id)\
@@ -91,6 +91,7 @@ def output():
   yellow_flags = []
   red_flags = []
   previous_cell = None
+  about = None
 
   for i in range (1, 400):
     cell = excel.evaluate(f"'{worksheet_name}'!D{i}")
@@ -99,11 +100,12 @@ def output():
       if previous_cell == 'red_flag' and cell != 'red_flag':
         sections.append(render_template('reports/themes.html', analysis_items = themes, observations = themes))
         if len(red_flags) > 0 or len(yellow_flags) > 0:
-          sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags))
+          sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags, flag_introduction = flag_introduction))
         themes = []
         yellow_flags = []
         red_flags = []
         flag_introduction = None
+        about = None
       elif not value or value == '' or value == ' ' or value == 0:
         continue
       elif cell == 'section-title':
@@ -112,9 +114,12 @@ def output():
         sections.append(render_template('reports/subsection-title.html', content = value))
       elif cell == 'about-barometer':
         sections.append(render_template('reports/about-barometer.html', content = value))
+        about = value
       elif cell == 'barometer':
-        sections.append(render_template("reports/report-1/" + value + ".html", data = generate_barometer_data(value, excel)))
-        print(generate_barometer_data(value, excel))
+        if value == 'barometer-1' or value == 'barometer-5':
+          sections.pop()
+          sections.append(render_template('reports/about-barometer.html', content = about, hide_lg = True))
+        sections.append(render_template("reports/report-1/" + value + ".html", data = generate_barometer_data(value, excel, about), about = about))
       elif cell == 'ressources':
         sections.append(render_template('reports/ressources.html', content = value))
       elif cell == 'theme':
@@ -160,7 +165,7 @@ def convert_xlookup_to_index_match():
   workbook.save(filename)
   return "Success",200
 
-def generate_barometer_data(barometer, excel):
+def generate_barometer_data(barometer, excel, about):
   if barometer == "barometer-1":
     data = {
       "id": "barometer_1",

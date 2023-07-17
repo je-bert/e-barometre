@@ -1,8 +1,27 @@
-<div class="flex flex-col items-center justify-center rounded-full bg-white aspect-square w-[300px] drop-shadow-xl relative min-h-[300px]">
-  <h4 style="color: rgb(49 96 183);" class="uppercase text-sm">Conflit parental</h4>
-  <div class="relative w-[80%] mt-[48px] mb-[48px]">
-    <div style="background: linear-gradient(45deg, rgb(109 176 134) 0%, rgb(109 176 134) {{ data.green }}%, rgb(202 178 112) {{ data.yellow }}%, rgb(212 132 108) {{ data.orange }}%, rgb(201 91 111) 100%);" class="absolute left-0 -top-[6px] w-full h-[12px] rounded-full"></div>
-    <div style="background-color: rgb(90 158 230);" class="absolute left-[{{ data.value }}%] top-0 border-[2px] border-white transform -translate-x-1/2 -translate-y-1/2 rounded-full w-[18px] h-[18px]"></div>
+<div class="flex flex-row w-full justify-center items-center space-x-12">
+  <div class="lg:w-[55%] flex justify-end hidden lg:flex">
+    <div class='bg-white py-4 px-[32px] w-[400px] rounded-[3.5rem] drop-shadow-xl mx-4 max-w-[950px] text-center'>
+      <h3> 
+        À propos du baromètre
+      </h3>
+      <p>
+        {{ about | safe }}
+      </p>
+      {% if link %}
+        <a href="{{ link }}">
+          Suite+
+        </a>
+      {% endif %}
+    </div>
   </div>
-  <h4 style="color: rgb(49 96 183);" class="uppercase text-sm">Risque {{ data.result }}</h4>
+  <div class="lg:w-[45%] flex justify-left w-100">
+    <div class="flex flex-col items-center justify-center rounded-full bg-white aspect-square w-[300px] drop-shadow-xl relative min-h-[300px]">
+    <h4 style="color: rgb(49 96 183);" class="uppercase text-sm">Conflit parental</h4>
+    <div class="relative w-[80%] mt-[48px] mb-[48px]">
+      <div style="background: linear-gradient(45deg, rgb(109 176 134) 0%, rgb(109 176 134) {{ data.green }}%, rgb(202 178 112) {{ data.yellow }}%, rgb(212 132 108) {{ data.orange }}%, rgb(201 91 111) 100%);" class="absolute left-0 -top-[6px] w-full h-[12px] rounded-full"></div>
+      <div style="background-color: rgb(90 158 230);" class="absolute left-[{{ data.value }}%] top-0 border-[2px] border-white transform -translate-x-1/2 -translate-y-1/2 rounded-full w-[18px] h-[18px]"></div>
+    </div>
+    <h4 style="color: rgb(49 96 183);" class="uppercase text-sm">Risque {{ data.result }}</h4>
+  </div>
+  </div>
 </div>
