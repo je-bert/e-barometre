@@ -45,6 +45,11 @@
       À surveiller
     </div>
   </div>
+  {% if flag_introduction %}
+  <p style="margin-bottom: 0px!important;" class="px-[32px] md:px-[64px] lg:px-[150px]">
+    {{ flag_introduction | safe }}
+  </p>
+  {% endif %}
   {% for yellow_flag in yellow_flags %}
   <div
     class="flex flex-col md:flex-row items-center md:items-start px-[32px] md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0"
