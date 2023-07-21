@@ -3,10 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run serve:all",
-    "serve:web": "ng serve --port 4300 --open --hmr",
-    "serve:api": "nodemon theServer/src/server.ts -e ts,sql,js",
-    "serve:all": "concurrently \"npm run serve:api\" \"npm run serve:web\"",
+    "dev": "ng serve --port 4300 --open --hmr",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

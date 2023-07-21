@@ -1,4 +1,3 @@
-
 from flask import request, jsonify, abort
 from models import User, Question, Answer
 from database import db
@@ -14,6 +13,8 @@ def update(current_user):
 
   if not user:
       return abort(400)
+    
+
 
   json = request.json
 

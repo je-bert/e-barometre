@@ -10,9 +10,15 @@ from pycel import ExcelCompiler
 #TEMPLATE_FILE = 'Master_TEST_Barometre_230523_8h00_3.xlsx'
 TEMPLATE_FILE = 'Master_TEST_Barometre_230700a.xlsx'
 
-def generate():
+def generate(user_id):
+  
   convert_xlookup_to_index_match()
-  user_id = 0
+
+
+  output_file = 'master_results/{}.xlsx'.format(user_id)
+  
+  if os.path.exists(output_file):
+    return jsonify("Votre rapport est disponible"), 204
 
   user = User.query\
     .filter_by(user_id = user_id)\
@@ -26,7 +32,8 @@ def generate():
 
   template_file = TEMPLATE_FILE
   worksheet_name = 'TEST_pour PROTOTYPE'
-  output_file = 'master_results/{}.xlsx'.format(user.user_id)
+
+
   if not os.path.exists(output_file):
      copyfile(template_file, output_file)
 
@@ -58,8 +65,8 @@ def generate():
 
   return jsonify("Votre rapport a été généré!"), 200
 
-def output():
-  user_id = 0
+def output(user_id):
+
 
   user = User.query\
     .filter_by(user_id = user_id)\

@@ -28,46 +28,54 @@
 <div class="container">
   <div class="row">
     <div class="col tw-relative">
-      <div class="tw-w-1/12 tw-absolute -tw-left-[2.5%] tw-top-[10%]">
+      <div class="tw-w-1/12 tw-absolute -tw-left-[2.5%]">
         <app-progress-bar
           title="Questionnaire"
-          bgColor="rgb(3, 13, 69)"
+          bgColor="#102485"
           progress="0%"
           barColor="#50b8ff"
         ></app-progress-bar>
       </div>
-      <div class="tw-absolute tw-w-full" style="top: 45%">
+      <div class="tw-absolute tw-w-full" style="top: 36%">
         <div class="tw-flex tw-justify-center tw-w-full">
           <button
+            *ngIf="(availableAnalysisId$ | async) === ''"
             [routerLink]="'/dashboard/questionnaire/' + nextSurveyID"
+            class="btn btn-primary"
+          >
+            {{ startBtnText }}
+          </button>
+          <button
+            *ngIf="availableAnalysisId$ | async"
+            (click)="handleNavigateToAnalysis()"
             class="btn btn-primary"
           >
             {{ startBtnText }}
           </button>
         </div>
       </div>
-      <div class="tw-absolute tw-top-[44%] tw-right-[5%]">
+      <div class="tw-absolute tw-top-[36%] tw-right-[5%]">
         <app-presentation-dropdown
           title="Parent répondant"
           description="Le parent qui répond aux questionnaires. "
           [delay]="1000"
         ></app-presentation-dropdown>
       </div>
-      <div class="tw-absolute tw-top-[37%] tw-left-[10%]">
+      <div class="tw-absolute tw-top-[29%] tw-left-[10%]">
         <app-presentation-dropdown
           title="Enfant"
           description="L’enfant pour qui vous désirez faire une analyse."
           [delay]="2000"
         ></app-presentation-dropdown>
       </div>
-      <div class="tw-absolute tw-top-[74%] tw-left-[22%]">
+      <div class="tw-absolute tw-top-[66%] tw-left-[22%]">
         <app-presentation-dropdown
           title="Coparent"
           description="Le parent avec qui vous êtes en coparentalité pour l’enfant étudié."
           [delay]="3000"
         ></app-presentation-dropdown>
       </div>
-      <div class="tw-absolute tw-top-[78%] tw-right-[17%]">
+      <div class="tw-absolute tw-top-[70%] tw-right-[17%]">
         <app-presentation-dropdown
           title="Nouveau.elle conjoint.e"
           description="Le nouveau ou la nouvelle conjoint·e du coparent, le cas échéant."
@@ -81,7 +89,7 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
         x="0px"
         y="0px"
-        viewBox="0 0 809.3 822.6"
+        viewBox="0 70 809.3 822.6"
         style="enable-background: new 0 0 809.3 822.6"
         xml:space="preserve"
         id="dashboard-svg"
@@ -105,13 +113,13 @@
             fill: #f0f0f0;
           }
           .st1 {
-            fill: #f2f2f2;
+            fill: #e1f0ff;
           }
           .st2 {
             fill: #ffffff;
           }
           .st3 {
-            fill: #e6e6e6;
+            fill: #e1f0ff;
           }
           .st4 {
             fill: #cacaca;
@@ -120,7 +128,7 @@
             fill: #3f3d56;
           }
           .st6 {
-            fill: #e2725a;
+            fill: #fd5270;
           }
           .st7 {
             fill: #ffb8b8;
@@ -191,7 +199,7 @@
         />
 
         <!-- <path
-          [style.fill]="completed[0] && '#030d45!important'"
+          [style.fill]="completed[0] && '#102485!important'"
           d="m 572.68392,294.9914 c 0.083,-0.21136 -4.59913,-2.27536 -12.50371,-5.55841 -2.36899,-1.21993 -5.03896,-2.58305 -7.96506,-4.06649 -3.10664,-1.48662 -6.50028,-3.10014 -10.12971,-4.81594 0,0 0,0 0,0 -3.30552,-1.51783 -6.80558,-3.11747 -10.46193,-4.78104 -4.1714,-1.69668 -8.54256,-3.46576 -13.05796,-5.28399 0.0164,0.006 -5.18239,-2.00341 -5.16595,-1.99704 -2.99403,-1.15524 -5.9389,-2.28775 -8.81944,-3.39193 -4.51129,-1.54555 -8.86673,-3.02905 -13.01005,-4.43202 -3.85339,-1.28641 -7.5235,-2.50415 -10.96515,-3.6386 0,0 -1e-5,-10e-6 -1e-5,-10e-6 -3.20225,-0.97045 -6.20859,-1.87476 -8.98313,-2.70228 -8.43527,-2.48096 -13.92645,-4.21331 -17.40879,-5.37897 1.6337,0.22055 2.53529,0.16338 2.5381,0.0681 0.003,-0.0953 -0.89653,-0.20539 -2.62129,-0.0836 3.41197,1.26414 8.79308,3.36325 17.03722,6.76058 2.75126,0.90515 5.73734,1.87982 8.92272,2.91227 0,0 0,0 0,0 3.41308,1.19807 7.05657,2.46898 10.88605,3.79688 4.1159,1.4467 8.44694,2.96029 12.93827,4.5209 2.86665,1.11348 5.79948,2.249 8.78382,3.40063 0.0165,0.006 5.13534,1.97791 5.15179,1.98426 4.50309,1.79966 8.8688,3.53549 13.0421,5.18639 3.65577,1.62158 7.16143,3.16944 10.47883,4.62712 0,0 10e-6,0 10e-6,0 3.64742,1.65111 7.06601,3.18951 10.20404,4.59222 2.97773,1.41278 5.69942,2.69463 8.11986,3.82423 8.06919,2.99231 12.90632,4.66814 12.98937,4.45673 z"
         /> -->
         <path
@@ -217,7 +225,7 @@
 	C637.5,493.9,611.4,516.7,569.8,530.7z"
         />
         <!-- <path
-          [style.fill]="completed[0] && '#030d45!important'"
+          [style.fill]="completed[0] && '#102485!important'"
           d="m 592.91426,350.31658 c -0.10395,0.13907 -8.84813,-6.19971 -23.04964,-16.6679 0,0 0,0 0,0 -7.50413,-5.1465 -16.49203,-11.3384 -26.52244,-18.27277 -8.43343,-4.68404 -17.56041,-9.76598 -27.14518,-15.11591 0.0668,0.032 -13.10185,-6.28185 -13.03503,-6.24984 -0.0383,-0.0184 -9.91433,-4.76262 -9.95267,-4.78103 -0.24022,-0.10372 -26.41892,-11.43645 -26.65913,-11.54017 -0.0559,-0.0218 -15.32577,-6.00395 -15.38163,-6.02579 -7.6537,-2.66987 -14.60593,-5.10514 -20.67081,-7.24051 -4.29955,-1.5811 -8.15025,-3.0035 -11.48523,-4.24263 -9.02263,-3.89194 -14.19458,-6.1882 -14.14598,-6.30409 0.0486,-0.11589 5.31083,1.96346 14.39494,5.66469 3.35514,1.16931 7.22156,2.52507 11.53163,4.04343 6.09705,2.05375 13.07915,4.41807 20.75955,7.02995 -0.0512,-0.0197 15.51218,5.96262 15.46094,5.94297 -0.22691,-0.0971 26.96691,11.57381 26.74,11.47669 -0.0383,-0.0183 10.02029,4.80596 9.98201,4.78762 0.0673,0.0323 12.99672,6.2454 13.06399,6.27769 9.60831,5.38518 18.7458,10.51896 27.17462,15.26635 10.01749,7.012 18.96917,13.29979 26.41632,18.55419 0,0 0,0 10e-6,0 14.07201,10.66557 22.62768,17.25799 22.52373,17.39706 z"
         ></path> -->
         <path
@@ -323,7 +331,7 @@
           </g>
           <path
             class="st1"
-            [style.fill]="completed[0] && '#030d45!important'"
+            [style.fill]="completed[0] && '#102485!important'"
             filter="url(#shadow)"
             d="M780.4,286.1c0,2.4-0.1,4.9-0.2,7.3c-0.2,2.9-0.5,5.7-0.9,8.6c-1.4,9.6-4.1,18.9-8,27.7
 	    c-0.2,0.4-0.4,0.9-0.6,1.3l-0.3,0.7c-0.1,0.2-0.2,0.4-0.3,0.6c-0.1,0.3-0.3,0.6-0.4,0.9c-0.2,0.4-0.3,0.7-0.5,1c0,0,0,0.1-0.1,0.1

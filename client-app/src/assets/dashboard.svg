@@ -15,13 +15,13 @@
             fill: #f0f0f0;
           }
           .st1 {
-            fill: #f2f2f2;
+            fill: #e1f0ff;
           }
           .st2 {
             fill: #ffffff;
           }
           .st3 {
-            fill: #e6e6e6;
+            fill: #e1f0ff;
           }
           .st4 {
             fill: #cacaca;
@@ -30,7 +30,7 @@
             fill: #3f3d56;
           }
           .st6 {
-            fill: #e2725a;
+            fill: #fd5270;
           }
           .st7 {
             fill: #ffb8b8;

@@ -3,7 +3,7 @@
 
 :root {
   --questionnaire-color: rgb(226, 114, 90);
-  --primary-color: #50b8ff;
+  --primary-color: #0085e7;
 }
 
 body,
@@ -58,7 +58,7 @@ header {
 
 .mat-fab.mat-primary,
 .mat-mini-fab.mat-primary {
-  background-color: #030d45 !important;
+  background-color: #102485 !important;
 }
 
 // overwrite primary button from bootstrap
@@ -308,7 +308,7 @@ app-labeled-ladder {
 
 // .btn-outline-primary:hover {
 //   color: white !important;
-//   background-color: #030d45 !important;
+//   background-color: #102485 !important;
 // }
 
 .btn-marie {
@@ -317,7 +317,7 @@ app-labeled-ladder {
 
   :hover {
     color: white !important;
-    background-color: #030d45 !important;
+    background-color: #102485 !important;
   }
 }
 

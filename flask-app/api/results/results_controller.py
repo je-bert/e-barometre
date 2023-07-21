@@ -5,14 +5,21 @@ from api.auth import auth
 results_router = Blueprint('results_router', __name__)
 
 @results_router.route('/', methods = ['POST'])
-def generate():
-  return results_service.generate()
+@auth
+def generate(current_user):
+  return results_service.generate(current_user.user_id)
 
 @results_router.route('/fix', methods = ['GET'])
 def fix():
   return results_service.convert_xlookup_to_index_match()
 
 @results_router.route('/', methods = ['GET'])
-def output():
-  return results_service.output()
+@auth
+def output(current_user):
+  return results_service.output(current_user.user_id)
+
+
+@results_router.route('/demo/<id>',methods=['GET'])
+def demo(id):
+  return results_service.output(id)
 

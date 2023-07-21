@@ -80,7 +80,7 @@ def find_one(user_id):
         sections.append(render_template('reports/about-barometer.html', content = value))
         about = value
       elif cell == 'barometer':
-        if value == 'barometer-1' or value == 'barometer-5':
+        if value == 'barometer-1' or value == 'barometer-5' or value == 'barometer-6':
           sections.pop()
           sections.append(render_template('reports/about-barometer.html', content = about, hide_lg = True))
         sections.append(render_template("reports/report-1/" + value + ".html", data = generate_barometer_data(value, excel, about), about = about))
@@ -95,6 +95,7 @@ def find_one(user_id):
       elif cell == 'red_flag':
         red_flags.append(value)
       previous_cell = cell
+
 
   return render_template('reports/report-1/base.html', children = sections)
 
