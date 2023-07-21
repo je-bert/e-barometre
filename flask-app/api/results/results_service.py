@@ -94,6 +94,7 @@ def output(user_id):
 
   sections = []
   themes = []
+  analysis =[]
   flag_introduction = None
   yellow_flags = []
   red_flags = []
@@ -105,10 +106,11 @@ def output(user_id):
     if cell and cell != '' and cell != ' ':
       value = excel.evaluate(f"'{worksheet_name}'!E{i}")
       if previous_cell == 'red_flag' and cell != 'red_flag':
-        sections.append(render_template('reports/themes.html', analysis_items = themes, observations = themes))
+        sections.append(render_template('reports/themes.html', analysis_items = analysis, observations = themes))
         if len(red_flags) > 0 or len(yellow_flags) > 0:
           sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags, flag_introduction = flag_introduction))
         themes = []
+        analysis = []
         yellow_flags = []
         red_flags = []
         flag_introduction = None
@@ -131,6 +133,8 @@ def output(user_id):
         sections.append(render_template('reports/ressources.html', content = value))
       elif cell == 'theme':
         themes.append(value)
+      elif cell == 'analysis':
+        analysis.append(value)
       elif cell == 'flag_introduction':
         flag_introduction = value
       elif cell == 'yellow_flag':
