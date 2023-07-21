@@ -3,7 +3,4 @@
 >
   <h3 class="mt-8">{% block title %} {% endblock %}</h3>
   <p>{{ content | safe }}</p>
-  {% if link %}
-  <a href="{{ link }}"> {% block link_label %} {% endblock %} </a>
-  {% endif %}
 </div>
