@@ -108,7 +108,7 @@ export class QuestionsService {
           ] as ClientSideQuestion[];
 
           questions.forEach((question) => {
-            question.shouldBeDisplayed = true;
+            question.shouldBeDisplayed = !question.condition;
             question.answer = question.answer || null;
             question.hasOtherValueToSpecify = false;
             question.otherValue = '';
@@ -180,77 +180,75 @@ export class QuestionsService {
     question: ClientSideQuestion,
     questions: ClientSideQuestion[]
   ): void {
-    return;
+    if (!question.condition) return;
 
-    // if (!question.condition) return;
+    const conditions = this.parser.parseCondition(question.condition);
 
-    // const conditions = this.parser.parseCondition(question.condition);
+    for (const {
+      questionID,
+      operator,
+      conditionAnswer,
+      logicalOperator,
+    } of conditions) {
+      const conditionQuestion = questions.find(
+        (question) => question.question_id === questionID
+      );
+      if (!conditionQuestion) continue;
 
-    // for (const {
-    //   questionID,
-    //   operator,
-    //   conditionAnswer,
-    //   logicalOperator,
-    // } of conditions) {
-    //   const conditionQuestion = questions.find(
-    //     (question) => question.question_id === questionID
-    //   );
-    //   if (!conditionQuestion) continue;
+      let conditionMet = false;
+      switch (operator) {
+        case '>':
+          conditionMet =
+            conditionQuestion.answer !== null &&
+            +conditionQuestion.answer > +conditionAnswer;
+          break;
+        case '<':
+          conditionMet =
+            conditionQuestion.answer !== null &&
+            +conditionQuestion.answer < +conditionAnswer;
+          break;
 
-    //   let conditionMet = false;
-    //   switch (operator) {
-    //     case '>':
-    //       conditionMet =
-    //         conditionQuestion.answer !== null &&
-    //         +conditionQuestion.answer > +conditionAnswer;
-    //       break;
-    //     case '<':
-    //       conditionMet =
-    //         conditionQuestion.answer !== null &&
-    //         +conditionQuestion.answer < +conditionAnswer;
-    //       break;
+        case '=':
+          conditionMet =
+            conditionQuestion.answer !== null &&
+            (/,/.test(conditionQuestion.answer)
+              ? conditionQuestion.answer
+                  .split(',')
+                  .includes(conditionAnswer.toString())
+              : +conditionQuestion.answer === +conditionAnswer);
+          break;
+        case '>=':
+          conditionMet =
+            conditionQuestion.answer !== null &&
+            +conditionQuestion.answer >= +conditionAnswer;
+          break;
+        case '<=':
+          conditionMet =
+            conditionQuestion.answer !== null &&
+            +conditionQuestion.answer <= +conditionAnswer;
+          break;
+        default:
+          throw new Error('Unknown operator');
+      }
 
-    //     case '=':
-    //       conditionMet =
-    //         conditionQuestion.answer !== null &&
-    //         (/,/.test(conditionQuestion.answer)
-    //           ? conditionQuestion.answer
-    //               .split(',')
-    //               .includes(conditionAnswer.toString())
-    //           : +conditionQuestion.answer === +conditionAnswer);
-    //       break;
-    //     case '>=':
-    //       conditionMet =
-    //         conditionQuestion.answer !== null &&
-    //         +conditionQuestion.answer >= +conditionAnswer;
-    //       break;
-    //     case '<=':
-    //       conditionMet =
-    //         conditionQuestion.answer !== null &&
-    //         +conditionQuestion.answer <= +conditionAnswer;
-    //       break;
-    //     default:
-    //       throw new Error('Unknown operator');
-    //   }
+      if (logicalOperator === undefined && conditionMet) {
+        question.shouldBeDisplayed = true;
+        return;
+      }
 
-    //   if (logicalOperator === undefined && conditionMet) {
-    //     question.shouldBeDisplayed = true;
-    //     return;
-    //   }
+      if (logicalOperator === '||' && conditionMet) {
+        question.shouldBeDisplayed = true;
+        return;
+      } else if (logicalOperator === '&&' && !conditionMet) {
+        question.shouldBeDisplayed = false;
+        question.answer = null;
+        return;
+      }
+    }
 
-    //   if (logicalOperator === '||' && conditionMet) {
-    //     question.shouldBeDisplayed = true;
-    //     return;
-    //   } else if (logicalOperator === '&&' && !conditionMet) {
-    //     question.shouldBeDisplayed = false;
-    //     question.answer = null;
-    //     return;
-    //   }
-    // }
-
-    // // If none of the conditions returned early, all "&&" conditions were met or no conditions with "||" were met
-    // question.shouldBeDisplayed =
-    //   conditions[conditions.length - 1].logicalOperator === '&&';
+    // If none of the conditions returned early, all "&&" conditions were met or no conditions with "||" were met
+    question.shouldBeDisplayed =
+      conditions[conditions.length - 1].logicalOperator === '&&';
   }
 
   // TODO (simon) -> old method
