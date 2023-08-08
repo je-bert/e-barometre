@@ -63,5 +63,9 @@ export class TestsComponent implements OnInit {
     });
   }
 
+  public resetAnswers() {
+    // TODO (Jeremie)
+  }
+
   ngOnInit(): void {}
 }
