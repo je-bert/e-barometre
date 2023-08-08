@@ -9,11 +9,6 @@ labels_router = Blueprint('labels_router', __name__)
 def find_all():
     return labels_service.find_all()
 
-@labels_router.route('/update/<id>', methods = ['GET', 'POST'])
-@auth
-def update_one(id):
-  return labels_service.update_one(id)
-
 @labels_router.route('/<id>', methods = ['GET'])
 @auth
 def find_one(id):
