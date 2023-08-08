@@ -13,19 +13,23 @@ def get_next(current_user):
   kid_potentially_went_to_other_parent_house = get_kid_potentially_went_to_other_parent_house(current_user)
 
 
+
   surveys = Survey.query\
     .filter(Survey.survey_id.notin_([s.survey_id for s in completed_surveys]))
 
   
   if is_user_single:
-    surveys.filter(Survey.survey_id != 'NC')
+    surveys= surveys.filter(Survey.survey_id != 'NC')
 
-  if kid_potentially_went_to_other_parent_house:
-    surveys.filter(Survey.survey_id != 'PCRB')
+  if kid_potentially_went_to_other_parent_house == False:
+
+    surveys= surveys.filter(Survey.survey_id != 'PCRB')
 
 
 
   surveys = surveys.all()
+
+
 
   
   
@@ -43,6 +47,8 @@ def get_is_user_single(current_user):
     .filter_by(question_id = 'B08')\
     .first()
 
+
+
   if answer:
     return answer.value == '1'
   
@@ -50,6 +56,8 @@ def get_is_user_single(current_user):
 
 # TODO (simon) -> Refactor this one
 def get_kid_potentially_went_to_other_parent_house(current_user):
+
+  print(Answer.query.filter_by(user_id = current_user.user_id).filter_by(question_id='E32').all())
 
   first_answer = Answer.query\
     .filter_by(user_id = current_user.user_id)\
@@ -74,6 +82,8 @@ def get_kid_potentially_went_to_other_parent_house(current_user):
 
   if third_answer and third_answer.value and int(third_answer.value) >= 4:
     return True
+
+  return False
 
 
 
