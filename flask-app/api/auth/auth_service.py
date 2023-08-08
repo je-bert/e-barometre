@@ -14,8 +14,6 @@ def sign_in():
   password = auth.get('password')
   email = auth.get('email')
 
-  print(password)
-
   if not auth or not email or not password:
       return 'Identifiants invalides.', 400
     
