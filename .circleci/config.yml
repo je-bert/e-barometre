@@ -1,0 +1,28 @@
+version: "2.1"
+jobs:
+  build:
+    docker:
+      - image: cimg/node:18.17.0
+    environment:
+      MAIN_BRANCH_NAME: main
+    working_directory: ~/project/client-app
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "package.json" }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          key: v1-deps-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Build and Deploy Angular application
+          command: ng build --prod && npx netlify-cli deploy --site 5c11cde4-901e-4969-877d-f17554268ade --auth ${NETLIFY_TOKEN} --prod --dir=/dist/e-barometre
+
+workflows:
+  build-deploy:
+    jobs:
+      - build
