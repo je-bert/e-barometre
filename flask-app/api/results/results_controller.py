@@ -19,7 +19,7 @@ def output(current_user):
   return results_service.output(current_user.user_id)
 
 
-@results_router.route('/demo/<id>',methods=['GET'])
+@results_router.route('/<id>',methods=['GET'])
 def demo(id):
   return results_service.output(id)
 

@@ -24,7 +24,7 @@ Résultats {% endblock %} {% block content %}
         <td class="px-5 py-4">
           <div class="flex items-center justify-center space-x-4 text-sm">
             <button
-              onclick="window.open('/admin/results/{{result.user_id}}', '_blank')"
+              onclick="window.open('/api/results/{{result.user_id}}', '_blank')"
               class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
               aria-label="Delete"
             >
