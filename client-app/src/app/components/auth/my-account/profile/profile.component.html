@@ -52,9 +52,9 @@
     <div class="row">
       <div class="col-12">
         <div class="d-flex justify-content-end pt-3">
-          <button class="btn btn-secondary" type="button">Cancel</button>
+          <button class="btn btn-secondary" type="button">Annuler</button>
           <button class="btn btn-primary ms-3" type="button">
-            Save changes
+            Enregistrer
           </button>
         </div>
       </div>
@@ -78,16 +78,16 @@
   <div class="card-body">
     <div class="d-flex align-items-center pb-4 mt-sm-n1 mb-0 mb-lg-1 mb-xl-3">
       <i class="ai-lock-closed text-primary lead pe-1 me-2"></i>
-      <h2 class="h4 mb-0">Password change</h2>
+      <h2 class="h4 mb-0">Changement de mot de passe</h2>
     </div>
     <div class="row align-items-center g-3 g-sm-4 pb-3">
       <div class="col-sm-6">
-        <label class="form-label" for="current-pass">Current password</label>
+        <label class="form-label" for="current-pass">Mot de passe actuel</label>
         <div class="password-toggle">
           <input
             class="form-control"
             type="password"
-            value="hidden@password"
+            placeholder="***********"
             id="current-pass"
           />
           <label class="password-toggle-btn" aria-label="Show/hide password">
@@ -101,11 +101,11 @@
         <a
           class="d-inline-block fs-sm fw-semibold text-decoration-none mt-sm-4"
           href="account-password-recovery.html"
-          >Forgot password?</a
+          >Mot de passe oublié?</a
         >
       </div>
       <div class="col-sm-6">
-        <label class="form-label" for="new-pass">New password</label>
+        <label class="form-label" for="new-pass">Nouveau mot de passe</label>
         <div class="password-toggle">
           <input class="form-control" type="password" id="new-pass" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
@@ -117,7 +117,7 @@
       </div>
       <div class="col-sm-6">
         <label class="form-label" for="confirm-pass"
-          >Confirm new password</label
+          >Confirmation du nouveau mot de passe</label
         >
         <div class="password-toggle">
           <input class="form-control" type="password" id="confirm-pass" />
@@ -132,12 +132,13 @@
     <div class="alert alert-info d-flex my-3 my-sm-4">
       <i class="ai-circle-info fs-xl me-2"></i>
       <p class="mb-0">
-        Password must be minimum 8 characters long - the more, the better.
+        Le mot de passe doit comporter au minimum 8 caractères (avec au minimum
+        une lettre et un chiffre) - plus il est long, mieux c'est.
       </p>
     </div>
     <div class="d-flex justify-content-end pt-3">
-      <button class="btn btn-secondary" type="button">Cancel</button>
-      <button class="btn btn-primary ms-3" type="button">Save changes</button>
+      <button class="btn btn-secondary" type="button">Annuler</button>
+      <button class="btn btn-primary ms-3" type="button">Enregistrer</button>
     </div>
   </div>
 </section>
@@ -145,21 +146,25 @@
 <section class="card border-0 py-1 p-md-2 p-xl-3 p-xxl-4 shadow-lg p-4 tw-mt-8">
   <div class="card-body">
     <div class="d-flex align-items-center pb-4 mt-sm-n1 mb-0 mb-lg-1 mb-xl-3">
-      <h2 class="h4 mb-0">Delete account</h2>
+      <h2 class="h4 mb-0">Supprimer le compte</h2>
     </div>
     <div class="alert alert-warning d-flex mb-4">
       <i class="ai-triangle-alert fs-xl me-2"></i>
       <p class="mb-0">
-        When you delete your account, your public profile will be deactivated
-        immediately. If you change your mind before the 14 days are up, sign in
-        with your email and password, and we'll send a link to reactivate
-        account. <a href="#" class="alert-link">Learn more</a>
+        Lorsque vous supprimez votre compte, votre profil public sera
+        immédiatement désactivé. Si vous changez d'avis avant la fin des 14
+        jours, connectez-vous avec votre adresse e-mail et votre mot de passe,
+        et nous vous enverrons un lien pour réactiver votre compte.<a
+          href="#"
+          class="alert-link"
+          >En savoir plus</a
+        >
       </p>
     </div>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="confirm" />
       <label class="form-check-label text-dark fw-medium" for="confirm"
-        >Yes, I want to delete my account</label
+        >Oui, je veux supprimer mon compte</label
       >
     </div>
     <div
@@ -172,7 +177,7 @@
       "
     >
       <button class="btn btn-danger" type="button">
-        <i class="ai-trash ms-n1 me-2"></i>Delete account
+        <i class="ai-trash ms-n1 me-2"></i>Supprimer le compte
       </button>
     </div>
   </div>
