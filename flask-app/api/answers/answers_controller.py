@@ -4,7 +4,7 @@ from api.auth import auth
 
 answers_router = Blueprint('answers_router', __name__)
 
-@answers_router.route('/', methods = ['POST','PUT'], strict_slashes=False)
+@answers_router.route('/', methods = ['POST','PUT', 'DELETE'], strict_slashes=False)
 @auth
 def update(current_user):
     return answers_service.update(current_user)

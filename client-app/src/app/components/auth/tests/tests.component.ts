@@ -63,8 +63,23 @@ export class TestsComponent implements OnInit {
     });
   }
 
-  public resetAnswers() {
-    // TODO (Jeremie)
+  public resetAnswers(): void {
+    this.http.delete(environment.apiUrl + '/answers').subscribe({
+      next: (res) => {
+        this.notificationService.show({
+          message: res.toString(),
+          type: 'success',
+          duration: 2000,
+        });
+      },
+      error: (error) => {
+        this.notificationService.show({
+          message: error.toString(),
+          type: 'danger',
+          duration: 2000,
+        });
+      },
+    });
   }
 
   ngOnInit(): void {}

@@ -13,8 +13,18 @@ def update(current_user):
 
   if not user:
       return abort(400)
+  
+  if request.method == 'DELETE':
+    answers = Answer.query\
+      .filter_by(user_id = user_id)\
+      .all()
+  
+    for answer in answers:
+      db.session.delete(answer)
     
+    db.session.commit()
 
+    return jsonify("Vos réponses ont été supprimées!"), 200
 
   json = request.json
 
