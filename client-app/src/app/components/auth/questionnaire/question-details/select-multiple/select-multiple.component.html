@@ -2,9 +2,15 @@
   <button
     *ngFor="let answer of question.choices"
     type="button"
-    (click)="answerPicked.emit({question, answer:answer.value})"
+    (click)="answerPicked.emit({question, answer: answer.value})"
     [ngClass]="{
-      'btn-outline-primary': answer.value !== question.answer,
+      'btn-outline-primary':
+        answer.value !== question.answer &&
+        !(
+          question.answer &&
+          answer.value &&
+          question.answer.indexOf(answer.value) > -1
+        ),
       'btn-success':
         answer.value === question.answer ||
         (question.answer &&

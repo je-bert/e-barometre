@@ -60,5 +60,50 @@ def update(current_user):
 
   if len(errors) > 0:
     return jsonify(errors), 200
+  
+  answers = Answer.query\
+    .filter_by(user_id = user_id)\
+    .all()
+
+  if not answers:
+    return abort(404)
     
-  return jsonify("Vos réponses ont été sauvegardées!"), 200
+  return jsonify(answers), 200
+
+def find_one(current_user, question_id):
+  user_id = current_user.user_id
+
+  user = User.query\
+    .filter_by(user_id = user_id)\
+    .first()
+
+  if not user:
+      return abort(400)
+  
+  answer = Answer.query\
+    .filter_by(user_id = user_id, question_id = question_id)\
+    .first()
+
+  if not answer:
+    return abort(404)
+  
+  return jsonify(answer), 200
+
+def find_all(current_user):
+  user_id = current_user.user_id
+
+  user = User.query\
+    .filter_by(user_id = user_id)\
+    .first()
+
+  if not user:
+      return abort(400)
+  
+  answers = Answer.query\
+    .filter_by(user_id = user_id)\
+    .all()
+
+  if not answers:
+    return abort(404)
+  
+  return jsonify(answers), 200

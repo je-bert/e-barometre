@@ -4,13 +4,13 @@ from api.auth import auth
 
 surveys_router = Blueprint('surveys_router', __name__)
 
-@surveys_router.route('/')
+@surveys_router.route('/', methods=['GET'])
 @auth
 def find_all(current_user):
     return surveys_service.find_all()
 
 
-@surveys_router.route('/<id>')
+@surveys_router.route('/<id>', methods=['GET'])
 @auth
 def find_one(current_user, id):
     return surveys_service.find_one(current_user, id)

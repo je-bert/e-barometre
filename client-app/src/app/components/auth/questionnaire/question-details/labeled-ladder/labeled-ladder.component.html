@@ -8,6 +8,7 @@
         }"
         (click)="answerPicked.emit({question, answer:answer.value})"
         [value]="answer"
+        [checked]="answer.value?.toString() === question.answer?.toString()"
         >{{ answer.label }}</mat-radio-button
       >
     </ng-container>

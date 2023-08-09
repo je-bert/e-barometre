@@ -57,24 +57,6 @@ export class QuestionsService {
   }
 
   public submitQuestionnaire() {
-    const answers = this.questionnaire.reduce<
-      { question_id: string; value: string }[]
-    >((acc, question) => {
-      if (question.answer === null) return acc;
-      if (question.isConfirmed === false) return acc;
-
-      const questionAnswer = {
-        question_id: question.question_id,
-        value: question.answer.toString(),
-      } as SaveQuestionAnswer;
-
-      if (question.otherValue) {
-        questionAnswer.custom_answer = question.otherValue;
-      }
-
-      return [...acc, questionAnswer];
-    }, []);
-
     // handle confirm or error
 
     this.http
@@ -95,7 +77,7 @@ export class QuestionsService {
   }
 
   public getAllQuestionnaires(): Observable<Questionnaire[]> {
-    return this.http.get<Questionnaire[]>(environment.apiUrl + '/survey');
+    return this.http.get<Questionnaire[]>(environment.apiUrl + '/surveys/');
   }
 
   public async getSingleQuestionnaire(questionnaireID: string) {
@@ -156,6 +138,7 @@ export class QuestionsService {
           const root = document.querySelector(':root') as HTMLStyleElement;
 
           root.style.setProperty('--questionnaire-color', questionnaire.color);
+          this.checkIfQuestionsShouldBeDisplayed();
         },
         error: (error) => {
           if (error.status === 401) {
@@ -178,9 +161,11 @@ export class QuestionsService {
 
   private checkIfSingleQuestionShouldBeDisplayed(
     question: ClientSideQuestion,
-    questions: ClientSideQuestion[]
+    answers: { question_id: string; value: string }[] = []
   ): void {
     if (!question.condition) return;
+
+    question.shouldBeDisplayed = false;
 
     const conditions = this.parser.parseCondition(question.condition);
 
@@ -190,42 +175,62 @@ export class QuestionsService {
       conditionAnswer,
       logicalOperator,
     } of conditions) {
-      const conditionQuestion = questions.find(
+      let conditionQuestion = answers.find(
         (question) => question.question_id === questionID
       );
-      if (!conditionQuestion) continue;
+
+      if (!conditionQuestion) {
+        return;
+      }
 
       let conditionMet = false;
       switch (operator) {
         case '>':
           conditionMet =
-            conditionQuestion.answer !== null &&
-            +conditionQuestion.answer > +conditionAnswer;
+            conditionQuestion.value !== null &&
+            +conditionQuestion.value > +conditionAnswer;
           break;
         case '<':
           conditionMet =
-            conditionQuestion.answer !== null &&
-            +conditionQuestion.answer < +conditionAnswer;
+            conditionQuestion.value !== null &&
+            +conditionQuestion.value < +conditionAnswer;
           break;
 
         case '=':
           conditionMet =
-            conditionQuestion.answer !== null &&
-            (/,/.test(conditionQuestion.answer)
-              ? conditionQuestion.answer
+            conditionQuestion.value !== null &&
+            (/,/.test(conditionQuestion.value)
+              ? conditionQuestion.value
                   .split(',')
                   .includes(conditionAnswer.toString())
-              : +conditionQuestion.answer === +conditionAnswer);
+              : +conditionQuestion.value === +conditionAnswer);
           break;
         case '>=':
           conditionMet =
-            conditionQuestion.answer !== null &&
-            +conditionQuestion.answer >= +conditionAnswer;
+            conditionQuestion.value !== null &&
+            (/,/.test(conditionQuestion.value)
+              ? conditionQuestion.value
+                  .split(',')
+                  .some((value) => +value >= +conditionAnswer)
+              : +conditionQuestion.value >= +conditionAnswer);
           break;
         case '<=':
           conditionMet =
-            conditionQuestion.answer !== null &&
-            +conditionQuestion.answer <= +conditionAnswer;
+            conditionQuestion.value !== null &&
+            (/,/.test(conditionQuestion.value)
+              ? conditionQuestion.value
+                  .split(',')
+                  .some((value) => +value <= +conditionAnswer)
+              : +conditionQuestion.value <= +conditionAnswer);
+          break;
+        case '!=':
+          conditionMet =
+            conditionQuestion.value !== null &&
+            (/,/.test(conditionQuestion.value)
+              ? !conditionQuestion.value
+                  .split(',')
+                  .includes(conditionAnswer.toString())
+              : +conditionQuestion.value !== +conditionAnswer);
           break;
         default:
           throw new Error('Unknown operator');
@@ -251,100 +256,37 @@ export class QuestionsService {
       conditions[conditions.length - 1].logicalOperator === '&&';
   }
 
-  // TODO (simon) -> old method
-  // private checkIfSingleQuestionShouldBeDisplayed(
-  //   question: ClientSideQuestion,
-  //   questions: ClientSideQuestion[]
-  // ): void {
-  //   if (!question.condition) return;
-
-  //   const [questionID, operator, conditionAnswer] = this.parser.parseCondition(
-  //     question.condition
-  //   );
-
-  //   const conditionQuestion = questions.find(
-  //     (question) => question.question_id === questionID
-  //   );
-  //   if (!conditionQuestion) return;
-
-  //   switch (operator) {
-  //     case '>':
-  //       if (
-  //         conditionQuestion.answer !== null &&
-  //         +conditionQuestion.answer > +conditionAnswer
-  //       ) {
-  //         question.shouldBeDisplayed = true;
-  //       } else {
-  //         question.shouldBeDisplayed = false;
-  //         question.answer = null;
-  //       }
-  //       //
-  //       break;
-  //     case '<':
-  //       if (
-  //         conditionQuestion.answer !== null &&
-  //         +conditionQuestion.answer < +conditionAnswer
-  //       ) {
-  //         question.shouldBeDisplayed = true;
-  //       } else {
-  //         question.shouldBeDisplayed = false;
-  //         question.answer = null;
-  //       }
-  //       break;
-
-  //     case '=':
-  //       if (
-  //         conditionQuestion.answer !== null &&
-  //         (/,/.test(conditionQuestion.answer)
-  //           ? conditionQuestion.answer
-  //               .split(',')
-  //               .includes(conditionAnswer.toString())
-  //           : +conditionQuestion.answer === +conditionAnswer)
-  //       ) {
-  //         question.shouldBeDisplayed = true;
-  //       } else {
-  //         question.shouldBeDisplayed = false;
-  //         question.answer = null;
-  //       }
-  //       break;
-
-  //     case '>=':
-  //       if (
-  //         conditionQuestion.answer !== null &&
-  //         +conditionQuestion.answer >= +conditionAnswer
-  //       ) {
-  //         question.shouldBeDisplayed = true;
-  //       } else {
-  //         question.shouldBeDisplayed = false;
-  //         question.answer = null;
-  //       }
-  //       break;
-
-  //     case '<=':
-  //       if (
-  //         conditionQuestion.answer !== null &&
-  //         +conditionQuestion.answer <= +conditionAnswer
-  //       ) {
-  //         question.shouldBeDisplayed = true;
-  //       } else {
-  //         question.shouldBeDisplayed = false;
-  //         question.answer = null;
-  //       }
-  //       break;
-
-  //     default:
-  //       throw new Error('Unknown operator');
-  //   }
-  // }
-
-  // todo cleanup this one
-  private checkIfQuestionsShouldBeDisplayed(): void {
+  private checkIfQuestionsShouldBeDisplayed(
+    answers: { question_id: string; value: string }[] | undefined = undefined
+  ): void {
     const questions = this.questionnaire;
-    // add all questions answered by user from backend
 
-    questions.forEach((question) =>
-      this.checkIfSingleQuestionShouldBeDisplayed(question, questions)
-    );
+    if (!answers) {
+      this.http
+        .get(environment.apiUrl + `/answers`)
+        .pipe(
+          map((response: any) =>
+            response.body.map((answer: any) => {
+              return { question_id: answer.question_id, value: answer.value };
+            })
+          )
+        )
+        .subscribe({
+          next: (response: any) => {
+            questions.forEach((question) =>
+              this.checkIfSingleQuestionShouldBeDisplayed(question, response)
+            );
+          },
+          error: (error) => {
+            console.log(error);
+            return;
+          },
+        });
+    } else {
+      questions.forEach((question) =>
+        this.checkIfSingleQuestionShouldBeDisplayed(question, answers)
+      );
+    }
   }
 
   getQuestions(): ClientSideQuestion[] {
@@ -452,6 +394,7 @@ export class QuestionsService {
   public onAnswer(question: ClientSideQuestion, answer: QuestionAnswer): void {
     question.isConfirmed = false;
     question.answer = this.handleMultipleChoicesSelect(question, answer);
+    answer = question.answer;
 
     question.hasOtherValueToSpecify = false;
 
@@ -463,7 +406,7 @@ export class QuestionsService {
 
     this.handleAutomaticallyMarkAsConfirmed(question);
 
-    this.checkIfQuestionsShouldBeDisplayed();
+    let answers: { question_id: string; value: string }[] = [];
 
     this.http
       .post<{ message: string }>(
@@ -478,12 +421,21 @@ export class QuestionsService {
         },
         { observe: 'response' }
       )
+      .pipe(
+        map((response: any) =>
+          response.body.map((answer: any) => {
+            return { question_id: answer.question_id, value: answer.value };
+          })
+        )
+      )
       .subscribe({
-        next: (response) => {
-          console.log({ response });
+        next: (response: any) => {
+          answers = response;
+          this.checkIfQuestionsShouldBeDisplayed(answers);
         },
         error: (error) => {
-          console.log({ error });
+          console.log(error);
+          return;
         },
       });
   }
