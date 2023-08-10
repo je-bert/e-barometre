@@ -23,8 +23,6 @@ def find_one(current_user, id):
         .filter_by(survey_id = id)\
         .all()
 
-
-
   res = jsonify(survey).json
   res['questions'] = jsonify(questions).json
   # write res to a file to see what it looks like
@@ -40,13 +38,6 @@ def find_one(current_user, id):
       choices = LabelItem.query\
         .filter_by(label_id = question['label_id'])\
         .all()
-
-
-
-      
-
-
-
     else:
       choices = Choice.query\
         .filter_by(question_id = question['question_id'])\
