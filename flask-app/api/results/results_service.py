@@ -14,11 +14,10 @@ def generate(user_id):
   
   convert_xlookup_to_index_match()
 
-
   output_file = 'master_results/{}.xlsx'.format(user_id)
   
   if os.path.exists(output_file):
-    return jsonify("Votre rapport est disponible"), 204
+    os.remove(output_file)
 
   user = User.query\
     .filter_by(user_id = user_id)\
@@ -40,6 +39,7 @@ def generate(user_id):
   # Load the workbook and access the sheet we'll paste into
   wb = load_workbook(output_file)
   ws = wb.get_sheet_by_name(worksheet_name)
+  excel = ExcelCompiler(filename=output_file)
 
   answers = Answer.query\
     .filter_by(user_id = user_id)\
@@ -53,12 +53,14 @@ def generate(user_id):
       values = answer.value.split(',')
       i = 1
       for cell in ws["C"]:
-        if type(cell).__name__ != 'MergedCell' and cell.internal_value == answer.question_id:
-          ws.cell(row=cell.row, column=4).value = 1 if str(i) in values else 0
+        value = excel.evaluate(f"'{worksheet_name}'!{cell.coordinate}")
+        if value == answer.question_id:
+          ws.cell(row=cell.row, column=4).value = (1 if str(i) in values else 0)
           i += 1
     else:
       for cell in ws["C"]:
-        if type(cell).__name__ != 'MergedCell' and cell.internal_value == answer.question_id:
+        value = excel.evaluate(f"'{worksheet_name}'!{cell.coordinate}")
+        if value == answer.question_id:
             ws.cell(row=cell.row, column=4).value = answer.value
   
   wb.save(output_file)
@@ -67,13 +69,14 @@ def generate(user_id):
 
 def output(user_id):
 
-
   user = User.query\
     .filter_by(user_id = user_id)\
     .first()
 
   if not user:
       return abort(400)
+
+  generate(user_id)
 
   if not os.path.exists('master_results'):
     os.makedirs('master_results')
