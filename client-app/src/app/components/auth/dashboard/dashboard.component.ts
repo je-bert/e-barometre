@@ -69,14 +69,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   handleNavigateToAnalysis() {
     window.location.href =
-      'http://localhost:3000/api/results/demo/' +
+      'http://localhost:3000/api/results/' +
       this.availableAnalysisId$.getValue();
   }
 
   ngAfterViewInit() {
-    this.availableAnalysisId$.asObservable().subscribe((id) => {
-      console.log({ id });
-    });
     interval(1000)
       .pipe(
         takeUntil(this.destroy$),
