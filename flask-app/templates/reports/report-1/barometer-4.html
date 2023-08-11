@@ -52,8 +52,6 @@
     `{{ data | tojson | safe }}`.replace('"vraie"', `'vraie'`)
   );
 
-  console.log({ b4Data: data });
-
   const totalWeight = data.items.reduce((acc, item) => {
     return acc + item.weight;
   }, 0);
@@ -97,13 +95,17 @@
 
     const tableRow = document.createElement("tr");
     tableRow.classList.add("border-b-2", "border-[#0085e7]");
+    tableRow.style.height = "200px";
 
     tableRow.innerHTML = `
         
         <td class="border-r-2 px-8 border-[#0085e7]">${item.category}</td>
         <td class="px-8 pt-4">
 
-          ${item.behaviors.reduce((acc, b) => acc + `<p>${b}</p>`, "")}
+          ${item.behaviors.reduce(
+            (acc, b) => acc + `<p style="margin-bottom:0!important;">${b}</p>`,
+            ""
+          )}
         
         </td>
 
