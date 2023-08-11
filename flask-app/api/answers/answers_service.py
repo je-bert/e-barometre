@@ -1,5 +1,5 @@
 from flask import request, jsonify, abort
-from models import User, Question, Answer
+from models import User, Question, Answer,UserSurvey
 from database import db
 from datetime import datetime
 
@@ -15,9 +15,17 @@ def update(current_user):
       return abort(400)
   
   if request.method == 'DELETE':
+
+    completed_surveys = UserSurvey.query\
+      .filter_by(user_id = user_id)\
+      .all()
+
     answers = Answer.query\
       .filter_by(user_id = user_id)\
       .all()
+
+    for survey in completed_surveys:
+      db.session.delete(survey)
   
     for answer in answers:
       db.session.delete(answer)
