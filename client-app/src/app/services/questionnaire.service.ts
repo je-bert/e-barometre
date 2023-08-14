@@ -266,7 +266,7 @@ export class QuestionsService {
         .get(environment.apiUrl + `/answers`)
         .pipe(
           map((response: any) =>
-            response.body.map((answer: any) => {
+            response.map((answer: any) => {
               return { question_id: answer.question_id, value: answer.value };
             })
           )
@@ -423,7 +423,7 @@ export class QuestionsService {
       )
       .pipe(
         map((response: any) =>
-          response.body.map((answer: any) => {
+          response.map((answer: any) => {
             return { question_id: answer.question_id, value: answer.value };
           })
         )

@@ -76,8 +76,6 @@ def output(user_id):
   if not user:
       return abort(400)
 
-  generate(user_id)
-
   if not os.path.exists('master_results'):
     os.makedirs('master_results')
 
