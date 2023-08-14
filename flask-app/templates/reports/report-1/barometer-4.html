@@ -37,10 +37,10 @@
   <table id="b4-table" class="table-auto text-center">
     <thead class="border-b-2 border-[#0085e7]">
       <tr>
-        <th class="border-r-2 border-[#0085e7] text-[#0085e7] text-lg">
-          Catégorie
+        <th class="border-r-2 border-[#0085e7]">
+          <h4>Catégorie</h4>
         </th>
-        <th class="text-[#0085e7] py-2 text-lg">Comportement</th>
+        <th class="py-2"><h4>Comportement</h4></th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -99,7 +99,7 @@
 
     tableRow.innerHTML = `
         
-        <td class="border-r-2 px-8 border-[#0085e7]">${item.category}</td>
+        <td class="border-r-2 px-8 border-[#0085e7]"><h4 style="font-size:14px!important;font-weight:600!important;color:rgb(49 96 183)!important;">${item.category}</h4></td>
         <td class="px-8 pt-4">
 
           ${item.behaviors.reduce(
