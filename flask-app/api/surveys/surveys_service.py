@@ -42,6 +42,7 @@ def find_one(current_user, id):
       choices = Choice.query\
         .filter_by(question_id = question['question_id'])\
         .all()
+
     if len(choices) > 0:
       question['choices'] = jsonify(choices).json
 
