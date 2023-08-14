@@ -1,5 +1,5 @@
 type QuestionID = string;
-type Operator = '>' | '<' | '>=' | '<=' | '!=' | '=';
+type Operator = '>' | '<' | '>=' | '<=' | '!=' | '=' | '==';
 type NumberToCompare = number;
 
 type ParsedConditional = [QuestionID, Operator, NumberToCompare];
@@ -35,6 +35,11 @@ export class ConditionalParser {
           i++;
           continue;
         }
+        if (condition[i] === '=' && condition[i + 1] === '=') {
+          conditionalOperators.push('==');
+          i++;
+          continue;
+        }
         if (condition[i] === '<' && condition[i + 1] === '=') {
           conditionalOperators.push('<=');
           i++;
@@ -61,14 +66,14 @@ export class ConditionalParser {
 
       if (!conditionalOperators || conditionalOperators.length === 0) {
         throw new Error(
-          "condition argument must contain '>', '<', '>=', '<=', '!=' or '='"
+          "condition argument must contain '>', '<', '>=', '<=', '!=', '==' or '='"
         );
       }
 
       if (conditionalOperators.length > 1) {
         console.error(condition);
         throw new Error(
-          'Each condition must contain exactly one of ">", "<", ">=", "<=", "!=" or "="'
+          'Each condition must contain exactly one of ">", "<", ">=", "<=", "!=", "==" or "="'
         );
       }
 

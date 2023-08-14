@@ -196,7 +196,7 @@ export class QuestionsService {
             +conditionQuestion.value < +conditionAnswer;
           break;
 
-        case '=':
+        case '=' || '==':
           conditionMet =
             conditionQuestion.value !== null &&
             (/,/.test(conditionQuestion.value)
@@ -423,7 +423,7 @@ export class QuestionsService {
       )
       .pipe(
         map((response: any) =>
-          response.map((answer: any) => {
+          response.body.map((answer: any) => {
             return { question_id: answer.question_id, value: answer.value };
           })
         )
