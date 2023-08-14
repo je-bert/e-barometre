@@ -116,7 +116,7 @@ def output(user_id):
         red_flags = []
         flag_introduction = None
         about = None
-      elif not value or value == '' or value == ' ' or value == 0:
+      if not value or value == '' or value == ' ' or value == 0:
         continue
       elif cell == 'section-title':
         sections.append(render_template('reports/section-title.html', content = value))
