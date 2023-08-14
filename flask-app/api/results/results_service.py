@@ -128,7 +128,7 @@ def output(user_id):
         sections.append(render_template('reports/about-barometer.html', content = value))
         about = value
       elif cell == 'barometer':
-        if value == 'barometer-1' or value == 'barometer-5':
+        if value == 'barometer-1' or value == 'barometer-5' or value == 'barometer-6':
           sections.pop()
           sections.append(render_template('reports/about-barometer.html', content = about, hide_lg = True))
         sections.append(render_template("reports/report-1/" + value + ".html", data = generate_barometer_data(value, excel, about), about = about))

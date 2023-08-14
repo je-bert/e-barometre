@@ -20,15 +20,6 @@ Rapport {% endblock %} {% block head %}
     display: none !important;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: Poppins;
-  }
-
   .report-container {
     font-family: "Nunito Sans";
   }
@@ -41,31 +32,57 @@ Rapport {% endblock %} {% block head %}
     background-color: rgb(236, 243, 255) !important;
   }
 
+  .report-container h2 {
+    font-weight: 500!important;
+    font-family: "Poppins"!important;
+  }
+
   .report-container h3 {
-    font-family: "Nunito Sans" !important;
-    font-weight: 500 !important;
-    line-height: 1.5 !important;
-    color: rgb(28, 97, 189) !important;
-    font-size: 1.25rem !important;
+    color: #0085EF!important;
+    font-size: 21.937px!important;
+    font-weight: 500!important;
+    font-family: "Poppins"!important;
+    line-height: 1.35!important;
     margin-bottom: 1rem !important;
   }
 
+  .report-container h4 {
+    color: #0085EF!important;
+    font-size: 14px!important;
+    font-weight: 500!important;
+    font-family: "Poppins"!important;
+    letter-spacing: 0.02em!important;
+  }
+
+  .report-container h1 {
+    color: #0085EF!important;
+    font-size: 38.4px!important;
+    font-weight: 500!important;
+    font-family: "Poppins"!important;
+    line-height: 1.2!important;
+  }
+
   .report-container p {
-    font-family: "Nunito Sans" !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    color: #737491 !important;
-    font-size: 0.875rem;
+    color: #737491!important;
+    font-size: 16px!important;
+    font-weight: 500!important;
+    font-family: "Nunito Sans"!important;
     margin-bottom: 1.5rem !important;
   }
 
   .report-container a {
     font-family: "Nunito Sans" !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
+    font-weight: 500 !important;
     color: rgb(62, 160, 236) !important;
-    font-size: 0.875rem;
+    font-size: 16px;
     margin-bottom: 1.5rem !important;
+  }
+
+  .report-container .label {
+    text-transform: uppercase!important;
+    font-weight: 500!important;
+    font-size: 14px!important;
+    letter-spacing: 0.07em!important;
   }
 </style>
 {% endblock %} {% block content %}
