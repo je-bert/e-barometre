@@ -196,7 +196,16 @@ export class QuestionsService {
             +conditionQuestion.value < +conditionAnswer;
           break;
 
-        case '=' || '==':
+        case '=':
+          conditionMet =
+            conditionQuestion.value !== null &&
+            (/,/.test(conditionQuestion.value)
+              ? conditionQuestion.value
+                  .split(',')
+                  .includes(conditionAnswer.toString())
+              : +conditionQuestion.value === +conditionAnswer);
+          break;
+        case '==':
           conditionMet =
             conditionQuestion.value !== null &&
             (/,/.test(conditionQuestion.value)
@@ -233,7 +242,7 @@ export class QuestionsService {
               : +conditionQuestion.value !== +conditionAnswer);
           break;
         default:
-          throw new Error('Unknown operator');
+          throw new Error('Unknown operator: ' + operator);
       }
 
       if (logicalOperator === undefined && conditionMet) {
