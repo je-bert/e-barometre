@@ -1,7 +1,7 @@
 {% if ((analysis_items and analysis_items | length > 0) or (observations and
 observations | length > 0)) %}
 <div
-  class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] px-0 rounded-[3.5rem] max-w-[1100px] w-[90%] lg:w-[80%] text-center md:!text-left flex flex-col space-y-[48px]"
+  class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]"
 >
   {% if analysis_items and analysis_items | length > 0 %}
   <div class="relative">
@@ -35,7 +35,7 @@ observations | length > 0)) %}
           rgb(22 32 75)
         );
       "
-      class="flex py-2 pl-2 mb-5 lg:hidden rounded-r-full justify-left items-center w-[225px]"
+      class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]"
     >
       <img
         src="{{ url_for('static', filename='img/reports/analyse.svg') }}"
@@ -48,7 +48,7 @@ observations | length > 0)) %}
       </div>
     </div>
     {% for analysis_item in analysis_items %}
-    <p class="last:!mb-0 px-[32px] md:px-[64px] lg:px-[150px]">
+    <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
       {{ analysis_item | safe }}
     </p>
     {% endfor %}
@@ -85,7 +85,7 @@ observations | length > 0)) %}
           rgb(22 32 75)
         );
       "
-      class="flex py-2 pl-2 mb-5 lg:hidden rounded-r-full justify-left items-center w-[225px]"
+      class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]"
     >
       <img
         src="{{ url_for('static', filename='img/reports/constat.svg') }}"
@@ -98,7 +98,7 @@ observations | length > 0)) %}
       </div>
     </div>
     {% for observation in observations %}
-    <p class="last:!mb-0 px-[32px] md:px-[64px] lg:px-[150px]">
+    <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
       {{ observation | safe }}
     </p>
     {% endfor %} {% if link %}

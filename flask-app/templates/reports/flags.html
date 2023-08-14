@@ -1,7 +1,7 @@
 {% if ((yellow_flags and yellow_flags | length > 0) or (red_flags and red_flags
 | length > 0)) %}
 <div
-  class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] w-[90%] lg:w-[80%] text-center md:!text-left flex flex-col space-y-[48px] relative"
+  class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px] relative"
 >
   <div
     style="background-color: rgb(22 32 127)"
@@ -47,13 +47,13 @@
     </div>
   </div>
   {% if flag_introduction %}
-  <p style="margin-bottom: 0px!important;" class="px-[32px] md:px-[64px] lg:px-[150px]">
+  <p style="margin-bottom: 0px!important;" class="px-[16px] md:px-[64px] lg:px-[150px]">
     {{ flag_introduction | safe }}
   </p>
   {% endif %}
   {% for yellow_flag in yellow_flags %}
   <div
-    class="flex flex-col md:flex-row items-center md:items-start px-[32px] md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0"
+    class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0"
   >
     <div
       class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold"
@@ -69,7 +69,7 @@
   </div>
   {% endfor %} {% for red_flag in red_flags %}
   <div
-    class="flex flex-col md:flex-row items-center md:items-start px-[32px] md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0"
+    class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0"
   >
     <div
       class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold"

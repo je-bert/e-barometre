@@ -1,109 +1,111 @@
-<div
-  class="bg-white py-4 px-[32px] md:px-[64px] max-w-[1100px] w-[90%] lg:w-[950px] max-w-[950px] rounded-[2rem] drop-shadow-xl mx-4 text-center"
->
-  <div id="b7"></div>
+<div class="w-full flex px-[24px] justify-center">
+  <div
+    class="bg-white py-4 w-full items-center justify-center flex lg:w-[950px] max-w-[950px] rounded-[2rem] drop-shadow-xl text-center"
+  >
+    <div id="b7"></div>
 
-  <script type="module">
-    import { html, render } from "https://esm.sh/htm/preact/standalone";
+    <script type="module">
+      import { html, render } from "https://esm.sh/htm/preact/standalone";
 
-    const data = JSON.parse(`{{ data | tojson | safe }}`);
+      const data = JSON.parse(`{{ data | tojson | safe }}`);
 
-    const COLORS = [
-      "#fc8f2a",
-      "#e14856",
-      "#89103e",
-      "#065380",
-      "#34b1e2",
-      "#64ced8",
-    ];
+      const COLORS = [
+        "#fc8f2a",
+        "#e14856",
+        "#89103e",
+        "#065380",
+        "#34b1e2",
+        "#64ced8",
+      ];
 
-    function B7({ data }) {
-      return html`<div class="flex flex-col items-center py-8 px-24">
-        ${data.items.map((item, index) => {
-          return html`<${AnalysisRow}
-            color=${COLORS[index]}
-            title=${item.name}
-            value=${item.value}
-            isEven=${index % 2 === 0}
-            index=${index}
-          />`;
-        })}
-      </div>`;
-    }
+      function B7({ data }) {
+        return html`<div class="flex flex-col items-center py-8 px-24">
+          ${data.items.map((item, index) => {
+            return html`<${AnalysisRow}
+              color=${COLORS[index]}
+              title=${item.name}
+              value=${item.value}
+              isEven=${index % 2 === 0}
+              index=${index}
+            />`;
+          })}
+        </div>`;
+      }
 
-    function AnalysisRow({ color, title, value, isEven, index }) {
-      return html`
-        <div class="relative">
-          <div>
-            <div
-              style="${isEven ? "left:" : "right:"}${value * 8 + 45}px"
-              class="top-6 absolute w-56"
-            >
-              <div>
-                <div
-                  class="flex absolute border-b-2"
-                  style="flex-direction:${isEven
-                    ? ""
-                    : "row-reverse"};border-color:${color};"
-                >
-                  <div>
-                    <svg
-                      style="${isEven ? "left: -80px;" : "right: -80px;"}}"
-                      class="absolute -bottom-1"
-                      width="100"
-                      height="100"
-                      viewBox="100 100"
-                    >
-                      <path
-                        d=${isEven
-                          ? "M 80 97 C 50 70 , 50 70 , 50 70"
-                          : "M 20 97 C 50 70 , 50 70 , 50 70"}
-                        stroke="${color}"
-                        fill="transparent"
-                        stroke-width="2"
-                      ></path>
-                    </svg>
-                    <div
-                      style="background-color:${color}"
-                      class="b7-explanation-decoration h-8 w-2 rounded my-2 mx-2"
-                    ></div>
-                  </div>
-                  <div class="flex items-center">
-                    <h4
-                      style="color:${color}!important;${isEven
-                        ? "text-align:left;"
-                        : "text-align: right;"}}"
-                      class="uppercase text-sm mb-0"
-                    >
-                      ${title}
-                    </h4>
+      function AnalysisRow({ color, title, value, isEven, index }) {
+        return html`
+          <div class="relative">
+            <div>
+              <div
+                style="${isEven ? "left:" : "right:"}${value * 8 + 45}px"
+                class="top-6 absolute w-56"
+              >
+                <div>
+                  <div
+                    class="flex absolute border-b-2"
+                    style="flex-direction:${isEven
+                      ? ""
+                      : "row-reverse"};border-color:${color};"
+                  >
+                    <div>
+                      <svg
+                        style="${isEven ? "left: -80px;" : "right: -80px;"}}"
+                        class="absolute -bottom-1"
+                        width="100"
+                        height="100"
+                        viewBox="100 100"
+                      >
+                        <path
+                          d=${isEven
+                            ? "M 80 97 C 50 70 , 50 70 , 50 70"
+                            : "M 20 97 C 50 70 , 50 70 , 50 70"}
+                          stroke="${color}"
+                          fill="transparent"
+                          stroke-width="2"
+                        ></path>
+                      </svg>
+                      <div
+                        style="background-color:${color}"
+                        class="b7-explanation-decoration h-8 w-2 rounded my-2 mx-2"
+                      ></div>
+                    </div>
+                    <div class="flex items-center">
+                      <h4
+                        style="color:${color}!important;${isEven
+                          ? "text-align:left;"
+                          : "text-align: right;"}}"
+                        class="uppercase text-sm mb-0"
+                      >
+                        ${title}
+                      </h4>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            ${html`<${AnalysisBar}
+              value=${value}
+              index=${index}
+              color=${color}
+            />`}
           </div>
-          ${html`<${AnalysisBar}
-            value=${value}
-            index=${index}
-            color=${color}
-          />`}
-        </div>
-      `;
-    }
+        `;
+      }
 
-    function AnalysisBar({ value, index, color }) {
-      return html`
-        <div class="flex justify-center">
-          <div
-            class="h-[62.5px] mb-2 rounded-lg"
-            style="transform-origin: 50% ${70 - index * 7.5}%;width:${value *
-            8}px; transform: perspective(300px) rotateX(-${32.5 +
-            index * 1.015}deg); background-color: ${color};"
-          ></div>
-        </div>
-      `;
-    }
+      function AnalysisBar({ value, index, color }) {
+        return html`
+          <div class="flex justify-center">
+            <div
+              class="h-[62.5px] mb-2 rounded-lg"
+              style="transform-origin: 50% ${70 - index * 7.5}%;width:${value *
+              8}px; transform: perspective(300px) rotateX(-${32.5 +
+              index * 1.015}deg); background-color: ${color};"
+            ></div>
+          </div>
+        `;
+      }
 
-    render(html`<${B7} data=${data} />`, document.getElementById("b7"));
-  </script>
+      render(html`<${B7} data=${data} />`, document.getElementById("b7"));
+    </script>
+  </div>
 </div>
