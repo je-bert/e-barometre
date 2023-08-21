@@ -14,6 +14,10 @@ export class InfoBubbleComponent implements OnInit {
 
   constructor() {}
 
+  breakLines(text: string): string {
+    return text.replace(/\\n|\/n/g, '<br>');
+  }
+
   ngOnInit(): void {
     setTimeout(() => {
       this.opacity = 1;

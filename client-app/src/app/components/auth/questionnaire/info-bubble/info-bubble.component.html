@@ -30,8 +30,9 @@
   >
     <div class="popover-arrow"></div>
     <h3 class="popover-header">Information</h3>
-    <div class="popover-body tw-h-44 tw-overflow-y-scroll">
-      {{ question.info_bubble_text }}
-    </div>
+    <div
+      class="popover-body tw-h-44 tw-overflow-y-auto"
+      [innerHTML]="breakLines(question.info_bubble_text)"
+    ></div>
   </div>
 </div>
