@@ -1,9 +1,10 @@
 <div class="tw-flex tw-justify-center tw-relative">
-  <mat-radio-group>
+  <mat-radio-group class="tw-flex tw-justify-center tw-flex-wrap">
     <ng-container *ngFor="let answer of question.choices">
       <mat-radio-button
+        class="tw-mb-4"
         [ngClass]="{
-          'app-answer-so tw-absolute -tw-bottom-10 -tw-right-4':
+          'app-answer-so tw-absolute -tw-bottom-10 -tw-right-4 tw-mb-0':
             answer.label === 'Sans objet'
         }"
         (click)="answerPicked.emit({question, answer:answer.value})"
