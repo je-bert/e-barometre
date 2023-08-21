@@ -116,6 +116,7 @@ def output(user_id):
         red_flags = []
         flag_introduction = None
         about = None
+      previous_cell = cell
       if not value or value == '' or value == ' ' or value == 0:
         continue
       elif cell == 'section-title':
@@ -142,7 +143,6 @@ def output(user_id):
         yellow_flags.append(value)
       elif cell == 'red_flag':
         red_flags.append(value)
-      previous_cell = cell
 
   return render_template('reports/report-1/base.html', children = sections)
 
