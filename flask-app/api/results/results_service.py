@@ -7,8 +7,7 @@ import os
 from openpyxl import load_workbook
 from pycel import ExcelCompiler
 
-#TEMPLATE_FILE = 'Master_TEST_Barometre_230523_8h00_3.xlsx'
-TEMPLATE_FILE = 'Master_TEST_Barometre_230700a.xlsx'
+TEMPLATE_FILE = 'master-results-template.xlsx'
 
 def generate(user_id):
   
