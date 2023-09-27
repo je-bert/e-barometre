@@ -10,10 +10,16 @@ fetch("http://localhost:3000/api/stripe/publishable-key", {
     console.log(data);
     // Initialize Stripe.js
     const stripe = Stripe(data.publishable_key);
-    document.querySelector("#checkout-button").addEventListener("click", () => {
+    document.querySelector("#checkout-button-1").addEventListener("click", () => {
       // Get Checkout Session ID
       fetch("http://localhost:3000/api/stripe/create-checkout-session", {
-        method: "POST"
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "productId": "temporary"
+        })
       })
         .then((result) => { return result.json(); })
         .then((data) => {
@@ -24,5 +30,49 @@ fetch("http://localhost:3000/api/stripe/publishable-key", {
         .then((res) => {
           console.log(res);
         });
+    });
+
+     document.querySelector("#checkout-button-2").addEventListener("click", () => {
+      // Get Checkout Session ID
+      fetch("http://localhost:3000/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "productId": "unique"
+        })
+      })
+        .then((result) => { return result.json(); })
+        .then((data) => {
+          console.log(data);
+          // Redirect to Stripe Checkout
+          return stripe.redirectToCheckout({ sessionId: data.session_id }); // Add allow_same_origin here
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    });
+    document.querySelector("#checkout-button-3").addEventListener("click", () => {
+      // Get Checkout Session ID
+      fetch("http://localhost:3000/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "productId": "multiple"
+        })
+      })
+        .then((result) => { return result.json(); })
+        .then((data) => {
+          console.log(data);
+          // Redirect to Stripe Checkout
+          return stripe.redirectToCheckout({ sessionId: data.session_id }); // Add allow_same_origin here
+        })
+        .then((res) => {
+          console.log(res);
+        });
+        
     });
   });
