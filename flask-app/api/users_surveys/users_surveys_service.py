@@ -44,7 +44,7 @@ def get_is_user_single(current_user):
 
   answer = Answer.query\
     .filter_by(user_id = current_user.user_id)\
-    .filter_by(question_id = 'B08')\
+    .filter_by(question_id = 'B07')\
     .first()
 
 
