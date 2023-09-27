@@ -14,6 +14,8 @@ def auth(f):
         try:
             data = jwt.decode(token, "kdxhfds iefhsdbf", algorithms=["HS256"])
             current_user = User.query.filter_by(user_id = data['user_id']).first()
+            if not current_user:
+                return "L'utilisateur a été supprimé.", 400
         except:
             return abort(401)
   
