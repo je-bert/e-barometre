@@ -5,6 +5,7 @@ from admin import admin_router
 import database as db
 from flask_cors import CORS
 import mail
+from flask_mail import Mail, Message
 
 import json
 
