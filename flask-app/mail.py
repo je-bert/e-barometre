@@ -38,3 +38,11 @@ def send_account_created(email, password):
     link = "http://localhost:3000/auth/sign-in" #TODO: Real url
     msg.html = render_template('mail/account-created.html', link = link, email = email, password = password)
     mail.send(msg)
+  
+def send_payment_failed(email):
+  global mail
+  if mail:
+    msg = Message("Votre achat n'a pas pu être complété", recipients = [email])
+    link = "http://localhost:3000/auth/sign-in" #TODO: Real url
+    msg.html = render_template('mail/payment-failed.html', link = link)
+    mail.send(msg)

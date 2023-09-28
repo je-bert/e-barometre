@@ -6,7 +6,7 @@ from database import db
 from models import User, Invoice
 from werkzeug.security import generate_password_hash
 from datetime import datetime
-from mail import send_account_created
+from mail import send_account_created, send_payment_failed
 from dateutil.relativedelta import relativedelta
 from utils import check_email
 import random
@@ -127,8 +127,8 @@ def fulfill_order(session):
   db.session.commit()
 
 def email_customer_about_failed_payment(session):
-  # TODO: fill me in
-  print("Emailing customer")
+  print("Emailing customer for failed payment")
+  send_payment_failed(session["customer_details"]["email"])
 
 stripe.api_key = stripe_keys['secret_key']
 
