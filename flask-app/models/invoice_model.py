@@ -1,6 +1,21 @@
 from database import db
+from datetime import datetime
+from dataclasses import dataclass
 
+@dataclass
 class Invoice(db.Model):
+    invoice_id: int
+    user_id: int
+    amount_subtotal: int
+    amount_tax: int
+    amount_discount: int
+    amount_total = int
+    price_id: str
+    status: str
+    date_expiration: datetime
+    date_created: datetime
+    session_id: str
+    
     invoice_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey( "user.user_id"))
     amount_subtotal = db.Column(db.Integer)
