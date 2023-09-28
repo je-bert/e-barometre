@@ -30,3 +30,11 @@ def send_confirm_reset_password(email):
     msg = Message('Mot de passe réinitialisé', recipients = [email])
     msg.html = render_template('mail/confirm-reset-password.html')
     mail.send(msg)
+
+def send_account_created(email, password):
+  global mail
+  if mail:
+    msg = Message('Votre compte a été créé', recipients = [email])
+    link = "http://localhost:3000/auth/sign-in" #TODO: Real url
+    msg.html = render_template('mail/account-created.html', link = link, email = email, password = password)
+    mail.send(msg)

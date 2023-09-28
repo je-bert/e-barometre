@@ -21,7 +21,7 @@ def sign_in():
     return 'Identifiants invalides.', 400
 
   user = User.query\
-      .filter_by(email = auth.get('email'))\
+      .filter_by(email = auth.get('email').lower())\
       .first()
 
   if not user:
@@ -49,6 +49,8 @@ def sign_up():
 
   if not check_password(password):
       return 'Mot de passe invalide.', 400
+  
+  email = email.lower()
 
   # checking for existing user
   user = User.query\
@@ -122,7 +124,7 @@ def reset_password():
         return "Courriel invalide", 400
 
     user = User.query\
-        .filter_by(email = email)\
+        .filter_by(email = email.lower())\
         .first()
 
     if not user:

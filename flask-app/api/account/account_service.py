@@ -49,6 +49,8 @@ def update(current_user):
     if not email or not first_name or not last_name:
         return "Les champs email, first_name et last_name sont obligatoires.", 400
     
+    email = email.lower()
+    
     user = User.query\
         .filter_by(user_id = user_id)\
         .first()
@@ -58,6 +60,13 @@ def update(current_user):
     
     if not check_email(email):
         return "Courriel invalide", 400
+    
+    user_with_email = User.query\
+        .filter_by(email = email)\
+        .first()
+    
+    if user_with_email and user_with_email.user_id != user_id:
+        return "Cette adresse courriel est déjà utilisée", 400
     
     user.email = email
     user.first_name = first_name

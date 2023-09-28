@@ -1,3 +1,6 @@
+
+
+
 // Get Stripe publishable key
 fetch("http://localhost:3000/api/stripe/publishable-key", {
   method: "GET",
@@ -7,6 +10,7 @@ fetch("http://localhost:3000/api/stripe/publishable-key", {
 })
   .then((result) => { return result.json(); })
   .then((data) => {
+    emailInput = document.querySelector("#email");
     console.log(data);
     // Initialize Stripe.js
     const stripe = Stripe(data.publishable_key);
@@ -18,7 +22,8 @@ fetch("http://localhost:3000/api/stripe/publishable-key", {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "productId": "temporary"
+          "productId": "temporary",
+          "email": emailInput.value
         })
       })
         .then((result) => { return result.json(); })
@@ -40,7 +45,8 @@ fetch("http://localhost:3000/api/stripe/publishable-key", {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "productId": "unique"
+          "productId": "unique",
+          "email": emailInput.value
         })
       })
         .then((result) => { return result.json(); })
@@ -61,7 +67,8 @@ fetch("http://localhost:3000/api/stripe/publishable-key", {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "productId": "multiple"
+          "productId": "multiple",
+          "email": emailInput.value
         })
       })
         .then((result) => { return result.json(); })
