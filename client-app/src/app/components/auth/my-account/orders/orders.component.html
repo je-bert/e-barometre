@@ -1,14 +1,7 @@
 <div class="d-flex flex-column h-100 bg-light rounded-3 shadow-lg p-4">
   <div class="py-2 p-md-3">
     <!-- Title + Delete link-->
-    <div
-      class="
-        d-sm-flex
-        align-items-center
-        justify-content-between
-        text-center text-sm-start
-      "
-    >
+    <div class="d-sm-flex align-items-center justify-content-between text-center text-sm-start">
       <h2 class="h2 mb-2 text-nowrap">Factures</h2>
     </div>
 
@@ -17,50 +10,48 @@
         <!-- Orders accordion-->
         <div class="accordion accordion-alt accordion-orders" id="orders">
           <!-- Order-->
-
-          <div
-            *ngFor="let i of [1, 2, 3]"
-            class="accordion-item border-top mb-3"
-          >
+          <div *ngFor="let invoice of invoices$ | async" class="accordion-item border-top mb-3">
             <div class="accordion-header">
-              <a
-                class="
-                  accordion-button
-                  d-flex
-                  fs-4
-                  fw-normal
-                  text-decoration-none
-                  py-3
-                  collapsed
-                "
-                href="#orderOne"
-                data-bs-toggle="collapse"
-                aria-expanded="false"
-                aria-controls="orderOne"
-              >
-                <div
-                  class="d-flex justify-content-between w-100"
-                  style="max-width: 440px"
-                >
-                  <div class="me-3 me-sm-4">
-                    <div class="fs-sm text-muted">#78A6431D409</div>
-                    <span class="badge tw-bg-green-500 text-info fs-xs"
-                      >Payé</span
-                    >
+              <a class="accordion-button after:tw-mb-0 tw-cursor-pointer tw-flex-col tw-items-start tw-gap-2 d-flex fs-4 fw-normal text-decoration-none py-3"
+                (click)="toggleAccordion(invoice.invoice_id)"
+                [ngClass]="{'collapsed': !isAccordionOpen[invoice.invoice_id]}" aria-expanded="false"
+                [attr.aria-controls]="'inv-' + invoice.invoice_id">
+                <div class="fs-sm tw-font-semibold">{{invoice.description}}</div>
+                <div class="d-flex justify-content-between tw-w-full tw-gap-2">
+                  <div class="tw-w-1/6">
+                    <div class="fs-sm text-muted">#{{invoice.invoice_id}}</div>
+                    <span [ngClass]="{'tw-bg-red-500': formatStatusColor(invoice.status) === 'red',
+                  'tw-bg-green-500': formatStatusColor(invoice.status) === 'green',
+                  'tw-bg-yellow-500': formatStatusColor(invoice.status) === 'yellow',
+                  'tw-bg-orange-500': formatStatusColor(invoice.status) === 'orange',
+                                    'tw-bg-blue-500': formatStatusColor(invoice.status) === 'blue',
+                  'text-info': true,
+                  'fs-xs': true,
+                  'badge': true}">{{formatStatus(invoice.status)}}</span>
                   </div>
-                  <div class="me-3 me-sm-4">
-                    <div class="d-none d-sm-block fs-sm text-muted mb-2">
-                      Order date
-                    </div>
+                  <div class="tw-w-1/3">
+                    <div class="d-none d-sm-block fs-sm text-muted mb-2">Acheté le</div>
                     <div class="d-sm-none fs-sm text-muted mb-2">Date</div>
-                    <div class="fs-sm fw-medium text-dark">Jan 27, 2022</div>
+                    <div class="fs-sm fw-medium text-dark">{{formatDate(invoice.date_created)}}</div>
                   </div>
-                  <div class="me-3 me-sm-4">
+                  <div class="tw-w-1/3">
+                    <div class="d-none d-sm-block fs-sm text-muted mb-2">Expire le</div>
+                    <div class="d-sm-none fs-sm text-muted mb-2">Date</div>
+                    <div class="fs-sm fw-medium text-dark">{{formatDate(invoice.date_expiration)}}</div>
+                  </div>
+                  <div class="tw-w-1/6">
                     <div class="fs-sm text-muted mb-2">Total</div>
-                    <div class="fs-sm fw-medium text-dark">$16.00</div>
+                    <div class="fs-sm fw-medium text-dark">{{formatPrice(invoice.amount_total)}}</div>
                   </div>
                 </div>
               </a>
+              <div id="inv-{{invoice.invoice_id}}" class="accordion-collapse"
+                [ngClass]="{'collapse': !isAccordionOpen[invoice.invoice_id]}">
+                <div class="accordion-body">
+                  <!-- display all invoices details in table -->
+                  {{invoice | json}}
+                </div>
+              </div>
             </div>
           </div>
         </div>

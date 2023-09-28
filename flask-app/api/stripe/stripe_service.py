@@ -11,12 +11,29 @@ from dateutil.relativedelta import relativedelta
 from utils import check_email
 import random
 import string
+from crontab import crontab
 
 stripe_keys = {
-    "secret_key": os.environ.get("STRIPE_SECRET_KEY"),
-    "publishable_key": os.environ.get("STRIPE_PUBLISHABLE_KEY"),
-    "endpoint_secret": os.environ.get("STRIPE_ENDPOINT_SECRET"),
+  "secret_key": os.environ.get("STRIPE_SECRET_KEY"),
+  "publishable_key": os.environ.get("STRIPE_PUBLISHABLE_KEY"),
+  "endpoint_secret": os.environ.get("STRIPE_ENDPOINT_SECRET"),
 }
+
+products = {
+  "temporary": os.environ.get("STRIPE_TEMPORARY_PRODUCT_ID"),
+  "unique": os.environ.get("STRIPE_UNIQUE_PRODUCT_ID"),
+  "multiple": os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"),
+}
+
+expirations = {
+  os.environ.get("STRIPE_TEMPORARY_PRODUCT_ID"): relativedelta(days=7),
+  os.environ.get("STRIPE_UNIQUE_PRODUCT_ID"): relativedelta(months=3),
+  os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"): relativedelta(years=1)
+}
+
+domain_url = "https://e-demo2.netlify.app/"  #TODO: change this to the correct url
+success_url = domain_url + "ebarometre?status=success&session_id={CHECKOUT_SESSION_ID}"
+cancel_url = domain_url + "ebarometre?status=cancelled"
 
 def generate_password():
   # Define character sets
@@ -79,7 +96,7 @@ def get_user(session):
 
     return user, password
 
-def create_invoice(user, session):
+def create_invoice(user, session, status = 'paid'):
     product = session['line_items']["data"][0]
     
     if product == None:
@@ -91,12 +108,6 @@ def create_invoice(user, session):
         .filter_by(session_id = session["id"])\
         .first()
     
-    expirations = {
-          os.environ.get("STRIPE_TEMPORARY_PRODUCT_ID"): relativedelta(days=7),
-          os.environ.get("STRIPE_UNIQUE_PRODUCT_ID"): relativedelta(months=3),
-          os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"): relativedelta(years=1)
-      }
-    
     if not invoice:
         # Create invoice
         invoice = Invoice(
@@ -106,29 +117,27 @@ def create_invoice(user, session):
             amount_discount = product["amount_discount"],
             amount_total = product["amount_total"],
             price_id = product["price"]["id"],
-            status = "paid",
+            status = status,
             date_expiration = datetime.now() + expirations[product["price"]["id"]],
             date_created = datetime.now(),
-            session_id = session["id"]
+            session_id = session["id"],
+            description = product["description"]
         )
         db.session.add(invoice)
     else:
-        invoice.status = "paid"
+        invoice.status = status
         invoice.date_expiration = datetime.now() + expirations[product["price"]["id"]]
     
     
 
-def fulfill_order(session):
+def fulfill_order(session, status = 'paid'):
   print("Fulfilling order")
   user, password = get_user(session)
   if password:
      send_account_created(user.email, password)
-  create_invoice(user, session)
+  create_invoice(user, session, status)
   db.session.commit()
 
-def email_customer_about_failed_payment(session):
-  print("Emailing customer for failed payment")
-  send_payment_failed(session["customer_details"]["email"])
 
 stripe.api_key = stripe_keys['secret_key']
 
@@ -147,12 +156,6 @@ def create_checkout_session():
     if not check_email(email):
         return "Invalid email", 400
 
-    products = {
-        "temporary": os.environ.get("STRIPE_TEMPORARY_PRODUCT_ID"),
-        "unique": os.environ.get("STRIPE_UNIQUE_PRODUCT_ID"),
-        "multiple": os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"),
-    }
-
     if product_id not in products:
         return "Invalid product id", 400
     
@@ -168,14 +171,13 @@ def create_checkout_session():
         if existingInvoice and existingInvoice.date_expiration > datetime.now():
             return "User already has this product", 400
 
-    domain_url = "https://e-demo2.netlify.app/"  #TODO: change this to the correct url
     stripe.api_key = stripe_keys["secret_key"]
 
     try:
         checkout_session = stripe.checkout.Session.create(
             customer_email=email,
-            success_url=domain_url + "ebarometre?status=success&session_id={CHECKOUT_SESSION_ID}", #TODO: change this to the correct url
-            cancel_url=domain_url + "ebarometre?status=cancelled", #TODO: change this to the correct url
+            success_url=success_url,
+            cancel_url=cancel_url,
             payment_method_types=["card"],
             mode="payment",
             line_items=[
@@ -207,18 +209,73 @@ def stripe_webhook():
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
         session = stripe.checkout.Session.retrieve(session["id"], expand=["line_items"])
+        fulfill_order(session, 'pending')
         if session.payment_status == "paid":
-          fulfill_order(session)
+          fulfill_order(session, 'paid')
 
     elif event['type'] == 'checkout.session.async_payment_succeeded':
         session = event['data']['object']
         session = stripe.checkout.Session.retrieve(session["id"], expand=["line_items"])
-        fulfill_order(session)
+        fulfill_order(session, 'paid')
 
     elif event['type'] == 'checkout.session.async_payment_failed':
         session = event['data']['object']
-
+        session = stripe.checkout.Session.retrieve(session["id"], expand=["line_items"])
+        fulfill_order(session, 'failed')
         # Send an email to the customer asking them to retry their order
-        email_customer_about_failed_payment(session)
+        print("Emailing customer for failed payment")
+        send_payment_failed(session["customer_details"]["email"])
        
     return "Success", 200
+
+@crontab.job()
+def update_expired_invoices():
+    print("Updating expired invoices")
+    invoices = Invoice.query\
+      .filter(Invoice.status == "paid", Invoice.date_expiration < datetime.now())\
+      .all()
+    
+    for invoice in invoices:
+      invoice.status = "expired"
+      if (invoice.price_id == os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID")):
+        user = User.query\
+          .filter_by(user_id = invoice.user_id)\
+          .first()
+        if user:
+          try:
+            checkout_session = stripe.checkout.Session.create(
+                customer_email=user.email,
+                success_url=success_url,
+                cancel_url=cancel_url,
+                payment_method_types=["card"],
+                mode="payment",
+                line_items=[
+                    {
+                        "price": products["multiple"],
+                        "quantity": 1,
+                    }
+                ]
+            )
+            session = stripe.checkout.Session.retrieve(checkout_session["id"], expand=["line_items"])
+            product = session['line_items']["data"][0]
+            if product:
+              newInvoice = Invoice(
+                user_id = user.user_id,
+                amount_subtotal = product["amount_subtotal"],
+                amount_tax = product["amount_tax"],
+                amount_discount = product["amount_discount"],
+                amount_total = product["amount_total"],
+                price_id = product["price"]["id"],
+                status = 'unpaid',
+                date_expiration = datetime.now() + expirations[product["price"]["id"]],
+                date_created = datetime.now(),
+                session_id = session["id"],
+                description = product["description"]
+            )
+            db.session.add(newInvoice)
+            #TODO: Send email with link to app to pay the invoice
+          except Exception as e:
+            print(e)
+          
+      db.session.commit()
+      continue

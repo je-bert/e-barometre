@@ -5,8 +5,8 @@ from admin import admin_router
 import database as db
 from flask_cors import CORS
 import mail
-import os
 import json
+from crontab import crontab
 
 def to_pretty_json(value):
     return json.dumps(value, sort_keys=True,
@@ -29,6 +29,8 @@ def create_app():
 
     db.init(app)
     mail.init(app)
+    crontab.init_app(app)
+    #print crontab object as json
 
     return app
     
