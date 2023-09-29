@@ -12,6 +12,7 @@ from utils import check_email
 import random
 import string
 from apscheduler.schedulers.background import BackgroundScheduler
+from api.invoices.invoices_service import get_user_subscription
 
 stripe_keys = {
   "secret_key": os.environ.get("STRIPE_SECRET_KEY"),
@@ -29,6 +30,12 @@ expirations = {
   os.environ.get("STRIPE_TEMPORARY_PRODUCT_ID"): relativedelta(days=7),
   os.environ.get("STRIPE_UNIQUE_PRODUCT_ID"): relativedelta(months=3),
   os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"): relativedelta(years=1)
+}
+
+product_ids = {
+  os.environ.get("STRIPE_TEMPORARY_PRODUCT_ID"): "temporary",
+  os.environ.get("STRIPE_UNIQUE_PRODUCT_ID"): "unique",
+  os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"): "multiple"
 }
 
 domain_url = "https://e-demo2.netlify.app/"  #TODO: change this to the correct url
@@ -108,6 +115,8 @@ def create_invoice(user, session, status = 'paid'):
         .filter_by(session_id = session["id"])\
         .first()
     
+    product_id = product_ids[product["price"]["id"]]
+    
     if not invoice:
         # Create invoice
         invoice = Invoice(
@@ -121,14 +130,24 @@ def create_invoice(user, session, status = 'paid'):
             date_expiration = datetime.now() + expirations[product["price"]["id"]],
             date_created = datetime.now(),
             session_id = session["id"],
-            description = product["description"]
+            description = product["description"],
+            product_id = product_id
         )
         db.session.add(invoice)
     else:
         invoice.status = status
         invoice.date_expiration = datetime.now() + expirations[product["price"]["id"]]
-    
-    
+    if status == 'paid':
+        #set lower subscriptions to expired
+        if product_id == 'multiple':
+            Invoice.query\
+                .filter(Invoice.user_id == user.user_id, Invoice.status == "paid", Invoice.product_id != 'multiple')\
+                .update({Invoice.status: "expired", Invoice.date_expiration: datetime.now()})
+        
+        if product_id == 'unique':
+            Invoice.query\
+            .filter(Invoice.user_id == user.user_id, Invoice.status == "paid", Invoice.product_id == 'temporary')\
+            .update({Invoice.status: "expired", Invoice.date_expiration: datetime.now()})
 
 def fulfill_order(session, status = 'paid'):
   print("Fulfilling order")
@@ -163,30 +182,54 @@ def create_checkout_session():
         .filter_by(email = email)\
         .first()
     
+    amount_discount = 0
+    coupon = None
+    
     if user:
-        existingInvoice = Invoice.query\
-        .filter_by(user_id = user.user_id, status = "paid", price_id = products[product_id])\
-        .first()
+        current_subscription = get_user_subscription(user.user_id)
 
-        if existingInvoice and existingInvoice.date_expiration > datetime.now():
+        if current_subscription == product_id:
             return "User already has this product", 400
+        
+        if current_subscription in['unique', 'multiple'] and product_id == 'temporary':
+            return "User already has a better subscription", 400
+        
+        if current_subscription == 'multiple' and product_id == 'unique':
+            return "User already has a better subscription", 400
+
+        if current_subscription == 'unique' and product_id == 'multiple':
+            amount_discount = 1999
 
     stripe.api_key = stripe_keys["secret_key"]
+    if amount_discount > 0:
+        coupon = stripe.Coupon.create(
+            currency="cad",
+            amount_off=amount_discount,
+            max_redemptions=1,
+        )
 
     try:
-        checkout_session = stripe.checkout.Session.create(
-            customer_email=email,
-            success_url=success_url,
-            cancel_url=cancel_url,
-            payment_method_types=["card"],
-            mode="payment",
-            line_items=[
+        checkout_session_params = {
+            "customer_email": email,
+            "success_url": success_url,
+            "cancel_url": cancel_url,
+            "payment_method_types": ["card"],
+            "mode": "payment",
+            "line_items": [
                 {
                     "price": products[product_id],
                     "quantity": 1,
                 }
             ]
-        )
+        }
+
+        if coupon is not None:
+            checkout_session_params["discounts"] = [{
+                'coupon': coupon.id,
+            }]
+
+        checkout_session = stripe.checkout.Session.create(**checkout_session_params)
+
         return jsonify({"session_id": checkout_session["id"]})
     except Exception as e:
         return jsonify(error=str(e)), 400
@@ -272,7 +315,8 @@ def update_expired_invoices():
                   date_expiration = datetime.now() + expirations[product["price"]["id"]],
                   date_created = datetime.now(),
                   session_id = session["id"],
-                  description = product["description"]
+                  description = product["description"],
+                  product_id = product_ids[product["price"]["id"]]
               )
               db.session.add(newInvoice)
               #TODO: Send email with link to app to pay the invoice
@@ -283,5 +327,5 @@ def update_expired_invoices():
           continue
       
 sched = BackgroundScheduler(daemon=True)
-sched.add_job(update_expired_invoices, 'interval', minutes=60)
+sched.add_job(update_expired_invoices, 'interval', minutes=1)
 sched.start()

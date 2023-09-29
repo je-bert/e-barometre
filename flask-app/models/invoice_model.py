@@ -16,6 +16,7 @@ class Invoice(db.Model):
     date_created: datetime
     session_id: str
     description: str
+    product_id: str
 
     invoice_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey( "user.user_id"))
@@ -29,3 +30,4 @@ class Invoice(db.Model):
     date_created = db.Column(db.DateTime())
     session_id = db.Column(db.String(100))
     description = db.Column(db.String(100))
+    product_id = db.Column(db.String(30))

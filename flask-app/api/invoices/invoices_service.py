@@ -6,3 +6,9 @@ def find_all(user_id):
 
 def find_one(user_id, invoice_id):
   return jsonify(Invoice.query.filter_by(user_id = user_id, invoice_id = invoice_id).first()), 200
+
+def get_user_subscription(user_id):
+  invoice = Invoice.query.filter_by(user_id = user_id, status = "paid").first()
+  if not invoice:
+    return None
+  return invoice.product_id
