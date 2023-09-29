@@ -13,8 +13,13 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
   public account: Account | undefined;
   public newPassword: Observable<string> | undefined; // Currently debating on using observables or passing the values as parameters using angular's property binding.
+  public isDisabled: boolean = false;
 
   constructor(private accountService: AccountService, private router: Router) {}
+
+  public toggleDelete(): void {
+    this.isDisabled = !this.isDisabled;
+  }
 
   // Call the service here.
   public deleteAccount() {

@@ -119,11 +119,11 @@
         Lorsque vous supprimez votre compte, votre profil public sera
         immédiatement désactivé. Si vous changez d'avis avant la fin des 14
         jours, connectez-vous avec votre adresse e-mail et votre mot de passe,
-        et nous vous enverrons un lien pour réactiver votre compte.<a href="#" class="alert-link">En savoir plus</a>
+        et nous vous enverrons un lien pour réactiver votre compte. <a href="#" class="alert-link">En savoir plus</a>
       </p>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="confirm" />
+      <input class="form-check-input" type="checkbox" id="confirm" (click)="toggleDelete()" [checked]="isDisabled" />
       <label class="form-check-label text-dark fw-medium" for="confirm">Oui, je veux supprimer mon compte</label>
     </div>
     <div class="
@@ -133,7 +133,7 @@
         pt-4
         mt-sm-2 mt-md-3
       ">
-      <button class="btn btn-danger" type="button" (click)="deleteAccount()" clickable>
+      <button class="btn btn-danger" type="button" (click)="deleteAccount()" [disabled]="isDisabled?'':'null'">
         <i class="ai-trash ms-n1 me-2"></i>Supprimer le compte
       </button>
     </div>
