@@ -23,9 +23,11 @@ export class ProfileComponent implements OnInit {
 
   // Call the service here.
   public deleteAccount() {
-    this.accountService.deleteAccount().subscribe();
-    window.sessionStorage.removeItem('token');
-    this.router.navigateByUrl('/auth-wall');
+    this.accountService
+      .deleteAccount()
+      .subscribe((status) => console.log(status));
+    // window.sessionStorage.removeItem('token');
+    // this.router.navigateByUrl('/auth-wall');
   }
   public updateAccount() {}
   public updatePassword() {}
