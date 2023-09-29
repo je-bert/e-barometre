@@ -14,12 +14,18 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class LoginComponent {
   public email = '';
   public password = '';
+  public showPassword = false;
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private notificationService: NotificationService
   ) {}
+
+  public onPasswordToggleChange(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.showPassword = checked;
+  }
 
   login() {
     this.http

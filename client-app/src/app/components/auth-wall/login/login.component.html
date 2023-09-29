@@ -38,14 +38,14 @@
       <div class="password-toggle w-100 w-full">
         <input
           class="form-control mb-2 w-full"
-          type="password"
+          [type]="showPassword ? 'text' : 'password'"
           placeholder="Password"
           required
           [(ngModel)]="password"
           name="password"
         />
         <label class="password-toggle-btn" aria-label="Show/hide password">
-          <input class="password-toggle-check" type="checkbox" /><span
+          <input class="password-toggle-check" type="checkbox" [checked]="showPassword" (change)="onPasswordToggleChange($event)" /><span
             class="password-toggle-indicator"
           ></span>
         </label>
