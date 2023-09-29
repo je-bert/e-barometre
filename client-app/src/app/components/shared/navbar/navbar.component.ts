@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AccountService } from 'src/app/services/account.service';
+import { Account } from 'src/app/models/account';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
+  providers: [AccountService],
 })
 export class NavbarComponent implements OnInit {
+  public accountFirstName: String | undefined;
 
-  constructor() { }
+  constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.accountService.getAccount().subscribe((account: Account) => {
+      this.accountFirstName = account.first_name;
+    });
   }
-
 }
