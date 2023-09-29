@@ -1,15 +1,13 @@
 <div class="d-flex flex-column bg-light rounded-3 shadow-lg p-4">
   <div class="py-2 p-md-3">
     <!-- Title + Delete link-->
-    <div
-      class="
+    <div class="
         d-sm-flex
         align-items-center
         justify-content-between
         pb-4
         text-center text-sm-start
-      "
-    >
+      ">
       <h2 class="h2 mb-2 text-nowrap">Informations de profil</h2>
     </div>
     <!-- Content-->
@@ -17,34 +15,19 @@
       <div class="col-sm-6">
         <div class="mb-3 pb-1">
           <label class="form-label px-0" for="account-fn">Prénom</label>
-          <input
-            class="form-control"
-            type="text"
-            id="account-fn"
-            value="Amanda"
-          />
+          <input class="form-control" type="text" id="account-fn" value={{account?.first_name}} />
         </div>
       </div>
       <div class="col-sm-6">
         <div class="mb-3 pb-1">
           <label class="form-label px-0" for="account-ln">Nom de famille</label>
-          <input
-            class="form-control"
-            type="text"
-            id="account-ln"
-            value="Wilson"
-          />
+          <input class="form-control" type="text" id="account-ln" value={{account?.last_name}} />
         </div>
       </div>
       <div class="col">
         <div class="mb-3 pb-1">
           <label class="form-label px-0" for="account-email">Courriel</label>
-          <input
-            class="form-control"
-            type="text"
-            id="account-email"
-            value="a.wilson@example.com"
-          />
+          <input class="form-control" type="text" id="account-email" value={{account?.email}} />
         </div>
       </div>
       <hr class="mt-2 mb-4" />
@@ -62,8 +45,7 @@
   </div>
 </div>
 
-<section
-  class="
+<section class="
     card
     border-0
     py-1
@@ -73,8 +55,7 @@
     shadow-lg
     p-4
     tw-mt-8
-  "
->
+  ">
   <div class="card-body">
     <div class="d-flex align-items-center pb-4 mt-sm-n1 mb-0 mb-lg-1 mb-xl-3">
       <i class="ai-lock-closed text-primary lead pe-1 me-2"></i>
@@ -84,47 +65,31 @@
       <div class="col-sm-6">
         <label class="form-label" for="current-pass">Mot de passe actuel</label>
         <div class="password-toggle">
-          <input
-            class="form-control"
-            type="password"
-            placeholder="***********"
-            id="current-pass"
-          />
+          <input class="form-control" type="password" placeholder="***********" id="current-pass" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
-            <input class="password-toggle-check" type="checkbox" /><span
-              class="password-toggle-indicator"
-            ></span>
+            <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
         </div>
       </div>
       <div class="col-sm-6">
-        <a
-          class="d-inline-block fs-sm fw-semibold text-decoration-none mt-sm-4"
-          href="account-password-recovery.html"
-          >Mot de passe oublié?</a
-        >
+        <a class="d-inline-block fs-sm fw-semibold text-decoration-none mt-sm-4"
+          href="account-password-recovery.html">Mot de passe oublié?</a>
       </div>
       <div class="col-sm-6">
         <label class="form-label" for="new-pass">Nouveau mot de passe</label>
         <div class="password-toggle">
           <input class="form-control" type="password" id="new-pass" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
-            <input class="password-toggle-check" type="checkbox" /><span
-              class="password-toggle-indicator"
-            ></span>
+            <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
         </div>
       </div>
       <div class="col-sm-6">
-        <label class="form-label" for="confirm-pass"
-          >Confirmation du nouveau mot de passe</label
-        >
+        <label class="form-label" for="confirm-pass">Confirmation du nouveau mot de passe</label>
         <div class="password-toggle">
           <input class="form-control" type="password" id="confirm-pass" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
-            <input class="password-toggle-check" type="checkbox" /><span
-              class="password-toggle-indicator"
-            ></span>
+            <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
         </div>
       </div>
@@ -154,28 +119,20 @@
         Lorsque vous supprimez votre compte, votre profil public sera
         immédiatement désactivé. Si vous changez d'avis avant la fin des 14
         jours, connectez-vous avec votre adresse e-mail et votre mot de passe,
-        et nous vous enverrons un lien pour réactiver votre compte.<a
-          href="#"
-          class="alert-link"
-          >En savoir plus</a
-        >
+        et nous vous enverrons un lien pour réactiver votre compte.<a href="#" class="alert-link">En savoir plus</a>
       </p>
     </div>
     <div class="form-check">
       <input class="form-check-input" type="checkbox" id="confirm" />
-      <label class="form-check-label text-dark fw-medium" for="confirm"
-        >Oui, je veux supprimer mon compte</label
-      >
+      <label class="form-check-label text-dark fw-medium" for="confirm">Oui, je veux supprimer mon compte</label>
     </div>
-    <div
-      class="
+    <div class="
         d-flex
         flex-column flex-sm-row
         justify-content-end
         pt-4
         mt-sm-2 mt-md-3
-      "
-    >
+      ">
       <button class="btn btn-danger" type="button">
         <i class="ai-trash ms-n1 me-2"></i>Supprimer le compte
       </button>
