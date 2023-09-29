@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 from utils import check_email
 import random
 import string
-from crontab import crontab
+from apscheduler.schedulers.background import BackgroundScheduler
 
 stripe_keys = {
   "secret_key": os.environ.get("STRIPE_SECRET_KEY"),
@@ -228,54 +228,60 @@ def stripe_webhook():
        
     return "Success", 200
 
-@crontab.job()
 def update_expired_invoices():
-    print("Updating expired invoices")
-    invoices = Invoice.query\
-      .filter(Invoice.status == "paid", Invoice.date_expiration < datetime.now())\
-      .all()
-    
-    for invoice in invoices:
-      invoice.status = "expired"
-      if (invoice.price_id == os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID")):
-        user = User.query\
-          .filter_by(user_id = invoice.user_id)\
-          .first()
-        if user:
-          try:
-            checkout_session = stripe.checkout.Session.create(
-                customer_email=user.email,
-                success_url=success_url,
-                cancel_url=cancel_url,
-                payment_method_types=["card"],
-                mode="payment",
-                line_items=[
-                    {
-                        "price": products["multiple"],
-                        "quantity": 1,
-                    }
-                ]
-            )
-            session = stripe.checkout.Session.retrieve(checkout_session["id"], expand=["line_items"])
-            product = session['line_items']["data"][0]
-            if product:
-              newInvoice = Invoice(
-                user_id = user.user_id,
-                amount_subtotal = product["amount_subtotal"],
-                amount_tax = product["amount_tax"],
-                amount_discount = product["amount_discount"],
-                amount_total = product["amount_total"],
-                price_id = product["price"]["id"],
-                status = 'unpaid',
-                date_expiration = datetime.now() + expirations[product["price"]["id"]],
-                date_created = datetime.now(),
-                session_id = session["id"],
-                description = product["description"]
-            )
-            db.session.add(newInvoice)
-            #TODO: Send email with link to app to pay the invoice
-          except Exception as e:
-            print(e)
-          
-      db.session.commit()
-      continue
+    from app import app
+    with app.app_context():
+      print("Updating expired invoices")
+      
+      invoices = Invoice.query\
+        .filter(Invoice.status == "paid", Invoice.date_expiration < datetime.now())\
+        .all()
+      
+      for invoice in invoices:
+          invoice.status = "expired"
+          if (invoice.price_id == os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID")):
+            user = User.query\
+            .filter_by(user_id = invoice.user_id)\
+            .first()
+          if user:
+            try:
+              checkout_session = stripe.checkout.Session.create(
+                  customer_email=user.email,
+                  success_url=success_url,
+                  cancel_url=cancel_url,
+                  payment_method_types=["card"],
+                  mode="payment",
+                  line_items=[
+                      {
+                          "price": products["multiple"],
+                          "quantity": 1,
+                      }
+                  ]
+              )
+              session = stripe.checkout.Session.retrieve(checkout_session["id"], expand=["line_items"])
+              product = session['line_items']["data"][0]
+              if product:
+                newInvoice = Invoice(
+                  user_id = user.user_id,
+                  amount_subtotal = product["amount_subtotal"],
+                  amount_tax = product["amount_tax"],
+                  amount_discount = product["amount_discount"],
+                  amount_total = product["amount_total"],
+                  price_id = product["price"]["id"],
+                  status = 'unpaid',
+                  date_expiration = datetime.now() + expirations[product["price"]["id"]],
+                  date_created = datetime.now(),
+                  session_id = session["id"],
+                  description = product["description"]
+              )
+              db.session.add(newInvoice)
+              #TODO: Send email with link to app to pay the invoice
+            except Exception as e:
+              print(e)
+            
+          db.session.commit()
+          continue
+      
+sched = BackgroundScheduler(daemon=True)
+sched.add_job(update_expired_invoices, 'interval', minutes=60)
+sched.start()
