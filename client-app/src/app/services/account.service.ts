@@ -10,10 +10,14 @@ import { Account } from '../models/account';
 @Injectable()
 export class AccountService {
   constructor(private http: HttpClient, private router: Router) {}
+
   public getAccount(): Observable<Account> {
     return this.http.get<Account>(environment.apiUrl + '/account/');
   }
   public setPassword() {}
   public updateAccount() {}
-  public deleteAccount() {}
+
+  public deleteAccount() {
+    return this.http.delete(environment.apiUrl + '/account/'); //TODO Kui Hua - Should I add error handling here?
+  }
 }
