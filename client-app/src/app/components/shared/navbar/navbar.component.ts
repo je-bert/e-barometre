@@ -9,12 +9,14 @@ import { Account } from 'src/app/models/account';
 })
 export class NavbarComponent implements OnInit {
   public accountFirstName: String | undefined;
+  public hasUnpaidInvoice: boolean = false;
 
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.accountService.getAccount().subscribe((account: Account) => {
       this.accountFirstName = account.first_name;
+      this.hasUnpaidInvoice = account.has_unpaid_invoice;
     });
   }
 }

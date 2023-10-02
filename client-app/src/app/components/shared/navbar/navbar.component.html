@@ -4,23 +4,26 @@
   " data-scroll-header data-fixed-element>
   <div class="container px-0 px-xl-3">
     <button class="navbar-toggler ms-n2 me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#primaryMenu">
-      <span class="navbar-toggler-icon"></span></button><a
-      class="navbar-brand flex-shrink-0 order-lg-1 mx-auto ms-lg-0"><img class="navbar-floating-logo d-none d-lg-block"
+      <span class="navbar-toggler-icon"></span></button>
+    <a class="navbar-brand flex-shrink-0 order-lg-1 mx-auto ms-lg-0"><img class="navbar-floating-logo d-none d-lg-block"
         src="/assets/img/logo.png" style="filter: brightness(0) invert(1)" alt="Logo" width="153" />
       <!-- <img
         class="navbar-stuck-logo"
         src="/assets/img/logo/logo-dark.png"
         alt="Around"
         width="153" /> -->
-      <img class="d-lg-none" src="/assets/img/logo/logo-icon.png" alt="Around" width="58" /></a>
+      <img class="d-lg-none" src="/assets/img/logo/logo-icon.png" alt="Around" width="58" />
+    </a>
     <div class="d-flex align-items-center order-lg-3 ms-lg-auto">
       <div class="navbar-tool tw-cursor-pointer" routerLink="/dashboard/my-account">
-        <span class="navbar-tool-icon-box">
+        <span class="navbar-tool-icon-box tw-relative">
           <img class="navbar-tool-icon-box-img" src="/assets/img/Logoe_co.png" alt="Avatar" />
+          <span *ngIf="hasUnpaidInvoice"
+            class="tw-bg-red-500 tw-text-white tw-rounded-full tw-w-4 tw-h-4 tw-justify-center tw-content-center tw-flex tw-text-[8px] tw-leading-4 tw-absolute tw--top-1 tw--right-1">1</span>
         </span>
         <span class="navbar-tool-label">
           <small>Bonjour,</small>
-          {{accountFirstName}}</span>
+          {{accountFirstName}} {{hasUnpaidInvoice}}</span>
       </div>
     </div>
     <div class="offcanvas offcanvas-collapse order-lg-2" id="primaryMenu">

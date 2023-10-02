@@ -13,4 +13,3 @@ def find_one(current_user, invoice_id):
 @auth
 def find_all(current_user):
   return invoices_service.find_all(current_user.user_id)
-

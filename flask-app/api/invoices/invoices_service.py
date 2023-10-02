@@ -12,3 +12,6 @@ def get_user_subscription(user_id):
   if not invoice:
     return None
   return invoice.product_id
+
+def has_unpaid_invoice(user_id):
+  return Invoice.query.filter_by(user_id = user_id, status = "unpaid").first() != None

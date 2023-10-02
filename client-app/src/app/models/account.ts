@@ -8,4 +8,6 @@ export interface Account {
   date_logged_in: Date;
   date_created: Date;
   role: string;
+  has_unpaid_invoice: boolean;
+  subscription: string;
 }

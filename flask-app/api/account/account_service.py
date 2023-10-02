@@ -2,6 +2,7 @@ from flask import request, jsonify
 from models import User
 from utils import check_password, check_email
 from werkzeug.security import generate_password_hash, check_password_hash
+from api.invoices.invoices_service import has_unpaid_invoice, get_user_subscription
 
 from database import db
 
@@ -11,7 +12,9 @@ def find_one(current_user):
     'email': current_user.email,
     'first_name': current_user.first_name,
     'last_name': current_user.last_name,
-    'date_created': current_user.date_created
+    'date_created': current_user.date_created,
+    'has_unpaid_invoice': has_unpaid_invoice(current_user.user_id),
+    'subscription': get_user_subscription(current_user.user_id)
   }
   return jsonify(value_to_return), 200
 

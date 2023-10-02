@@ -13,6 +13,7 @@ export class MyAccountComponent {
   constructor(private router: Router, private accountService: AccountService) {}
 
   public accountFullName: string | undefined;
+  public hasUnpaidInvoice: boolean = false;
 
   logout() {
     window.sessionStorage.removeItem('token');
@@ -21,6 +22,7 @@ export class MyAccountComponent {
   ngOnInit(): void {
     this.accountService.getAccount().subscribe((account: Account) => {
       this.accountFullName = account.first_name + ' ' + account.last_name;
+      this.hasUnpaidInvoice = account.has_unpaid_invoice;
     });
   }
 }
