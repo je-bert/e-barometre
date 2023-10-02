@@ -10,6 +10,9 @@
         <!-- Orders accordion-->
         <div class="accordion accordion-alt accordion-orders" id="orders">
           <!-- Order-->
+          <div *ngIf="(invoices$ | async)?.length === 0">
+            Vous n'avez aucune facture.
+          </div>
           <div *ngFor="let invoice of invoices$ | async" class="accordion-item border-top mb-3">
             <div class="accordion-header">
               <a class="accordion-button after:tw-mb-0 tw-cursor-pointer tw-flex-col tw-items-start tw-gap-2 d-flex fs-4 fw-normal text-decoration-none py-3"
