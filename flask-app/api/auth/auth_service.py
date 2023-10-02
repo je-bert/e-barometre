@@ -119,7 +119,7 @@ def complete_reset_password():
 
     send_confirm_reset_password(user.email)
 
-    return "Le courriel a été réinitialisé.", 200
+    return jsonify({"message": "Le mot de passe a été réinitialisé."}), 200
 
 def reset_password():
     email = request.json.get('email')
@@ -148,5 +148,5 @@ def reset_password():
     db.session.merge(token)
     db.session.commit()
 
-    return "Un courriel a été envoyé.", 200
+    return jsonify({"message": "Un courriel a été envoyé."}), 200
     

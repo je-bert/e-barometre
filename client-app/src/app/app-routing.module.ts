@@ -31,6 +31,7 @@ import { ResourcesComponent } from './components/auth/resources/resources.compon
 import { ResourceComponent } from './components/auth/resource/resource.component';
 import { SingleReportComponent } from './components/auth/reports/single-report.component';
 import { BillingInformationsComponent } from './components/auth/my-account/billing-informations/billing-informations.component';
+import { ChangePasswordComponent } from './components/auth-wall/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,7 @@ const routes: Routes = [
     children: [
       { path: '', component: LoginComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
+      { path: 'change-password', component: ChangePasswordComponent },
     ],
   },
 

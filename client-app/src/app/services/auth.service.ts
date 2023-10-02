@@ -34,4 +34,48 @@ export class AuthService {
 				}
 			});
 	}
+
+	public async postResetPassword(email: string) {
+		return new Promise(async (resolve, reject) => {
+			this.http.post<{ token: string }>(
+				environment.apiUrl + '/auth/reset-password',
+				{
+					email
+				},
+				{ observe: 'response' }
+			).subscribe({
+				next: (res) => {
+					if (res.status === 200 && res.body) {
+						resolve(res.body);
+					}
+				},
+				error: (error) => {
+					reject(error);
+				}
+			});
+		});
+	}
+
+	public async postCompleteResetPassword(token: string, id: number, password: string) {
+		return new Promise(async (resolve, reject) => {
+			this.http.post<{ token: string }>(
+				environment.apiUrl + '/auth/complete-reset-password',
+				{
+					token,
+					id,
+					password
+				},
+				{ observe: 'response' }
+			).subscribe({
+				next: (res) => {
+					if (res.status === 200 && res.body) {
+						resolve(res.body);
+					}
+				},
+				error: (error) => {
+					reject(error);
+				}
+			});
+		});
+	}
 }
