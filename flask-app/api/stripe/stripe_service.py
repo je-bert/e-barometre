@@ -44,6 +44,10 @@ domain_url = "https://e-demo2.netlify.app/"  #TODO: change this to the correct u
 success_url = domain_url + "ebarometre?status=success&session_id={CHECKOUT_SESSION_ID}"
 cancel_url = domain_url + "ebarometre?status=cancelled"
 
+app_base_url = "http://localhost:4300/dashboard/my-account/orders" #TODO: change this to the correct url
+app_success_url = app_base_url + "?status=success&session_id={CHECKOUT_SESSION_ID}"
+app_cancel_url = app_base_url + "?status=cancelled"
+
 def generate_password():
   # Define character sets
   lowercase_letters = string.ascii_lowercase
@@ -292,8 +296,8 @@ def update_expired_invoices():
             try:
               checkout_session = stripe.checkout.Session.create(
                   customer_email=user.email,
-                  success_url=success_url,
-                  cancel_url=cancel_url,
+                  success_url=app_success_url,
+                  cancel_url=app_cancel_url,
                   payment_method_types=["card"],
                   mode="payment",
                   line_items=[

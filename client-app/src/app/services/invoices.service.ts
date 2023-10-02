@@ -18,4 +18,8 @@ export class InvoicesService {
   public getInvoiceById(id: number): Observable<Invoice> {
     return this.http.get<Invoice>(environment.apiUrl + '/invoices/' + id);
   }
+
+  public getPublishableKey(): Observable<any> {
+    return this.http.get<any>(environment.apiUrl + '/stripe/publishable-key');
+  }
 }

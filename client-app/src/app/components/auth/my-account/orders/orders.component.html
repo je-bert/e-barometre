@@ -44,7 +44,12 @@
                     <div class="fs-sm fw-medium text-dark">{{formatPrice(invoice.amount_total)}}</div>
                   </div>
                 </div>
+
               </a>
+              <button *ngIf="invoice.status == 'unpaid' || invoice.status == 'failed'"
+                class="btn tw-bg-green-500 tw-ml-6 tw-mb-6 tw-text-white tw-rounded-md tw-py-2"
+                (click)="redirectToStripeCheckout(invoice.session_id)">Payer
+                maintenant</button>
               <div id="inv-{{invoice.invoice_id}}" class="accordion-collapse"
                 [ngClass]="{'collapse': !isAccordionOpen[invoice.invoice_id]}">
                 <div class="accordion-body">
