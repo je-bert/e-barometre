@@ -33,6 +33,12 @@ export class ProfileComponent implements OnInit {
     this.email = this.account?.email;
   }
 
+  public undoPasswordChange(): void {
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmationPassword = '';
+  }
+
   // Call the service here.
   public deleteAccount() {
     this.accountService
@@ -41,6 +47,7 @@ export class ProfileComponent implements OnInit {
     window.sessionStorage.removeItem('token');
     this.router.navigateByUrl('/auth-wall');
   }
+
   public updateAccount() {
     this.accountService
       .updateAccount(this.firstName, this.lastName, this.email)

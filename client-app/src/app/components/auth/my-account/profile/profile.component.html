@@ -108,7 +108,7 @@
       </p>
     </div>
     <div class="d-flex justify-content-end pt-3">
-      <button class="btn btn-secondary" type="button">Annuler</button>
+      <button class="btn btn-secondary" type="button" (click)="undoPasswordChange()">Annuler</button>
       <button class="btn btn-primary ms-3" type="button"
         [disabled]="!currentPassword || !newPassword || !confirmationPassword"
         (click)="updatePassword()">Enregistrer</button>
