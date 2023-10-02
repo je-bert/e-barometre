@@ -29,9 +29,8 @@ export class FinalReportsComponent implements OnInit {
         .getSessionId(reportType, this.userEmail)
         .subscribe((sessionId) => {
           this.sessionId = sessionId.session_id;
-          console.log(this.sessionId);
+          stripe.redirectToCheckout({ sessionId: this.sessionId });
         });
-      return stripe.redirectToCheckout({ sessionId: this.sessionId });
     });
   }
 
