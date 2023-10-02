@@ -3,9 +3,10 @@ from api.auth import auth
 import stripe
 import os
 from database import db
+from sqlalchemy import func
 from models import User, Invoice
 from werkzeug.security import generate_password_hash
-from datetime import datetime
+from datetime import datetime, date
 from mail import send_account_created, send_payment_failed
 from dateutil.relativedelta import relativedelta
 from utils import check_email
@@ -276,9 +277,10 @@ def update_expired_invoices():
     from app import app
     with app.app_context():
       print("Updating expired invoices")
+      print(date.today())
       
       invoices = Invoice.query\
-        .filter(Invoice.status == "paid", Invoice.date_expiration < datetime.now())\
+        .filter(Invoice.status == "paid", func.date(Invoice.date_expiration) < date.today())\
         .all()
       
       for invoice in invoices:
