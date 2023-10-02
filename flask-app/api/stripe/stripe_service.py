@@ -9,6 +9,7 @@ from datetime import datetime
 from mail import send_account_created, send_payment_failed
 from dateutil.relativedelta import relativedelta
 from utils import check_email
+from mail import send_invoice
 import random
 import string
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -319,7 +320,7 @@ def update_expired_invoices():
                   product_id = product_ids[product["price"]["id"]]
               )
               db.session.add(newInvoice)
-              #TODO: Send email with link to app to pay the invoice
+              send_invoice(user.email)
             except Exception as e:
               print(e)
             

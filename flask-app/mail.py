@@ -46,3 +46,11 @@ def send_payment_failed(email):
     link = "http://localhost:3000/auth/sign-in" #TODO: Real url
     msg.html = render_template('mail/payment-failed.html', link = link)
     mail.send(msg)
+
+def send_invoice(email):
+  global mail
+  if mail:
+    msg = Message("Votre facture est prête", recipients = [email])
+    link = "http://localhost:3000/auth/sign-in"
+    msg.html = render_template('mail/invoice.html', link = link)
+    mail.send(msg)
