@@ -277,7 +277,6 @@ def update_expired_invoices():
     from app import app
     with app.app_context():
       print("Updating expired invoices")
-      print(date.today())
       
       invoices = Invoice.query\
         .filter(Invoice.status == "paid", func.date(Invoice.date_expiration) < date.today())\

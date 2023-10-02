@@ -27,7 +27,7 @@ def run_seeds(file_name = 'seeds.xlsx'):
       db.reflect()
       db.drop_all() # Drop previous tables
       db.create_all()  # Create tables
-      for model in [Survey, Category, User, Choice, Question, Label, LabelItem, Answer, CustomAnswer, AnalysisSection, AnalysisSubsection]:
+      for model in [Survey, Category, User, Choice, Question, Label, LabelItem, Answer, CustomAnswer, AnalysisSection, AnalysisSubsection, Invoice]:
         if model.__tablename__ in xl.sheet_names:
           sheet = xl.parse(model.__tablename__)
           sheet.to_sql(name=model.__tablename__, con=db.engine, if_exists='append', index=False)
