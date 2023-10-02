@@ -82,6 +82,7 @@ import { PresentationDropdownComponent } from './components/auth/dashboard/prese
 import { SingleReportPresentationComponent } from './components/auth/reports/single-report-presentation.component';
 import { SingleReportComponent } from './components/auth/reports/single-report.component';
 import { BillingInformationsComponent } from './components/auth/my-account/billing-informations/billing-informations.component';
+import { ChangePasswordComponent } from './components/auth-wall/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { BillingInformationsComponent } from './components/auth/my-account/billi
     HelpComponent,
     AdminComponent,
     ForgotPasswordComponent,
+    ChangePasswordComponent,
     LoginComponent,
     TermsAndConditionsComponent,
     AccountComponent,
