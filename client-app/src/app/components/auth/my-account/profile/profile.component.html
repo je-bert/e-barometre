@@ -65,7 +65,8 @@
       <div class="col-sm-6">
         <label class="form-label" for="current-pass">Mot de passe actuel</label>
         <div class="password-toggle">
-          <input class="form-control" type="password" placeholder="***********" id="current-pass" />
+          <input class="form-control" type="password" placeholder="***********" id="current-pass"
+            [(ngModel)]="currentPassword" [value]="currentPassword" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
             <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
@@ -78,7 +79,7 @@
       <div class="col-sm-6">
         <label class="form-label" for="new-pass">Nouveau mot de passe</label>
         <div class="password-toggle">
-          <input class="form-control" type="password" id="new-pass" />
+          <input class="form-control" type="password" id="new-pass" [(ngModel)]="newPassword" [value]="newPassword" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
             <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
@@ -87,7 +88,8 @@
       <div class="col-sm-6">
         <label class="form-label" for="confirm-pass">Confirmation du nouveau mot de passe</label>
         <div class="password-toggle">
-          <input class="form-control" type="password" id="confirm-pass" />
+          <input class="form-control" type="password" id="confirm-pass" [(ngModel)]="confirmationPassword"
+            (value)="confirmationPassword" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
             <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
@@ -103,7 +105,9 @@
     </div>
     <div class="d-flex justify-content-end pt-3">
       <button class="btn btn-secondary" type="button">Annuler</button>
-      <button class="btn btn-primary ms-3" type="button">Enregistrer</button>
+      <button class="btn btn-primary ms-3" type="button"
+        [disabled]="!currentPassword || !newPassword || !confirmationPassword"
+        (click)="updatePassword()">Enregistrer</button>
     </div>
   </div>
 </section>
@@ -123,7 +127,7 @@
       </p>
     </div>
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="confirm" (click)="toggleDelete()" [checked]="isDisabled" />
+      <input class="form-check-input" type="checkbox" id="confirm" (click)="toggleDelete()" [checked]="!isDisabled" />
       <label class="form-check-label text-dark fw-medium" for="confirm">Oui, je veux supprimer mon compte</label>
     </div>
     <div class="
@@ -133,7 +137,7 @@
         pt-4
         mt-sm-2 mt-md-3
       ">
-      <button class="btn btn-danger" type="button" (click)="deleteAccount()" [disabled]="isDisabled?'':'null'">
+      <button class="btn btn-danger" type="button" (click)="deleteAccount()" [disabled]="isDisabled?'null':''">
         <i class="ai-trash ms-n1 me-2"></i>Supprimer le compte
       </button>
     </div>

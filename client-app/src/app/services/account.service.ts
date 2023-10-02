@@ -14,10 +14,17 @@ export class AccountService {
   public getAccount(): Observable<Account> {
     return this.http.get<Account>(environment.apiUrl + '/account/');
   }
-  public setPassword() {}
+
+  public setPassword(currentPassword: String, newPassword: String) {
+    return this.http.patch(environment.apiUrl + '/account/set-password', {
+      new_password: newPassword,
+      current_password: currentPassword,
+    });
+  }
+
   public updateAccount() {}
 
   public deleteAccount() {
-    return this.http.delete(environment.apiUrl + '/account/'); //TODO Kui Hua - Should I add error handling here?
+    return this.http.delete(environment.apiUrl + '/account/');
   }
 }

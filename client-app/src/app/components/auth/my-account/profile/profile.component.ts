@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account';
 import { AccountService } from 'src/app/services/account.service';
 import { Router } from '@angular/router';
@@ -12,8 +11,11 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
   public account: Account | undefined;
-  public newPassword: Observable<string> | undefined; // Currently debating on using observables or passing the values as parameters using angular's property binding.
-  public isDisabled: boolean = false;
+
+  @Input() currentPassword: String = '';
+  @Input() newPassword: String = '';
+  @Input() confirmationPassword: String = '';
+  public isDisabled: boolean = true;
 
   constructor(private accountService: AccountService, private router: Router) {}
 
@@ -30,7 +32,17 @@ export class ProfileComponent implements OnInit {
     // this.router.navigateByUrl('/auth-wall');
   }
   public updateAccount() {}
-  public updatePassword() {}
+
+  public updatePassword() {
+    if (this.newPassword !== this.confirmationPassword) {
+      alert('Please put the same password');
+      return;
+    }
+
+    this.accountService
+      .setPassword(this.currentPassword, this.newPassword)
+      .subscribe((status) => console.log(status));
+  }
 
   ngOnInit(): void {
     this.accountService.getAccount().subscribe((account: Account) => {

@@ -32,12 +32,12 @@ def set_password(current_user):
         return "L'utilisateur a été supprimé.", 400
     
     if not check_password_hash(user.password, current_password):
-        return "Mot de passe invalide", 400
+        return "Mot de passe actuel invalide", 400
 
     user.password = generate_password_hash(new_password)
     db.session.commit()
 
-    return "Le mot de passe a été réinitialisé.", 200
+    return 'Le mot de passe a été réinitialisé.', 200
 
 def update(current_user):
     data = request.json
