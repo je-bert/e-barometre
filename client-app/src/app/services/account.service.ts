@@ -22,7 +22,17 @@ export class AccountService {
     });
   }
 
-  public updateAccount() {}
+  public updateAccount(
+    firstName: String | undefined,
+    lastName: String | undefined,
+    email: String | undefined
+  ) {
+    return this.http.patch(environment.apiUrl + '/account/update', {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+    });
+  }
 
   public deleteAccount() {
     return this.http.delete(environment.apiUrl + '/account/');

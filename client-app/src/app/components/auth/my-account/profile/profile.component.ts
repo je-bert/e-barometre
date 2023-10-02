@@ -15,6 +15,10 @@ export class ProfileComponent implements OnInit {
   @Input() currentPassword: String = '';
   @Input() newPassword: String = '';
   @Input() confirmationPassword: String = '';
+  @Input() firstName: String | undefined;
+  @Input() lastName: String | undefined;
+  @Input() email: String | undefined;
+
   public isDisabled: boolean = true;
 
   constructor(private accountService: AccountService, private router: Router) {}
@@ -23,15 +27,25 @@ export class ProfileComponent implements OnInit {
     this.isDisabled = !this.isDisabled;
   }
 
+  public undoAccountChange(): void {
+    this.firstName = this.account?.first_name;
+    this.lastName = this.account?.last_name;
+    this.email = this.account?.email;
+  }
+
   // Call the service here.
   public deleteAccount() {
     this.accountService
       .deleteAccount()
       .subscribe((status) => console.log(status));
-    // window.sessionStorage.removeItem('token');
-    // this.router.navigateByUrl('/auth-wall');
+    window.sessionStorage.removeItem('token');
+    this.router.navigateByUrl('/auth-wall');
   }
-  public updateAccount() {}
+  public updateAccount() {
+    this.accountService
+      .updateAccount(this.firstName, this.lastName, this.email)
+      .subscribe((status) => console.log(status));
+  }
 
   public updatePassword() {
     if (this.newPassword !== this.confirmationPassword) {
@@ -47,6 +61,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.getAccount().subscribe((account: Account) => {
       this.account = account;
+      this.firstName = account.first_name;
+      this.lastName = account.last_name;
+      this.email = account.email;
     });
   }
 }

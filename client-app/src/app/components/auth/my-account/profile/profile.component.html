@@ -15,19 +15,20 @@
       <div class="col-sm-6">
         <div class="mb-3 pb-1">
           <label class="form-label px-0" for="account-fn">Prénom</label>
-          <input class="form-control" type="text" id="account-fn" value={{account?.first_name}} />
+          <input class="form-control" type="text" id="account-fn" [(ngModel)]="firstName" (value)="firstName"
+            required />
         </div>
       </div>
       <div class="col-sm-6">
         <div class="mb-3 pb-1">
           <label class="form-label px-0" for="account-ln">Nom de famille</label>
-          <input class="form-control" type="text" id="account-ln" value={{account?.last_name}} />
+          <input class="form-control" type="text" id="account-ln" [(ngModel)]="lastName" (value)="lastName" required />
         </div>
       </div>
       <div class="col">
         <div class="mb-3 pb-1">
           <label class="form-label px-0" for="account-email">Courriel</label>
-          <input class="form-control" type="text" id="account-email" value={{account?.email}} />
+          <input class="form-control" type="text" id="account-email" [(ngModel)]="email" (value)="email" required />
         </div>
       </div>
       <hr class="mt-2 mb-4" />
@@ -35,8 +36,10 @@
     <div class="row">
       <div class="col-12">
         <div class="d-flex justify-content-end pt-3">
-          <button class="btn btn-secondary" type="button">Annuler</button>
-          <button class="btn btn-primary ms-3" type="button">
+          <button class="btn btn-secondary" type="button" (click)="undoAccountChange()">Annuler</button>
+          <button class="btn btn-primary ms-3" type="button" (click)="updateAccount()"
+            [disabled]="!email || !firstName || !lastName">
+            <!--TODO Maybe also disable the buttons when there was no change?  -->
             Enregistrer
           </button>
         </div>
@@ -66,7 +69,7 @@
         <label class="form-label" for="current-pass">Mot de passe actuel</label>
         <div class="password-toggle">
           <input class="form-control" type="password" placeholder="***********" id="current-pass"
-            [(ngModel)]="currentPassword" [value]="currentPassword" />
+            [(ngModel)]="currentPassword" [value]="currentPassword" required />
           <label class="password-toggle-btn" aria-label="Show/hide password">
             <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
@@ -81,7 +84,8 @@
         <div class="password-toggle">
           <input class="form-control" type="password" id="new-pass" [(ngModel)]="newPassword" [value]="newPassword" />
           <label class="password-toggle-btn" aria-label="Show/hide password">
-            <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
+            <input class="password-toggle-check" type="checkbox" required /><span
+              class="password-toggle-indicator"></span>
           </label>
         </div>
       </div>
@@ -89,7 +93,7 @@
         <label class="form-label" for="confirm-pass">Confirmation du nouveau mot de passe</label>
         <div class="password-toggle">
           <input class="form-control" type="password" id="confirm-pass" [(ngModel)]="confirmationPassword"
-            (value)="confirmationPassword" />
+            (value)="confirmationPassword" required />
           <label class="password-toggle-btn" aria-label="Show/hide password">
             <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"></span>
           </label>
