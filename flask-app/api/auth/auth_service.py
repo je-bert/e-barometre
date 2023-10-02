@@ -13,6 +13,10 @@ def sign_in():
 
   password = auth.get('password')
   email = auth.get('email')
+  conditions = auth.get('conditions')
+
+  if not conditions:
+        return 'Veuillez accepter les conditions d\'utilisation.', 400
 
   if not auth or not email or not password:
       return 'Identifiants invalides.', 400
@@ -133,6 +137,8 @@ def reset_password():
     token_str = str(uuid4())
     
     send_reset_password(user.email, user.user_id, token_str)
+
+    print(token_str)
 
     token = ResetPasswordToken(
         user_id = user.user_id,

@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-import { environment } from 'src/environments/environment';
-
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
@@ -15,10 +11,10 @@ export class LoginComponent {
   public email = '';
   public password = '';
   public showPassword = false;
+  public conditions = true;
 
   constructor(
-    private router: Router,
-    private http: HttpClient,
+    private authService: AuthService,
     private notificationService: NotificationService
   ) {}
 
@@ -27,31 +23,18 @@ export class LoginComponent {
     this.showPassword = checked;
   }
 
-  login() {
-    this.http
-      .post<{ token: string }>(
-        environment.apiUrl + '/auth/sign-in',
-        {
-          email: this.email,
-          password: this.password,
-        },
-        { observe: 'response' }
-      )
-      .subscribe({
-        next: (res) => {
-          if (res.status === 200 && res.body) {
-            window.sessionStorage.setItem('token', res.body.token);
-            this.router.navigateByUrl('/dashboard');
-            return;
-          }
-        },
+  public onAcceptConditions() {
+    this.conditions = true;
+  }
 
-        error: (error) => {
-          this.notificationService.show({
-            message: error.error,
-            type: 'warning',
-          });
-        },
+  async login() {
+    if (!this.conditions) {
+      this.notificationService.show({
+        message: 'You must accept the terms and conditions',
+        type: 'warning',
       });
+      return;
+    }
+    await this.authService.login(this.email, this.password, this.conditions);
   }
 }
