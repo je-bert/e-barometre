@@ -55,38 +55,38 @@
                 <div class="accordion-body tw-pt-8">
                   <!-- display all invoices details in table -->
                   <div class="tw-flex tw-justify-between">
-                    <p class="tw-font-bold">Description:</p>
+                    <p class="tw-font-bold">Description du produit:</p>
                     <p>{{invoice.description}}</p>
                   </div>
 
                   <div class="tw-flex tw-justify-between">
-                    <p class="tw-font-bold">Transaction date:</p>
-                    <p>{{invoice.date_created}}</p>
+                    <p class="tw-font-bold">Date de la transaction:</p>
+                    <p>{{formatDate(invoice.date_created)}}</p>
                   </div>
 
                   <div class="tw-flex tw-justify-between">
-                    <p class="tw-font-bold">Subscription end date:</p>
-                    <p>{{invoice.date_expiration}}</p>
+                    <p class="tw-font-bold">Date de fin de l'abonnement:</p>
+                    <p>{{formatDate(invoice.date_expiration)}}</p>
                   </div>
 
                   <div class="tw-flex tw-justify-between">
-                    <p class="tw-font-bold">Discount:</p>
+                    <p class="tw-font-bold">Rabais:</p>
                     <p>{{formatPrice(invoice.amount_discount)}}</p>
                   </div>
 
                   <div class="tw-flex tw-justify-between">
-                    <p class="tw-font-bold">Subtotal:</p>
+                    <p class="tw-font-bold">Sous-total:</p>
                     <p>{{formatPrice(invoice.amount_subtotal)}}</p>
                   </div>
 
                   <div class="tw-flex tw-justify-between">
-                    <p class="tw-font-bold">Tax:</p>
+                    <p class="tw-font-bold">Taxes:</p>
                     <p>{{formatPrice(invoice.amount_tax)}}</p>
                   </div>
 
                   <div class="tw-flex tw-justify-between">
                     <p class="tw-font-bold">Total:</p>
-                    <p>{{formatPrice(invoice.amount_total)}}</p>
+                    <p class="tw-font-bold">{{formatPrice(invoice.amount_total)}}</p>
                   </div>
                 </div>
 
