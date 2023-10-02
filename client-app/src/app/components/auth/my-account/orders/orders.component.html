@@ -54,8 +54,30 @@
                 [ngClass]="{'collapse': !isAccordionOpen[invoice.invoice_id]}">
                 <div class="accordion-body">
                   <!-- display all invoices details in table -->
-                  {{invoice | json}}
+                  <p>
+                    <span class="tw-font-bold">Description:</span> {{invoice.description}}
+                  </p>
+
+                  <p>
+                    <span class="tw-font-bold">Transaction date:</span> {{invoice.date_created}}
+                  </p>
+                  <p>
+                    <span class="tw-font-bold">Subscription end date:</span> {{invoice.date_expiration}}
+                  </p>
+                  <p>
+                    <span class="tw-font-bold">Discount:</span> {{formatPrice(invoice.amount_discount)}}
+                  </p>
+                  <p>
+                    <span class="tw-font-bold">Subtotal:</span> {{formatPrice(invoice.amount_subtotal)}}
+                  </p>
+                  <p>
+                    <span class="tw-font-bold">Tax:</span> {{formatPrice(invoice.amount_tax)}}
+                  </p>
+                  <p>
+                    <span class="tw-font-bold">Total:</span> {{formatPrice(invoice.amount_total)}}
+                  </p>
                 </div>
+
               </div>
             </div>
           </div>

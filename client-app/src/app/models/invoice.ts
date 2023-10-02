@@ -2,7 +2,7 @@ export interface Invoice {
   invoice_id: number;
   amount_discount: number;
   amount_subtotal: number;
-  amont_tax: number;
+  amount_tax: number;
   amount_total: number;
   date_created: string;
   date_expiration: string;
