@@ -52,30 +52,42 @@
                 maintenant</button>
               <div id="inv-{{invoice.invoice_id}}" class="accordion-collapse"
                 [ngClass]="{'collapse': !isAccordionOpen[invoice.invoice_id]}">
-                <div class="accordion-body">
+                <div class="accordion-body tw-pt-8">
                   <!-- display all invoices details in table -->
-                  <p>
-                    <span class="tw-font-bold">Description:</span> {{invoice.description}}
-                  </p>
+                  <div class="tw-flex tw-justify-between">
+                    <p class="tw-font-bold">Description:</p>
+                    <p>{{invoice.description}}</p>
+                  </div>
 
-                  <p>
-                    <span class="tw-font-bold">Transaction date:</span> {{invoice.date_created}}
-                  </p>
-                  <p>
-                    <span class="tw-font-bold">Subscription end date:</span> {{invoice.date_expiration}}
-                  </p>
-                  <p>
-                    <span class="tw-font-bold">Discount:</span> {{formatPrice(invoice.amount_discount)}}
-                  </p>
-                  <p>
-                    <span class="tw-font-bold">Subtotal:</span> {{formatPrice(invoice.amount_subtotal)}}
-                  </p>
-                  <p>
-                    <span class="tw-font-bold">Tax:</span> {{formatPrice(invoice.amount_tax)}}
-                  </p>
-                  <p>
-                    <span class="tw-font-bold">Total:</span> {{formatPrice(invoice.amount_total)}}
-                  </p>
+                  <div class="tw-flex tw-justify-between">
+                    <p class="tw-font-bold">Transaction date:</p>
+                    <p>{{invoice.date_created}}</p>
+                  </div>
+
+                  <div class="tw-flex tw-justify-between">
+                    <p class="tw-font-bold">Subscription end date:</p>
+                    <p>{{invoice.date_expiration}}</p>
+                  </div>
+
+                  <div class="tw-flex tw-justify-between">
+                    <p class="tw-font-bold">Discount:</p>
+                    <p>{{formatPrice(invoice.amount_discount)}}</p>
+                  </div>
+
+                  <div class="tw-flex tw-justify-between">
+                    <p class="tw-font-bold">Subtotal:</p>
+                    <p>{{formatPrice(invoice.amount_subtotal)}}</p>
+                  </div>
+
+                  <div class="tw-flex tw-justify-between">
+                    <p class="tw-font-bold">Tax:</p>
+                    <p>{{formatPrice(invoice.amount_tax)}}</p>
+                  </div>
+
+                  <div class="tw-flex tw-justify-between">
+                    <p class="tw-font-bold">Total:</p>
+                    <p>{{formatPrice(invoice.amount_total)}}</p>
+                  </div>
                 </div>
 
               </div>
