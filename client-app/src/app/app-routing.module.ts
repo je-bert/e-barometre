@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 import { LoginComponent } from './components/auth-wall/login/login.component';
-import { SignupComponent } from './components/auth-wall/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth-wall/forgot-password/forgot-password.component';
 import { AuthWallComponent } from './components/auth-wall/auth-wall.component';
 import { AuthComponent } from './components/auth/auth.component';
@@ -68,7 +67,6 @@ const routes: Routes = [
     children: [
       { path: '', component: LoginComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
-      { path: 'signup', component: SignupComponent },
     ],
   },
 
@@ -104,7 +102,9 @@ const routes: Routes = [
           },
           {
             path: 'billing-informations',
-            component: BillingInformationsComponent,
+            redirectTo: 'billing-informations/profile',
+            // @TODO uncomment this when billing informations are ready
+            // component: BillingInformationsComponent,
           },
           {
             path: '**',

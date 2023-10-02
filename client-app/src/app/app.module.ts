@@ -15,7 +15,6 @@ import { HelpComponent } from './components/auth/help/help.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ForgotPasswordComponent } from './components/auth-wall/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/auth-wall/login/login.component';
-import { SignupComponent } from './components/auth-wall/signup/signup.component';
 import { TermsAndConditionsComponent } from './components/auth/terms-and-conditions/terms-and-conditions.component';
 import { AccountComponent } from './components/auth/account/account.component';
 import { LegalComponent } from './components/auth/legal/legal.component';
@@ -95,7 +94,6 @@ import { BillingInformationsComponent } from './components/auth/my-account/billi
     AdminComponent,
     ForgotPasswordComponent,
     LoginComponent,
-    SignupComponent,
     TermsAndConditionsComponent,
     AccountComponent,
     LegalComponent,
