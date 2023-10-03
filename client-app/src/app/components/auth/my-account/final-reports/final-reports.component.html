@@ -91,8 +91,9 @@
             </ul>
             <div class="text-center mb-2">
               <button class="btn btn-marie" (click)="redirectStripeCheckout('unique')"
-                [disabled]="subscription">{{subscription
-                =="unique"?"Forfait actuel":"Obtenir maintenant"}}</button>
+                [disabled]="subscription =='multiple' || subscription == 'unique'">{{subscription
+                =="unique"?"Forfait actuel":subscription == 'multiple'? "Non disponible" :"Obtenir
+                maintenant"}}</button>
             </div>
           </div>
         </div>
