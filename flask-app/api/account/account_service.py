@@ -25,22 +25,22 @@ def set_password(current_user):
     new_password = data.get('new_password')
     
     if not check_password(current_password) or not check_password(new_password):
-        return "Mot de passe invalide", 400
+        return jsonify({"message" : "Mot de passe invalide"}), 400
 
     user = User.query\
         .filter_by(user_id = user_id)\
         .first()
     
     if not user:
-        return "L'utilisateur a été supprimé.", 400
+        return jsonify({"message" : "L'utilisateur a été supprimé."}), 400
     
     if not check_password_hash(user.password, current_password):
-        return "Mot de passe actuel invalide", 400
+        return jsonify({"message" : "Mot de passe actuel invalide"}), 400
 
     user.password = generate_password_hash(new_password)
     db.session.commit()
 
-    return 'Le mot de passe a été réinitialisé.', 200
+    return jsonify({"message" : 'Le mot de passe a été réinitialisé.'}), 200
 
 def update(current_user):
     data = request.json
@@ -50,7 +50,7 @@ def update(current_user):
     last_name = data.get('last_name')
 
     if not email or not first_name or not last_name:
-        return "Les champs email, first_name et last_name sont obligatoires.", 400
+        return jsonify({"message" : "Les champs email, first_name et last_name sont obligatoires."}), 400
     
     email = email.lower()
     
@@ -59,24 +59,24 @@ def update(current_user):
         .first()
     
     if not user:
-        return "L'utilisateur a été supprimé.", 400
+        return jsonify({"message" : "L'utilisateur a été supprimé."}), 400
     
     if not check_email(email):
-        return "Courriel invalide", 400
+        return jsonify({"message" : "Courriel invalide"}), 400
     
     user_with_email = User.query\
         .filter_by(email = email)\
         .first()
     
     if user_with_email and user_with_email.user_id != user_id:
-        return "Cette adresse courriel est déjà utilisée", 400
+        return jsonify({"message" : "Cette adresse courriel est déjà utilisée"}), 400
     
     user.email = email
     user.first_name = first_name
     user.last_name = last_name
     db.session.commit()
 
-    return "L'utilisateur a été mis à jour.", 200
+    return jsonify({"message" : "L'utilisateur a été mis à jour."}), 200
 
 def delete(current_user):
   user_id = current_user.user_id
@@ -86,9 +86,9 @@ def delete(current_user):
       .first()
 
   if not user:
-      return "L'utilisateur a été supprimé.", 400
+      return jsonify({"message" : "L'utilisateur a été supprimé."}), 400
 
   db.session.delete(user)
   db.session.commit()
 
-  return "L'utilisateur a été supprimé.", 200
+  return jsonify({"message" : "L'utilisateur a été supprimé."}), 200

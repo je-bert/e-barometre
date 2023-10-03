@@ -56,7 +56,6 @@ export class ProfileComponent implements OnInit {
       .subscribe({
         next: (response) => {
           window.location.reload();
-          // TODO works for now, but it shouldnt be an error if it's a good request
         },
         error: (error) => {
           window.location.reload();
