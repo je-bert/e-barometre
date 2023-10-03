@@ -154,6 +154,10 @@ def create_invoice(user, session, status = 'paid'):
             Invoice.query\
             .filter(Invoice.user_id == user.user_id, Invoice.status == "paid", Invoice.product_id == 'temporary')\
             .update({Invoice.status: "expired", Invoice.date_expiration: datetime.now()})
+        
+        Invoice.query\
+            .filter(Invoice.user_id == user.user_id, Invoice.status == "unpaid", Invoice.invoice_id != invoice.invoice_id)\
+            .delete()
 
 def fulfill_order(session, status = 'paid'):
   print("Fulfilling order")
