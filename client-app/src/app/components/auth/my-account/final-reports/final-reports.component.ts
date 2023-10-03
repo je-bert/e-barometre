@@ -19,6 +19,7 @@ export class FinalReportsComponent implements OnInit {
 
   public publishableKey: String | undefined;
   public userEmail: String;
+  public subscription: String | undefined;
   private sessionId: String | undefined;
 
   public redirectStripeCheckout(reportType: String): void {
@@ -37,6 +38,7 @@ export class FinalReportsComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.getAccount().subscribe((account: Account) => {
       this.userEmail = account.email;
+      this.subscription = account.subscription;
     });
   }
 }

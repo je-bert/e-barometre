@@ -47,7 +47,9 @@
               </li>
             </ul>
             <div class="text-center mb-2">
-              <a class="btn btn-primary" (click)="redirectStripeCheckout('multiple')">Obtenir maintenant</a>
+              <button class="btn btn-primary" (click)="redirectStripeCheckout('multiple')"
+                [disabled]="subscription =='multiple'">{{subscription
+                =="multiple"?"Forfait actuel":"Obtenir maintenant"}}</button>
             </div>
           </div>
         </div>
@@ -88,7 +90,9 @@
               </li>
             </ul>
             <div class="text-center mb-2">
-              <a class="btn btn-marie" (click)="redirectStripeCheckout('unique')">Obtenir maintenant</a>
+              <button class="btn btn-marie" (click)="redirectStripeCheckout('unique')"
+                [disabled]="subscription">{{subscription
+                =="unique"?"Forfait actuel":"Obtenir maintenant"}}</button>
             </div>
           </div>
         </div>
