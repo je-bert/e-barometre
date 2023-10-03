@@ -177,19 +177,19 @@ def get_publishable_key():
 def create_checkout_session():
     data = request.get_json()
     if not data or not "productId" in data or not "email" in data:
-        return "Invalid body", 400
+        return jsonify({"message": "Invalid body"}), 400
     
-    success_url = app_success_url if data["app"] else web_success_url
-    cancel_url = app_cancel_url if data["app"] else web_cancel_url
+    success_url = app_success_url if 'app' in data else web_success_url
+    cancel_url = app_cancel_url if 'app' in data  else web_cancel_url
     
     product_id = data["productId"]
     email = data["email"].lower()
 
     if not check_email(email):
-        return "Invalid email", 400
+        return jsonify({"message": "Courriel invalide."}), 400
 
     if product_id not in products:
-        return "Invalid product id", 400
+        return jsonify({"message": "Ce produit n'existe pas."}), 400
     
     user = User.query\
         .filter_by(email = email)\
@@ -202,13 +202,13 @@ def create_checkout_session():
         current_subscription = get_user_subscription(user.user_id)
 
         if current_subscription == product_id:
-            return "User already has this product", 400
+            return jsonify({"message": "Ce courriel possède déjà ce produit."}), 400
         
         if current_subscription in['unique', 'multiple'] and product_id == 'temporary':
-            return "User already has a better subscription", 400
+            return jsonify({"message": "Ce courriel possède déjà l'abonnement " + current_subscription + "."}), 400
         
         if current_subscription == 'multiple' and product_id == 'unique':
-            return "User already has a better subscription", 400
+            return jsonify({"message": "Ce courriel possède déjà l'abonnement " + current_subscription  + "."}), 400
 
         if current_subscription == 'unique' and product_id == 'multiple':
             amount_discount = 1999
