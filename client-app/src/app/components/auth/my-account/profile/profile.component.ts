@@ -53,11 +53,15 @@ export class ProfileComponent implements OnInit {
   public updateAccount() {
     this.accountService
       .updateAccount(this.firstName, this.lastName, this.email)
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe({
+        next: (response) => {
+          window.location.reload();
+          // TODO works for now, but it shouldnt be an error if it's a good request
+        },
+        error: (error) => {
+          window.location.reload();
+        },
       });
-    // this.isAccountUpdated = true; //TODO maybe change implementation
-    window.location.reload();
   }
 
   public updatePassword() {
