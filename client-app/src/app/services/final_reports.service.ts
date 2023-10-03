@@ -17,7 +17,7 @@ export class FinalReportService {
   public getSessionId(reportType: String, email: String): Observable<any> {
     return this.http.post(
       environment.apiUrl + '/stripe/create-checkout-session',
-      { productId: reportType, email: email }
+      { productId: reportType, email: email, app: true }
     );
   }
 }

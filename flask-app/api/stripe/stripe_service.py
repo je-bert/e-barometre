@@ -40,9 +40,9 @@ product_ids = {
   os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"): "multiple"
 }
 
-domain_url = "https://e-demo2.netlify.app/"  #TODO: change this to the correct url
-success_url = domain_url + "ebarometre?status=success&session_id={CHECKOUT_SESSION_ID}"
-cancel_url = domain_url + "ebarometre?status=cancelled"
+web_domain_url = "https://e-demo2.netlify.app/"  #TODO: change this to the correct url
+web_success_url = web_domain_url + "ebarometre?status=success&session_id={CHECKOUT_SESSION_ID}"
+web_cancel_url = web_domain_url + "ebarometre?status=cancelled"
 
 app_base_url = "http://localhost:4300/dashboard/my-account/orders" #TODO: change this to the correct url
 app_success_url = app_base_url + "?status=success&session_id={CHECKOUT_SESSION_ID}"
@@ -178,6 +178,9 @@ def create_checkout_session():
     data = request.get_json()
     if not data or not "productId" in data or not "email" in data:
         return "Invalid body", 400
+    
+    success_url = app_success_url if data["app"] else web_success_url
+    cancel_url = app_cancel_url if data["app"] else web_cancel_url
     
     product_id = data["productId"]
     email = data["email"].lower()

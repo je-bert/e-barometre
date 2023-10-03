@@ -18,12 +18,17 @@
             <h3 class="text-light mb-0">Multiple</h3>
           </div>
           <div class="card-body px-grid-gutter py-grid-gutter">
-            <div class="d-flex align-items-end py-2 px-4 mb-4">
-              <span class="h2 fw-normal text-muted mb-1 me-2">$</span><span
-                class="price display-2 fw-normal tw-text-primary px-1 me-2" data-current-price="10"
-                data-new-price="8">39.99</span><span class="h3 fs-lg fw-medium text-muted mb-2">par<br />année</span>
+
+            <div class="d-flex align-items-end py-2 px-4 mb-0">
+              <span class=" h2 fw-nozrmal text-muted mb-1 me-2">$</span><span
+                class="price display-2 fw-normal tw-text-primary px-1 me-2">39.99</span>
+              <span class="h3 fs-lg fw-medium text-muted mb-2">par<br />année</span>
             </div>
-            <ul class="list-unstyled py-2 mb-4">
+            <span *ngIf="subscription == 'unique'" class="text-muted">Un rabais de $19.99 sera appliqué pour votre
+              première année, car vous
+              possédez déjà un forfait unique.</span>
+
+            <ul class="list-unstyled py-2 mb-4 mt-4">
               <li class="d-flex align-items-center mb-3">
                 <i class="ai-check fs-xl tw-text-primary me-2"></i><span>Questionnaires enfant</span>
               </li>
@@ -49,7 +54,8 @@
             <div class="text-center mb-2">
               <button class="btn btn-primary" (click)="redirectStripeCheckout('multiple')"
                 [disabled]="subscription =='multiple'">{{subscription
-                =="multiple"?"Forfait actuel":"Obtenir maintenant"}}</button>
+                =="multiple"?"Forfait actuel": subscription == "unique" ? "Améliorer mon forfait"
+                : "Obtenir maintenant"}}</button>
             </div>
           </div>
         </div>
