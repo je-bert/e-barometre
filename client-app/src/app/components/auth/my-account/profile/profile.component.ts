@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
   @Input() email: String | undefined;
 
   public isDisabled: boolean = true;
+  public errorMessage: String = '';
+  public isAccountUpdated: boolean = false;
 
   constructor(private accountService: AccountService, private router: Router) {}
 
@@ -51,18 +53,23 @@ export class ProfileComponent implements OnInit {
   public updateAccount() {
     this.accountService
       .updateAccount(this.firstName, this.lastName, this.email)
-      .subscribe((status) => console.log(status));
+      .subscribe((response) => {
+        console.log(response);
+      });
+    // this.isAccountUpdated = true; //TODO maybe change implementation
+    window.location.reload();
   }
 
   public updatePassword() {
     if (this.newPassword !== this.confirmationPassword) {
-      alert('Please put the same password');
+      this.errorMessage =
+        'Le nouveau mot de passe et la confirmation du nouveau mot de passe ne correspondent pas';
       return;
     }
 
     this.accountService
       .setPassword(this.currentPassword, this.newPassword)
-      .subscribe((status) => console.log(status));
+      .subscribe((response) => console.log(response));
   }
 
   ngOnInit(): void {

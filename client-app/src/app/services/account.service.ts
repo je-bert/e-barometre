@@ -16,10 +16,14 @@ export class AccountService {
   }
 
   public setPassword(currentPassword: String, newPassword: String) {
-    return this.http.patch(environment.apiUrl + '/account/set-password', {
-      new_password: newPassword,
-      current_password: currentPassword,
-    });
+    return this.http.patch<JSON>(
+      environment.apiUrl + '/account/set-password',
+      {
+        new_password: newPassword,
+        current_password: currentPassword,
+      },
+      { observe: 'response' }
+    );
   }
 
   public updateAccount(
@@ -27,11 +31,15 @@ export class AccountService {
     lastName: String | undefined,
     email: String | undefined
   ) {
-    return this.http.patch(environment.apiUrl + '/account/update', {
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-    });
+    return this.http.patch<JSON>(
+      environment.apiUrl + '/account/update',
+      {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+      },
+      { observe: 'response' }
+    );
   }
 
   public deleteAccount() {
