@@ -16,7 +16,7 @@ export class AccountService {
   }
 
   public setPassword(currentPassword: String, newPassword: String) {
-    return this.http.patch<JSON>(
+    return this.http.patch<any>(
       environment.apiUrl + '/account/set-password',
       {
         new_password: newPassword,
@@ -31,7 +31,7 @@ export class AccountService {
     lastName: String | undefined,
     email: String | undefined
   ) {
-    return this.http.patch<JSON>(
+    return this.http.patch(
       environment.apiUrl + '/account/update',
       {
         first_name: firstName,

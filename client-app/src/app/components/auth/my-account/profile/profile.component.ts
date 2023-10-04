@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Account } from 'src/app/models/account';
 import { AccountService } from 'src/app/services/account.service';
 import { Router } from '@angular/router';
+import { ErrorResponse, SuccessResponse } from 'src/app/models/response';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,10 +22,14 @@ export class ProfileComponent implements OnInit {
   @Input() email: String | undefined;
 
   public isDisabled: boolean = true;
-  public errorMessage: String = '';
+  public responseMessage: String = '';
   public isAccountUpdated: boolean = false;
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   public toggleDelete(): void {
     this.isDisabled = !this.isDisabled;
@@ -43,36 +49,66 @@ export class ProfileComponent implements OnInit {
 
   // Call the service here.
   public deleteAccount() {
-    this.accountService
-      .deleteAccount()
-      .subscribe((status) => console.log(status));
-    window.sessionStorage.removeItem('token');
-    this.router.navigateByUrl('/auth-wall');
+    this.accountService.deleteAccount().subscribe({
+      next: () => {
+        window.sessionStorage.removeItem('token');
+        this.router.navigateByUrl('/auth-wall');
+      },
+      error: (response: ErrorResponse) => {
+        this.responseMessage = response.error.message;
+        this.notificationService.show({
+          message: `${this.responseMessage}`,
+          type: 'danger',
+        });
+      },
+    });
   }
 
   public updateAccount() {
     this.accountService
       .updateAccount(this.firstName, this.lastName, this.email)
       .subscribe({
-        next: (response) => {
+        next: () => {
           window.location.reload();
         },
-        error: (error) => {
-          window.location.reload();
+        error: (response: ErrorResponse) => {
+          this.responseMessage = response.error.message;
+          this.notificationService.show({
+            message: `${this.responseMessage}`,
+            type: 'danger',
+          });
         },
       });
   }
 
   public updatePassword() {
     if (this.newPassword !== this.confirmationPassword) {
-      this.errorMessage =
-        'Le nouveau mot de passe et la confirmation du nouveau mot de passe ne correspondent pas';
+      this.notificationService.show({
+        message:
+          'Le nouveau mot de passe et la confirmation du nouveau mot de passe ne correspondent pas',
+        type: 'danger',
+      });
       return;
     }
 
     this.accountService
       .setPassword(this.currentPassword, this.newPassword)
-      .subscribe((response) => console.log(response));
+      .subscribe({
+        next: (response: SuccessResponse) => {
+          this.responseMessage = response.body.message;
+          this.notificationService.show({
+            message: `${this.responseMessage}`,
+            type: 'success',
+          });
+        },
+        error: (response: ErrorResponse) => {
+          this.responseMessage = response.error.message;
+          this.notificationService.show({
+            message: `${this.responseMessage}`,
+            type: 'danger',
+          });
+        },
+      });
   }
 
   ngOnInit(): void {
