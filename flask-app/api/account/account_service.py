@@ -24,8 +24,11 @@ def set_password(current_user):
     current_password = data.get('current_password')
     new_password = data.get('new_password')
     
-    if not check_password(current_password) or not check_password(new_password):
-        return jsonify({"message" : "Mot de passe invalide"}), 400
+    if not check_password(new_password):
+        return jsonify({"message" : "Nouveau mot de passe ne respecte pas les conditions."}), 400
+    
+    if not check_password(current_password):
+        return jsonify({"message" : "Mot de passe actuel ne respecte pas les conditions."}), 400
 
     user = User.query\
         .filter_by(user_id = user_id)\
@@ -35,7 +38,7 @@ def set_password(current_user):
         return jsonify({"message" : "L'utilisateur a été supprimé."}), 400
     
     if not check_password_hash(user.password, current_password):
-        return jsonify({"message" : "Mot de passe actuel invalide"}), 400
+        return jsonify({"message" : "Mot de passe actuel invalide."}), 400
 
     user.password = generate_password_hash(new_password)
     db.session.commit()
