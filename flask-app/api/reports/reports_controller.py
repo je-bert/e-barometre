@@ -7,12 +7,12 @@ reports_router = Blueprint('reports_router', __name__)
 
 @reports_router.route('/', methods = ['GET'])
 @auth
-def findAll(current_user):
-  return reports_service.findAll(current_user)
+def find_all(current_user):
+  return reports_service.find_all(current_user)
 
 
 @reports_router.route('/<id>',methods=['GET'])
 @auth
-def findOne(id, current_user):
-  return reports_service.findOne(id, current_user)
+def find_one(id, current_user):
+  return reports_service.find_one(id, current_user)
 
