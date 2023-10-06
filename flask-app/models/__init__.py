@@ -12,3 +12,4 @@ from .analysis_subsection_model import *
 from .analysis_section_model import *
 from .user_survey_model import *
 from .invoice_model import *
+from .reports_model import *

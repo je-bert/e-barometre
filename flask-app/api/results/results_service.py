@@ -1,5 +1,5 @@
 from flask import abort, jsonify, render_template
-from models import User, Answer, Question, AnalysisSection, AnalysisSubsection
+from models import User, Answer, Question, AnalysisSection, AnalysisSubsection, Report
 import os
 from database import db
 from shutil import copyfile
@@ -64,10 +64,18 @@ def generate(user_id):
   
   wb.save(output_file)
 
+  # Create new report
+  report = Report(
+    user_id = user_id,
+    name = 'Rapport de {}'.format(user.name)
+  )
+  db.session.add(report)
+  db.session.commit()
+
   return jsonify("Votre rapport a été généré!"), 200
 
 def output(user_id):
-
+  #TODO: output by report id
   user = User.query\
     .filter_by(user_id = user_id)\
     .first()
