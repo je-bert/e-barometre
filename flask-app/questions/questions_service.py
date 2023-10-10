@@ -1,6 +1,8 @@
-from questions import Question
+from models import Question, Answer, Choice
 from flask import render_template, abort, request, make_response
 from database import db
+import json
+from sqlalchemy.orm import joinedload
 
 
 def update_one(id):
@@ -29,3 +31,106 @@ def update_one(id):
   question.title = data.get('title')
   db.session.commit()
   return question.as_dict()
+
+def generate_gradients(user_id):
+  user_answers = db.session.query(Answer).\
+    filter(Answer.user_id == user_id).\
+    all()
+  choices = Choice.query.all()
+  choices_dict = {choice.question_id + choice.value: choice for choice in choices}
+  gradients = {}
+  answers_dict = {answer.question_id: answer for answer in user_answers}
+  question_trees = build_question_trees() #TODO: Save this on question update and load json file instead of building tree every time
+  question_trees = json.loads(question_trees)
+  for question_id, question in question_trees.items(): 
+    gradients[question_id] = compute_gradient(question_id, question, answers_dict, choices_dict)
+  return json.dumps(gradients)
+
+def compute_gradient(question_id, question, answers_dict, choices_dict):
+  if question_id not in answers_dict:
+     return 0
+  
+  intensity = question['intensity']
+  values = answers_dict[question_id].value.split(',')
+  if intensity is None:
+    #Get frequency from choice if question does not have intensity
+    frequency = 0
+    intensity = 1
+    compute_method = question['intensity_method'] if question['intensity_method'] is not None else "SUM"
+    for value in values:
+      choice = choices_dict.get(question_id + value)
+      if choice:
+        if compute_method == "SUM":
+          frequency += choice.intensity
+        elif compute_method == "MAX":
+          frequency = max(frequency, choice.intensity)
+      else:
+        print("Choice not found for question_id: {}, value: {}".format(question_id, value))
+  else:
+    values = [int(value) for value in values if value.isdigit()]
+    frequency = sum(values)
+
+  gradient = intensity * frequency
+
+  # Si la Q n'a pas de sous-question, on prend la valeur de celle-ci
+  if 'children' not in question or len(question['children']) == 0:
+    return gradient
+  # Si la Q a plusieurs sous-questions, additiionner les valeurs des sous-questions du même niveau
+  children_gradient = sum([compute_gradient(child['question_id'], child, answers_dict, choices_dict) for child in question['children']])
+  # Prendre le MAX entre Q et chaque niveau de SQ
+  return max(children_gradient, gradient)
+
+
+class TreeNode:
+    def __init__(self, question_id, intensity, intensity_method):
+        self.question_id = question_id
+        self.intensity = intensity
+        self.intensity_method = intensity_method
+        
+
+    def add_child(self, child_node):
+        if not hasattr(self, 'children'):
+            self.children = []
+        self.children.append(child_node)
+
+    def to_dict(self):
+      return {
+         "question_id": self.question_id,
+          "children": [child.to_dict() for child in self.children] if hasattr(self, 'children') and self.children else [],
+          "intensity": self.intensity,
+          "intensity_method": self.intensity_method,
+        }
+
+def get_all_questions():
+    questions = db.session.query(Question).all()
+    child_questions = {}
+    root_questions = {}
+    for question in questions:
+        if question.parent != None:
+          child_questions[question.question_id]= question
+        else:
+          root_questions[question.question_id]= question
+    return child_questions, root_questions
+
+def build_question_trees():
+    trees = []
+    child_questions, root_questions = get_all_questions()
+    for question in root_questions.values():
+        trees.append(build_node(question.question_id, question.intensity, question.intensity_method, child_questions))
+    tree_data = {}
+    for tree in trees:
+        tree_dict = {
+           "question_id": tree.question_id,
+          "children": [child.to_dict() for child in tree.children] if hasattr(tree, 'children') and tree.children else [],
+          "intensity": tree.intensity,
+          "intensity_method": tree.intensity_method,
+        }
+        tree_data[tree.question_id] = tree_dict
+    return json.dumps(tree_data)
+
+def build_node(id, intensity, intensity_method, questions_dict):
+    node = TreeNode(id, intensity, intensity_method)
+    children = [question for question in questions_dict.values() if question.parent == id]
+    for child in children:
+      node.add_child(build_node(child.question_id, child.intensity, child.intensity_method, questions_dict))
+    return node

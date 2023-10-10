@@ -14,6 +14,8 @@ class Question(db.Model):
   intensity: int
   conditional_intensity: str
   order: int
+  parent: str
+  intensity_method: str
   question_id = db.Column(db.String(20), primary_key = True)
   survey_id = db.Column(db.String(20), db.ForeignKey( "survey.survey_id"))
   intro = db.Column(db.String(255), nullable = True)
@@ -36,3 +38,4 @@ class Question(db.Model):
   red_flag = db.Column(db.Integer, nullable = True)
   past_intro	= db.Column(db.String(255), nullable = True)
   past_title = db.Column(db.String(255), nullable = True)
+  intensity_method = db.Column(db.String(255), nullable = True)
