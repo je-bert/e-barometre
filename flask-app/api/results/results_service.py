@@ -67,7 +67,7 @@ def generate(user_id):
   # Create new report
   report = Report(
     user_id = user_id,
-    name = 'Rapport de {}'.format(user.name)
+    name = 'Rapport de {} {}'.format(user.first_name, user.last_name),
   )
   db.session.add(report)
   db.session.commit()
