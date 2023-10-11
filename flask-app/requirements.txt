@@ -19,6 +19,7 @@ numpy==1.24.1
 numpy-financial==1.0.0
 openpyxl==3.1.0
 pandas==1.5.3
+pdfkit==1.0.0
 plotly==5.13.1
 pycel==1.0b30
 PyJWT==2.6.0
