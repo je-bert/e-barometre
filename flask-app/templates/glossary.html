@@ -6,109 +6,135 @@
 {% block content %}
 <!-- TODO make black theme -->
 <div class="p-5 flex flex-col w-full min-h-full overflow-y-auto max-h-full leading-7 space-y-8">
-      <h1 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white">Syntaxe pour créer des conditions</h1>
-      <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col items-start rounded shadow-md p-6 space-y-4">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Opérandes</h2>
-        <p>
-          L'opérande à la gauche d'un opérateur doit correspondre à un identifiant
-          unique d'une question dans un questionnaire.
+  <h1 class="mt-6 text-2xl font-semibold text-gray-900 dark:text-white">Syntaxe pour créer des conditions</h1>
+  <div class="bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col items-start rounded shadow-md p-6 space-y-4">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Opérandes</h2>
+    <p>
+      L'opérande à la gauche d'un opérateur doit correspondre à un identifiant
+      unique d'une question dans un questionnaire.
 
-          L'opérande à la droite doit être une valeur possible pour la question
-          correspondante.
-        </p>
-        <h3 class="font-semibold text-gray-900 dark:text-white">Exemples</h3>
-        <ul class="list-[square] ml-6 mt-5 space-y-6">
-          <li>
-            <em>Question B11a</em>
-            <br />
-            <code class="text-pink-600">B11 >= 3</code> <br />
-            La valeur de la réponse à la question B01 doit être supérieure ou
-            égale à 3 pour que la question soit affichée.
-          </li>
-          <li>
-            <em>Question B11a1</em>
-            <br />
-            <code class="text-pink-600">B11A == 1</code>
-            <br />
-            La réponse de la réponse à la question B11A doit être égale à 1 pour
-            que la question soit affichée.
-          </li>
-          <li>
-            <em>Question B11c1</em>
-            <br />
-            <code class="text-pink-600">B11C == 0 || B11C == 1</code>
-            <br />
+      L'opérande à la droite doit être une valeur possible pour la question
+      correspondante.
+    </p>
+    <h3 class="font-semibold text-gray-900 dark:text-white">Exemples</h3>
+    <ul class="list-[square] ml-6 mt-5 space-y-6">
+      <li>
+        <em>Question B11a</em>
+        <br />
+        <code class="text-pink-600">B11 >= 3</code> <br />
+        La valeur de la réponse à la question B01 doit être supérieure ou
+        égale à 3 pour que la question soit affichée.
+      </li>
+      <li>
+        <em>Question B11a1</em>
+        <br />
+        <code class="text-pink-600">B11A == 1</code>
+        <br />
+        La réponse de la réponse à la question B11A doit être égale à 1 pour
+        que la question soit affichée.
+      </li>
+      <li>
+        <em>Question B11c1</em>
+        <br />
+        <code class="text-pink-600">B11C == 0 || B11C == 1</code>
+        <br />
 
-            La valeur de la réponse à la question B11C doit être égale à 1
-            <strong>ou</strong> 2 pour que la question B11c1 soit affichée.
-          </li>
+        La valeur de la réponse à la question B11C doit être égale à 1
+        <strong>ou</strong> 2 pour que la question B11c1 soit affichée.
+      </li>
 
-          <li>
-            <em>Question PFA30a1</em>
-            <br />
-            <code class="text-pink-600">PFA30a >= 3 && PFA09 == 0 && PFA13b == 0</code>
-            <br />
+      <li>
+        <em>Question PFA30a1</em>
+        <br />
+        <code class="text-pink-600">PFA30a >= 3 && PFA09 == 0 && PFA13b == 0</code>
+        <br />
 
-            La valeur de la réponse à la question PFA30a doit être supérieure ou
-            égale à 3
-            <strong>et</strong> la réponse à la question PFA09 doit être égale à 0
-            <strong>et</strong>
-            la réponse à la question PFA13b doit être égale à 0 pour que la
-            question PFA30a1 soit affichée.
-          </li>
-        </ul>
-      </div> 
-
-      <div class="bg-white dark:bg-gray-800  dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md p-6 space-y-4">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Opérateurs disponibles</h2>
-        <ul class="list-[square] ml-6 space-y-4">
-          <li>
-            <span> == </span>
-          </li>
-          <li>
-            <span> != </span>
-          </li>
-          <li>
-            <span> &lt;= </span>
-          </li>
-          <li>
-            <span> &gt;= </span>
-          </li>
-          <li>
-            <span> && </span>
-            <br />
-            Permet de combiner plusieurs conditions. Les deux conditions doivent
-            être vraies pour que la condition globale soit vraie.
-          </li>
-          <li>
-            <span>||</span>
-            <br />
-            Permet de combiner plusieurs conditions. Une des conditions doit être
-            vraie pour que la condition globale soit vraie.
-          </li>
-
-          <li>
-            <span>(...)</span>
-            <br />
-            Permet de spécifier l'ordre des opérations.
-          </li>
-        </ul>
-      </div> 
-      <div class="bg-white mb-5 dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md p-6 space-y-3">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Syntaxe intensité conditionnelle</h2>
-        <h2 class="font-semibold text-gray-900 dark:text-white">Exemple</h2>    
-        <ul class="list-[square] ml-6">
-          <li>
-            <code class="text-pink-600">1: B04 &lt;= 1 ; 2: B02 &lt;= 1 </code>
-            <br />
-
-            Intensité 1 si la valeur de la réponse à la question B04 est
-            inférieure ou égale à 1
-            <br />
-            Intensité 2 si la valeur de la réponse à la question B02 est
-            inférieure ou égale à 1
-          </li>
-        </ul>
-      </div>
+        La valeur de la réponse à la question PFA30a doit être supérieure ou
+        égale à 3
+        <strong>et</strong> la réponse à la question PFA09 doit être égale à 0
+        <strong>et</strong>
+        la réponse à la question PFA13b doit être égale à 0 pour que la
+        question PFA30a1 soit affichée.
+      </li>
+    </ul>
   </div>
+
+  <div
+    class="bg-white dark:bg-gray-800  dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md p-6 space-y-4">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Opérateurs disponibles</h2>
+    <ul class="list-[square] ml-6 space-y-4">
+      <li>
+        <span> == </span>
+      </li>
+      <li>
+        <span> != </span>
+      </li>
+      <li>
+        <span> &lt;= </span>
+      </li>
+      <li>
+        <span> &gt;= </span>
+      </li>
+      <li>
+        <span> && </span>
+        <br />
+        Permet de combiner plusieurs conditions. Les deux conditions doivent
+        être vraies pour que la condition globale soit vraie.
+      </li>
+      <li>
+        <span>||</span>
+        <br />
+        Permet de combiner plusieurs conditions. Une des conditions doit être
+        vraie pour que la condition globale soit vraie.
+      </li>
+
+      <li>
+        <span>(...)</span>
+        <br />
+        Permet de spécifier l'ordre des opérations.
+      </li>
+    </ul>
+  </div>
+  <div
+    class="bg-white mb-5 dark:bg-gray-800 dark:text-gray-400 flex flex-col leading-10 items-start rounded shadow-md p-6 space-y-3">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Syntaxe intensité conditionnelle</h2>
+    <p>L'intensité de la question sera celle retournée par la première condition vraie. Les conditions sont séparées par
+      le
+      caractère <code class="text-pink-600">";"</code>.</br />Si aucune condition n'est vraie, l'intensité sera celle
+      assignée
+      par la question ou 0 si aucune intensité n'est assignée.
+    </p>
+    <h2 class="font-semibold text-gray-900 dark:text-white">Exemples</h2>
+    <ul class="list-[square] ml-6">
+      <li>
+        <code class="text-pink-600">1: B04&lt;=1 ; 2: B02&lt;=1 </code>
+        <br />
+        Intensité 1 si la valeur de la réponse à la question B04 est
+        inférieure ou égale à 1.
+        <br />
+        Intensité 2 si la valeur de la réponse à la question B02 est
+        inférieure ou égale à 1.
+      </li>
+      <li>
+        <code class="text-pink-600">3: PCR08&lt;=2 && ( B04&gt;3 || B06&lt;=8 )</code>
+        <br />
+        Intensité 3 si la valeur de la réponse à la question PCR08 est
+        inférieure ou égale à 2 et que la valeur de la réponse à la question
+        B04 est supérieure à 3 ou que la valeur de la réponse à la question
+        B06 est inférieure ou égale à 8.
+      </li>
+      <li>
+        <code class="text-pink-600">1: B04!=1 ; 3: PCR08==2 && ( B04&gt;3 || B06&lt;=8 )</code>
+        <br />
+        Intensité 1 si la valeur de la réponse à la question B04 est
+        différente de 1.
+        <br />
+        Intensité 3 si la valeur de la réponse à la question PCR08 est
+        égale à 2 et que la valeur de la réponse à la question
+        B04 est supérieure à 3 ou que la valeur de la réponse à la question
+        B06 est inférieure ou égale à 8.
+      </li>
+    </ul>
+  </div>
+</div>
 {% endblock %}
