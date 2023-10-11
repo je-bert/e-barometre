@@ -1,49 +1,32 @@
 {% if ((analysis_items and analysis_items | length > 0) or (observations and
 observations | length > 0)) %}
 <div
-  class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]"
->
+  class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
   {% if analysis_items and analysis_items | length > 0 %}
   <div class="relative">
-    <div
-      style="background-color: rgb(22 32 127)"
-      class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform"
-    >
-      <div
-        style="
+    <div style="background-color: rgb(22 32 127)"
+      class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+      <div style="
           background-image: linear-gradient(
             to right,
             rgb(22 32 127),
             rgb(22 32 75)
           );
-        "
-        class="flex py-2 rounded-r-full justify-between items-center w-[225px]"
-      >
-        <img
-          src="{{ url_for('static', filename='img/reports/analyse.svg') }}"
-          alt="Oeil"
-        />
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+        <img src="{{ url_for('static', filename='img/reports/analyse.svg', _external=True) }}" alt="Oeil" />
         <div class="label mr-[16px] text-white">Analyse</div>
         <div class="w-[64px]"></div>
       </div>
     </div>
-    <div
-      style="
+    <div style="
         background-image: linear-gradient(
           to right,
           rgb(22 32 127),
           rgb(22 32 75)
         );
-      "
-      class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]"
-    >
-      <img
-        src="{{ url_for('static', filename='img/reports/analyse.svg') }}"
-        alt="Oeil"
-      />
-      <div
-        class="label flex grow items-center justify-center mr-[48px] text-center text-white"
-      >
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+      <img src="{{ url_for('static', filename='img/reports/analyse.svg', _external=True) }}" alt="Oeil" />
+      <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
         Analyse
       </div>
     </div>
@@ -55,45 +38,29 @@ observations | length > 0)) %}
   </div>
   {% endif %} {% if observations and observations | length > 0 %}
   <div class="relative">
-    <div
-      style="background-color: rgb(22 32 127)"
-      class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform"
-    >
-      <div
-        style="
+    <div style="background-color: rgb(22 32 127)"
+      class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+      <div style="
           background-image: linear-gradient(
             to right,
             rgb(22 32 127),
             rgb(22 32 75)
           );
-        "
-        class="flex py-2 rounded-r-full justify-between items-center w-[225px]"
-      >
-        <img
-          src="{{ url_for('static', filename='img/reports/constat.svg') }}"
-          alt="Oeil"
-        />
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+        <img src="{{ url_for('static', filename='img/reports/constat.svg', _external=True) }}" alt="Oeil" />
         <div class="label mr-[16px] text-white">Constat</div>
         <div class="w-[64px]"></div>
       </div>
     </div>
-    <div
-      style="
+    <div style="
         background-image: linear-gradient(
           to right,
           rgb(22 32 127),
           rgb(22 32 75)
         );
-      "
-      class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]"
-    >
-      <img
-        src="{{ url_for('static', filename='img/reports/constat.svg') }}"
-        alt="Oeil"
-      />
-      <div
-        class="label flex grow items-center justify-center mr-[48px] text-center text-white"
-      >
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+      <img src="{{ url_for('static', filename='img/reports/constat.svg', _external=True) }}" alt="Oeil" />
+      <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
         Constat
       </div>
     </div>

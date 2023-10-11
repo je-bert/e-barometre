@@ -11,10 +11,4 @@ export class ReportsService {
   public getAllReports(): Observable<Report[]> {
     return this.http.get<Report[]>(environment.apiUrl + '/reports/');
   }
-
-  public getReportById(id: number): Observable<any> {
-    return this.http.get(environment.apiUrl + '/results/', {
-      responseType: 'text',
-    });
-  }
 }

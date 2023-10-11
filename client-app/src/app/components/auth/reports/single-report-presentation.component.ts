@@ -37,7 +37,7 @@ import { ErrorResponse } from 'src/app/models/response';
           complété le {{ formatDate(report.date_created) }}
         </p>
         <button
-          (click)="getReport(report.report_id)"
+          (click)="openReport(report.report_id)"
           class="mx-2 btn btn-primary"
         >
           Sommaire
@@ -56,27 +56,10 @@ export class SingleReportPresentationComponent implements OnInit {
   @Input() onCardClick!: (id: number) => void;
   innerHTML: string;
 
-  constructor(
-    private router: Router,
-    private reportsService: ReportsService,
-    private notificationService: NotificationService
-  ) {}
-
   isEditing = false;
 
-  public getReport(id: number) {
-    this.reportsService.getReportById(id).subscribe({
-      next: (text: string) => {
-        //this.innerHTML = text;
-        // TODO: Display html in a modal
-      },
-      error: (response: ErrorResponse) => {
-        this.notificationService.show({
-          message: `${response.error.message}`,
-          type: 'danger',
-        });
-      },
-    });
+  public openReport(id: number) {
+    window.open('http://localhost:3000/api/results/1', '_blank'); // TODO: Real id + verify auth
   }
 
   onEdit() {
