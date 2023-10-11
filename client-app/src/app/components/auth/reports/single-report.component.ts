@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppModule } from 'src/app/app.module';
 
 @Component({
   selector: 'app-single-report',
   standalone: true,
   imports: [CommonModule],
+
   template: `
     <div class="tw-bg-gray-100 tw-min-h-screen">
       <section class="tw-pt-24 tw-p-5">
@@ -200,6 +200,5 @@ import { AppModule } from 'src/app/app.module';
 })
 export class SingleReportComponent implements OnInit {
   constructor() {}
-
   ngOnInit(): void {}
 }

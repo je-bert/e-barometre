@@ -12,7 +12,9 @@ export class ReportsService {
     return this.http.get<Report[]>(environment.apiUrl + '/reports/');
   }
 
-  public getReportById(id: number): Observable<Report> {
-    return this.http.get<Report>(environment.apiUrl + '/reports/' + id);
+  public getReportById(id: number): Observable<any> {
+    return this.http.get(environment.apiUrl + '/results/', {
+      responseType: 'text',
+    });
   }
 }
