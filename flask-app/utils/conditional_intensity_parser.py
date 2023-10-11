@@ -133,14 +133,9 @@ def is_valid_condition_syntax(condition):
         
     return num_conditions > 0 and num_parentheses == 0 and last_token != ";"
 
-def is_valid_data(data):
-    # Check if 'intensity' and 'conditional_intensity' keys exist in data
-    if 'intensity' not in data or 'conditional_intensity' not in data:
+def is_valid_data(conditional_intensity):
+    # Check if 'conditional_intensity' value is a non-empty string
+    if not isinstance(conditional_intensity, str) or not conditional_intensity.strip():
         return False
 
-    # Check if 'conditional_intensity' value is a non-empty string and has valid syntax
-    if not isinstance(data['conditional_intensity'], str) or not data['conditional_intensity'].strip():
-        return False
-    
-
-    return is_valid_condition_syntax(data['conditional_intensity'])
+    return is_valid_condition_syntax(conditional_intensity)

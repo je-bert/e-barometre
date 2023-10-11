@@ -1,7 +1,7 @@
 from models import Question, Label, Answer
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
-import re
+from utils import is_valid_data
 
 
 def update_one(id):
@@ -31,6 +31,10 @@ def update_one(id):
 
   if not question:
     return make_response("La question n'existe pas.", 404)
+
+  conditional_intensity = data.get('conditional_intensity')
+  if conditional_intensity is not None and is_valid_data(conditional_intensity) == False:
+    return make_response("La condition " + conditional_intensity + " est invalide.", 400)
   
   question.intro = data.get('intro') if data.get('intro') else None
   question.title = data.get('title')
@@ -38,7 +42,7 @@ def update_one(id):
   question.condition = data.get('condition') if data.get('condition') else None
   intensity = data.get('intensity')
   question.intensity = int(intensity) if intensity and intensity.isdigit() else None
-  question.conditional_intensity = data.get('conditional_intensity') if data.get('conditional_intensity') else None
+  question.conditional_intensity = conditional_intensity
   question.label_id = data.get('label_id') if data.get('label_id') else None
   order = data.get('order')
   question.order = int(order) if order and order.isdigit() else None
@@ -81,6 +85,10 @@ def add_one(id):
       if Question.query.filter_by(question_id = question.question_id).first():
         return make_response("Une question existe déja avec le ID", 400)
       
+      conditional_intensity = data.get('conditional_intensity')
+      if conditional_intensity is not None and is_valid_data(conditional_intensity) == False:
+        return make_response("La condition " + conditional_intensity + " est invalide.", 400)
+      
       question.survey_id = survey_id
       question.type = data.get('type')
       question.intro = data.get('intro') if data.get('intro') else None
@@ -89,7 +97,7 @@ def add_one(id):
       question.condition = data.get('condition') if data.get('condition') else None
       intensity = data.get('intensity')
       question.intensity = int(intensity) if intensity and intensity.isdigit() else None
-      question.conditional_intensity = data.get('conditional_intensity') if data.get('conditional_intensity') else None
+      question.conditional_intensity = conditional_intensity
       order = data.get('order')
       question.order = int(order) if order and order.isdigit() else None
       question.active = 0 if not data.get('active') else 1
