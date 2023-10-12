@@ -109,6 +109,7 @@ def output(report_id):
   red_flags = []
   previous_cell = None
   about = None
+  insert_page_break = False
 
   for i in range (1, 400):
     cell = excel.evaluate(f"'{worksheet_name}'!D{i}")
@@ -128,8 +129,15 @@ def output(report_id):
       if not value or value == '' or value == ' ' or value == 0:
         continue
       elif cell == 'section-title':
+        if insert_page_break == True:
+          insert_page_break = False
+          sections.append('<div class="insert-page-break"></div>')
         sections.append(render_template('reports/section-title.html', content = value))
       elif cell == 'subsection-title':
+        if insert_page_break == False:
+          insert_page_break = True
+        else:
+          sections.append('<div class="insert-page-break"></div>')
         sections.append(render_template('reports/subsection-title.html', content = value))
       elif cell == 'about-barometer':
         sections.append(render_template('reports/about-barometer.html', content = value))
