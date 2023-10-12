@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { ReportsService } from 'src/app/services/reports.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { ErrorResponse } from 'src/app/models/response';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-single-report-presentation[report]',
@@ -37,12 +39,17 @@ import { ErrorResponse } from 'src/app/models/response';
           complété le {{ formatDate(report.date_created) }}
         </p>
         <button
-          (click)="openReport(report.report_id)"
+          (click)="openReportHTML(report.report_id)"
           class="mx-2 btn btn-primary"
         >
-          Sommaire
+          Afficher le rapport
         </button>
-        <button class="mx-2 btn btn-marie">Complet</button>
+        <button
+          (click)="openReportPDF(report.report_id)"
+          class="mx-2 btn btn-marie"
+        >
+          Télécharger PDF
+        </button>
         <mat-icon (click)="onEdit()" class="tw-absolute tw-top-4 tw-right-4"
           >edit</mat-icon
         >
@@ -54,14 +61,61 @@ import { ErrorResponse } from 'src/app/models/response';
 export class SingleReportPresentationComponent implements OnInit {
   @Input() report!: Report;
   @Input() onCardClick!: (id: number) => void;
-  innerHTML: string;
 
   isEditing = false;
+  constructor(
+    private http: HttpClient,
+    private notificationService: NotificationService
+  ) {}
 
-  public openReport(id: number) {
-    window.open('http://localhost:3000/api/results/1', '_blank'); // TODO: Real id + verify auth
+  public openReportHTML(id: number) {
+    this.http
+      .get('http://localhost:3000/api/reports/' + id + '/html', {
+        responseType: 'text',
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching HTML content:', error);
+          this.notificationService.show({
+            message: "Une erreur est survenue lors de l'ouverture du rapport",
+            type: 'danger',
+          });
+          throw error;
+        })
+      )
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'text/html' });
+        const url = window.URL.createObjectURL(blob);
+
+        const newWindow = window.open(url, '_blank');
+        if (newWindow) {
+          newWindow.focus();
+        }
+      });
   }
 
+  public openReportPDF(id: number) {
+    this.http
+      .get('http://localhost:3000/api/reports/' + id + '/pdf', {
+        responseType: 'arraybuffer',
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching PDF content:', error);
+          this.notificationService.show({
+            message: "Une erreur est survenue lors de l'ouverture du rapport",
+            type: 'danger',
+          });
+          throw error;
+        })
+      )
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+
+        window.open(url, '_blank')?.focus();
+      });
+  }
   onEdit() {
     this.isEditing = !this.isEditing;
   }
