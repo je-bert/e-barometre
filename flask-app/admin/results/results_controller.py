@@ -19,4 +19,12 @@ def export_one(file_name):
 def delete_one(file_name):
   return results_service.delete_one(file_name)
 
-  
+@results_router.route('/<id>/pdf',methods=['GET'])
+@auth
+def find_one_pdf(id):
+  return results_service.find_one_pdf(id)
+
+@results_router.route('/<id>/html',methods=['GET'])
+@auth
+def find_one_html(id):
+  return results_service.find_one_html(id)

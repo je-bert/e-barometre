@@ -6,18 +6,12 @@ from shutil import copyfile
 import os
 from openpyxl import load_workbook
 from pycel import ExcelCompiler
+import os
+from pyhtml2pdf import converter
 
 TEMPLATE_FILE = 'master-results-template.xlsx'
 
 def generate(user_id):
-  
-  convert_xlookup_to_index_match()
-
-  output_file = 'master_results/{}.xlsx'.format(user_id)
-  
-  if os.path.exists(output_file):
-    os.remove(output_file)
-
   user = User.query\
     .filter_by(user_id = user_id)\
     .first()
@@ -31,6 +25,19 @@ def generate(user_id):
   template_file = TEMPLATE_FILE
   worksheet_name = 'TEST_pour PROTOTYPE'
 
+  # Create new report
+  report = Report(
+    user_id = user_id,
+    name = 'Rapport de {} {}'.format(user.first_name, user.last_name),
+  )
+
+  db.session.add(report)
+  db.session.commit()
+
+  output_file = 'master_results/{}.xlsx'.format(report.report_id)
+  
+  if os.path.exists(output_file):
+    os.remove(output_file)
 
   if not os.path.exists(output_file):
      copyfile(template_file, output_file)
@@ -63,30 +70,24 @@ def generate(user_id):
             ws.cell(row=cell.row, column=4).value = answer.value
   
   wb.save(output_file)
+ 
+  #Creation of pdf
+  html_content = output(report.report_id)
 
-  # Create new report
-  report = Report(
-    user_id = user_id,
-    name = 'Rapport de {} {}'.format(user.first_name, user.last_name),
-  )
-  db.session.add(report)
-  db.session.commit()
+  with open(f'master_results/{report.report_id}.html', 'w',encoding='utf-8') as f:
+      f.write(html_content)
+
+  source = os.path.abspath(f'master_results/{report.report_id}.html')
+  target = os.path.abspath(f'master_results/{report.report_id}.pdf')
+  converter.convert(f'file:///{source}', target, print_options={'marginTop': 0, 'marginRight': 0, 'marginBottom': 0, 'marginLeft': 0})
 
   return jsonify("Votre rapport a été généré!"), 200
 
-def output(user_id):
-  #TODO: output by report id
-  user = User.query\
-    .filter_by(user_id = user_id)\
-    .first()
-
-  if not user:
-      return abort(400)
-
+def output(report_id):
   if not os.path.exists('master_results'):
     os.makedirs('master_results')
 
-  filename = 'master_results/{}.xlsx'.format(user_id)
+  filename = 'master_results/{}.xlsx'.format(report_id)
 
   if not os.path.exists(filename):
      return abort(404)

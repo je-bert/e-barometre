@@ -5,11 +5,11 @@ Résultats {% endblock %} {% block content %}
     Résultats
   </h1>
   <table
-    class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800"
-  >
+    class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800">
     <thead class="text-xs">
       <tr>
         <th scope="col" class="px-5 py-3">ID</th>
+        <th scope="col" class="px-5 py-3">ID Utilisateur</th>
         <th scope="col" class="px-5 py-3">Nom</th>
         <th scope="col" class="px-5 py-3 hidden lg:table-cell">Fichier</th>
         <th scope="col" class="px-5 py-3 w-[100px] text-center">Actions</th>
@@ -18,63 +18,45 @@ Résultats {% endblock %} {% block content %}
     <tbody class="dark:divide-gray-700 divide-y">
       {% for result in results %}
       <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+        <td class="px-5 py-4">{{ result.report_id }}</td>
         <td class="px-5 py-4">{{ result.user_id }}</td>
         <td class="px-5 py-4">{{ result.name }}</td>
         <td class="px-5 py-4 hidden lg:table-cell">{{ result.file }}</td>
         <td class="px-5 py-4">
-          <div class="flex items-center justify-center space-x-4 text-sm">
+          <div class="flex items-center justify-end space-x-4 text-sm">
+            {% if 'pdf' in result.file or 'html' in result.file %}
             <button
-              onclick="window.open('/api/results/{{result.user_id}}', '_blank')"
+              onclick="window.open('/admin/results/{{ result.file.split('.')[0] }}/{{ result.file.split('.')[1] }}', '_blank')"
               class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-              aria-label="Delete"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-bar-chart-line-fill"
-                viewBox="0 0 16 16"
-              >
+              aria-label="Delete">
+              <svg fill="currentColor" height="16px" width="16px" version="1.1" id="Capa_1"
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 183.792 183.792" xml:space="preserve">
                 <path
-                  d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z"
-                />
+                  d="M54.734,9.053C39.12,18.067,27.95,32.624,23.284,50.039c-4.667,17.415-2.271,35.606,6.743,51.22
+              	c12.023,20.823,34.441,33.759,58.508,33.759c7.599,0,15.139-1.308,22.287-3.818l30.364,52.592l21.65-12.5l-30.359-52.583
+              	c10.255-8.774,17.638-20.411,21.207-33.73c4.666-17.415,2.27-35.605-6.744-51.22C134.918,12.936,112.499,0,88.433,0
+              	C76.645,0,64.992,3.13,54.734,9.053z M125.29,46.259c5.676,9.831,7.184,21.285,4.246,32.25c-2.938,10.965-9.971,20.13-19.802,25.806
+              	c-6.462,3.731-13.793,5.703-21.199,5.703c-15.163,0-29.286-8.146-36.857-21.259c-5.676-9.831-7.184-21.284-4.245-32.25
+              	c2.938-10.965,9.971-20.13,19.802-25.807C73.696,26.972,81.027,25,88.433,25C103.597,25,117.719,33.146,125.29,46.259z" />
               </svg>
             </button>
-            <button
-              onclick="window.location='/admin/results/export/{{result.file}}';"
+            {% endif %}
+            <button onclick="window.location='/admin/results/export/{{result.file}}';"
               class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-              aria-label="Delete"
-            >
-              <svg
-                class="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M9.163 2.819C9 3.139 9 3.559 9 4.4V11H7.803c-.883 0-1.325 0-1.534.176a.75.75 0 0 0-.266.62c.017.274.322.593.931 1.232l4.198 4.401c.302.318.453.476.63.535a.749.749 0 0 0 .476 0c.177-.059.328-.217.63-.535l4.198-4.4c.61-.64.914-.96.93-1.233a.75.75 0 0 0-.265-.62C17.522 11 17.081 11 16.197 11H15V4.4c0-.84 0-1.26-.164-1.581a1.5 1.5 0 0 0-.655-.656C13.861 2 13.441 2 12.6 2h-1.2c-.84 0-1.26 0-1.581.163a1.5 1.5 0 0 0-.656.656zM5 21a1 1 0 0 0 1 1h12a1 1 0 1 0 0-2H6a1 1 0 0 0-1 1z"
-                />
+              aria-label="Delete">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M9.163 2.819C9 3.139 9 3.559 9 4.4V11H7.803c-.883 0-1.325 0-1.534.176a.75.75 0 0 0-.266.62c.017.274.322.593.931 1.232l4.198 4.401c.302.318.453.476.63.535a.749.749 0 0 0 .476 0c.177-.059.328-.217.63-.535l4.198-4.4c.61-.64.914-.96.93-1.233a.75.75 0 0 0-.265-.62C17.522 11 17.081 11 16.197 11H15V4.4c0-.84 0-1.26-.164-1.581a1.5 1.5 0 0 0-.655-.656C13.861 2 13.441 2 12.6 2h-1.2c-.84 0-1.26 0-1.581.163a1.5 1.5 0 0 0-.656.656zM5 21a1 1 0 0 0 1 1h12a1 1 0 1 0 0-2H6a1 1 0 0 0-1 1z" />
               </svg>
             </button>
-            <button
-              onclick="onDeleteClick(event, '{{ result.file }}');"
+            <button onclick="onDeleteClick(event, '{{ result.file }}');"
               class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-              aria-label="Delete"
-            >
-              <svg
-                class="w-5 h-5"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fill-rule="evenodd"
+              aria-label="Delete">
+              <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
                   d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                  clip-rule="evenodd"
-                ></path>
+                  clip-rule="evenodd"></path>
               </svg>
             </button>
           </div>
