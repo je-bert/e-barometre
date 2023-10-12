@@ -37,4 +37,4 @@ ENV DB_HOST=localhost \
 EXPOSE 8080
 
 # Run Waitress when the container launches
-CMD ["waitress-serve", "--port=8080", "--call", "app:app"]
+CMD ["waitress-serve", "--port=8080", "--module", "app:app"]
