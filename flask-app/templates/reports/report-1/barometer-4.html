@@ -1,50 +1,38 @@
-<div class="flex" id="b4">
-  <div class="p-16 ml-12">
-    <div
-      class="flex items-center justify-center rounded-full w-[550px] h-[550px] drop-shadow-xl relative z-10 bg-[#f8faff]"
-    >
-      <svg
-        id="graph"
-        width="480"
-        height="480"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        viewBox="0 0 100 100"
-      ></svg>
-      <svg
-        style="max-width: 150%"
-        id="graph-labels"
-        class="absolute"
-        width="650"
-        height="650"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        viewBox="0 0 100 100"
-      ></svg>
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="flex" id="b4">
+    <div class="p-16 ml-12">
+      <div
+        class="flex items-center justify-center rounded-full w-[550px] h-[550px] drop-shadow-xl relative z-10 bg-[#f8faff]">
+        <svg id="graph" width="480" height="480" xmlns="http://www.w3.org/2000/svg" version="1.1"
+          viewBox="0 0 100 100"></svg>
+        <svg style="max-width: 150%" id="graph-labels" class="absolute" width="650" height="650"
+          xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100"></svg>
+      </div>
     </div>
+    <div
+      class="border-2 rounded-full mr-10 px-3 bg-white border-white mt-12 flex flex-col justify-evenly gap-y-12 py-4">
+      <div class="border-4 border-[#c2c0f2] rounded-full h-full"></div>
+      <div class="border-4 border-[#6562e1] rounded-full h-full"></div>
+      <div class="border-4 border-[#deb164] rounded-full h-full"></div>
+      <div class="border-4 border-[#ecd5ab] rounded-full h-full"></div>
+      <div class="border-4 border-[#a0262e] rounded-full h-full"></div>
+      <div class="border-4 border-[#be536e] rounded-full h-full"></div>
+      <div class="border-4 border-[#b8c3cb] rounded-full h-full"></div>
+    </div>
+    <table id="b4-table" class="table-auto text-center">
+      <thead class="border-b-2 border-[#0085e7]">
+        <tr>
+          <th class="border-r-2 border-[#0085e7]">
+            <h4>Catégorie</h4>
+          </th>
+          <th class="py-2">
+            <h4>Comportement</h4>
+          </th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
-  <div
-    class="border-2 rounded-full mr-10 px-3 bg-white border-white mt-12 flex flex-col justify-evenly gap-y-12 py-4"
-  >
-    <div class="border-4 border-[#c2c0f2] rounded-full h-full"></div>
-    <div class="border-4 border-[#6562e1] rounded-full h-full"></div>
-    <div class="border-4 border-[#deb164] rounded-full h-full"></div>
-    <div class="border-4 border-[#ecd5ab] rounded-full h-full"></div>
-    <div class="border-4 border-[#a0262e] rounded-full h-full"></div>
-    <div class="border-4 border-[#be536e] rounded-full h-full"></div>
-    <div class="border-4 border-[#b8c3cb] rounded-full h-full"></div>
-  </div>
-  <table id="b4-table" class="table-auto text-center">
-    <thead class="border-b-2 border-[#0085e7]">
-      <tr>
-        <th class="border-r-2 border-[#0085e7]">
-          <h4>Catégorie</h4>
-        </th>
-        <th class="py-2"><h4>Comportement</h4></th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 </div>
 
 <script type="module">
@@ -103,9 +91,9 @@
         <td class="px-8 pt-4">
 
           ${item.behaviors.reduce(
-            (acc, b) => acc + `<p style="margin-bottom:0!important;">${b}</p>`,
-            ""
-          )}
+      (acc, b) => acc + `<p style="margin-bottom:0!important;">${b}</p>`,
+      ""
+    )}
         
         </td>
 

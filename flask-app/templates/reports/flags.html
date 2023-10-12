@@ -1,61 +1,64 @@
 {% if ((yellow_flags and yellow_flags | length > 0) or (red_flags and red_flags
 | length > 0)) %}
-<div
-  class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px] relative">
-  <div style="background-color: rgb(22 32 127)"
-    class="hidden absolute lg:flex justify-end items-center top-[48px] w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
-    <div style="
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px] relative">
+    <div style="background-color: rgb(22 32 127)"
+      class="hidden absolute lg:flex justify-end items-center top-[48px] w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+      <div style="
         background-image: linear-gradient(
           to right,
           rgb(22 32 127),
           rgb(22 32 75)
         );
       " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
-      <img class="-mr-3" src="{{ url_for('static', filename='img/reports/a-surveiller.svg', _external=True) }}"
-        alt="Oeil" />
-      <div class="label text-white">À surveiller</div>
-      <div class="w-[64px]"></div>
+        <img class="-mr-3" src="{{ url_for('static', filename='img/reports/a-surveiller.svg', _external=True) }}"
+          alt="Oeil" />
+        <div class="label text-white">À surveiller</div>
+        <div class="w-[64px]"></div>
+      </div>
     </div>
-  </div>
-  <div style="
+    <div style="
       background-image: linear-gradient(
         to right,
         rgb(22 32 127),
         rgb(22 32 75)
       );
     " class="flex py-2 pl-2 lg:hidden rounded-r-full justify-left items-center w-[225px]">
-    <img src="{{ url_for('static', filename='img/reports/a-surveiller.svg', _external=True) }}" alt="Oeil" />
-    <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
-      À surveiller
+      <img src="{{ url_for('static', filename='img/reports/a-surveiller.svg', _external=True) }}" alt="Oeil" />
+      <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+        À surveiller
+      </div>
     </div>
-  </div>
-  {% if flag_introduction %}
-  <p style="margin-bottom: 0px!important;" class="px-[16px] md:px-[64px] lg:px-[150px]">
-    {{ flag_introduction | safe }}
-  </p>
-  {% endif %}
-  {% for yellow_flag in yellow_flags %}
-  <div
-    class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
-    <div
-      class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
-      <img src="{{ url_for('static', filename='img/reports/yellow-flag.svg', _external=True) }}" alt="Drapeau jaune" />
-    </div>
-    <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
-      {{ yellow_flag | safe }}
+    {% if flag_introduction %}
+    <p style="margin-bottom: 0px!important;" class="px-[16px] md:px-[64px] lg:px-[150px]">
+      {{ flag_introduction | safe }}
     </p>
-  </div>
-  {% endfor %} {% for red_flag in red_flags %}
-  <div
-    class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+    {% endif %}
+    {% for yellow_flag in yellow_flags %}
     <div
-      class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
-      <img src="{{ url_for('static', filename='img/reports/red-flag.svg', _external=True) }}" alt="Drapeau rouge" />
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="{{ url_for('static', filename='img/reports/yellow-flag.svg', _external=True) }}"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        {{ yellow_flag | safe }}
+      </p>
     </div>
-    <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
-      {{ red_flag | safe }}
-    </p>
+    {% endfor %} {% for red_flag in red_flags %}
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="{{ url_for('static', filename='img/reports/red-flag.svg', _external=True) }}" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        {{ red_flag | safe }}
+      </p>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 {% endif %}

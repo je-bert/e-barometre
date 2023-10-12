@@ -1,128 +1,129 @@
-<div class="w-full flex px-[24px] justify-center">
-  <style>
-    #b3 h4 {
-      margin-bottom: 1.5rem !important;
-    }
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="w-full flex px-[24px] justify-center">
+    <style>
+      #b3 h4 {
+        margin-bottom: 1.5rem !important;
+      }
 
-    #b3 .b-gradient-bar {
-      height: 10px;
-      border-top-right-radius: 9999px;
-      border-bottom-right-radius: 9999px;
+      #b3 .b-gradient-bar {
+        height: 10px;
+        border-top-right-radius: 9999px;
+        border-bottom-right-radius: 9999px;
 
-      background: linear-gradient(90deg,
-          rgb(109 176 134) calc(280px * 0.25),
-          rgb(202 178 112) calc(280px * 0.4),
-          rgb(212 132 108) calc(280px * 0.6),
-          rgb(201 91 111) 280px);
-    }
+        background: linear-gradient(90deg,
+            rgb(109 176 134) calc(280px * 0.25),
+            rgb(202 178 112) calc(280px * 0.4),
+            rgb(212 132 108) calc(280px * 0.6),
+            rgb(201 91 111) 280px);
+      }
 
-    #b3 .b-gradient-bar__left {
-      transform: rotate(180deg);
-    }
-  </style>
+      #b3 .b-gradient-bar__left {
+        transform: rotate(180deg);
+      }
+    </style>
 
-  <div id="b3"
-    class="w-full bg-white py-4 px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] drop-shadow-xl max-w-[950px] text-center">
-    <div class="flex w-full">
-      <div class="w-1/3"></div>
-      <div class="w-1/3">
-        <h4 class="text-center">
-          Parent Répondant
-        </h4>
-      </div>
-      <div class="w-1/3">
-        <h4 class="text-center">
-          Co Parent
-        </h4>
-      </div>
-    </div>
-    <div id="b3-root"></div>
-    <div class="flex w-full mt-4">
-      <div class="w-1/3"></div>
-      <div class="w-2/3 flex ml-6">
+    <div id="b3"
+      class="w-full bg-white py-4 px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] drop-shadow-xl max-w-[950px] text-center">
+      <div class="flex w-full">
+        <div class="w-1/3"></div>
         <div class="w-1/3">
-          <h4 class="text-center mb-0" style="
+          <h4 class="text-center">
+            Parent Répondant
+          </h4>
+        </div>
+        <div class="w-1/3">
+          <h4 class="text-center">
+            Co Parent
+          </h4>
+        </div>
+      </div>
+      <div id="b3-root"></div>
+      <div class="flex w-full mt-4">
+        <div class="w-1/3"></div>
+        <div class="w-2/3 flex ml-6">
+          <div class="w-1/3">
+            <h4 class="text-center mb-0" style="
               color: rgb(201 91 111) !important;
               text-transform: uppercase;
               font-size: 10px!important;
             ">
-            En désaccord
-          </h4>
-        </div>
-        <div class="w-1/3 relative">
-          <svg class="absolute -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
-            width="32" style="transform: rotate(180deg) scaleX(1.25)">
-            <defs>
-              <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
-                <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
-                <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
-                <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
-              </linearGradient>
-            </defs>
+              En désaccord
+            </h4>
+          </div>
+          <div class="w-1/3 relative">
+            <svg class="absolute -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
+              width="32" style="transform: rotate(180deg) scaleX(1.25)">
+              <defs>
+                <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
+                  <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
+                  <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
+                  <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
+                </linearGradient>
+              </defs>
 
-            <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
-          </svg>
-          <h4 style="
+              <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
+            </svg>
+            <h4 style="
               color: rgb(109 176 134) !important;
               text-transform: uppercase;
               font-size: 10px!important;
             " class="text-center mb-0">
-            En accord
-          </h4>
-          <svg class="absolute right-0 -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
-            width="32" style="transform: scaleX(1.25)">
-            <defs>
-              <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
-                <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
-                <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
-                <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
-              </linearGradient>
-            </defs>
+              En accord
+            </h4>
+            <svg class="absolute right-0 -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
+              width="32" style="transform: scaleX(1.25)">
+              <defs>
+                <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
+                  <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
+                  <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
+                  <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
+                </linearGradient>
+              </defs>
 
-            <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
-          </svg>
-        </div>
-        <div class="w-1/3">
-          <h4 class="text-center mb-0" style="
+              <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
+            </svg>
+          </div>
+          <div class="w-1/3">
+            <h4 class="text-center mb-0" style="
               color: rgb(201 91 111) !important;
               text-transform: uppercase;
               font-size: 10px!important;
             ">
-            En désaccord
-          </h4>
+              En désaccord
+            </h4>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script type="module">
-    const b3Root = document.getElementById("b3-root");
+    <script type="module">
+      const b3Root = document.getElementById("b3-root");
 
-    const data = JSON.parse(`{{ data | tojson | safe }}`);
+      const data = JSON.parse(`{{ data | tojson | safe }}`);
 
-    console.log({ b3Data: data });
+      console.log({ b3Data: data });
 
-    const b3Data = data;
-    const MAX_SCORE = 30;
+      const b3Data = data;
+      const MAX_SCORE = 30;
 
-    const items = [...b3Data.items];
+      const items = [...b3Data.items];
 
-    items.sort((a, b) => {
-      const aTotal = a.value_1 + a.value_2;
-      const bTotal = b.value_1 + b.value_2;
+      items.sort((a, b) => {
+        const aTotal = a.value_1 + a.value_2;
+        const bTotal = b.value_1 + b.value_2;
 
-      return bTotal - aTotal;
-    });
+        return bTotal - aTotal;
+      });
 
-    items.forEach((item) => {
-      const leftBarWidth = (item.value_1 / MAX_SCORE) * 280 + "px";
-      const rightBarWidth = (item.value_2 / MAX_SCORE) * 280 + "px";
+      items.forEach((item) => {
+        const leftBarWidth = (item.value_1 / MAX_SCORE) * 280 + "px";
+        const rightBarWidth = (item.value_2 / MAX_SCORE) * 280 + "px";
 
-      const b3DataRow = document.createElement("div");
-      b3DataRow.classList.add("flex", "w-full");
-      b3DataRow.innerHTML = `
+        const b3DataRow = document.createElement("div");
+        b3DataRow.classList.add("flex", "w-full");
+        b3DataRow.innerHTML = `
           <div class="w-1/3">
             <h4 class="mb-3 text-left" style="font-size:10px!important;font-weight:600!important;color:rgb(49 96 183)!important;">${item.name}</h4>
           </div>
@@ -137,7 +138,8 @@
           </div>
       
           `;
-      b3Root.append(b3DataRow);
-    });
-  </script>
+        b3Root.append(b3DataRow);
+      });
+    </script>
+  </div>
 </div>
