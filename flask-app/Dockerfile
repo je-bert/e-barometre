@@ -1,20 +1,13 @@
 # Use an official Python runtime as a parent image
 FROM python:3.10.8-slim-bullseye
 
-# Install default MySQL client
-RUN apt-get update && \
-    apt-get install -y default-mysql-client && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install libmariadb-dev-compat
-RUN apt-get update && \
-    apt-get install -y libmariadb-dev-compat && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install GCC compiler
-RUN apt-get update && \
-    apt-get install -y build-essential && \
-    rm -rf /var/lib/apt/lists/*
+# Install MySQL client, Chrome and dependencies
+RUN apt-get update && apt-get install default-mysql-client libmariadb-dev-compat  build-essential gnupg wget -y && \
+  wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg && \
+  sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
+  apt-get update && \
+  apt-get install google-chrome-stable -y --no-install-recommends && \
+  rm -rf /var/lib/apt/lists/*
 
 # Set the working directory to /app
 WORKDIR /app
