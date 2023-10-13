@@ -65,14 +65,13 @@ export class SingleReportPresentationComponent implements OnInit {
   isEditing = false;
   constructor(
     private http: HttpClient,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private reportsService: ReportsService
   ) {}
 
   public openReportHTML(id: number) {
-    this.http
-      .get('http://localhost:3000/api/reports/' + id + '/html', {
-        responseType: 'text',
-      })
+    this.reportsService
+      .getReportHTMLById(id)
       .pipe(
         catchError((error) => {
           console.error('Error fetching HTML content:', error);
@@ -95,10 +94,8 @@ export class SingleReportPresentationComponent implements OnInit {
   }
 
   public openReportPDF(id: number) {
-    this.http
-      .get('http://localhost:3000/api/reports/' + id + '/pdf', {
-        responseType: 'arraybuffer',
-      })
+    this.reportsService
+      .getReportPDFById(id)
       .pipe(
         catchError((error) => {
           console.error('Error fetching PDF content:', error);

@@ -11,4 +11,16 @@ export class ReportsService {
   public getAllReports(): Observable<Report[]> {
     return this.http.get<Report[]>(environment.apiUrl + '/reports/');
   }
+
+  public getReportHTMLById(id: number): Observable<string> {
+    return this.http.get(environment.apiUrl + '/reports/' + id + '/html', {
+      responseType: 'text',
+    });
+  }
+
+  public getReportPDFById(id: number): Observable<ArrayBuffer> {
+    return this.http.get(environment.apiUrl + '/reports/' + id + '/pdf', {
+      responseType: 'arraybuffer',
+    });
+  }
 }

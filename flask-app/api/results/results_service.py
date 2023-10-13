@@ -29,6 +29,7 @@ def generate(user_id):
   report = Report(
     user_id = user_id,
     name = 'Rapport de {} {}'.format(user.first_name, user.last_name),
+    date_created = db.func.current_timestamp(),
   )
 
   db.session.add(report)

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, EMPTY, interval, of, Subject } from 'rxjs';
 import { map, mergeMap, takeUntil, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -22,7 +23,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   availableAnalysisId$ = new BehaviorSubject('');
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.http
@@ -68,9 +69,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   handleNavigateToAnalysis() {
-    window.location.href =
-      'http://localhost:3000/api/results/' +
-      this.availableAnalysisId$.getValue();
+    this.router.navigate(['/dashboard/reports']);
   }
 
   ngAfterViewInit() {
