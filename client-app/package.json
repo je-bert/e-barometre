@@ -27,7 +27,7 @@
     "@clr/angular": "^13.8.2",
     "@clr/icons": "^13.0.2",
     "@clr/ui": "^13.8.2",
-    "@formkit/auto-animate": "^1.0.0-beta.1",
+    "@formkit/auto-animate": "^0.8.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
