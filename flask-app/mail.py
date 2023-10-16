@@ -3,6 +3,8 @@ from flask import render_template
 import os
 
 mail = None
+API_URL_CLIENT = os.environ.get('API_URL_CLIENT') if os.environ.get('API_URL_CLIENT') else 'http://localhost:4300'
+API_URL_ADMIN = os.environ.get('API_URL_ADMIN') if os.environ.get('API_URL_ADMIN') else 'http://localhost:3000'
 
 def init(app):
   app.config['SECRET_KEY'] = 'top-secret!'
@@ -19,8 +21,8 @@ def send_reset_password(email, id, token, admin_app = False):
   global mail
   if mail:
     msg = Message('Réinitialiser mon mot de passe', recipients = [email])
-    link_admin = "http://localhost:3000/admin/auth/complete-reset-password?id={}&token={}".format(id, token)
-    link_client = "http://localhost:4300/auth-wall/change-password?id={}&token={}".format(id, token)
+    link_admin = API_URL_ADMIN + "/admin/auth/complete-reset-password?id={}&token={}".format(id, token)
+    link_client = API_URL_CLIENT + "/auth-wall/change-password?id={}&token={}".format(id, token)
     msg.html = render_template('mail/reset-password.html', link = link_admin if admin_app else link_client)
     mail.send(msg)
 
@@ -35,7 +37,7 @@ def send_account_created(email, password):
   global mail
   if mail:
     msg = Message('Votre compte a été créé', recipients = [email])
-    link = "http://localhost:3000/auth/sign-in" #TODO: Real url
+    link = API_URL_CLIENT + "/auth-wall"
     msg.html = render_template('mail/account-created.html', link = link, email = email, password = password)
     mail.send(msg)
   
@@ -43,7 +45,7 @@ def send_payment_failed(email):
   global mail
   if mail:
     msg = Message("Votre achat n'a pas pu être complété", recipients = [email])
-    link = "http://localhost:3000/auth/sign-in" #TODO: Real url
+    link = API_URL_CLIENT + "/auth-wall"
     msg.html = render_template('mail/payment-failed.html', link = link)
     mail.send(msg)
 
@@ -51,6 +53,6 @@ def send_invoice(email):
   global mail
   if mail:
     msg = Message("Votre facture est prête", recipients = [email])
-    link = "http://localhost:3000/auth/sign-in"
+    link = API_URL_CLIENT + "/auth-wall"
     msg.html = render_template('mail/invoice.html', link = link)
     mail.send(msg)
