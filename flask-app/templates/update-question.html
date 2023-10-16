@@ -5,32 +5,39 @@
 ('intro', question.intro, 'Phrase introductive','enabled','not required','text',''),
 ('title', question.title, 'Titre','enabled','required','text',''),
 ('type', question.type, 'Type','disabled','not required','text',''),
-('label_id', question.label_id, 'Label ID','disabled','not required','text',''),
-('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text','Précision sur la question ou information additionnelle'),
+('label_id', question.label_id, 'ID de l\'échelle','disabled','not required','text',''),
+('info_bubble_text', question.info_bubble_text, 'Bulle d\'information','enabled','not required','text','Précision sur la
+question ou information additionnelle'),
 ('condition', question.condition, 'Condition','enabled','not required','text',''),
-('intensity', question.intensity, 'Intensité','enabled','not required','number','Sévérité du comportement sur une échelle de 1 : léger à 3 : sévère'),
-('conditional_intensity', question.conditional_intensity, 'Intensité conditionelle','enabled','not required','text','Condition qui provoque un changement de l’intensité de base'),
+('intensity', question.intensity, 'Intensité','enabled','not required','number','Sévérité du comportement sur une
+échelle de 1 : léger à 3 : sévère'),
+('conditional_intensity', question.conditional_intensity, 'Intensité conditionelle','enabled','not
+required','text','Condition qui provoque un changement de l’intensité de base'),
 ('order', question.order,'Ordre','enabled','required','number',''),
 ('min_value', question.min_value, 'Valeur minimum','enabled','required','number',''),
 ('max_value', question.max_value, 'Valeur maximum','enabled','required','number',''),
 ('parent', question.parent,'Parent','enabled','not required','text',''),
-('ladderC', question.ladderC,'Échelle C','enabled','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+('ladderC', question.ladderC,'Échelle C','enabled','not required','number','Entre le pourcentage réparti selon le
+caractère du comportement C : comportemental, E :
 Émotif, V : Verbal'),
-('ladderE', question.ladderE, 'Échelle E','enabled','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+('ladderE', question.ladderE, 'Échelle E','enabled','not required','number','Entre le pourcentage réparti selon le
+caractère du comportement C : comportemental, E :
 Émotif, V : Verbal'),
-('ladderV', question.ladderV, 'Échelle V','enabled','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+('ladderV', question.ladderV, 'Échelle V','enabled','not required','number','Entre le pourcentage réparti selon le
+caractère du comportement C : comportemental, E :
 Émotif, V : Verbal'),
-('red_flag', question.red_flag, 'Red flag','enabled','not required','text',''),
+('red_flag', question.red_flag, 'Drapeau rouge','enabled','not required','text',''),
 ('active', question.active, 'Active','enabled','not required','checkbox',''),
-('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox','Cochez si et seulement si la question est liée à la violence
+('violence_related', question.violence_related, 'Reliée à la violence','enabled','not required','checkbox','Cochez si et
+seulement si la question est liée à la violence
 conjugale'),
 ] -%}
 
 {%
-  set questionTypes=[
-  'numeric-ladder','select-multiple','select-single','labeled-ladder','integer','binary'
-  ]
-  -%}
+set questionTypes=[
+'numeric-ladder','select-multiple','select-single','labeled-ladder','integer','binary'
+]
+-%}
 
 {% block title %} {{ question.name }} {% endblock %}
 
@@ -49,70 +56,77 @@ conjugale'),
 
     <div class="mb-6" data-tooltip="{{tooltip}}">
 
-    <!-- For the swithces -->
-    {% if (name == 'violence_related' or name == 'active') %}
-    <div class="relative z-0 w-full group">
-      <label class="relative inline-flex items-center mb-4 cursor-pointer">
-        <input name="{{name}}" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if value==1 else '' }}>
-        <div
-          class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-        </div>
-        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{title}}</span>
-      </label>
-    </div>
+      <!-- For the swithces -->
+      {% if (name == 'violence_related' or name == 'active') %}
+      <div class="relative z-0 w-full group">
+        <label class="relative inline-flex items-center mb-4 cursor-pointer">
+          <input name="{{name}}" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if value==1 else ''
+            }}>
+          <div
+            class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+          </div>
+          <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{title}}</span>
+        </label>
+      </div>
 
-    {% elif name == 'label_id'%}
-    <div data-tooltip-target="tooltip-default" class="relative z-0 w-full group {{ 'opacity-50' if not canEdit  }}">
-      <label for="{{name}}"class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{title}}</label>
-      <select {{ 'disabled' if not canEdit }} name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent rounded-none border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-        {% for label in labels %}
-          <option {{ 'selected' if question.label_id == label.label_id }} value="{{label.label_id}}">{{label.label_id}} : {{label.title}}</option>
-        {% endfor %}
-      </select>
-    </div>
+      {% elif name == 'label_id'%}
+      <div data-tooltip-target="tooltip-default" class="relative z-0 w-full group {{ 'opacity-50' if not canEdit  }}">
+        <label for="{{name}}"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{title}}</label>
+        <select {{ 'disabled' if not canEdit }} name="{{name}}" id="{{name}}"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent rounded-none border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+          {% for label in labels %}
+          <option {{ 'selected' if question.label_id==label.label_id }} value="{{label.label_id}}">{{label.label_id}} :
+            {{label.title}}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    {% elif name == 'type'%}
-    <div data-tooltip-target="tooltip-default" class="relative z-0 w-full group {{ 'opacity-50' if not canEdit  }}">
-      <label for="{{name}}"class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{title}}</label>
-      <select  {{ 'disabled' if not canEdit }} name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-        {% for questionType in questionTypes %}
-          <option {{ 'selected' if question.type == questionType }} value="{{questionType}}" >{{questionType}}</option>
-        {% endfor %}
-      </select>
-    </div>
+      {% elif name == 'type'%}
+      <div data-tooltip-target="tooltip-default" class="relative z-0 w-full group {{ 'opacity-50' if not canEdit  }}">
+        <label for="{{name}}"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{title}}</label>
+        <select {{ 'disabled' if not canEdit }} name="{{name}}" id="{{name}}"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+          {% for questionType in questionTypes %}
+          <option {{ 'selected' if question.type==questionType }} value="{{questionType}}">{{questionType}}</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    <!-- For the rest except for type since it's a dropdown. Min and max won't be rendered if type is not integer -->
-    {% else %}
-    {% if question.type == 'integer' or (name != 'min_value' and name != 'max_value') %}
-    <div class="relative z-0 w-full group" id="{{name}}Div">
-      <input type="{{inputType}}" name="{{name}}" id="{{name}}" {{ '' if editable =='enabled' else 'disabled' }}
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        value="{{value if value != None else ''}}" {{'required' if required=='required'}} />
-      <label for="{{name}}"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{
-        title }}{{' *' if required=='required'}}</label>
-    </div>
-    {% endif %}
+      <!-- For the rest except for type since it's a dropdown. Min and max won't be rendered if type is not integer -->
+      {% else %}
+      {% if question.type == 'integer' or (name != 'min_value' and name != 'max_value') %}
+      <div class="relative z-0 w-full group" id="{{name}}Div">
+        <input type="{{inputType}}" name="{{name}}" id="{{name}}" {{ '' if editable=='enabled' else 'disabled' }}
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          value="{{value if value != None else ''}}" {{'required' if required=='required' }} />
+        <label for="{{name}}"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{
+          title }}{{' *' if required=='required'}}</label>
+      </div>
+      {% endif %}
 
-    {% endif %}
+      {% endif %}
 
 
-    {% if tooltip != '' %}
+      {% if tooltip != '' %}
 
-    <p class="text-sm text-gray-500 font-bold" style="font-size:0.5rem!important;">
-      {{ tooltip }}
-    </p>
+      <p class="text-sm text-gray-500 font-bold" style="font-size:0.5rem!important;">
+        {{ tooltip }}
+      </p>
 
-    {% endif %}
+      {% endif %}
 
 
     </div>
     {% endfor %}
     {% if not canEdit %}
-      <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-        Une ou plusieurs réponses associée(s) à la question.
-        <div class="tooltip-arrow" data-popper-arrow></div>
-      </div>
+    <div id="tooltip-default" role="tooltip"
+      class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+      Une ou plusieurs réponses associée(s) à la question.
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
     {% endif %}
 
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
@@ -133,18 +147,17 @@ conjugale'),
     }
   });
 
-  $("#type").change(()=>{
-    if($("#type").val() != 'integer')
-    {
-      $("#min_value").prop('disabled',true);
+  $("#type").change(() => {
+    if ($("#type").val() != 'integer') {
+      $("#min_value").prop('disabled', true);
       $("#min_valueDiv").hide();
-      $("#max_value").prop('disabled',true);
+      $("#max_value").prop('disabled', true);
       $("#max_valueDiv").hide();
     }
-    else{
-      $("#min_value").prop('disabled',false);
+    else {
+      $("#min_value").prop('disabled', false);
       $("#min_valueDiv").show();
-      $("#max_value").prop('disabled',false);
+      $("#max_value").prop('disabled', false);
       $("#max_valueDiv").show();
     }
   })
