@@ -102,7 +102,7 @@ def find_one(current_user, question_id):
     .first()
     
   if report == None:
-    return jsonify("Aucun rapport en cours."), 400
+    return jsonify({"message":"Aucun rapport en cours."}), 400
   
   answer = Answer.query\
     .filter_by(report_id = report.report_id, question_id = question_id)\
@@ -128,7 +128,7 @@ def find_all(current_user):
     .first()
     
   if report == None:
-    return jsonify("Aucun rapport en cours."), 400
+    return jsonify({"message":"Aucun rapport en cours."}), 400
   
   answers = Answer.query\
     .filter_by(report_id = report.report_id)\
