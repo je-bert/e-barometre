@@ -1,22 +1,33 @@
-from models import UserSurvey,Survey,Answer
+from models import UserSurvey,Survey,Answer, Report
 from flask import abort, jsonify, request
 from database import db
 from api.results import generate
 
 def get_next(current_user):
+
+  report = Report.query\
+    .filter_by(user_id = current_user.user_id, is_completed = False)\
+    .first()
+  
+  if not report:
+      report = Report(
+        user_id = current_user.user_id,
+        name = 'Rapport de {} {}'.format(current_user.first_name, current_user.last_name),
+        date_created = db.func.current_timestamp(),
+      )
+      db.session.add(report)
+      db.session.commit()
+
   completed_surveys = UserSurvey.query\
-    .filter_by(user_id = current_user.user_id)\
+    .filter_by(report_id = report.report_id)\
     .all()
   
-  is_user_single = get_is_user_single(current_user)
+  is_user_single = get_is_user_single(report.report_id)
 
-  kid_potentially_went_to_other_parent_house = get_kid_potentially_went_to_other_parent_house(current_user)
-
-
+  kid_potentially_went_to_other_parent_house = get_kid_potentially_went_to_other_parent_house(report.report_id)
 
   surveys = Survey.query\
     .filter(Survey.survey_id.notin_([s.survey_id for s in completed_surveys]))
-
   
   if is_user_single:
     surveys= surveys.filter(Survey.survey_id != 'NC')
@@ -25,29 +36,19 @@ def get_next(current_user):
 
     surveys= surveys.filter(Survey.survey_id != 'PCRB')
 
-
-
   surveys = surveys.all()
 
-
-
-  
-  
   if len(surveys) == 0:
     return jsonify({'message':'Done','user_id':current_user.user_id}), 200
 
-
-
   return jsonify(surveys[0]), 200
 
-def get_is_user_single(current_user):
+def get_is_user_single(report_id):
 
   answer = Answer.query\
-    .filter_by(user_id = current_user.user_id)\
+    .filter_by(report_id = report_id)\
     .filter_by(question_id = 'B07')\
     .first()
-
-
 
   if answer:
     return answer.value == '1'
@@ -55,22 +56,20 @@ def get_is_user_single(current_user):
   return False 
 
 # TODO (simon) -> Refactor this one
-def get_kid_potentially_went_to_other_parent_house(current_user):
-
-  print(Answer.query.filter_by(user_id = current_user.user_id).filter_by(question_id='E32').all())
+def get_kid_potentially_went_to_other_parent_house(report_id):
 
   first_answer = Answer.query\
-    .filter_by(user_id = current_user.user_id)\
+    .filter_by(report_id = report_id)\
     .filter_by(question_id = 'E27')\
     .first()
 
   second_answer = Answer.query\
-    .filter_by(user_id = current_user.user_id)\
+    .filter_by(report_id = report_id)\
     .filter_by(question_id = 'E04')\
     .first()
 
   third_answer = Answer.query\
-    .filter_by(user_id = current_user.user_id)\
+    .filter_by(report_id = report_id)\
     .filter_by(question_id = 'E32')\
     .first()
 
@@ -90,20 +89,22 @@ def get_kid_potentially_went_to_other_parent_house(current_user):
 def create(current_user):
   data = request.json
 
-
-  user_id = current_user.user_id
+  report = Report.query\
+    .filter_by(user_id = current_user.user_id, is_completed = False)\
+    .first()
+    
+  if not report:
+    return jsonify({'message':'Aucun rapport en cours.'}), 400
 
   survey_id = data['survey_id']
 
   is_complete = data['is_complete']
   
-  user_survey = UserSurvey(user_id=user_id, survey_id=survey_id, is_complete=is_complete)
+  user_survey = UserSurvey(report_id=report.report_id, survey_id=survey_id, is_complete=is_complete)
   
   db.session.add(user_survey)
   
   db.session.commit()
   
-
-
 
   return jsonify({"message":"ok"}), 200

@@ -25,12 +25,12 @@ def generate(user_id):
   template_file = TEMPLATE_FILE
   worksheet_name = 'TEST_pour PROTOTYPE'
 
-  # Create new report
-  report = Report(
-    user_id = user_id,
-    name = 'Rapport de {} {}'.format(user.first_name, user.last_name),
-    date_created = db.func.current_timestamp(),
-  )
+  report = Report.query\
+    .filter_by(user_id = user_id, is_completed = False)\
+    .first()
+  
+  if report == None:
+    return jsonify({"message":"Aucun rapport en cours."}), 400
 
   db.session.add(report)
   db.session.commit()
@@ -49,7 +49,7 @@ def generate(user_id):
   excel = ExcelCompiler(filename=output_file)
 
   answers = Answer.query\
-    .filter_by(user_id = user_id)\
+    .filter_by(report_id = report.report_id)\
     .all()
 
   for answer in answers:
@@ -81,6 +81,9 @@ def generate(user_id):
   source = os.path.abspath(f'master_results/{report.report_id}.html')
   target = os.path.abspath(f'master_results/{report.report_id}.pdf')
   converter.convert(f'file:///{source}', target, print_options={'marginTop': 0, 'marginRight': 0, 'marginBottom': 0, 'marginLeft': 0})
+
+  report.is_completed = True
+  db.session.commit()
 
   return jsonify("Votre rapport a été généré!"), 200
 

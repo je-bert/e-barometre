@@ -1,5 +1,5 @@
 from flask import request, jsonify, abort
-from models import User, Question, Answer,UserSurvey
+from models import User, Question, Answer,UserSurvey, Report
 from database import db
 from datetime import datetime
 
@@ -14,14 +14,21 @@ def update(current_user):
   if not user:
       return abort(400)
   
+  report = Report.query\
+      .filter_by(user_id = user_id, is_completed = False)\
+      .first()
+    
+  if report == None:
+    return jsonify({"message":"Aucun rapport en cours."}), 400
+  
   if request.method == 'DELETE':
 
     completed_surveys = UserSurvey.query\
-      .filter_by(user_id = user_id)\
+      .filter_by(report_id = report.report_id)\
       .all()
 
     answers = Answer.query\
-      .filter_by(user_id = user_id)\
+      .filter_by(report_id = report.report_id)\
       .all()
 
     for survey in completed_surveys:
@@ -29,6 +36,8 @@ def update(current_user):
   
     for answer in answers:
       db.session.delete(answer)
+
+    db.session.delete(report)
     
     db.session.commit()
 
@@ -62,7 +71,7 @@ def update(current_user):
     
     #TODO: Validation answer + custom answer
 
-    new_answer = Answer(question_id = question_id, user_id = user_id, value = answer['value'], date_created = datetime.now())
+    new_answer = Answer(question_id = question_id, report_id = report.report_id, value = answer['value'], date_created = datetime.now())
     db.session.merge(new_answer)
     db.session.commit()
 
@@ -70,7 +79,7 @@ def update(current_user):
     return jsonify(errors), 200
   
   answers = Answer.query\
-    .filter_by(user_id = user_id)\
+    .filter_by(report_id = report.report_id)\
     .all()
 
   if not answers:
@@ -88,10 +97,17 @@ def find_one(current_user, question_id):
   if not user:
       return abort(400)
   
-  answer = Answer.query\
-    .filter_by(user_id = user_id, question_id = question_id)\
+  report = Report.query\
+    .filter_by(user_id = user_id, is_completed = False)\
     .first()
-
+    
+  if report == None:
+    return jsonify("Aucun rapport en cours."), 400
+  
+  answer = Answer.query\
+    .filter_by(report_id = report.report_id, question_id = question_id)\
+    .first()
+  
   if not answer:
     return abort(404)
   
@@ -106,9 +122,16 @@ def find_all(current_user):
 
   if not user:
       return abort(400)
+
+  report = Report.query\
+    .filter_by(user_id = user_id, is_completed = False)\
+    .first()
+    
+  if report == None:
+    return jsonify("Aucun rapport en cours."), 400
   
   answers = Answer.query\
-    .filter_by(user_id = user_id)\
+    .filter_by(report_id = report.report_id)\
     .all()
 
   if not answers:

@@ -33,9 +33,9 @@ def update_one(id):
   db.session.commit()
   return question.as_dict()
 
-def generate_gradients(user_id):
+def generate_gradients(report_id):
   user_answers = db.session.query(Answer).\
-    filter(Answer.user_id == user_id).\
+    filter(Answer.report_id == report_id).\
     all()
   choices = Choice.query.all()
   choices_dict = {choice.question_id + choice.value: choice for choice in choices}

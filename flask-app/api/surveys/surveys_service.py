@@ -1,4 +1,4 @@
-from models import Choice, Label, Answer, CustomAnswer, Survey, Question,LabelItem
+from models import Choice, Label, Answer, CustomAnswer, Survey, Question,LabelItem, Report
 from flask import abort, jsonify, request
 
 def find_all():
@@ -18,17 +18,24 @@ def find_one(current_user, id):
 
   if not survey:
     return abort(404)
+  
+  report = Report.query\
+        .filter_by(user_id = current_user.user_id, is_completed = False)\
+        .first()
+  
+  if not report:
+    return jsonify({"message":"Aucun rapport en cours."}), 400
+  
 
   questions = Question.query\
         .filter_by(survey_id = id)\
         .all()
 
   answer_B02 = Answer.query\
-        .filter_by(question_id = 'B02', user_id = current_user.user_id)\
+        .filter_by(question_id = 'B02', report_id = report.report_id)\
         .first()
   
   use_past_tense = False
-  print('answer_B02', answer_B02.value)
   if answer_B02 != None and answer_B02.value == "2":
     use_past_tense = True
 
@@ -59,14 +66,14 @@ def find_one(current_user, id):
       question['choices'] = jsonify(choices).json
 
     answer = Answer.query\
-        .filter_by(question_id = question['question_id'], user_id = current_user.user_id)\
+        .filter_by(question_id = question['question_id'], report_id = report.report_id)\
         .first()
 
     if answer != None:
       question['answer'] = answer.value
       if answer.value and 'custom' in answer.value:
         custom_answer = CustomAnswer.query\
-          .filter_by(question_id = question['question_id'], user_id = current_user.user_id)\
+          .filter_by(question_id = question['question_id'], report_id = report.report_id)\
           .first()
         if custom_answer != None:
           question['custom_answer'] = custom_answer.value

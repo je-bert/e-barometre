@@ -1,0 +1,5093 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap" />
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800&display=swap" />
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <style>
+    /*
+      ! tailwindcss v3.3.0 | MIT License | https://tailwindcss.com
+    */
+
+    /*
+      1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
+      2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
+    */
+
+    *,
+    ::before,
+    ::after {
+      box-sizing: border-box;
+      /* 1 */
+      border-width: 0;
+      /* 2 */
+      border-style: solid;
+      /* 2 */
+      border-color: #e5e7eb;
+      /* 2 */
+    }
+
+    ::before,
+    ::after {
+      --tw-content: '';
+    }
+
+    /*
+      1. Use a consistent sensible line-height in all browsers.
+      2. Prevent adjustments of font size after orientation changes in iOS.
+      3. Use a more readable tab size.
+      4. Use the user's configured `sans` font-family by default.
+      5. Use the user's configured `sans` font-feature-settings by default.
+      6. Use the user's configured `sans` font-variation-settings by default.
+    */
+
+    html {
+      line-height: 1.5;
+      /* 1 */
+      -webkit-text-size-adjust: 100%;
+      /* 2 */
+      -moz-tab-size: 4;
+      /* 3 */
+      -o-tab-size: 4;
+      tab-size: 4;
+      /* 3 */
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, system-ui, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+      /* 4 */
+      font-feature-settings: normal;
+      /* 5 */
+      font-variation-settings: normal;
+      /* 6 */
+    }
+
+    /*
+1. Remove the margin in all browsers.
+2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
+*/
+
+    body {
+      margin: 0;
+      /* 1 */
+      line-height: inherit;
+      /* 2 */
+    }
+
+    /*
+1. Add the correct height in Firefox.
+2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
+3. Ensure horizontal rules are visible by default.
+*/
+
+    hr {
+      height: 0;
+      /* 1 */
+      color: inherit;
+      /* 2 */
+      border-top-width: 1px;
+      /* 3 */
+    }
+
+    /*
+Add the correct text decoration in Chrome, Edge, and Safari.
+*/
+
+    abbr:where([title]) {
+      -webkit-text-decoration: underline dotted;
+      text-decoration: underline dotted;
+    }
+
+    /*
+Remove the default font size and weight for headings.
+*/
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    /*
+Reset links to optimize for opt-in styling instead of opt-out.
+*/
+
+    a {
+      color: inherit;
+      text-decoration: inherit;
+    }
+
+    /*
+Add the correct font weight in Edge and Safari.
+*/
+
+    b,
+    strong {
+      font-weight: bolder;
+    }
+
+    /*
+1. Use the user's configured `mono` font family by default.
+2. Correct the odd `em` font sizing in all browsers.
+*/
+
+    code,
+    kbd,
+    samp,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      /* 1 */
+      font-size: 1em;
+      /* 2 */
+    }
+
+    /*
+Add the correct font size in all browsers.
+*/
+
+    small {
+      font-size: 80%;
+    }
+
+    /*
+Prevent `sub` and `sup` elements from affecting the line height in all browsers.
+*/
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+
+    sub {
+      bottom: -0.25em;
+    }
+
+    sup {
+      top: -0.5em;
+    }
+
+    /*
+1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
+2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+3. Remove gaps between table borders by default.
+*/
+
+    table {
+      text-indent: 0;
+      /* 1 */
+      border-color: inherit;
+      /* 2 */
+      border-collapse: collapse;
+      /* 3 */
+    }
+
+    /*
+1. Change the font styles in all browsers.
+2. Remove the margin in Firefox and Safari.
+3. Remove default padding in all browsers.
+*/
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      font-family: inherit;
+      /* 1 */
+      font-size: 100%;
+      /* 1 */
+      font-weight: inherit;
+      /* 1 */
+      line-height: inherit;
+      /* 1 */
+      color: inherit;
+      /* 1 */
+      margin: 0;
+      /* 2 */
+      padding: 0;
+      /* 3 */
+    }
+
+    /*
+Remove the inheritance of text transform in Edge and Firefox.
+*/
+
+    button,
+    select {
+      text-transform: none;
+    }
+
+    /*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Remove default button styles.
+*/
+
+    button,
+    [type='button'],
+    [type='reset'],
+    [type='submit'] {
+      -webkit-appearance: button;
+      /* 1 */
+      background-color: transparent;
+      /* 2 */
+      background-image: none;
+      /* 2 */
+    }
+
+    /*
+Use the modern Firefox focus style for all focusable elements.
+*/
+
+    :-moz-focusring {
+      outline: auto;
+    }
+
+    /*
+Remove the additional `:invalid` styles in Firefox. (https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737)
+*/
+
+    :-moz-ui-invalid {
+      box-shadow: none;
+    }
+
+    /*
+Add the correct vertical alignment in Chrome and Firefox.
+*/
+
+    progress {
+      vertical-align: baseline;
+    }
+
+    /*
+Correct the cursor style of increment and decrement buttons in Safari.
+*/
+
+    ::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+      height: auto;
+    }
+
+    /*
+1. Correct the odd appearance in Chrome and Safari.
+2. Correct the outline style in Safari.
+*/
+
+    [type='search'] {
+      -webkit-appearance: textfield;
+      /* 1 */
+      outline-offset: -2px;
+      /* 2 */
+    }
+
+    /*
+Remove the inner padding in Chrome and Safari on macOS.
+*/
+
+    ::-webkit-search-decoration {
+      -webkit-appearance: none;
+    }
+
+    /*
+1. Correct the inability to style clickable types in iOS and Safari.
+2. Change font properties to `inherit` in Safari.
+*/
+
+    ::-webkit-file-upload-button {
+      -webkit-appearance: button;
+      /* 1 */
+      font: inherit;
+      /* 2 */
+    }
+
+    /*
+Add the correct display in Chrome and Safari.
+*/
+
+    summary {
+      display: list-item;
+    }
+
+    /*
+Removes the default spacing and border for appropriate elements.
+*/
+
+    blockquote,
+    dl,
+    dd,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    hr,
+    figure,
+    p,
+    pre {
+      margin: 0;
+    }
+
+    fieldset {
+      margin: 0;
+      padding: 0;
+    }
+
+    legend {
+      padding: 0;
+    }
+
+    ol,
+    ul,
+    menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    /*
+Prevent resizing textareas horizontally by default.
+*/
+
+    textarea {
+      resize: vertical;
+    }
+
+    /*
+1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
+2. Set the default placeholder color to the user's configured gray 400 color.
+*/
+
+    input::-moz-placeholder,
+    textarea::-moz-placeholder {
+      opacity: 1;
+      /* 1 */
+      color: #9ca3af;
+      /* 2 */
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      opacity: 1;
+      /* 1 */
+      color: #9ca3af;
+      /* 2 */
+    }
+
+    /*
+Set the default cursor for buttons.
+*/
+
+    button,
+    [role="button"] {
+      cursor: pointer;
+    }
+
+    /*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+
+    :disabled {
+      cursor: default;
+    }
+
+    /*
+1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+   This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+    img,
+    svg,
+    video,
+    canvas,
+    audio,
+    iframe,
+    embed,
+    object {
+      display: block;
+      /* 1 */
+      vertical-align: middle;
+      /* 2 */
+    }
+
+    /*
+Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+    img,
+    video {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Make elements with the HTML hidden attribute stay hidden by default */
+
+    [hidden] {
+      display: none;
+    }
+
+    *,
+    ::before,
+    ::after {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+    }
+
+    ::backdrop {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    .invisible {
+      visibility: hidden;
+    }
+
+    .collapse {
+      visibility: collapse;
+    }
+
+    .static {
+      position: static;
+    }
+
+    .fixed {
+      position: fixed;
+    }
+
+    .absolute {
+      position: absolute;
+    }
+
+    .relative {
+      position: relative;
+    }
+
+    .-bottom-1 {
+      bottom: -0.25rem;
+    }
+
+    .-bottom-2 {
+      bottom: -0.5rem;
+    }
+
+    .-left-\[3874px\] {
+      left: -3874px;
+    }
+
+    .-top-2 {
+      top: -0.5rem;
+    }
+
+    .-top-2\.5 {
+      top: -0.625rem;
+    }
+
+    .-top-\[6px\] {
+      top: -6px;
+    }
+
+    .bottom-\[30\%\] {
+      bottom: 30%;
+    }
+
+    .left-0 {
+      left: 0px;
+    }
+
+    .left-\[15\%\] {
+      left: 15%;
+    }
+
+    .right-0 {
+      right: 0px;
+    }
+
+    .top-0 {
+      top: 0px;
+    }
+
+    .top-3 {
+      top: 0.75rem;
+    }
+
+    .top-6 {
+      top: 1.5rem;
+    }
+
+    .top-\[48px\] {
+      top: 48px;
+    }
+
+    .-z-10 {
+      z-index: -10;
+    }
+
+    .z-0 {
+      z-index: 0;
+    }
+
+    .z-10 {
+      z-index: 10;
+    }
+
+    .z-20 {
+      z-index: 20;
+    }
+
+    .z-40 {
+      z-index: 40;
+    }
+
+    .z-50 {
+      z-index: 50;
+    }
+
+    .mx-2 {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    .mx-4 {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .mx-\[24px\] {
+      margin-left: 24px;
+      margin-right: 24px;
+    }
+
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .my-1 {
+      margin-top: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .my-2 {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .my-4 {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .my-6 {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .\!mb-0 {
+      margin-bottom: 0px !important;
+    }
+
+    .-mb-7 {
+      margin-bottom: -1.75rem;
+    }
+
+    .-mr-3 {
+      margin-right: -0.75rem;
+    }
+
+    .mb-0 {
+      margin-bottom: 0px;
+    }
+
+    .mb-1 {
+      margin-bottom: 0.25rem;
+    }
+
+    .mb-2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .mb-3 {
+      margin-bottom: 0.75rem;
+    }
+
+    .mb-4 {
+      margin-bottom: 1rem;
+    }
+
+    .mb-5 {
+      margin-bottom: 1.25rem;
+    }
+
+    .mb-6 {
+      margin-bottom: 1.5rem;
+    }
+
+    .mb-8 {
+      margin-bottom: 2rem;
+    }
+
+    .mb-\[48px\] {
+      margin-bottom: 48px;
+    }
+
+    .ml-12 {
+      margin-left: 3rem;
+    }
+
+    .ml-3 {
+      margin-left: 0.75rem;
+    }
+
+    .ml-4 {
+      margin-left: 1rem;
+    }
+
+    .ml-6 {
+      margin-left: 1.5rem;
+    }
+
+    .ml-auto {
+      margin-left: auto;
+    }
+
+    .mr-1 {
+      margin-right: 0.25rem;
+    }
+
+    .mr-10 {
+      margin-right: 2.5rem;
+    }
+
+    .mr-2 {
+      margin-right: 0.5rem;
+    }
+
+    .mr-3 {
+      margin-right: 0.75rem;
+    }
+
+    .mr-4 {
+      margin-right: 1rem;
+    }
+
+    .mr-\[16px\] {
+      margin-right: 16px;
+    }
+
+    .mr-\[48px\] {
+      margin-right: 48px;
+    }
+
+    .mt-12 {
+      margin-top: 3rem;
+    }
+
+    .mt-2 {
+      margin-top: 0.5rem;
+    }
+
+    .mt-3 {
+      margin-top: 0.75rem;
+    }
+
+    .mt-4 {
+      margin-top: 1rem;
+    }
+
+    .mt-5 {
+      margin-top: 1.25rem;
+    }
+
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+
+    .mt-8 {
+      margin-top: 2rem;
+    }
+
+    .block {
+      display: block;
+    }
+
+    .inline-block {
+      display: inline-block;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .inline-flex {
+      display: inline-flex;
+    }
+
+    .table {
+      display: table;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .aspect-square {
+      aspect-ratio: 1 / 1;
+    }
+
+    .h-10 {
+      height: 2.5rem;
+    }
+
+    .h-14 {
+      height: 3.5rem;
+    }
+
+    .h-5 {
+      height: 1.25rem;
+    }
+
+    .h-6 {
+      height: 1.5rem;
+    }
+
+    .h-64 {
+      height: 16rem;
+    }
+
+    .h-8 {
+      height: 2rem;
+    }
+
+    .h-\[12px\] {
+      height: 12px;
+    }
+
+    .h-\[18px\] {
+      height: 18px;
+    }
+
+    .h-\[210px\] {
+      height: 210px;
+    }
+
+    .h-\[255px\] {
+      height: 255px;
+    }
+
+    .h-\[550px\] {
+      height: 550px;
+    }
+
+    .h-\[62\.5px\] {
+      height: 62.5px;
+    }
+
+    .h-fit {
+      height: -moz-fit-content;
+      height: fit-content;
+    }
+
+    .h-full {
+      height: 100%;
+    }
+
+    .h-screen {
+      height: 100vh;
+    }
+
+    .max-h-32 {
+      max-height: 8rem;
+    }
+
+    .max-h-full {
+      max-height: 100%;
+    }
+
+    .max-h-screen {
+      max-height: 100vh;
+    }
+
+    .min-h-\[210px\] {
+      min-height: 210px;
+    }
+
+    .min-h-\[255px\] {
+      min-height: 255px;
+    }
+
+    .min-h-\[60px\] {
+      min-height: 60px;
+    }
+
+    .min-h-fit {
+      min-height: -moz-fit-content;
+      min-height: fit-content;
+    }
+
+    .min-h-full {
+      min-height: 100%;
+    }
+
+    .min-h-screen {
+      min-height: 100vh;
+    }
+
+    .w-1\/2 {
+      width: 50%;
+    }
+
+    .w-1\/3 {
+      width: 33.333333%;
+    }
+
+    .w-10 {
+      width: 2.5rem;
+    }
+
+    .w-11 {
+      width: 2.75rem;
+    }
+
+    .w-14 {
+      width: 3.5rem;
+    }
+
+    .w-2 {
+      width: 0.5rem;
+    }
+
+    .w-2\/3 {
+      width: 66.666667%;
+    }
+
+    .w-5 {
+      width: 1.25rem;
+    }
+
+    .w-56 {
+      width: 14rem;
+    }
+
+    .w-6 {
+      width: 1.5rem;
+    }
+
+    .w-\[100px\] {
+      width: 100px;
+    }
+
+    .w-\[130px\] {
+      width: 130px;
+    }
+
+    .w-\[18px\] {
+      width: 18px;
+    }
+
+    .w-\[225px\] {
+      width: 225px;
+    }
+
+    .w-\[260px\] {
+      width: 260px;
+    }
+
+    .w-\[4000px\] {
+      width: 4000px;
+    }
+
+    .w-\[40px\] {
+      width: 40px;
+    }
+
+    .w-\[550px\] {
+      width: 550px;
+    }
+
+    .w-\[64px\] {
+      width: 64px;
+    }
+
+    .w-\[80\%\] {
+      width: 80%;
+    }
+
+    .w-\[90px\] {
+      width: 90px;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .w-screen {
+      width: 100vw;
+    }
+
+    .min-w-\[60px\] {
+      min-width: 60px;
+    }
+
+    .max-w-\[1100px\] {
+      max-width: 1100px;
+    }
+
+    .max-w-\[950px\] {
+      max-width: 950px;
+    }
+
+    .max-w-full {
+      max-width: 100%;
+    }
+
+    .max-w-md {
+      max-width: 28rem;
+    }
+
+    .max-w-screen-sm {
+      max-width: 640px;
+    }
+
+    .max-w-screen-xl {
+      max-width: 1280px;
+    }
+
+    .grow {
+      flex-grow: 1;
+    }
+
+    .table-auto {
+      table-layout: auto;
+    }
+
+    .border-collapse {
+      border-collapse: collapse;
+    }
+
+    .origin-\[0\] {
+      transform-origin: 0;
+    }
+
+    .-translate-x-1\/2 {
+      --tw-translate-x: -50%;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .-translate-y-1\/2 {
+      --tw-translate-y: -50%;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .-translate-y-6 {
+      --tw-translate-y: -1.5rem;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .scale-75 {
+      --tw-scale-x: .75;
+      --tw-scale-y: .75;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .transform {
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
+
+    .list-\[square\] {
+      list-style-type: square;
+    }
+
+    .appearance-none {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+
+    .flex-row {
+      flex-direction: row;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .flex-col-reverse {
+      flex-direction: column-reverse;
+    }
+
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+
+    .items-start {
+      align-items: flex-start;
+    }
+
+    .items-end {
+      align-items: flex-end;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-end {
+      justify-content: flex-end;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .justify-between {
+      justify-content: space-between;
+    }
+
+    .justify-evenly {
+      justify-content: space-evenly;
+    }
+
+    .gap-y-12 {
+      row-gap: 3rem;
+    }
+
+    .space-x-4> :not([hidden])~ :not([hidden]) {
+      --tw-space-x-reverse: 0;
+      margin-right: calc(1rem * var(--tw-space-x-reverse));
+      margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+    }
+
+    .space-y-3> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
+    }
+
+    .space-y-4> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+    }
+
+    .space-y-6> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+    }
+
+    .space-y-8> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+    }
+
+    .space-y-\[48px\]> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(48px * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(48px * var(--tw-space-y-reverse));
+    }
+
+    .divide-y> :not([hidden])~ :not([hidden]) {
+      --tw-divide-y-reverse: 0;
+      border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+      border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+    }
+
+    .overflow-x-auto {
+      overflow-x: auto;
+    }
+
+    .overflow-y-auto {
+      overflow-y: auto;
+    }
+
+    .overflow-y-hidden {
+      overflow-y: hidden;
+    }
+
+    .break-words {
+      overflow-wrap: break-word;
+    }
+
+    .rounded {
+      border-radius: 0.25rem;
+    }
+
+    .rounded-\[10rem\] {
+      border-radius: 10rem;
+    }
+
+    .rounded-\[2rem\] {
+      border-radius: 2rem;
+    }
+
+    .rounded-\[3\.5rem\] {
+      border-radius: 3.5rem;
+    }
+
+    .rounded-full {
+      border-radius: 9999px;
+    }
+
+    .rounded-lg {
+      border-radius: 0.5rem;
+    }
+
+    .rounded-none {
+      border-radius: 0px;
+    }
+
+    .rounded-r-full {
+      border-top-right-radius: 9999px;
+      border-bottom-right-radius: 9999px;
+    }
+
+    .border {
+      border-width: 1px;
+    }
+
+    .border-0 {
+      border-width: 0px;
+    }
+
+    .border-2 {
+      border-width: 2px;
+    }
+
+    .border-4 {
+      border-width: 4px;
+    }
+
+    .border-\[1px\] {
+      border-width: 1px;
+    }
+
+    .border-\[2px\] {
+      border-width: 2px;
+    }
+
+    .border-b {
+      border-bottom-width: 1px;
+    }
+
+    .border-b-2 {
+      border-bottom-width: 2px;
+    }
+
+    .border-r-2 {
+      border-right-width: 2px;
+    }
+
+    .border-dashed {
+      border-style: dashed;
+    }
+
+    .border-\[\#000000\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(0 0 0 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#0085e7\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(0 133 231 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#6562e1\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(101 98 225 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#a0262e\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(160 38 46 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#b8c3cb\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(184 195 203 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#be536e\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(190 83 110 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#c2c0f2\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(194 192 242 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#deb164\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(222 177 100 / var(--tw-border-opacity));
+    }
+
+    .border-\[\#ecd5ab\] {
+      --tw-border-opacity: 1;
+      border-color: rgb(236 213 171 / var(--tw-border-opacity));
+    }
+
+    .border-blue-500 {
+      --tw-border-opacity: 1;
+      border-color: rgb(59 130 246 / var(--tw-border-opacity));
+    }
+
+    .border-gray-100 {
+      --tw-border-opacity: 1;
+      border-color: rgb(243 244 246 / var(--tw-border-opacity));
+    }
+
+    .border-gray-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(229 231 235 / var(--tw-border-opacity));
+    }
+
+    .border-gray-300 {
+      --tw-border-opacity: 1;
+      border-color: rgb(209 213 219 / var(--tw-border-opacity));
+    }
+
+    .border-green-600 {
+      --tw-border-opacity: 1;
+      border-color: rgb(22 163 74 / var(--tw-border-opacity));
+    }
+
+    .border-white {
+      --tw-border-opacity: 1;
+      border-color: rgb(255 255 255 / var(--tw-border-opacity));
+    }
+
+    .bg-\[\#162059\] {
+      --tw-bg-opacity: 1;
+      background-color: rgb(22 32 89 / var(--tw-bg-opacity));
+    }
+
+    .bg-\[\#f8faff\] {
+      --tw-bg-opacity: 1;
+      background-color: rgb(248 250 255 / var(--tw-bg-opacity));
+    }
+
+    .bg-blue-700 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+    }
+
+    .bg-gray-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    }
+
+    .bg-gray-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+    }
+
+    .bg-gray-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+    }
+
+    .bg-gray-900 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    }
+
+    .bg-green-700 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(21 128 61 / var(--tw-bg-opacity));
+    }
+
+    .bg-orange-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(234 88 12 / var(--tw-bg-opacity));
+    }
+
+    .bg-primary-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+    }
+
+    .bg-primary-700 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+    }
+
+    .bg-red-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+    }
+
+    .bg-transparent {
+      background-color: transparent;
+    }
+
+    .bg-white {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    }
+
+    .fill-\[\#555555\] {
+      fill: #555555;
+    }
+
+    .object-contain {
+      -o-object-fit: contain;
+      object-fit: contain;
+    }
+
+    .p-16 {
+      padding: 4rem;
+    }
+
+    .p-2 {
+      padding: 0.5rem;
+    }
+
+    .p-2\.5 {
+      padding: 0.625rem;
+    }
+
+    .p-4 {
+      padding: 1rem;
+    }
+
+    .p-5 {
+      padding: 1.25rem;
+    }
+
+    .p-6 {
+      padding: 1.5rem;
+    }
+
+    .\!py-\[48px\] {
+      padding-top: 48px !important;
+      padding-bottom: 48px !important;
+    }
+
+    .px-0 {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    .px-2 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .px-24 {
+      padding-left: 6rem;
+      padding-right: 6rem;
+    }
+
+    .px-3 {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .px-5 {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    .px-8 {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .px-\[16px\] {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .px-\[24px\] {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .px-\[32px\] {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+
+    .py-0 {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    .py-1 {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+    }
+
+    .py-2 {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .py-2\.5 {
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem;
+    }
+
+    .py-3 {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .py-4 {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .py-5 {
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+
+    .py-6 {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .py-8 {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .pb-0 {
+      padding-bottom: 0px;
+    }
+
+    .pb-1 {
+      padding-bottom: 0.25rem;
+    }
+
+    .pb-4 {
+      padding-bottom: 1rem;
+    }
+
+    .pb-5 {
+      padding-bottom: 1.25rem;
+    }
+
+    .pb-6 {
+      padding-bottom: 1.5rem;
+    }
+
+    .pb-60 {
+      padding-bottom: 15rem;
+    }
+
+    .pl-2 {
+      padding-left: 0.5rem;
+    }
+
+    .pl-3 {
+      padding-left: 0.75rem;
+    }
+
+    .pl-5 {
+      padding-left: 1.25rem;
+    }
+
+    .pr-4 {
+      padding-right: 1rem;
+    }
+
+    .pt-12 {
+      padding-top: 3rem;
+    }
+
+    .pt-3 {
+      padding-top: 0.75rem;
+    }
+
+    .pt-4 {
+      padding-top: 1rem;
+    }
+
+    .pt-5 {
+      padding-top: 1.25rem;
+    }
+
+    .\!text-left {
+      text-align: left !important;
+    }
+
+    .text-left {
+      text-align: left;
+    }
+
+    .\!text-center {
+      text-align: center !important;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .font-serif {
+      font-family: ui-serif, Georgia;
+    }
+
+    .text-2xl {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+
+    .text-3xl {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+
+    .text-4xl {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+
+    .text-7xl {
+      font-size: 4.5rem;
+      line-height: 1;
+    }
+
+    .text-\[32px\] {
+      font-size: 32px;
+    }
+
+    .text-base {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    .text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+
+    .text-sm {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+
+    .text-xl {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+
+    .text-xs {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .font-extrabold {
+      font-weight: 800;
+    }
+
+    .font-light {
+      font-weight: 300;
+    }
+
+    .font-medium {
+      font-weight: 500;
+    }
+
+    .font-normal {
+      font-weight: 400;
+    }
+
+    .font-semibold {
+      font-weight: 600;
+    }
+
+    .uppercase {
+      text-transform: uppercase;
+    }
+
+    .capitalize {
+      text-transform: capitalize;
+    }
+
+    .leading-10 {
+      line-height: 2.5rem;
+    }
+
+    .leading-5 {
+      line-height: 1.25rem;
+    }
+
+    .leading-6 {
+      line-height: 1.5rem;
+    }
+
+    .leading-7 {
+      line-height: 1.75rem;
+    }
+
+    .leading-tight {
+      line-height: 1.25;
+    }
+
+    .tracking-tight {
+      letter-spacing: -0.025em;
+    }
+
+    .text-blue-700 {
+      --tw-text-opacity: 1;
+      color: rgb(29 78 216 / var(--tw-text-opacity));
+    }
+
+    .text-gray-400 {
+      --tw-text-opacity: 1;
+      color: rgb(156 163 175 / var(--tw-text-opacity));
+    }
+
+    .text-gray-500 {
+      --tw-text-opacity: 1;
+      color: rgb(107 114 128 / var(--tw-text-opacity));
+    }
+
+    .text-gray-700 {
+      --tw-text-opacity: 1;
+      color: rgb(55 65 81 / var(--tw-text-opacity));
+    }
+
+    .text-gray-900 {
+      --tw-text-opacity: 1;
+      color: rgb(17 24 39 / var(--tw-text-opacity));
+    }
+
+    .text-green-600 {
+      --tw-text-opacity: 1;
+      color: rgb(22 163 74 / var(--tw-text-opacity));
+    }
+
+    .text-orange-300 {
+      --tw-text-opacity: 1;
+      color: rgb(253 186 116 / var(--tw-text-opacity));
+    }
+
+    .text-pink-600 {
+      --tw-text-opacity: 1;
+      color: rgb(219 39 119 / var(--tw-text-opacity));
+    }
+
+    .text-primary-600 {
+      --tw-text-opacity: 1;
+      color: rgb(37 99 235 / var(--tw-text-opacity));
+    }
+
+    .text-red-500 {
+      --tw-text-opacity: 1;
+      color: rgb(239 68 68 / var(--tw-text-opacity));
+    }
+
+    .text-red-600 {
+      --tw-text-opacity: 1;
+      color: rgb(220 38 38 / var(--tw-text-opacity));
+    }
+
+    .text-white {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
+    }
+
+    .opacity-0 {
+      opacity: 0;
+    }
+
+    .opacity-50 {
+      opacity: 0.5;
+    }
+
+    .shadow {
+      --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-lg {
+      --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-md {
+      --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .shadow-sm {
+      --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    }
+
+    .drop-shadow-lg {
+      --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+      filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+    }
+
+    .drop-shadow-sm {
+      --tw-drop-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+      filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+    }
+
+    .drop-shadow-xl {
+      --tw-drop-shadow: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+      filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+    }
+
+    .backdrop-brightness-75 {
+      --tw-backdrop-brightness: brightness(.75);
+      -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+      backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    }
+
+    .transition {
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    .transition-opacity {
+      transition-property: opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    .duration-300 {
+      transition-duration: 300ms;
+    }
+
+    .hide-demo {
+      display: none !important;
+    }
+
+    /* Custom slider */
+
+    ::-webkit-scrollbar {
+      width: 15px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #d6dee1;
+      border-radius: 20px;
+      border: 4px solid transparent;
+      background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #a8bbbf;
+    }
+
+    /* Flowbite tooltip arrow fix */
+
+    .tooltip-arrow {
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #000;
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .after\:absolute::after {
+      content: var(--tw-content);
+      position: absolute;
+    }
+
+    .after\:left-\[2px\]::after {
+      content: var(--tw-content);
+      left: 2px;
+    }
+
+    .after\:top-0::after {
+      content: var(--tw-content);
+      top: 0px;
+    }
+
+    .after\:top-0\.5::after {
+      content: var(--tw-content);
+      top: 0.125rem;
+    }
+
+    .after\:h-5::after {
+      content: var(--tw-content);
+      height: 1.25rem;
+    }
+
+    .after\:w-5::after {
+      content: var(--tw-content);
+      width: 1.25rem;
+    }
+
+    .after\:rounded-full::after {
+      content: var(--tw-content);
+      border-radius: 9999px;
+    }
+
+    .after\:border::after {
+      content: var(--tw-content);
+      border-width: 1px;
+    }
+
+    .after\:border-gray-300::after {
+      content: var(--tw-content);
+      --tw-border-opacity: 1;
+      border-color: rgb(209 213 219 / var(--tw-border-opacity));
+    }
+
+    .after\:bg-white::after {
+      content: var(--tw-content);
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    }
+
+    .after\:transition-all::after {
+      content: var(--tw-content);
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    .after\:content-\[\'\'\]::after {
+      --tw-content: '';
+      content: var(--tw-content);
+    }
+
+    .last\:\!mb-0:last-child {
+      margin-bottom: 0px !important;
+    }
+
+    .hover\:bg-blue-800:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(30 64 175 / var(--tw-bg-opacity));
+    }
+
+    .hover\:bg-gray-100:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+    }
+
+    .hover\:bg-gray-50:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+    }
+
+    .hover\:bg-green-600:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(22 163 74 / var(--tw-bg-opacity));
+    }
+
+    .hover\:bg-primary-700:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+    }
+
+    .hover\:bg-primary-800:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(30 64 175 / var(--tw-bg-opacity));
+    }
+
+    .hover\:bg-red-800:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(153 27 27 / var(--tw-bg-opacity));
+    }
+
+    .hover\:text-gray-900:hover {
+      --tw-text-opacity: 1;
+      color: rgb(17 24 39 / var(--tw-text-opacity));
+    }
+
+    .hover\:text-white:hover {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
+    }
+
+    .hover\:underline:hover {
+      text-decoration-line: underline;
+    }
+
+    .focus\:z-10:focus {
+      z-index: 10;
+    }
+
+    .focus\:border-blue-600:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(37 99 235 / var(--tw-border-opacity));
+    }
+
+    .focus\:border-primary-600:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(37 99 235 / var(--tw-border-opacity));
+    }
+
+    .focus\:outline-none:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    .focus\:ring-0:focus {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+
+    .focus\:ring-2:focus {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+
+    .focus\:ring-4:focus {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+
+    .focus\:ring-blue-300:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
+    }
+
+    .focus\:ring-gray-200:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(229 231 235 / var(--tw-ring-opacity));
+    }
+
+    .focus\:ring-primary-300:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
+    }
+
+    .focus\:ring-primary-600:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(37 99 235 / var(--tw-ring-opacity));
+    }
+
+    .focus\:ring-red-300:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(252 165 165 / var(--tw-ring-opacity));
+    }
+
+    .disabled\:border:disabled {
+      border-width: 1px;
+    }
+
+    .disabled\:border-gray-200:disabled {
+      --tw-border-opacity: 1;
+      border-color: rgb(229 231 235 / var(--tw-border-opacity));
+    }
+
+    .disabled\:bg-white:disabled {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+    }
+
+    .disabled\:text-gray-500:disabled {
+      --tw-text-opacity: 1;
+      color: rgb(107 114 128 / var(--tw-text-opacity));
+    }
+
+    .disabled\:focus\:ring-primary-300:focus:disabled {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
+    }
+
+    .peer:checked~.peer-checked\:bg-blue-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+    }
+
+    .peer:checked~.peer-checked\:after\:translate-x-full::after {
+      content: var(--tw-content);
+      --tw-translate-x: 100%;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .peer:checked~.peer-checked\:after\:border-white::after {
+      content: var(--tw-content);
+      --tw-border-opacity: 1;
+      border-color: rgb(255 255 255 / var(--tw-border-opacity));
+    }
+
+    .peer:-moz-placeholder-shown~.peer-placeholder-shown\:translate-y-0 {
+      --tw-translate-y: 0px;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .peer:placeholder-shown~.peer-placeholder-shown\:translate-y-0 {
+      --tw-translate-y: 0px;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .peer:-moz-placeholder-shown~.peer-placeholder-shown\:scale-100 {
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .peer:placeholder-shown~.peer-placeholder-shown\:scale-100 {
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .peer:focus~.peer-focus\:left-0 {
+      left: 0px;
+    }
+
+    .peer:focus~.peer-focus\:-translate-y-6 {
+      --tw-translate-y: -1.5rem;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .peer:focus~.peer-focus\:scale-75 {
+      --tw-scale-x: .75;
+      --tw-scale-y: .75;
+      transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+
+    .peer:focus~.peer-focus\:font-medium {
+      font-weight: 500;
+    }
+
+    .peer:focus~.peer-focus\:text-blue-600 {
+      --tw-text-opacity: 1;
+      color: rgb(37 99 235 / var(--tw-text-opacity));
+    }
+
+    .peer:focus~.peer-focus\:ring-4 {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+    }
+
+    .peer:focus~.peer-focus\:ring-blue-300 {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(147 197 253 / var(--tw-ring-opacity));
+    }
+
+    :is(.dark .dark\:divide-gray-700)> :not([hidden])~ :not([hidden]) {
+      --tw-divide-opacity: 1;
+      border-color: rgb(55 65 81 / var(--tw-divide-opacity));
+    }
+
+    :is(.dark .dark\:border) {
+      border-width: 1px;
+    }
+
+    :is(.dark .dark\:border-gray-500) {
+      --tw-border-opacity: 1;
+      border-color: rgb(107 114 128 / var(--tw-border-opacity));
+    }
+
+    :is(.dark .dark\:border-gray-600) {
+      --tw-border-opacity: 1;
+      border-color: rgb(75 85 99 / var(--tw-border-opacity));
+    }
+
+    :is(.dark .dark\:border-gray-700) {
+      --tw-border-opacity: 1;
+      border-color: rgb(55 65 81 / var(--tw-border-opacity));
+    }
+
+    :is(.dark .dark\:bg-blue-600) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:bg-gray-700) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:bg-gray-800) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:bg-gray-900) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:bg-primary-600) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:fill-white) {
+      fill: #fff;
+    }
+
+    :is(.dark .dark\:text-gray-200) {
+      --tw-text-opacity: 1;
+      color: rgb(229 231 235 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:text-gray-300) {
+      --tw-text-opacity: 1;
+      color: rgb(209 213 219 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:text-gray-400) {
+      --tw-text-opacity: 1;
+      color: rgb(156 163 175 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:text-green-500) {
+      --tw-text-opacity: 1;
+      color: rgb(34 197 94 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:text-primary-500) {
+      --tw-text-opacity: 1;
+      color: rgb(59 130 246 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:text-red-500) {
+      --tw-text-opacity: 1;
+      color: rgb(239 68 68 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:text-white) {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:placeholder-gray-400)::-moz-placeholder {
+      --tw-placeholder-opacity: 1;
+      color: rgb(156 163 175 / var(--tw-placeholder-opacity));
+    }
+
+    :is(.dark .dark\:placeholder-gray-400)::placeholder {
+      --tw-placeholder-opacity: 1;
+      color: rgb(156 163 175 / var(--tw-placeholder-opacity));
+    }
+
+    :is(.dark .dark\:hover\:border-gray-500:hover) {
+      --tw-border-opacity: 1;
+      border-color: rgb(107 114 128 / var(--tw-border-opacity));
+    }
+
+    :is(.dark .dark\:hover\:bg-blue-700:hover) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:hover\:bg-gray-600:hover) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(75 85 99 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:hover\:bg-gray-700:hover) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:hover\:bg-primary-700:hover) {
+      --tw-bg-opacity: 1;
+      background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .dark\:hover\:text-white:hover) {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .dark\:focus\:border-blue-500:focus) {
+      --tw-border-opacity: 1;
+      border-color: rgb(59 130 246 / var(--tw-border-opacity));
+    }
+
+    :is(.dark .dark\:focus\:ring-blue-500:focus) {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
+    }
+
+    :is(.dark .dark\:focus\:ring-blue-800:focus) {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(30 64 175 / var(--tw-ring-opacity));
+    }
+
+    :is(.dark .dark\:focus\:ring-gray-600:focus) {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
+    }
+
+    :is(.dark .dark\:focus\:ring-primary-800:focus) {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(30 64 175 / var(--tw-ring-opacity));
+    }
+
+    :is(.dark .dark\:focus\:ring-primary-900:focus) {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(30 58 138 / var(--tw-ring-opacity));
+    }
+
+    :is(.dark .dark\:focus\:ring-red-800:focus) {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(153 27 27 / var(--tw-ring-opacity));
+    }
+
+    :is(.dark .disabled\:dark\:border-gray-500):disabled {
+      --tw-border-opacity: 1;
+      border-color: rgb(107 114 128 / var(--tw-border-opacity));
+    }
+
+    :is(.dark .disabled\:dark\:bg-gray-700):disabled {
+      --tw-bg-opacity: 1;
+      background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+    }
+
+    :is(.dark .disabled\:dark\:text-gray-300):disabled {
+      --tw-text-opacity: 1;
+      color: rgb(209 213 219 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .disabled\:dark\:focus\:ring-gray-600:focus):disabled {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(75 85 99 / var(--tw-ring-opacity));
+    }
+
+    .peer:focus~ :is(.dark .peer-focus\:dark\:text-blue-500) {
+      --tw-text-opacity: 1;
+      color: rgb(59 130 246 / var(--tw-text-opacity));
+    }
+
+    :is(.dark .peer:focus ~ .dark\:peer-focus\:ring-blue-800) {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(30 64 175 / var(--tw-ring-opacity));
+    }
+
+    @media (min-width: 640px) {
+      .sm\:flex {
+        display: flex;
+      }
+
+      .sm\:table-cell {
+        display: table-cell;
+      }
+
+      .sm\:h-9 {
+        height: 2.25rem;
+      }
+
+      .sm\:h-\[88px\] {
+        height: 88px;
+      }
+
+      .sm\:w-\[33\%\] {
+        width: 33%;
+      }
+
+      .sm\:w-auto {
+        width: auto;
+      }
+
+      .sm\:max-w-md {
+        max-width: 28rem;
+      }
+
+      .sm\:flex-row {
+        flex-direction: row;
+      }
+
+      .sm\:items-end {
+        align-items: flex-end;
+      }
+
+      .sm\:justify-center {
+        justify-content: center;
+      }
+
+      .sm\:justify-evenly {
+        justify-content: space-evenly;
+      }
+
+      .sm\:space-x-4> :not([hidden])~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(1rem * var(--tw-space-x-reverse));
+        margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+      }
+
+      .sm\:space-y-0> :not([hidden])~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0px * var(--tw-space-y-reverse));
+      }
+
+      .sm\:rounded-lg {
+        border-radius: 0.5rem;
+      }
+
+      .sm\:p-8 {
+        padding: 2rem;
+      }
+
+      .sm\:px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .sm\:text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+
+      .sm\:leading-9 {
+        line-height: 2.25rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .md\:-mt-3 {
+        margin-top: -0.75rem;
+      }
+
+      .md\:mr-4 {
+        margin-right: 1rem;
+      }
+
+      .md\:mt-0 {
+        margin-top: 0px;
+      }
+
+      .md\:table-cell {
+        display: table-cell;
+      }
+
+      .md\:h-full {
+        height: 100%;
+      }
+
+      .md\:flex-row {
+        flex-direction: row;
+      }
+
+      .md\:items-start {
+        align-items: flex-start;
+      }
+
+      .md\:space-x-5> :not([hidden])~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(1.25rem * var(--tw-space-x-reverse));
+        margin-left: calc(1.25rem * calc(1 - var(--tw-space-x-reverse)));
+      }
+
+      .md\:space-y-0> :not([hidden])~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0px * var(--tw-space-y-reverse));
+      }
+
+      .md\:space-y-6> :not([hidden])~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+      }
+
+      .md\:px-\[64px\] {
+        padding-left: 64px;
+        padding-right: 64px;
+      }
+
+      .md\:py-12 {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      }
+
+      .md\:\!text-left {
+        text-align: left !important;
+      }
+
+      .md\:text-2xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+      }
+
+      .md\:text-4xl {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+      }
+
+      .md\:text-lg {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .lg\:order-1 {
+        order: 1;
+      }
+
+      .lg\:order-2 {
+        order: 2;
+      }
+
+      .lg\:-mt-1 {
+        margin-top: -0.25rem;
+      }
+
+      .lg\:mr-0 {
+        margin-right: 0px;
+      }
+
+      .lg\:mt-0 {
+        margin-top: 0px;
+      }
+
+      .lg\:flex {
+        display: flex;
+      }
+
+      .lg\:table-cell {
+        display: table-cell;
+      }
+
+      .lg\:hidden {
+        display: none;
+      }
+
+      .lg\:min-h-\[72px\] {
+        min-height: 72px;
+      }
+
+      .lg\:w-\[950px\] {
+        width: 950px;
+      }
+
+      .lg\:w-auto {
+        width: auto;
+      }
+
+      .lg\:flex-1 {
+        flex: 1 1 0%;
+      }
+
+      .lg\:grow {
+        flex-grow: 1;
+      }
+
+      .lg\:flex-row {
+        flex-direction: row;
+      }
+
+      .lg\:space-x-12> :not([hidden])~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(3rem * var(--tw-space-x-reverse));
+        margin-left: calc(3rem * calc(1 - var(--tw-space-x-reverse)));
+      }
+
+      .lg\:space-x-8> :not([hidden])~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(2rem * var(--tw-space-x-reverse));
+        margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+      }
+
+      .lg\:border-0 {
+        border-width: 0px;
+      }
+
+      .lg\:bg-transparent {
+        background-color: transparent;
+      }
+
+      .lg\:bg-white {
+        --tw-bg-opacity: 1;
+        background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+      }
+
+      .lg\:p-0 {
+        padding: 0px;
+      }
+
+      .lg\:px-6 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .lg\:px-\[128px\] {
+        padding-left: 128px;
+        padding-right: 128px;
+      }
+
+      .lg\:px-\[150px\] {
+        padding-left: 150px;
+        padding-right: 150px;
+      }
+
+      .lg\:py-16 {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+
+      .lg\:py-\[48px\] {
+        padding-top: 48px;
+        padding-bottom: 48px;
+      }
+
+      .lg\:\!pb-\[48px\] {
+        padding-bottom: 48px !important;
+      }
+
+      .lg\:text-9xl {
+        font-size: 8rem;
+        line-height: 1;
+      }
+
+      .lg\:text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+
+      .lg\:font-medium {
+        font-weight: 500;
+      }
+
+      .lg\:text-blue-700 {
+        --tw-text-opacity: 1;
+        color: rgb(29 78 216 / var(--tw-text-opacity));
+      }
+
+      .lg\:hover\:bg-transparent:hover {
+        background-color: transparent;
+      }
+
+      .lg\:hover\:text-blue-700:hover {
+        --tw-text-opacity: 1;
+        color: rgb(29 78 216 / var(--tw-text-opacity));
+      }
+
+      :is(.dark .lg\:dark\:bg-gray-900) {
+        --tw-bg-opacity: 1;
+        background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+      }
+
+      :is(.dark .lg\:dark\:hover\:bg-transparent:hover) {
+        background-color: transparent;
+      }
+
+      :is(.dark .lg\:dark\:hover\:text-white:hover) {
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity));
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .xl\:p-0 {
+        padding: 0px;
+      }
+    }
+
+    .\[\&\>p\]\:last\:border-b-0:last-child>p {
+      border-bottom-width: 0px;
+    }
+
+    .report-container {
+      font-family: "Nunito Sans";
+    }
+
+    ::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    body {
+      background-color: rgb(236, 243, 255) !important;
+    }
+
+    .report-container h2 {
+      font-weight: 500 !important;
+      font-family: "Poppins" !important;
+    }
+
+    .report-container h3 {
+      color: #0085EF !important;
+      font-size: 21.937px !important;
+      font-weight: 500 !important;
+      font-family: "Poppins" !important;
+      line-height: 1.35 !important;
+      margin-bottom: 1rem !important;
+    }
+
+    .report-container h4 {
+      color: #0085EF !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      font-family: "Poppins" !important;
+      letter-spacing: 0.02em !important;
+      text-transform: uppercase !important;
+    }
+
+    .report-container h1 {
+      color: #0085EF !important;
+      font-size: 38.4px !important;
+      font-weight: 500 !important;
+      font-family: "Poppins" !important;
+      line-height: 1.2 !important;
+    }
+
+    .report-container p {
+      color: #737491 !important;
+      font-size: 16px !important;
+      font-weight: 500 !important;
+      font-family: "Nunito Sans" !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    .report-container a {
+      font-family: "Nunito Sans" !important;
+      font-weight: 500 !important;
+      color: rgb(62, 160, 236) !important;
+      font-size: 16px;
+      margin-bottom: 1.5rem !important;
+    }
+
+    .report-container .label {
+      text-transform: uppercase !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      letter-spacing: 0.07em !important;
+    }
+
+    @media print {
+      .avoid-break-inside {
+        break-inside: avoid;
+      }
+
+      .insert-page-break {
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+
+<body class="report-container flex flex-col items-center w-full">
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h1 class="pt-12 pb-0 px-4 text-blue-700 font-medium leading-tight text-4xl text-center"
+    style="color: rgb(28, 97, 189)">
+    Quel est le contexte de coparentalité de la famille?
+  </h1>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h2 class="w-full py-5 px-4 text-center text-2xl font-medium leading-tight text-white bg-[#162059] drop-shadow-lg">
+    Votre contexte familial présente-t-il un risque de conflit parental ?
+  </h2>
+</div>
+  
+  <div
+  class=" lg:hidden  flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> À propos du baromètre </h3>
+    <p>Ce baromètre tient compte du climat familial dans lequel s’exerce la coparentalité ; de la reconnaissance de la valeur parentale entre coparents ; du rôle imposé à l'enfant dans la logistique familiale (messager) et de l’implication du nouveau ou de la nouvelle conjoint·e dans la dynamique de coparentalité.</p>
+  </div>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="flex flex-row w-full justify-center items-center lg:space-x-12 mx-[24px] max-w-[950px] grow lg:w-[950px]">
+    <div
+      class="bg-white hidden lg:flex lg:grow lg:flex-1 flex-col py-4 px-[32px] rounded-[2rem] drop-shadow-xl mr-4 max-w-[950px] text-center">
+      <h3 class="mt-8">À propos du baromètre</h3>
+      <p>Ce baromètre tient compte du climat familial dans lequel s’exerce la coparentalité ; de la reconnaissance de la valeur parentale entre coparents ; du rôle imposé à l'enfant dans la logistique familiale (messager) et de l’implication du nouveau ou de la nouvelle conjoint·e dans la dynamique de coparentalité.</p>
+    </div>
+    <div
+      class="flex flex-col items-center justify-center rounded-full bg-white aspect-square w-[260px] drop-shadow-xl relative min-h-[255px] h-[255px]">
+      <h4 style="color: rgb(49 96 183)" class="uppercase text-sm">
+        Conflit parental
+      </h4>
+      <div class="relative w-[80%] my-6">
+        <div
+          style="background: linear-gradient(45deg, rgb(109 176 134) 0%, rgb(109 176 134) 10.625%, rgb(202 178 112) 32.5%, rgb(212 132 108) 64.375%, rgb(201 91 111) 100%);"
+          class="absolute left-0 -top-[6px] w-full h-[12px] rounded-full"></div>
+        <div style="background-color: rgb(90 158 230)"
+          class="absolute left-[0.0%] top-0 border-[2px] border-white transform -translate-x-1/2 -translate-y-1/2 rounded-full w-[18px] h-[18px]">
+        </div>
+      </div>
+      <h4 style="color: rgb(49 96 183)" class="uppercase text-sm">
+        Risque Absent
+      </h4>
+    </div>
+  </div>
+</div>
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
+    
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Analyse</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Analyse
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        L’analyse des réponses obtenues aux questionnaires révèle un <strong> risque élevé </strong> de conflit entre vous et votre coparent.
+      </p>
+      
+    </div>
+     
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Constat</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Constat
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        L'analyse révèle un non-respect de la valeur parentale et du temps parental de l'un ou les deux parents.
+      </p>
+       
+    </div>
+    
+  </div>
+</div>
+
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px] relative">
+    <div style="background-color: rgb(22 32 127)"
+      class="hidden absolute lg:flex justify-end items-center top-[48px] w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+        <img class="-mr-3" src="http://localhost:3000/static/img/reports/a-surveiller.svg"
+          alt="Oeil" />
+        <div class="label text-white">À surveiller</div>
+        <div class="w-[64px]"></div>
+      </div>
+    </div>
+    <div style="
+      background-image: linear-gradient(
+        to right,
+        rgb(22 32 127),
+        rgb(22 32 75)
+      );
+    " class="flex py-2 pl-2 lg:hidden rounded-r-full justify-left items-center w-[225px]">
+      <img src="http://localhost:3000/static/img/reports/a-surveiller.svg" alt="Oeil" />
+      <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+        À surveiller
+      </div>
+    </div>
+    
+    <p style="margin-bottom: 0px!important;" class="px-[16px] md:px-[64px] lg:px-[150px]">
+      Les comportements suivants méritent une attention particulière, car ils sont susceptibles d'affecter le développement et le bien-être psychologique de l'enfant :
+    </p>
+    
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        Appeler le nouveau ou la nouvelle conjoint·e <i> papa </i> ou <i> maman </i> peut semer de la confusion chez l'enfant ou affecter la valeur symbolique de l’autre parent.
+      </p>
+    </div>
+     
+  </div>
+</div>
+
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> Ressources </h3>
+    <p>Nous vous invitons à consulter la section <i> Conflit de loyauté </i>  afin de prendre connaissance des répercussions chez l’enfant et la section  <i> Coparentalité </i> de l'onglet  <strong> Ressources </strong> afin de prendre connaissance de la charte de coparentalité et de connaitre les meilleures pratiques et recommandations en matière de coparentalité. <br/> Le modèle explicatif des conflits sévères de séparation vous renseignera entre autres sur les facteurs aggravants qui contribuent au maintien du conflit. </p>
+  </div>
+</div>
+  
+  <div class="insert-page-break"></div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h2 class="w-full py-5 px-4 text-center text-2xl font-medium leading-tight text-white bg-[#162059] drop-shadow-lg">
+    Est-ce que les coparents tendent vers une saine coparentalité ?
+  </h2>
+</div>
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> À propos du baromètre </h3>
+    <p>Ce baromètre tient compte du désir de coparentalité de chaque parent ; de l’engagement à faire équipe ; et du respect de la valeur parentale du coparent.
+
+De grands écarts au niveau de la position des énoncés et des bâtonnets indiquent une position ou une valeur opposée des parents susceptible d’entrainer un climat de conflit et des difficultés dans l’exercice de la coparentalité qui pourraient affecter l'enfant.</p>
+  </div>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="w-full flex px-[24px] justify-center">
+    <style>
+      #b2 h4 {
+        margin-bottom: 1.5rem !important;
+      }
+
+      #b2 .b-gradient-bar {
+        height: 10px;
+        border-top-right-radius: 9999px;
+        border-bottom-right-radius: 9999px;
+
+        background: linear-gradient(90deg,
+            rgb(109 176 134) calc(280px * 0.25),
+            rgb(202 178 112) calc(280px * 0.4),
+            rgb(212 132 108) calc(280px * 0.6),
+            rgb(201 91 111) 280px);
+      }
+
+      #b2 .b-gradient-bar__left {
+        transform: rotate(180deg);
+      }
+    </style>
+
+    <div id="b2"
+      class="w-full bg-white py-4 px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] drop-shadow-xl max-w-[950px] text-center">
+      <div class="flex w-full">
+        <div class="w-1/3"></div>
+        <div class="w-1/3">
+          <h4 class="text-center">
+            Parent Répondant
+          </h4>
+        </div>
+        <div class="w-1/3">
+          <h4 class="text-center">
+            Co Parent
+          </h4>
+        </div>
+      </div>
+      <div id="b2-root"></div>
+      <div class="flex w-full mt-4">
+        <div class="w-1/3"></div>
+        <div class="w-2/3 flex ml-6">
+          <div class="w-1/3">
+            <h4 class="text-center mb-0" style="
+              color: rgb(201 91 111) !important;
+              text-transform: uppercase;
+              font-size: 10px!important;
+            ">
+              En désaccord
+            </h4>
+          </div>
+          <div class="w-1/3 relative">
+            <svg class="absolute -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
+              width="32" style="transform: rotate(180deg) scaleX(1.25)">
+              <defs>
+                <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
+                  <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
+                  <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
+                  <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
+                </linearGradient>
+              </defs>
+
+              <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
+            </svg>
+            <h4 style="
+              color: rgb(109 176 134) !important;
+              text-transform: uppercase;
+              font-size: 10px!important;
+            " class="text-center mb-0">
+              En accord
+            </h4>
+            <svg class="absolute right-0 -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
+              width="32" style="transform: scaleX(1.25)">
+              <defs>
+                <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
+                  <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
+                  <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
+                  <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
+                </linearGradient>
+              </defs>
+
+              <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
+            </svg>
+          </div>
+          <div class="w-1/3">
+            <h4 class="text-center mb-0" style="
+              color: rgb(201 91 111) !important;
+              text-transform: uppercase;
+              font-size: 10px!important;
+            ">
+              En désaccord
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      const b2Root = document.getElementById("b2-root");
+
+      const data = JSON.parse(`{"id": "barometer_2", "items": [{"name": "Salue l\u2019autre parent lorsqu\u2019il ou elle le croise", "value_1": -1, "value_2": 4}, {"name": "Accepte les exigences de la coparentalit\u00e9 ", "value_1": 4, "value_2": 2}, {"name": "Respecte la valeur parentale du coparent ", "value_1": 4, "value_2": 2}, {"name": "Respecte l\u2019autorit\u00e9 parentale du coparent ", "value_1": 4, "value_2": 2}, {"name": "\u00c9vite de faire des reproches au coparent ", "value_1": 4, "value_2": 2}, {"name": "Est serein\u00b7e face \u00e0 la s\u00e9paration", "value_1": 2, "value_2": 2}, {"name": "Consulte l\u2019autre parent pour les d\u00e9cisions concernant l\u2019enfant ", "value_1": 4, "value_2": 4}], "label_1": "Parent r\u00e9pondant", "label_2": "Coparent"}`);
+
+      console.log({ b2Data: data });
+
+      const b2Data = data;
+      const MAX_SCORE = 30;
+
+      const items = [...b2Data.items];
+
+      items.sort((a, b) => {
+        const aTotal = a.value_1 + a.value_2;
+        const bTotal = b.value_1 + b.value_2;
+
+        return bTotal - aTotal;
+      });
+
+      items.forEach((item) => {
+        const leftBarWidth = (item.value_1 / MAX_SCORE) * 280 + "px";
+        const rightBarWidth = (item.value_2 / MAX_SCORE) * 280 + "px";
+
+        const b2DataRow = document.createElement("div");
+        b2DataRow.classList.add("flex", "w-full");
+        b2DataRow.innerHTML = `
+          <div class="w-1/3">
+            <h4 class="mb-3 text-left" style="font-size:10px!important;font-weight:600!important;color:rgb(49 96 183)!important;">${item.name}</h4>
+          </div>
+          <div class="w-2/3 flex justify-center">
+              <div class="w-1/2">
+                <div style="width:${leftBarWidth}" class="b-gradient-bar__left b-gradient-bar  ml-auto"></div>
+              </div>
+              
+              <div class="w-1/2">
+                <div style="width:${rightBarWidth}" class="b-gradient-bar__right b-gradient-bar ml-4"></div>
+              </div>
+          </div>
+      
+          `;
+        b2Root.append(b2DataRow);
+      });
+    </script>
+  </div>
+</div>
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
+    
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Analyse</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Analyse
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Voici une liste des principaux enjeux et comportements présentant des risques de créer des difficultés dans l'exercice de votre coparentalité et de contribuer au conflit de séparation. <br/> Les risques de tensions, de malentendus et de problèmes de communication augmentent en situation de coparentalité lorsque vous ou votre coparent : <br/> 
+      </p>
+      
+    </div>
+     
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Constat</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Constat
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        accepte difficilement ou rejette les exigences qu’impose la coparentalité (logistique horaires, transport, vacances, etc.). <br/> 
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        ne reconnaît pas ou ne respecte pas la valeur parentale et l’autorité parentale du coparent. <br/>
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        prend des décisions concernant l’enfant sans consulter l’autre parent. <br/> 
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        s’ingère dans la routine ou les méthodes parentales du coparent. <br/>
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        fait des reproches à l'autre parent ou le dénigre en présence de l’enfant. 
+      </p>
+       
+    </div>
+    
+  </div>
+</div>
+
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> Ressources </h3>
+    <p>Nous vous recommandons de consulter la section <i> Coparentalité </i> de l'onglet <strong> Ressources </strong> afin de prendre connaissance de la charte de coparentalité et de connaitre les meilleures pratiques et recommandations en matière de coparentalité. <br/> Le modèle explicatif des conflits sévères de séparation vous renseignera entre autres sur les facteurs aggravants qui contribuent au conflit de séparation. </p>
+  </div>
+</div>
+  
+  <div class="insert-page-break"></div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h2 class="w-full py-5 px-4 text-center text-2xl font-medium leading-tight text-white bg-[#162059] drop-shadow-lg">
+    Est-ce que votre contexte de coparentalité tend à sécuriser ou à insécuriser votre enfant ?
+  </h2>
+</div>
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> À propos du baromètre </h3>
+    <p>Ce baromètre tient compte du rôle imposé à votre enfant par la dynamique de coparentalité ; de son implication dans la logistique familiale et les conflits parentaux ; et de sa liberté d’aimer librement ses deux parents. 
+
+
+À l’instar du baromètre précédent, de grands écarts au niveau de la position des énoncés et des bâtonnets indiquent une position opposée des parents susceptible d’affecter l'enfant.</p>
+  </div>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="w-full flex px-[24px] justify-center">
+    <style>
+      #b3 h4 {
+        margin-bottom: 1.5rem !important;
+      }
+
+      #b3 .b-gradient-bar {
+        height: 10px;
+        border-top-right-radius: 9999px;
+        border-bottom-right-radius: 9999px;
+
+        background: linear-gradient(90deg,
+            rgb(109 176 134) calc(280px * 0.25),
+            rgb(202 178 112) calc(280px * 0.4),
+            rgb(212 132 108) calc(280px * 0.6),
+            rgb(201 91 111) 280px);
+      }
+
+      #b3 .b-gradient-bar__left {
+        transform: rotate(180deg);
+      }
+    </style>
+
+    <div id="b3"
+      class="w-full bg-white py-4 px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] drop-shadow-xl max-w-[950px] text-center">
+      <div class="flex w-full">
+        <div class="w-1/3"></div>
+        <div class="w-1/3">
+          <h4 class="text-center">
+            Parent Répondant
+          </h4>
+        </div>
+        <div class="w-1/3">
+          <h4 class="text-center">
+            Co Parent
+          </h4>
+        </div>
+      </div>
+      <div id="b3-root"></div>
+      <div class="flex w-full mt-4">
+        <div class="w-1/3"></div>
+        <div class="w-2/3 flex ml-6">
+          <div class="w-1/3">
+            <h4 class="text-center mb-0" style="
+              color: rgb(201 91 111) !important;
+              text-transform: uppercase;
+              font-size: 10px!important;
+            ">
+              En désaccord
+            </h4>
+          </div>
+          <div class="w-1/3 relative">
+            <svg class="absolute -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
+              width="32" style="transform: rotate(180deg) scaleX(1.25)">
+              <defs>
+                <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
+                  <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
+                  <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
+                  <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
+                </linearGradient>
+              </defs>
+
+              <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
+            </svg>
+            <h4 style="
+              color: rgb(109 176 134) !important;
+              text-transform: uppercase;
+              font-size: 10px!important;
+            " class="text-center mb-0">
+              En accord
+            </h4>
+            <svg class="absolute right-0 -top-2" xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960"
+              width="32" style="transform: scaleX(1.25)">
+              <defs>
+                <linearGradient id="MyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="25%" style="stop-color: rgb(109, 176, 134)" />
+                  <stop offset="40%" style="stop-color: rgb(202, 178, 112)" />
+                  <stop offset="60%" style="stop-color: rgb(212, 132, 108)" />
+                  <stop offset="100%" style="stop-color: rgb(201, 91, 111)" />
+                </linearGradient>
+              </defs>
+
+              <path fill="url(#MyGradient)" d="m702-301-43-42 106-106H120v-60h646L660-615l42-42 178 178-178 178Z" />
+            </svg>
+          </div>
+          <div class="w-1/3">
+            <h4 class="text-center mb-0" style="
+              color: rgb(201 91 111) !important;
+              text-transform: uppercase;
+              font-size: 10px!important;
+            ">
+              En désaccord
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      const b3Root = document.getElementById("b3-root");
+
+      const data = JSON.parse(`{"id": "barometer_3", "items": [{"name": "Prot\u00e8ge l\u0027enfant du r\u00f4le de messager ", "value_1": 4, "value_2": 12}, {"name": "\u00c9vite de questionner l\u2019enfant \u00e0 son retour de garde  ", "value_1": 7, "value_2": 4}, {"name": "Favorise et prot\u00e8ge le temps parental du coparent  ", "value_1": 8, "value_2": 6}, {"name": "Accepte que les objets voyagent d\u2019une maison \u00e0 l\u2019autre", "value_1": 4, "value_2": 4}, {"name": "Prot\u00e8ge l\u0027enfant des enjeux de s\u00e9paration ", "value_1": 4, "value_2": 4}, {"name": "Ne donne pas \u00e0 l\u0027enfant la responsabilit\u00e9 de choisir", "value_1": 8, "value_2": 8}], "label_1": "Parent r\u00e9pondant", "label_2": "Coparent"}`);
+
+      console.log({ b3Data: data });
+
+      const b3Data = data;
+      const MAX_SCORE = 30;
+
+      const items = [...b3Data.items];
+
+      items.sort((a, b) => {
+        const aTotal = a.value_1 + a.value_2;
+        const bTotal = b.value_1 + b.value_2;
+
+        return bTotal - aTotal;
+      });
+
+      items.forEach((item) => {
+        const leftBarWidth = (item.value_1 / MAX_SCORE) * 280 + "px";
+        const rightBarWidth = (item.value_2 / MAX_SCORE) * 280 + "px";
+
+        const b3DataRow = document.createElement("div");
+        b3DataRow.classList.add("flex", "w-full");
+        b3DataRow.innerHTML = `
+          <div class="w-1/3">
+            <h4 class="mb-3 text-left" style="font-size:10px!important;font-weight:600!important;color:rgb(49 96 183)!important;">${item.name}</h4>
+          </div>
+          <div class="w-2/3 flex justify-center">
+              <div class="w-1/2">
+                <div style="width:${leftBarWidth}" class="b-gradient-bar__left b-gradient-bar  ml-auto"></div>
+              </div>
+              
+              <div class="w-1/2">
+                <div style="width:${rightBarWidth}" class="b-gradient-bar__right b-gradient-bar ml-4"></div>
+              </div>
+          </div>
+      
+          `;
+        b3Root.append(b3DataRow);
+      });
+    </script>
+  </div>
+</div>
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
+    
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Analyse</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Analyse
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Voici une liste des principaux enjeux et comportements présentant des risques de créer un sentiment d’insécurité chez votre enfant, d’induire un conflit de loyauté et de nuire à son développement et à son bien-être psychologique, car votre enfant : <br/> 
+      </p>
+      
+    </div>
+     
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Constat</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Constat
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        est appelé à tenir le rôle de messager entre ses parents, devenant indirectement responsable des conflits parentaux ou des horaires, activités et rendez-vous qui le concernent. <br/>
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        a la responsabilité direct ou indirecte de choisir la fréquence des visites et le temps qu’il passe avec l’un ou l’autre de ses parents. <br/>  
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        a la responsabilité direct ou indirecte de choisir avec quel parent et où il souhaite vivre.
+      </p>
+       
+    </div>
+    
+  </div>
+</div>
+
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> Ressources </h3>
+    <p>Le conflit de loyauté insécurise et fragilise la santé psychologique de votre enfant et nuit à son développement. Nous vous recommandons de consulter la rubrique <i> conflit de loyauté </i> dans la section <i> Psychologie </i> de l'onglet <strong> Ressources </strong> afin de comprendre les répercussions du conflit de loyauté chez votre enfant et de  connaitre les meilleures pratiques en matière de coparentalité.</p>
+  </div>
+</div>
+  
+  <div class="insert-page-break"></div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h1 class="pt-12 pb-0 px-4 text-blue-700 font-medium leading-tight text-4xl text-center"
+    style="color: rgb(28, 97, 189)">
+    Quelle est la dynamique familiale à laquelle l'enfant est exposé ?
+  </h1>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h2 class="w-full py-5 px-4 text-center text-2xl font-medium leading-tight text-white bg-[#162059] drop-shadow-lg">
+    À quels comportements préjudiciables votre enfant-il exposé ? 
+  </h2>
+</div>
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> À propos du baromètre </h3>
+    <p>Ce diagramme présente les sept (7) grandes catégories de comportements préjudiciables auxquels peut être exposé votre enfant au sein de votre dynamique familiale. Nous entendons par préjudiciable : sujet à interférer et à nuire à l’équilibre, à la santé psychologique et au développement de votre enfant.</p>
+  </div>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="flex" id="b4">
+    <div class="p-16 ml-12">
+      <div
+        class="flex items-center justify-center rounded-full w-[550px] h-[550px] drop-shadow-xl relative z-10 bg-[#f8faff]">
+        <svg id="graph" width="480" height="480" xmlns="http://www.w3.org/2000/svg" version="1.1"
+          viewBox="0 0 100 100"></svg>
+        <svg style="max-width: 150%" id="graph-labels" class="absolute" width="650" height="650"
+          xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100"></svg>
+      </div>
+    </div>
+    <div
+      class="border-2 rounded-full mr-10 px-3 bg-white border-white mt-12 flex flex-col justify-evenly gap-y-12 py-4">
+      <div class="border-4 border-[#c2c0f2] rounded-full h-full"></div>
+      <div class="border-4 border-[#6562e1] rounded-full h-full"></div>
+      <div class="border-4 border-[#deb164] rounded-full h-full"></div>
+      <div class="border-4 border-[#ecd5ab] rounded-full h-full"></div>
+      <div class="border-4 border-[#a0262e] rounded-full h-full"></div>
+      <div class="border-4 border-[#be536e] rounded-full h-full"></div>
+      <div class="border-4 border-[#b8c3cb] rounded-full h-full"></div>
+    </div>
+    <table id="b4-table" class="table-auto text-center">
+      <thead class="border-b-2 border-[#0085e7]">
+        <tr>
+          <th class="border-r-2 border-[#0085e7]">
+            <h4>Catégorie</h4>
+          </th>
+          <th class="py-2">
+            <h4>Comportement</h4>
+          </th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script type="module">
+  const data = JSON.parse(
+    `{"id": "barometer_4", "items": [{"behaviors": ["Laisse entendre \u00e0 l\u0027enfant qu\u0027il n\u0027est pas en s\u00e9curit\u00e9 avec l\u0027autre parent", "Laisse entendre \u00e0 une instabilit\u00e9 psychologique chez l\u0027autre parent", "Modifie certains faits pass\u00e9s"], "category": "Alt\u00e9ration ou d\u00e9voiement de la r\u00e9alit\u00e9", "weight": 3.0}, {"behaviors": ["Se f\u00e2che si l\u0027enfant exprime de l\u0027amour pour l\u0027autre parent", "Questionne l\u0027enfant \u00e0 son retour de garde"], "category": "Chantage affectif, manipulation", "weight": 6.333333333333333}, {"behaviors": ["Fait des reproches \u00e0 l\u0027autre parent devant l\u0027enfant", "Pr\u00e9sente la nouvelle famille comme \u00e9tant la \"vraie\" famille"], "category": "D\u00e9nigrement", "weight": 2.5}, {"behaviors": ["Communique fr\u00e9quemment avec l\u0027enfant lorsqu\u0027il est chez l\u0027autre", "Donne \u00e0 l\u0027enfant la responsabilit\u00e9 de choisir", "Ne respecte pas l\u0027heure des changements de garde"], "category": "Interf\u00e9rence temps et/ou communication", "weight": 7.222222222222222}, {"behaviors": ["Incite l\u0027enfant \u00e0 choisir un des deux parents", "Est en comp\u00e9tition avec l\u0027autre parent pour l\u0027amour de l\u0027enfant", "Limite les contacts de l\u0027enfant avec la famille \u00e9largie de l\u0027autre parent "], "category": "Interf\u00e9rence lien affectif ou symbolique", "weight": 2.8}, {"behaviors": ["Informe l\u0027enfant des enjeux l\u0027opposant \u00e0 l\u0027autre parent", "Fait lire \u00e0 l\u0027enfant des communications de l\u0027autre parent"], "category": "Parentification", "weight": 2.6666666666666665}, {"behaviors": ["Demande \u00e0 l\u0027enfant de faire les messages"], "category": "R\u00f4le actif de l\u0027enfant", "weight": 6.5}]}`.replace('"vraie"', `'vraie'`)
+  );
+
+  const totalWeight = data.items.reduce((acc, item) => {
+    return acc + item.weight;
+  }, 0);
+
+  const svg = document.getElementById("graph");
+  const svgLabels = document.getElementById("graph-labels");
+
+  const COLORS = [
+    "#c2c0f2",
+    "#6562e1",
+    "#deb164",
+    "#ecd5ab",
+    "#a0262e",
+    "#be536e",
+    "#b8c3cb",
+  ];
+
+  // Outer circles
+
+  for (let i = 1; i < 10; i++) {
+    const outerCircle = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
+
+    outerCircle.setAttribute("cx", "50");
+    outerCircle.setAttribute("cy", "50");
+    outerCircle.setAttribute("r", i * 5);
+    outerCircle.setAttribute("fill", "transparent");
+    outerCircle.setAttribute("stroke", "#dee9fa");
+    outerCircle.setAttribute("stroke-width", "0.2");
+    svg.insertAdjacentElement("afterbegin", outerCircle);
+  }
+
+  let currentAngle = 0;
+
+  const tableBody = document.querySelector("#b4-table tbody");
+
+  for (let i = 0; i < data.items.length; i++) {
+    const item = data.items[i];
+
+    const tableRow = document.createElement("tr");
+    tableRow.classList.add("border-b-2", "border-[#0085e7]");
+    tableRow.style.height = "200px";
+
+    tableRow.innerHTML = `
+        
+        <td class="border-r-2 px-8 border-[#0085e7]"><h4 style="font-size:14px!important;color:rgb(49 96 183)!important;">${item.category}</h4></td>
+        <td class="px-8 pt-4">
+
+          ${item.behaviors.reduce(
+      (acc, b) => acc + `<p style="margin-bottom:0!important;">${b}</p>`,
+      ""
+    )}
+        
+        </td>
+
+      `;
+
+    tableBody.append(tableRow);
+
+    const percent = (item.weight / totalWeight) * 100;
+    const angle = (percent * 360) / 100;
+
+    const radius = 40 * (0.85 + percent / 100);
+
+    const pieSlice = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path"
+    );
+
+    const path = getPath(currentAngle, currentAngle + angle, radius);
+
+    pieSlice.setAttribute("d", path);
+    pieSlice.setAttribute("fill", COLORS[i]);
+    pieSlice.style.zIndex = 10;
+
+    pieSlice.id = item.category;
+
+    svg.appendChild(pieSlice);
+
+    const bubbleElement = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle"
+    );
+    bubbleElement.setAttribute("class", "drop-shadow-sm");
+
+    const bubbleCoords = getXAndYCoords(currentAngle + angle / 2, 42.5);
+
+    bubbleElement.setAttribute("cx", bubbleCoords.x);
+    bubbleElement.setAttribute("cy", bubbleCoords.y);
+    bubbleElement.setAttribute("r", "7.8");
+    bubbleElement.setAttribute("fill", "white");
+
+    svgLabels.appendChild(bubbleElement);
+
+    const categoryWords = item.category.split(" ");
+
+    categoryWords.forEach((word, index, arr) => {
+      const fontSize = 1.4;
+
+      const bubbleText = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text"
+      );
+
+      bubbleText.setAttribute("fill", "rgb(49 96 183)");
+      bubbleText.setAttribute("x", bubbleCoords.x);
+      bubbleText.setAttribute(
+        "y",
+        +bubbleCoords.y + 0.5 - arr.length / 1.7 + index * 1.6
+      );
+      bubbleText.setAttribute("text-anchor", "middle");
+      bubbleText.setAttribute("alignment-baseline", "middle");
+      bubbleText.setAttribute("font-size", fontSize);
+      bubbleText.setAttribute("font-weight", 600);
+      bubbleText.setAttribute("font-family", "Poppins");
+      bubbleText.setAttribute("letter-spacing", "0.05");
+      bubbleText.textContent = word.toUpperCase();
+
+      svgLabels.appendChild(bubbleText);
+    });
+
+    currentAngle += angle;
+  }
+
+  function getPath(start, end, circleRadius) {
+    const startCoords = getXAndYCoords(start, circleRadius);
+    const endCoords = getXAndYCoords(end, circleRadius);
+
+    return `M50,50 L${startCoords.x},${startCoords.y} A${circleRadius},${circleRadius} 1 0,1 ${endCoords.x},${endCoords.y} `;
+  }
+
+  function getXAndYCoords(angleInDegrees, radius) {
+    let angleInRadians = (angleInDegrees * Math.PI) / 180;
+    let cx = 50;
+    let cy = 50;
+    let y = (cx + radius * Math.cos(angleInRadians)).toFixed(5);
+    let x = (cy - radius * Math.sin(angleInRadians)).toFixed(5);
+    return { x, y };
+  }
+</script>
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
+    
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Analyse</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Analyse
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Le tableau ci-joint présente les principaux comportements, divisés par catégories, qui influencent entre autres la dynamique familiale, la triade (parent répondant, coparent et enfant) et les relations parent-enfant (parents, enfant et nouveau ou nouvelle conjoint·e, le cas échéant). <br/> Présentation et définition des catégories : <br/>
+      </p>
+      
+    </div>
+     
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Constat</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Constat
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Chantage affectif, manipulation : Lorsque le comportement d’un parent induit directement ou indirectement et de manière volontaire ou involontaire un conflit de loyauté chez l’enfant. <br/>
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Interférence temps ou communication : Lorsqu’un parent s’impose directement ou indirectement durant le temps parental de l’autre parent. <br/>
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Rôle actif de l’enfant : Lorsque l’enfant est appelé à jouer un rôle dans le conflit parental. Ex.: devenir le messager entre les parents ; garder des secrets ; favoriser une relation parental au détriment de l'autre afin de ménager les susceptibilités ou fragilités d'un parent, etc.
+      </p>
+       
+    </div>
+    
+  </div>
+</div>
+
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px] relative">
+    <div style="background-color: rgb(22 32 127)"
+      class="hidden absolute lg:flex justify-end items-center top-[48px] w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+        <img class="-mr-3" src="http://localhost:3000/static/img/reports/a-surveiller.svg"
+          alt="Oeil" />
+        <div class="label text-white">À surveiller</div>
+        <div class="w-[64px]"></div>
+      </div>
+    </div>
+    <div style="
+      background-image: linear-gradient(
+        to right,
+        rgb(22 32 127),
+        rgb(22 32 75)
+      );
+    " class="flex py-2 pl-2 lg:hidden rounded-r-full justify-left items-center w-[225px]">
+      <img src="http://localhost:3000/static/img/reports/a-surveiller.svg" alt="Oeil" />
+      <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+        À surveiller
+      </div>
+    </div>
+    
+    <p style="margin-bottom: 0px!important;" class="px-[16px] md:px-[64px] lg:px-[150px]">
+      Les comportements suivants méritent une attention particulière, car ils sont susceptibles d'affecter le bien-être psychologique et le développement de votre enfant : <br/>
+    </p>
+    
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        Lorsqu'on laisse entendre à l'enfant qu'un de ses parents ne l'aime pas vraiment ou adéquatement ou ne le considère pas autant que l'autre parent …  lorsqu'on laisse entendre à l'enfant qu'il n'est pas en sécurité lorsqu'il est sous la responsabilité de l'autre parent ... crée un sentiment d'insécurité et de confusion.
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        Le non resepct des ententes de garde ; l'ingérence et l'interférence au niveau du temps parental (ex.: activités prévues durant votre temps parental) peut être un indicateur d'un conflit parental important ou un non respect de votre valeur (ou autorité) parentale.  Dans le cas où il vous faudrait mettre vos limites, laissez une trace écrite. Demandez à l’autre parent de ne pas organiser d’activité sur votre temps parental. Communiquer clairement par courriel (idéalement par courriel plutôt que message texte) à l’autre parent qu’il s’agit d’une exception pour cette fois-ci seulement.
+      </p>
+    </div>
+     
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        L'enfant enregistre consciemment ou inconsciemment le message suivant : il n'est pas autorisé à être en relation avec son autre parent.
+      </p>
+    </div>
+    
+  </div>
+</div>
+
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> Ressources </h3>
+    <p>Le conflit de loyauté, la parentification et l'implication directe de l'enfant dans le conflit parental ou la logistique familiale participent à insécuriser et à fragiliser la santé psychologique de votre enfant et nuisent à son développement. Nous vous recommandons de consulter la section <i> Psychologie </i> de l'onglet <strong> Ressources </strong> afin de comprendre leurs répercussions chez votre enfant et de  connaitre les meilleures pratiques en matière de coparentalité.</p>
+  </div>
+</div>
+  
+  <div class="insert-page-break"></div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h2 class="w-full py-5 px-4 text-center text-2xl font-medium leading-tight text-white bg-[#162059] drop-shadow-lg">
+    L’autre parent adopte-t-il ou elle des comportements trahissant un désir d’exclusion parentale ? 
+  </h2>
+</div>
+  
+  <div
+  class=" lg:hidden  flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> À propos du baromètre </h3>
+    <p>Ce baromètre calcule la probabilité d’un désir d’exclusion parentale et tient compte des comportements conscients ou inconscients de l’autre parent (ou du nouveau ou de la nouvelle conjointe le cas échéant), qui pourraient trahir le besoin de s’approprier l’affection de votre enfant, l’exclusivité de la vie familiale ou de la relation parent-enfant, ou de vous exclure de la vie de votre enfant et de son quotidien physiquement ou symboliquement. </p>
+  </div>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="flex flex-row w-full justify-center items-center lg:space-x-12 mx-[24px] max-w-[950px] grow lg:w-[950px]">
+    <div
+      class="bg-white hidden lg:flex flex-col py-4 px-[32px] rounded-[2rem] drop-shadow-xl mr-4 max-w-[950px] text-center">
+      <h3 class="mt-8">À propos du baromètre</h3>
+      <p>Ce baromètre calcule la probabilité d’un désir d’exclusion parentale et tient compte des comportements conscients ou inconscients de l’autre parent (ou du nouveau ou de la nouvelle conjointe le cas échéant), qui pourraient trahir le besoin de s’approprier l’affection de votre enfant, l’exclusivité de la vie familiale ou de la relation parent-enfant, ou de vous exclure de la vie de votre enfant et de son quotidien physiquement ou symboliquement. </p>
+    </div>
+    <div
+      class="flex flex-col items-center justify-center rounded-full bg-white aspect-square w-[260px] drop-shadow-xl relative min-h-[255px] h-[255px]">
+      <h4 style="color: rgb(49 96 183)" class="uppercase text-sm">
+        Indice d'exclusion parentale
+      </h4>
+      <div class="relative w-[80%] my-6">
+        <div
+          style="background: linear-gradient(45deg, rgb(109 176 134) 0%, rgb(109 176 134) 15.0%, rgb(202 178 112) 35.0%, rgb(212 132 108) 67.77777777777779%, rgb(201 91 111) 100%);"
+          class="absolute left-0 -top-[6px] w-full h-[12px] rounded-full"></div>
+        <div style="background-color: rgb(90 158 230)"
+          class="absolute left-[0.0%] top-0 border-[2px] border-white transform -translate-x-1/2 -translate-y-1/2 rounded-full w-[18px] h-[18px]">
+        </div>
+      </div>
+      <h4 style="color: rgb(49 96 183)" class="uppercase text-sm">
+        Aucune
+      </h4>
+    </div>
+  </div>
+</div>
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
+    
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Analyse</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Analyse
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        L'indice d'exclusion parentale est <strong> élevé </strong>. L’analyse des réponses aux questionnaires révèle que certains comportements du coparent semblent employés dans le but de vous exclure de l’exercice de la coparentalité de façon injustifiée. Votre enfant semble être exposé au conflit parental et le dénigrement de votre valeur parentale ou de votre autorité parentale concourent à saboter votre temps parental ou votre relation avec votre enfant.
+      </p>
+      
+    </div>
+     
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Constat</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Constat
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        L’autorité parentale et le temps parental ne semblent pas être respectés par l'’autre parent qui semble donner à votre enfant la responsabilité de choisir de respecter ou non le temps parental prévu. Ce qui pourrait fragiliser votre relation avec votre enfant. 
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Les comportements de l’autre parent trahissent une relation fusionnelle avec votre enfant ou le désir conscient ou inconscient d’entretenir une relation privilégiée avec votre enfant. L'autre parent semble se positionner comme étant LE parent significatif dans la vie de votre enfant.  
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+       
+    </div>
+    
+  </div>
+</div>
+
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px] relative">
+    <div style="background-color: rgb(22 32 127)"
+      class="hidden absolute lg:flex justify-end items-center top-[48px] w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+        <img class="-mr-3" src="http://localhost:3000/static/img/reports/a-surveiller.svg"
+          alt="Oeil" />
+        <div class="label text-white">À surveiller</div>
+        <div class="w-[64px]"></div>
+      </div>
+    </div>
+    <div style="
+      background-image: linear-gradient(
+        to right,
+        rgb(22 32 127),
+        rgb(22 32 75)
+      );
+    " class="flex py-2 pl-2 lg:hidden rounded-r-full justify-left items-center w-[225px]">
+      <img src="http://localhost:3000/static/img/reports/a-surveiller.svg" alt="Oeil" />
+      <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+        À surveiller
+      </div>
+    </div>
+    
+    <p style="margin-bottom: 0px!important;" class="px-[16px] md:px-[64px] lg:px-[150px]">
+      L'indice d'exclusion parentale est <strong> élevé </strong>. L’analyse des réponses aux questionnaires révèle que certains comportements du coparent semblent employés dans le but de vous exclure de l’exercice de la coparentalité de façon injustifiée. Votre enfant semble être exposé au conflit parental et le dénigrement de votre valeur parentale ou de votre autorité parentale concourent à saboter votre temps parental ou votre relation avec votre enfant.
+    </p>
+    
+     
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        Demander à l'enfant de respecter ses choix si cela fragilise votre relation avec votre enfant. Solution psychosociale. CL : Un sentiment inconfortable et nuisible que l’enfant ressent lorsqu’il a l’impression de devoir prendre parti ou de devoir choisir entre des adultes importants pour lui. 
+
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        Appeler le nouveau conjoint <i> papa </i> ou <i> maman </i> peut semer de la confusion chez l'enfant et/ou affecter la valeur symbolique de son parent. Par exemple : aimer un nouveau ou nouvelle conjoint·e comme si c'était son propre parent est une chose, mais le substituer au parent en est une autre.
+      </p>
+    </div>
+    
+  </div>
+</div>
+
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> Ressources </h3>
+    <p>Nous vous recommandons de consulter la section <i> Psychologie </i> de l'onglet <strong> Ressources </strong> afin de comprendre les répercussions du conflit de loyauté chez votre enfant et de connaitre les meilleures pratiques en matière de coparentalité.</p>
+  </div>
+</div>
+  
+  <div class="insert-page-break"></div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h2 class="w-full py-5 px-4 text-center text-2xl font-medium leading-tight text-white bg-[#162059] drop-shadow-lg">
+    Quelle est la contribution du nouveau ou de la nouvelle conjoint·e dans la dynamique conflictuelle de coparentalité ? 
+  </h2>
+</div>
+  
+  <div
+  class=" lg:hidden  flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> À propos du baromètre </h3>
+    <p>Ce baromètre indique si le nouveau ou la nouvelle conjointe du coparent prend un rôle qui a un impact sur la dynamique et conséquement sur l'enfant.</p>
+  </div>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="flex flex-row w-full justify-center items-center lg:space-x-12 mx-[24px] max-w-[950px] grow lg:w-[950px]">
+    <div
+      class="bg-white hidden lg:flex flex-col py-4 px-[32px] rounded-[2rem] drop-shadow-xl mr-4 max-w-[950px] text-center">
+      <h3 class="mt-8">À propos du baromètre</h3>
+      <p>Ce baromètre indique si le nouveau ou la nouvelle conjointe du coparent prend un rôle qui a un impact sur la dynamique et conséquement sur l'enfant.</p>
+    </div>
+
+    <div
+      class="bg-white flex justify-center py-2 rounded-[2rem] drop-shadow-xl mx-4 text-center min-h-[210px] h-[210px]">
+      <div style="width: 400px; height: 210px " class="relative overflow-y-hidden">
+        <svg class="absolute -top-2.5 rounded-[10rem]" width="400px" height="210px" viewBox="0 -35 100 200">
+          <defs>
+            <linearGradient id="b6-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="" style="stop-color: #7bb284; stop-opacity: 1" />
+              <stop offset="" style="stop-color: #deb064; stop-opacity: 1" />
+
+              <stop offset="" style="stop-color: #be536e; stop-opacity: 1" />
+            </linearGradient>
+          </defs>
+
+          <ellipse cx="50" cy="100" rx="98" ry="88" fill="url(#b6-grad1)" />
+
+          <ellipse cx="46" cy="105" rx="75" ry="60" style="fill: white; stroke-width: 2" />
+
+          <rect x="-200" y="100" width="500" height="100" fill="white"></rect>
+
+          <line x1="-54" y1="107.5" x2="154" y2="107.5" style="stroke: #6895e5; stroke-width: 1"></line>
+          <ellipse cx="50" cy="100" rx="104" ry="98" fill="transparent" stroke="#6895e5" />
+          <rect x="-200" y="108" width="500" height="100" fill="white"></rect>
+          <text fill="#0085EF" x="50" y="130" text-anchor="middle" alignment-baseline="middle" font-size="14"
+            font-weight="500" font-family="Poppins" letter-spacing="0.02">
+            RISQUE
+          </text>
+        </svg>
+        <img id="b6-pin" class="absolute bottom-[30%] left-[15%]"
+          src="http://localhost:3000/static/img/b6-pin.png" />
+      </div>
+
+      <script type="module">
+        const data = JSON.parse(`{"id": "barometer_6", "range": [0, 79, 99.25, 122.33500000000001, 160], "value": 0}`);
+
+        const pin = document.getElementById("b6-pin");
+
+        pin.setAttribute(
+          "style",
+          `
+      transform:rotate(${getRotation(
+            data.value
+          )}deg) scale(0.3); transform-origin: 85% 70%`
+        );
+
+        const stops = getOffsets(data.range);
+
+        const stopElements = document.querySelectorAll("#b6-grad1 stop");
+
+        console.log(stopElements);
+
+        stopElements.forEach((element, index) => {
+          element.setAttribute("offset", stops[index] + "%");
+        });
+
+        function getOffsets(range) {
+          const [_min, first, second, third, max] = range;
+
+          return [first, second, third].map((value) => (value / max) * 100);
+        }
+
+        function getRotation(value) {
+          const originalRangeMin = data.range[0];
+          const originalRangeMax = data.range[data.range.length - 1];
+          const newRangeMin = -19;
+          const newRangeMax = 165;
+
+          const normalizedValue =
+            (value - originalRangeMin) / (originalRangeMax - originalRangeMin);
+
+          const newValue =
+            normalizedValue * (newRangeMax - newRangeMin) + newRangeMin;
+
+          return newValue;
+        }
+      </script>
+    </div>
+  </div>
+</div>
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
+     
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Constat</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Constat
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        #N/A
+      </p>
+       
+    </div>
+    
+  </div>
+</div>
+
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] py-0 lg:!pb-[48px] px-0 rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px] relative">
+    <div style="background-color: rgb(22 32 127)"
+      class="hidden absolute lg:flex justify-end items-center top-[48px] w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+        <img class="-mr-3" src="http://localhost:3000/static/img/reports/a-surveiller.svg"
+          alt="Oeil" />
+        <div class="label text-white">À surveiller</div>
+        <div class="w-[64px]"></div>
+      </div>
+    </div>
+    <div style="
+      background-image: linear-gradient(
+        to right,
+        rgb(22 32 127),
+        rgb(22 32 75)
+      );
+    " class="flex py-2 pl-2 lg:hidden rounded-r-full justify-left items-center w-[225px]">
+      <img src="http://localhost:3000/static/img/reports/a-surveiller.svg" alt="Oeil" />
+      <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+        À surveiller
+      </div>
+    </div>
+    
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 lg:-mt-1 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-orange-300 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/yellow-flag.svg"
+          alt="Drapeau jaune" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+     
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+    <div
+      class="flex flex-col md:flex-row items-center md:items-start px-[16px] !text-center md:!text-left md:px-[64px] lg:px-[150px] [&>p]:last:border-b-0">
+      <div
+        class="flex bg-white md:mr-4 md:-mt-3 mb-5 min-w-[60px] min-h-[60px] rounded-full justify-center items-center text-red-500 text-[32px] font-bold">
+        <img src="http://localhost:3000/static/img/reports/red-flag.svg" alt="Drapeau rouge" />
+      </div>
+      <p class="border-blue-500 border-b pb-5 !mb-0 md:h-full">
+        #N/A
+      </p>
+    </div>
+    
+  </div>
+</div>
+
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> Ressources </h3>
+    <p>Nous vous recommandons de consulter la rubrique <i> conflit de loyauté </i> dans la section <i>   Psychologie </i> de l'onglet <strong> Ressources </strong> afin de comprendre les répercussions du conflit de loyauté chez votre enfant et de  connaitre les meilleures pratiques en matière de coparentalité.</p>
+  </div>
+</div>
+  
+  <div class="insert-page-break"></div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <h2 class="w-full py-5 px-4 text-center text-2xl font-medium leading-tight text-white bg-[#162059] drop-shadow-lg">
+    Comment se comporte l'enfant face à son contexte familial et face à l’exposition de comportements préjudiciables ? 
+  </h2>
+</div>
+  
+  <div
+  class=" flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
+    <h3 class="mt-8"> À propos du baromètre </h3>
+    <p>Ce baromètre présente les principales réactions observées chez l’enfant suite à son exposition à des comportements aliénants de la part d’un ou l’autre des parents : dénigrement, chantage affectif, interférence temps parental ou communication, etc.</p>
+  </div>
+</div>
+  
+  <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="w-full flex px-[24px] justify-center">
+    <div
+      class="bg-white py-4 w-full items-center justify-center flex lg:w-[950px] max-w-[950px] rounded-[2rem] drop-shadow-xl text-center">
+      <div id="b7"></div>
+
+      <script type="module">
+        import { html, render } from "https://esm.sh/htm/preact/standalone";
+
+        const data = JSON.parse(`{"id": "barometer_7", "items": [{"name": "Organise des activit\u00e9s hors de sa garde", "value": 50}, {"name": "Fait lire les communications \u00e0 l\u0027enfant", "value": 32}, {"name": "Modifications des faits et souvenirs", "value": 27}, {"name": "Transport d\u0027objets d\u0027un domicile \u00e0 l\u0027autre", "value": 26}, {"name": "R\u00e9action en pr\u00e9sence des deux parents", "value": 21}]}`);
+
+        const COLORS = [
+          "#fc8f2a",
+          "#e14856",
+          "#89103e",
+          "#065380",
+          "#34b1e2",
+          "#64ced8",
+        ];
+
+        function B7({ data }) {
+          return html`<div class="flex flex-col items-center py-8 px-24">
+          ${data.items.map((item, index) => {
+            return html`<${AnalysisRow}
+              color=${COLORS[index]}
+              title=${item.name}
+              value=${item.value}
+              isEven=${index % 2 === 0}
+              index=${index}
+            />`;
+          })}
+        </div>`;
+        }
+
+        function AnalysisRow({ color, title, value, isEven, index }) {
+          return html`
+          <div class="relative">
+            <div>
+              <div
+                style="${isEven ? "left:" : "right:"}${value * 8 + 45}px"
+                class="top-6 absolute w-56"
+              >
+                <div>
+                  <div
+                    class="flex absolute border-b-2"
+                    style="flex-direction:${isEven
+              ? ""
+              : "row-reverse"};border-color:${color};"
+                  >
+                    <div>
+                      <svg
+                        style="${isEven ? "left: -80px;" : "right: -80px;"}}"
+                        class="absolute -bottom-1"
+                        width="100"
+                        height="100"
+                        viewBox="100 100"
+                      >
+                        <path
+                          d=${isEven
+              ? "M 80 97 C 50 70 , 50 70 , 50 70"
+              : "M 20 97 C 50 70 , 50 70 , 50 70"}
+                          stroke="${color}"
+                          fill="transparent"
+                          stroke-width="2"
+                        ></path>
+                      </svg>
+                      <div
+                        style="background-color:${color}"
+                        class="b7-explanation-decoration h-8 w-2 rounded my-2 mx-2"
+                      ></div>
+                    </div>
+                    <div class="flex items-center">
+                      <h4
+                        style="color:${color}!important;${isEven
+              ? "text-align:left;"
+              : "text-align: right;"}}"
+                        class="uppercase text-sm mb-0"
+                      >
+                        ${title}
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ${html`<${AnalysisBar}
+              value=${value}
+              index=${index}
+              color=${color}
+            />`}
+          </div>
+        `;
+        }
+
+        function AnalysisBar({ value, index, color }) {
+          return html`
+          <div class="flex justify-center">
+            <div
+              class="h-[62.5px] mb-2 rounded-lg"
+              style="transform-origin: 50% ${70 - index * 7.5}%;width:${value *
+            8}px; transform: perspective(300px) rotateX(-${32.5 +
+            index * 1.015}deg); background-color: ${color};"
+            ></div>
+          </div>
+        `;
+        }
+
+        render(html`<${B7} data=${data} />`, document.getElementById("b7"));
+      </script>
+    </div>
+  </div>
+</div>
+  
+  
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div
+    class="border-blue-500 border-[1px] !py-[48px] lg:py-[48px] rounded-[3.5rem] max-w-[1100px] grow mx-[24px] !text-left flex flex-col space-y-[48px]">
+    
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Analyse</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/analyse.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Analyse
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        L’exposition à des comportements aliénants est susceptible d'insécuriser votre enfant et de fragiliser sa relation avec un de ses parents et d’induire un conflit de loyauté important. Les comportements aliénants participent par ailleurs à l'instrumentalisation de l'enfant dans la mission (injonction directe ou directe) de favoriser un parent au détriment de l’autre.  Voici les principaux comportements adoptés par votre enfant en réponse à son exposition à des comportements aliénants (délétères) : 
+      </p>
+      
+    </div>
+     
+    <div class="relative">
+      <div style="background-color: rgb(22 32 127)"
+        class="hidden absolute lg:flex justify-end items-center top-0 w-[4000px] z-10 -left-[3874px] rounded-r-full transform">
+        <div style="
+          background-image: linear-gradient(
+            to right,
+            rgb(22 32 127),
+            rgb(22 32 75)
+          );
+        " class="flex py-2 rounded-r-full justify-between items-center w-[225px]">
+          <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+          <div class="label mr-[16px] text-white">Constat</div>
+          <div class="w-[64px]"></div>
+        </div>
+      </div>
+      <div style="
+        background-image: linear-gradient(
+          to right,
+          rgb(22 32 127),
+          rgb(22 32 75)
+        );
+      " class="flex py-2 pl-2 mb-[48px] lg:hidden rounded-r-full justify-left items-center w-[225px]">
+        <img src="http://localhost:3000/static/img/reports/constat.svg" alt="Oeil" />
+        <div class="label flex grow items-center justify-center mr-[48px] text-center text-white">
+          Constat
+        </div>
+      </div>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Votre enfant change d'attitude lorsqu'il ou elle est en présence de l'autre parent.  <br/> <br/> L’enfant qui vit un conflit de loyauté peut être très heureux lorsqu’il est avec un de ses parents, mais bouder à son retour chez l’autre parent. Il peut donner l’impression d’avoir passé un mauvais moment pour ne pas faire de peine au parent qui s’est retrouvé seul en son absence ou qui lui semble plus vulnérable. <br/> L’enfant peut aussi se demander comment exprimer de l’amour pour l’un de ses parents alors que l’autre le décrit comme une mauvaise personne ou critique ses actions. L’enfant se sent déchiré, et c’est très difficile pour lui. <br/>  
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Votre enfant n'est pas libre d'apporter ses vêtements, ses jouets ou autres effets personnels d'une maison à l'autre. <br/> 
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Le récit du passé de votre enfant est altéré par l'autre parent qui déforme les souvenirs de votre enfant. <br/> 
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Votre enfant est au courant des enjeux juridiques ou des conflits qui vous opposent à l'autre parent. <br/>
+      </p>
+      
+      <p class="last:!mb-0 px-[16px] md:px-[64px] lg:px-[150px]">
+        Votre enfant subit de la pression pour passer plus de temps chez l'autre parent (par opposition à du temps en votre compagnie).<br/>
+      </p>
+       
+    </div>
+    
+  </div>
+</div>
+
+  
+</body>
+
+</html>
