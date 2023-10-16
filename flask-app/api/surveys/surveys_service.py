@@ -23,13 +23,25 @@ def find_one(current_user, id):
         .filter_by(survey_id = id)\
         .all()
 
+  answer_B02 = Answer.query\
+        .filter_by(question_id = 'B02', user_id = current_user.user_id)\
+        .first()
+  
+  use_past_tense = False
+  print('answer_B02', answer_B02.value)
+  if answer_B02 != None and answer_B02.value == "2":
+    use_past_tense = True
+
   res = jsonify(survey).json
   res['questions'] = jsonify(questions).json
   # write res to a file to see what it looks like
 
-
-
   for question in res['questions']:
+    if use_past_tense:
+      if question['past_title'] != None:
+        question['title'] = question['past_title']
+      if question['past_intro'] != None:
+        question['intro'] = question['past_intro']
     
     choices = []
     

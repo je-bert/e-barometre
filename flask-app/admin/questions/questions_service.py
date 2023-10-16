@@ -23,6 +23,7 @@ def update_one(id):
   data = request.form
 
   if not data.get('title') or not data.get('order'):
+    print('data', data)
     return make_response("Formulaire invalide.", 400)
 
   question = Question.query\
@@ -32,12 +33,15 @@ def update_one(id):
   if not question:
     return make_response("La question n'existe pas.", 404)
 
-  conditional_intensity = data.get('conditional_intensity')
+  conditional_intensity = data.get('conditional_intensity') if data.get('conditional_intensity') else None
   if conditional_intensity is not None and is_valid_data(conditional_intensity) == False:
+    print('conditional_intensity', conditional_intensity)
     return make_response("La condition " + conditional_intensity + " est invalide.", 400)
   
   question.intro = data.get('intro') if data.get('intro') else None
+  question.past_intro = data.get('past_intro') if data.get('past_intro') else None
   question.title = data.get('title')
+  question.past_title = data.get('past_title') if data.get('past_intro') else None
   question.info_bubble_text = data.get('info_bubble_text') if data.get('info_bubble_text') else None
   question.condition = data.get('condition') if data.get('condition') else None
   intensity = data.get('intensity')

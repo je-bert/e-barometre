@@ -16,6 +16,8 @@ class Question(db.Model):
   order: int
   parent: str
   intensity_method: str
+  past_title: str
+  past_intro: str
   question_id = db.Column(db.String(20), primary_key = True)
   survey_id = db.Column(db.String(20), db.ForeignKey( "survey.survey_id"))
   intro = db.Column(db.String(255), nullable = True)
