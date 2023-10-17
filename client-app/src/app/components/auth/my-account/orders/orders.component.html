@@ -38,7 +38,8 @@
                     <div class="fs-sm fw-medium text-dark">{{formatDate(invoice.date_created)}}</div>
                   </div>
                   <div class="tw-w-1/3">
-                    <div class="d-none d-sm-block fs-sm text-muted mb-2">Expire le</div>
+                    <div class="d-none d-sm-block fs-sm text-muted mb-2">{{invoice.status == 'expired' ? "Expiré le":
+                      "Expire le"}}</div>
                     <div class="d-sm-none fs-sm text-muted mb-2">Date</div>
                     <div class="fs-sm fw-medium text-dark">{{formatDate(invoice.date_expiration)}}</div>
                   </div>

@@ -9,9 +9,11 @@ class Report(db.Model):
     name: str
     date_created: datetime
     is_completed: bool
+    is_current_subscription: bool
 
     report_id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey( "user.user_id"))
     name = db.Column(db.String(30))
     date_created = db.Column(db.DateTime())
     is_completed = db.Column(db.Boolean, default = False)
+    is_current_subscription = db.Column(db.Boolean, default = True)

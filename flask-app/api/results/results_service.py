@@ -1,5 +1,5 @@
 from flask import abort, jsonify, render_template
-from models import User, Answer, Question, AnalysisSection, AnalysisSubsection, Report
+from models import User, Answer, Question, AnalysisSection, AnalysisSubsection, Report, Invoice
 import os
 from database import db
 from shutil import copyfile
@@ -8,10 +8,16 @@ from openpyxl import load_workbook
 from pycel import ExcelCompiler
 import os
 from pyhtml2pdf import converter
+from api.invoices.invoices_service import get_user_subscription
 
 TEMPLATE_FILE = 'master-results-template.xlsx'
 
 def generate(user_id):
+  subscription = get_user_subscription(user_id)
+
+  if subscription == None:
+    return jsonify({"message":"Vous n'avez pas de souscription active."}), 400
+  
   user = User.query\
     .filter_by(user_id = user_id)\
     .first()
@@ -83,6 +89,11 @@ def generate(user_id):
   converter.convert(f'file:///{source}', target, print_options={'marginTop': 0, 'marginRight': 0, 'marginBottom': 0, 'marginLeft': 0})
 
   report.is_completed = True
+  # expire unique invoice
+  if subscription != 'multiple':
+    Invoice.query\
+      .filter_by(user_id = user_id, status = 'paid', product_id = subscription)\
+      .update({Invoice.status: 'expired', Invoice.date_expiration: db.func.current_timestamp()})
   db.session.commit()
 
   return jsonify("Votre rapport a été généré!"), 200

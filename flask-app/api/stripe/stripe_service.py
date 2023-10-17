@@ -4,7 +4,7 @@ import stripe
 import os
 from database import db
 from sqlalchemy import func
-from models import User, Invoice
+from models import User, Invoice, Report
 from werkzeug.security import generate_password_hash
 from datetime import datetime, date
 from mail import send_account_created, send_payment_failed
@@ -158,6 +158,10 @@ def create_invoice(user, session, status = 'paid'):
         Invoice.query\
             .filter(Invoice.user_id == user.user_id, Invoice.status == "unpaid", Invoice.invoice_id != invoice.invoice_id)\
             .delete()
+        # Mark previous reports as paid
+        Report.query\
+            .filter_by(user_id = user.user_id)\
+            .update({Report.is_current_subscription: False})
 
 def fulfill_order(session, status = 'paid'):
   print("Fulfilling order")

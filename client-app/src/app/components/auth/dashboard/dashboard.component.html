@@ -40,7 +40,9 @@
           <button *ngIf="
               startBtnText !== 'Chargement...' &&
             startBtnText !== 'Voir votre rapport'
-            " [routerLink]="'/dashboard/questionnaire/' + nextSurveyID" class="btn btn-primary">
+            "
+            [routerLink]="startBtnText == 'Acheter un forfait pour commencer' ? '/dashboard/my-account/final-reports' : ('/dashboard/questionnaire/' + nextSurveyID)"
+            class="btn btn-primary">
             {{ startBtnText }}
           </button>
           <button *ngIf="startBtnText === 'Voir votre rapport'" (click)="handleNavigateToAnalysis()"

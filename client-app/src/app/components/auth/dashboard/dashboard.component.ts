@@ -33,7 +33,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       )
       .pipe(
         mergeMap((response) => {
-          if (response.body === null) return of('B');
+          if (response.body === null) {
+            this.startBtnText = 'Acheter un forfait pour commencer';
+            return of(null);
+          }
 
           if (response.body.message === 'Done') {
             return this.http.post(environment.apiUrl + '/results/', {}).pipe(
@@ -46,13 +49,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
           const nextSurveyID = response.body.survey_id;
 
+          if (nextSurveyID === null) this.startBtnText = 'Voir votre rapport';
+
           return of(nextSurveyID);
         })
       )
       .subscribe((nextSurveyID) => {
         if (nextSurveyID === null) {
-          this.startBtnText = 'Voir votre rapport';
-
           return;
         }
 
