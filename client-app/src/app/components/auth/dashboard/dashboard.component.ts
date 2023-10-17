@@ -21,8 +21,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   completed = [false, false, false, false];
 
-  availableAnalysisId$ = new BehaviorSubject('');
-
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
@@ -40,7 +38,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           if (response.body.message === 'Done') {
             return this.http.post(environment.apiUrl + '/results/', {}).pipe(
               tap((res) => {
-                this.availableAnalysisId$.next(response.body!.user_id);
+                this.startBtnText = 'Voir votre rapport';
               }),
               map(() => null)
             );
@@ -64,7 +62,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           return;
         }
 
-        this.startBtnText = 'Débuter maintenant';
+        this.startBtnText = 'Débuter un nouveau questionnaire';
       });
   }
 
