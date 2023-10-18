@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% set active_page = "report-template" %}
+
+{% block content %}
+<div class="relative overflow-x-auto w-full p-5">
+  <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
+    Gabarit du rapport
+  </h1>
+
+
+  <div class=" bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col items-start rounded shadow-md mb-8 p-6">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Exporter le gabarit</h2>
+    <p>Exporter le gabarit du rapport en format excel.</p>
+    <a href="/admin/report-template/export"
+      class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Exporter</a>
+  </div>
+
+  <div class=" bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col items-start rounded shadow-md mb-8 p-6">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Téléverser un gabarit</h2>
+    <p>Téléverser un gabarit local qui sera utilisé comme modèle pour les futurs rapports.</p>
+    <div class="flex items-center justify-center w-full mt-3">
+      <form id="form-import" method="post" class="w-full" enctype="multipart/form-data">
+        <div class='relative w-full flex flex-col items-start'>
+          <label for="dropzone-file"
+            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <div id="emptyFile-import" class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquer pour
+                  téléverser</span> ou glisser et déposer</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">.xlsx ou .xlsm</p>
+            </div>
+            <div id="uploadedFile-import" class="flex flex-col items-center justify-center w-[80%]"
+              style="display:none;">
+              <svg class="w-10 h-10 mb-3" enable-background="new 0 0 30 30" height="30px" viewBox="0 0 30 30"
+                width="30px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g>
+                  <path clip-rule="evenodd"
+                    d="M28.705,7.506l-5.461-6.333l-1.08-1.254H9.262   c-1.732,0-3.133,1.403-3.133,3.136V7.04h1.942L8.07,3.818c0.002-0.975,0.786-1.764,1.758-1.764l11.034-0.01v5.228   c0.002,1.947,1.575,3.523,3.524,3.523h3.819l-0.188,15.081c-0.003,0.97-0.79,1.753-1.759,1.761l-16.57-0.008   c-0.887,0-1.601-0.87-1.605-1.942v-1.277H6.138v1.904c0,1.912,1.282,3.468,2.856,3.468l17.831-0.004   c1.732,0,3.137-1.41,3.137-3.139V8.966L28.705,7.506"
+                    fill="#434440" fill-rule="evenodd" />
+                  <path d="M20.223,25.382H0V6.068h20.223V25.382 M1.943,23.438h16.333V8.012H1.943" fill="#08743B" />
+                  <polyline fill="#08743B"
+                    points="15.73,20.822 12.325,20.822 10.001,17.538 7.561,20.822 4.14,20.822 8.384,15.486 4.957,10.817    8.412,10.817 10.016,13.355 11.726,10.817 15.242,10.817 11.649,15.486 15.73,20.822  " />
+                </g>
+              </svg>
+              <p id="fileName-import" class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold"></p>
+              <button onclick="deleteFileImport()"
+                class="py-2 px-4 mt-3 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Supprimer</button>
+            </div>
+            <input id="dropzone-file-import" name="file" type="file" class="opacity-0 w-full h-full absolute z-40"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+          </label>
+        </div>
+        <button disabled id="submitBtn-import" type="submit"
+          class="mt-4 text-white bg-blue-700 disabled:text-gray-500 disabled:bg-white hover:bg-blue-800  focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:focus:ring-primary-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:dark:bg-gray-700 disabled:dark:text-gray-300 disabled:dark:border-gray-500 disabled:dark:focus:ring-gray-600 disabled:border disabled:border-gray-200">Téléverser</button>
+      </form>
+    </div>
+  </div>
+  <div class=" bg-white dark:bg-gray-800 dark:text-gray-400 flex flex-col items-start rounded shadow-md mb-8 p-6">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Tester le gabarit</h2>
+    <p>Téléverser un rapport en format excel pour tester la génération du rapport à partir du gabarit.</p>
+    <div class="flex items-center justify-center w-full mt-3">
+      <form id="form-test" method="post" class="w-full" enctype="multipart/form-data">
+        <div class='relative w-full flex flex-col items-start'>
+          <label for="dropzone-file"
+            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <div id="emptyFile-test" class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+              </svg>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquer pour
+                  téléverser</span> ou glisser et déposer</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">.xlsx ou .xlsm</p>
+            </div>
+            <div id="uploadedFile-test" class="flex flex-col items-center justify-center w-[80%]" style="display:none;">
+              <svg class="w-10 h-10 mb-3" enable-background="new 0 0 30 30" height="30px" viewBox="0 0 30 30"
+                width="30px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g>
+                  <path clip-rule="evenodd"
+                    d="M28.705,7.506l-5.461-6.333l-1.08-1.254H9.262   c-1.732,0-3.133,1.403-3.133,3.136V7.04h1.942L8.07,3.818c0.002-0.975,0.786-1.764,1.758-1.764l11.034-0.01v5.228   c0.002,1.947,1.575,3.523,3.524,3.523h3.819l-0.188,15.081c-0.003,0.97-0.79,1.753-1.759,1.761l-16.57-0.008   c-0.887,0-1.601-0.87-1.605-1.942v-1.277H6.138v1.904c0,1.912,1.282,3.468,2.856,3.468l17.831-0.004   c1.732,0,3.137-1.41,3.137-3.139V8.966L28.705,7.506"
+                    fill="#434440" fill-rule="evenodd" />
+                  <path d="M20.223,25.382H0V6.068h20.223V25.382 M1.943,23.438h16.333V8.012H1.943" fill="#08743B" />
+                  <polyline fill="#08743B"
+                    points="15.73,20.822 12.325,20.822 10.001,17.538 7.561,20.822 4.14,20.822 8.384,15.486 4.957,10.817    8.412,10.817 10.016,13.355 11.726,10.817 15.242,10.817 11.649,15.486 15.73,20.822  " />
+                </g>
+              </svg>
+              <p id="fileName-test" class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold"></p>
+              <button onclick="deleteFileTest()"
+                class="py-2 px-4 mt-3 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Supprimer</button>
+            </div>
+            <input id="dropzone-file-test" name="file" type="file" class="opacity-0 w-full h-full absolute z-40"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+          </label>
+        </div>
+        <button disabled id="submitBtn-test" type="submit"
+          class="mt-4 text-white bg-blue-700 disabled:text-gray-500 disabled:bg-white hover:bg-blue-800  focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:focus:ring-primary-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:dark:bg-gray-700 disabled:dark:text-gray-300 disabled:dark:border-gray-500 disabled:dark:focus:ring-gray-600 disabled:border disabled:border-gray-200">Tester</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get the form elements
+    var importForm = document.getElementById("form-import");
+    var testForm = document.getElementById("form-test");
+
+    // Event listener for import form submission
+    importForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      $(`#submitBtn-import`).prop('disabled', true);
+      $(`#submitBtn-import`).text('Téléversement en cours...');
+
+
+      // Fetch endpoint using the form data
+      fetch("/admin/report-template/import", {
+        method: "POST",
+        body: new FormData(importForm),
+      })
+        .then(function (response) {
+          alert('Le gabarit a été téléversé avec succès.');
+          deleteFileImport();
+        })
+        .catch(function (error) {
+          console.error(error);
+          alert('Une erreur est survenue lors du téléversement du fichier.');
+          if ($('#dropzone-file-import').val()) {
+            $(`#submitBtn-import`).prop('disabled', false);
+            $(`#submitBtn-import`).text('Téléverser');
+          }
+        });
+
+    });
+
+    // Event listener for test form submission
+    testForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      $(`#submitBtn-test`).prop('disabled', true);
+      $(`#submitBtn-test`).text('Test en cours...');
+
+
+      // Fetch endpoint using the form data
+      fetch("/admin/report-template/test", {
+        method: "POST",
+        body: new FormData(testForm),
+      })
+        .then(function (response) {
+          return response.text(); // Get the HTML content from the response
+        })
+        .then(function (html) {
+          // Create a Blob with the HTML content
+          const blob = new Blob([html], { type: 'text/html' });
+
+          // Create a URL for the Blob
+          const url = window.URL.createObjectURL(blob);
+
+          // Open the URL in a new window
+          window.open(url, '_blank');
+          deleteFileTest();
+        })
+        .catch(function (error) {
+          console.error(error);
+          alert('Une erreur est survenue lors du téléversement du fichier.');
+          if ($('#dropzone-file-test').val()) {
+            $(`#submitBtn-test`).prop('disabled', false);
+            $(`#submitBtn-test`).text('Téléverser');
+          }
+        });
+    });
+  });
+  $('#dropzone-file-import').on('change', function (event) {
+    $('#emptyFile-import').hide();
+    $('#dropzone-file-import').hide();
+    $('#fileName-import').text(this.files[0].name)
+    $('#uploadedFile-import').show();
+    $('#submitBtn-import').prop('disabled', false);
+    $('#submitBtn-import').text('Téléverser');
+    $('#dropzone-file-import').prop('hidden', true);
+  })
+  function deleteFileImport() {
+    if (event)
+      event.preventDefault();
+    $('#emptyFile-import').show();
+    $('#dropzone-file-import').show();
+    $('#uploadedFile-import').hide();
+    $('#submitBtn-import').prop('disabled', true);
+    $('#submitBtn-import').text('Téléverser');
+    $('#dropzone-file-import').val('');
+  }
+
+  $('#dropzone-file-test').on('change', function (event) {
+    $('#emptyFile-test').hide();
+    $('#dropzone-file-test').hide();
+    $('#fileName-test').text(this.files[0].name)
+    $('#uploadedFile-test').show();
+    $('#submitBtn-test').prop('disabled', false);
+    $('#submitBtn-test').text('Tester');
+    $('#dropzone-file-test').prop('hidden', true);
+  })
+  function deleteFileTest() {
+    if (event)
+      event.preventDefault();
+    $('#emptyFile-test').show();
+    $('#dropzone-file-test').show();
+    $('#uploadedFile-test').hide();
+    $('#submitBtn-test').prop('disabled', true);
+    $('#submitBtn-test').text('Tester');
+    $('#dropzone-file-test').val(null);
+  }
+
+</script>
+{% endblock %}

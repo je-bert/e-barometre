@@ -98,15 +98,9 @@ def generate(user_id):
 
   return jsonify("Votre rapport a été généré!"), 200
 
-def output(report_id):
-  if not os.path.exists('master_results'):
-    os.makedirs('master_results')
-
-  filename = 'master_results/{}.xlsx'.format(report_id)
-
-  if not os.path.exists(filename):
-     return abort(404)
-  
+def output_from_file(file_name):
+  if not os.path.exists(file_name):
+    return abort(404)
   worksheet_name = 'Test de contenu du rapport'
 
   sections = db.session.query(AnalysisSection)\
@@ -114,7 +108,7 @@ def output(report_id):
     .order_by(AnalysisSection.order)\
     .all()
   
-  excel = ExcelCompiler(filename=filename)
+  excel = ExcelCompiler(filename=file_name)
 
   sections = []
   themes = []
@@ -176,6 +170,16 @@ def output(report_id):
         red_flags.append(value)
 
   return render_template('reports/report-1/base.html', children = sections)
+
+def output(report_id):
+  if not os.path.exists('master_results'):
+    os.makedirs('master_results')
+
+  file_name = 'master_results/{}.xlsx'.format(report_id)
+
+  return output_from_file(file_name)
+  
+ 
 
 def convert_xlookup_to_index_match():
   filename = TEMPLATE_FILE
