@@ -41,13 +41,13 @@ def generate_gradients(report_id):
   choices_dict = {choice.question_id + choice.value: choice for choice in choices}
   gradients = {}
   answers_dict = {answer.question_id: answer for answer in user_answers}
-  question_trees = build_question_trees() #TODO: Save this on question update and load json file instead of building tree every time
+  question_trees = build_question_trees() 
   question_trees = json.loads(question_trees)
   for question_id, question in question_trees.items(): 
-    gradients[question_id] = compute_gradient(question_id, question, answers_dict, choices_dict)
+    compute_gradient(question_id, question, answers_dict, choices_dict, gradients, question_trees)
   return gradients
 
-def compute_gradient(question_id, question, answers_dict, choices_dict):
+def compute_gradient(question_id, question, answers_dict, choices_dict, gradients, question_trees):
   if question_id not in answers_dict:
      return 0
   
@@ -76,14 +76,21 @@ def compute_gradient(question_id, question, answers_dict, choices_dict):
     frequency = sum(values) if compute_method == "SUM" else max(values)
 
   gradient = intensity * frequency
+  gradients[question_id] = gradient
 
   # Si la Q n'a pas de sous-question, on prend la valeur de celle-ci
   if 'children' not in question or len(question['children']) == 0:
     return gradient
-  # Si la Q a plusieurs sous-questions, additiionner les valeurs des sous-questions du même niveau
-  children_gradient = sum([compute_gradient(child['question_id'], child, answers_dict, choices_dict) for child in question['children']])
+  
+  childrenSum = 0
+  for child in question['children']:
+    childrenSum += compute_gradient(child['question_id'], child, answers_dict, choices_dict, gradients, question_trees)
+
   # Prendre le MAX entre Q et chaque niveau de SQ
-  return max(children_gradient, gradient)
+  gradients["G_" + question_id] = max(childrenSum, gradient)
+     
+  
+  return max(childrenSum, gradient)
 
 
 class TreeNode:
@@ -138,7 +145,7 @@ def build_question_trees():
 
 def build_node(question, questions_dict):
     node = TreeNode(question.question_id, question.intensity, question.intensity_method, question.conditional_intensity)
-    children = [question for question in questions_dict.values() if question.parent == id]
+    children = [question for question in questions_dict.values() if question.parent == node.question_id]
     for child in children:
       node.add_child(build_node(child, questions_dict))
     return node
