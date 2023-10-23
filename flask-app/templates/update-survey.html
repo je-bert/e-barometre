@@ -4,134 +4,184 @@
 {% block title %} {{ survey.name }} {% endblock %}
 
 {% block content %}
-  <div class="w-full h-full p-5">
-    <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
-      Modifier le questionnaire
-    </h1>
-    <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
-      <div class="relative z-0 w-full mb-6 group">
-          <input type="text" name="name" id="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{survey.name}}" required />
-          <label for="name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nom *</label>
-      </div>
+<div class="w-full h-full p-5">
+  <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
+    Modifier le questionnaire
+  </h1>
+  <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
+    <div class="relative z-0 w-full mb-6 group">
+      <input type="text" name="name" id="name"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" " value="{{survey.name}}" required />
+      <label for="name"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nom
+        *</label>
+    </div>
 
-      <div class="relative z-0 w-full mb-6 group">
-          <input type="text" name="description" id="description" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value="{{survey.description}}" required />
-          <label for="description" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description *</label>
-      </div>
+    <div class="relative z-0 w-full mb-6 group">
+      <input type="text" name="description" id="description"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder=" " value="{{survey.description}}" required />
+      <label for="description"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description
+        *</label>
+    </div>
 
-      <div class="relative z-0 w-full mb-6 group">
-        <p class="text-xs text-gray-500 dark:text-gray-400 pb-4">Couleur</p>
-        <span class="color-picker">
-          <label for="colorPicker">
-            <input type="color" value="#1DB8CE" id="colorPicker" name="color">
-          </label>
-        </span>
-      </div>
-      
-      <div class="relative z-0 w-full mb-6 group">
-        
-        <p class="text-xs text-gray-500 dark:text-gray-400 pb-4">Image de couverture</p>
-        <div class="flex items-center justify-center w-full relative z-0 w-full mb-6 group">
-          <label for="cover_picture_file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-              <div id="emptyFile" class="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquer pour téléverser</span> ou glisser et déposer</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">.png ou .jpeg</p>
-              </div>
-              <div id="uploadedFile" class="flex flex-col items-center justify-center w-[80%]" style="display:none;">
-                <svg height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <polygon style="fill:#8ECAC1;" points="501.921,101.795 10.079,101.795 10.079,340.845 143.302,207.622 218.892,283.213 246.746,255.358 401.592,410.205 501.921,410.205 "></polygon> <g> <polygon style="fill:#F2D59F;" points="91.9,410.205 218.892,283.213 143.302,207.622 10.079,340.845 10.079,410.205 "></polygon> <polygon style="fill:#F2D59F;" points="401.592,410.205 246.746,255.358 91.9,410.205 "></polygon> </g> <circle style="fill:#FF7124;" cx="407.181" cy="196.535" r="49.386"></circle> <g> <path style="fill:#4D3D36;" d="M0,410.205c0,5.566,4.513,10.079,10.079,10.079h491.843c5.565,0,10.079-4.512,10.079-10.079V101.795 c0-5.566-4.513-10.079-10.079-10.079H10.079C4.513,91.717,0,96.229,0,101.795V410.205z M87.724,400.126H20.157v-55.107 l123.144-123.144l61.336,61.337L87.724,400.126z M246.746,269.611L377.26,400.126H116.232L246.746,269.611z M491.843,400.126 h-86.074L253.873,248.231c-3.937-3.936-10.317-3.936-14.254,0l-20.727,20.727l-68.464-68.464c-3.937-3.936-10.317-3.936-14.254,0 L20.157,316.512V111.874h471.685V400.126z"></path> <path style="fill:#4D3D36;" d="M407.181,256c32.788,0,59.465-26.675,59.465-59.465s-26.676-59.465-59.465-59.465 s-59.465,26.675-59.465,59.465S374.393,256,407.181,256z M407.181,157.228c21.674,0,39.307,17.633,39.307,39.307 s-17.633,39.307-39.307,39.307c-21.674,0-39.307-17.633-39.307-39.307S385.507,157.228,407.181,157.228z"></path> <path style="fill:#4D3D36;" d="M312.873,381.048c1.968,1.968,4.548,2.952,7.127,2.952s5.158-0.984,7.127-2.952 c3.936-3.936,3.936-10.318,0-14.254l-5.542-5.542c-3.937-3.936-10.317-3.936-14.254,0c-3.936,3.936-3.936,10.318,0,14.254 L312.873,381.048z"></path> <path style="fill:#4D3D36;" d="M240.81,308.985l42.329,42.329c1.968,1.968,4.548,2.952,7.127,2.952s5.158-0.984,7.127-2.952 c3.936-3.936,3.936-10.318,0-14.254l-42.329-42.329c-3.937-3.936-10.317-3.936-14.254,0 C236.874,298.667,236.874,305.049,240.81,308.985z"></path> </g> </g></svg>
-                <p id="fileName" class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold"></p>
-                <button onclick="deleteFile()" class="py-2 px-4 mt-3 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Supprimer</button>
-              </div>
-              <input id="cover_picture_file" name="cover_picture_file" type="file" class="hidden" accept="image/png, image/gif, image/jpeg"/>  
-          </label>
-        </div>   
-      </div>
-    
-      <div class="relative z-0 w-full mb-6 group">
-        <label class="relative inline-flex items-center mb-4 cursor-pointer">
-          <input name="status" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if survey.status == 'active' else '' }}>
-          <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-          <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Actif</span>
+    <div class="relative z-0 w-full mb-6 group">
+      <p class="text-xs text-gray-500 dark:text-gray-400 pb-4">Couleur</p>
+      <span class="color-picker">
+        <label for="colorPicker">
+          <input type="color" value="{{survey.color}}" id="colorPicker" name="color">
+        </label>
+      </span>
+    </div>
+
+    <div class="relative z-0 w-full mb-6 group">
+
+      <p class="text-xs text-gray-500 dark:text-gray-400 pb-4">Image de couverture</p>
+      <div class="flex items-center justify-center w-full relative z-0 mb-6 group">
+        <label for="cover_picture_file"
+          class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+          <div id="emptyFile" class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquer pour
+                téléverser</span> ou glisser et déposer</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">.png ou .jpeg</p>
+          </div>
+          <div id="uploadedFile" class="flex flex-col items-center justify-center w-[80%]" style="display:none;">
+            <svg height="64px" width="64px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <polygon style="fill:#8ECAC1;"
+                  points="501.921,101.795 10.079,101.795 10.079,340.845 143.302,207.622 218.892,283.213 246.746,255.358 401.592,410.205 501.921,410.205 ">
+                </polygon>
+                <g>
+                  <polygon style="fill:#F2D59F;"
+                    points="91.9,410.205 218.892,283.213 143.302,207.622 10.079,340.845 10.079,410.205 "></polygon>
+                  <polygon style="fill:#F2D59F;" points="401.592,410.205 246.746,255.358 91.9,410.205 "></polygon>
+                </g>
+                <circle style="fill:#FF7124;" cx="407.181" cy="196.535" r="49.386"></circle>
+                <g>
+                  <path style="fill:#4D3D36;"
+                    d="M0,410.205c0,5.566,4.513,10.079,10.079,10.079h491.843c5.565,0,10.079-4.512,10.079-10.079V101.795 c0-5.566-4.513-10.079-10.079-10.079H10.079C4.513,91.717,0,96.229,0,101.795V410.205z M87.724,400.126H20.157v-55.107 l123.144-123.144l61.336,61.337L87.724,400.126z M246.746,269.611L377.26,400.126H116.232L246.746,269.611z M491.843,400.126 h-86.074L253.873,248.231c-3.937-3.936-10.317-3.936-14.254,0l-20.727,20.727l-68.464-68.464c-3.937-3.936-10.317-3.936-14.254,0 L20.157,316.512V111.874h471.685V400.126z">
+                  </path>
+                  <path style="fill:#4D3D36;"
+                    d="M407.181,256c32.788,0,59.465-26.675,59.465-59.465s-26.676-59.465-59.465-59.465 s-59.465,26.675-59.465,59.465S374.393,256,407.181,256z M407.181,157.228c21.674,0,39.307,17.633,39.307,39.307 s-17.633,39.307-39.307,39.307c-21.674,0-39.307-17.633-39.307-39.307S385.507,157.228,407.181,157.228z">
+                  </path>
+                  <path style="fill:#4D3D36;"
+                    d="M312.873,381.048c1.968,1.968,4.548,2.952,7.127,2.952s5.158-0.984,7.127-2.952 c3.936-3.936,3.936-10.318,0-14.254l-5.542-5.542c-3.937-3.936-10.317-3.936-14.254,0c-3.936,3.936-3.936,10.318,0,14.254 L312.873,381.048z">
+                  </path>
+                  <path style="fill:#4D3D36;"
+                    d="M240.81,308.985l42.329,42.329c1.968,1.968,4.548,2.952,7.127,2.952s5.158-0.984,7.127-2.952 c3.936-3.936,3.936-10.318,0-14.254l-42.329-42.329c-3.937-3.936-10.317-3.936-14.254,0 C236.874,298.667,236.874,305.049,240.81,308.985z">
+                  </path>
+                </g>
+              </g>
+            </svg>
+            <p id="fileName" class="text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold"></p>
+            <button onclick="deleteFile()"
+              class="py-2 px-4 mt-3 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Supprimer</button>
+          </div>
+          <input id="cover_picture_file" name="cover_picture_file" type="file" class="hidden"
+            accept="image/png, image/gif, image/jpeg" />
         </label>
       </div>
-      <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
-        <button onclick="window.location = '/admin/surveys';" class="py-2 px-4 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Annuler</button>
-        <button type="submit" class="py-2 px-4 w-full text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-auto hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Enregistrer</button>
-      </div>
-    </form>
-  </div>
+    </div>
 
-  <script>
-    $('#cover_picture_file').on('change',function(event){
-      $('#emptyFile').hide();
-      $('#fileName').text(this.files[0].name)
-      $('#uploadedFile').show();
-      $('#dropzone-file').prop('hidden',true);
-    })
-    function deleteFile(){
-      event.preventDefault();
-      $('#emptyFile').show();
-      $('#uploadedFile').hide();
-      $('#submitBtn').prop('disabled',true);
-      $('#cover_picture_file').val(null);
+    <div class="relative z-0 w-full mb-6 group">
+      <label class="relative inline-flex items-center mb-4 cursor-pointer">
+        <input name="status" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if survey.status=='active'
+          else '' }}>
+        <div
+          class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+        </div>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Actif</span>
+      </label>
+    </div>
+    <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
+      <button onclick="window.location = '/admin/surveys';"
+        class="py-2 px-4 w-full text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 sm:w-auto hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Annuler</button>
+      <button type="submit"
+        class="py-2 px-4 w-full text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-auto hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Enregistrer</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  $('#cover_picture_file').on('change', function (event) {
+    $('#emptyFile').hide();
+    $('#fileName').text(this.files[0].name)
+    $('#uploadedFile').show();
+    $('#dropzone-file').prop('hidden', true);
+  })
+  function deleteFile() {
+    event.preventDefault();
+    $('#emptyFile').show();
+    $('#uploadedFile').hide();
+    $('#submitBtn').prop('disabled', true);
+    $('#cover_picture_file').val(null);
+  }
+
+  $("#mainForm").submit(async function (event) {
+    event.preventDefault();
+    const formData = new FormData(document.getElementById('mainForm'));
+    const response = await fetch(`/admin/surveys/update/{{survey.survey_id}}`, { body: formData, method: "post" });
+    if (response.ok) {
+      window.location = '/admin/surveys';
     }
+  });
+</script>
 
-    $( "#mainForm" ).submit(async function( event ) {
-      event.preventDefault();
-      const formData = new FormData(document.getElementById('mainForm'));
-      const response = await fetch(`/admin/surveys/update/{{survey.survey_id}}`,{ body: formData,method: "post" });
-      if (response.ok) {
-        window.location = '/admin/surveys';
-      }
-    });
-  </script>
-
-  <style>
-    code {
+<style>
+  code {
     padding: 5px 8px;
     border-radius: 10px;
     background-color: #f8f9f9;
     color: #CC0066;
-    }
+  }
 
-    [type='color'] {
-      -moz-appearance: none;
-      -webkit-appearance: none;
-      appearance: none;
-      padding: 0;
-      width: 15px;
-      height: 15px;
-      border: none;
-    }
+  [type='color'] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
+    width: 15px;
+    height: 15px;
+    border: none;
+  }
 
-    [type='color']::-webkit-color-swatch-wrapper {
-      padding: 0;
-    }
+  [type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
 
-    [type='color']::-webkit-color-swatch {
-      border: none;
-    }
+  [type='color']::-webkit-color-swatch {
+    border: none;
+  }
 
-    .color-picker {
-      padding: 10px 15px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      background-color: #f8f9f9;
-    }
-  </style>
-  <script>
-    document.querySelectorAll('input[type=color]').forEach(function(picker) {
+  .color-picker {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f9f9;
+  }
+</style>
+<script>
+  document.querySelectorAll('input[type=color]').forEach(function (picker) {
     var targetLabel = document.querySelector('label[for="' + picker.id + '"]'),
-    codeArea = document.createElement('span');
-  
+      codeArea = document.createElement('span');
+
     codeArea.innerHTML = picker.value;
     targetLabel.appendChild(codeArea);
-  
-    picker.addEventListener('change', function() {
+
+    picker.addEventListener('change', function () {
       codeArea.innerHTML = picker.value;
       targetLabel.appendChild(codeArea);
     });
   });
-  </script>
+</script>
 {% endblock %}
