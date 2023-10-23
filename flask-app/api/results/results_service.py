@@ -59,6 +59,8 @@ def generate(user_id):
     .all()
 
   for answer in answers:
+    if answer.value == '-1':
+      continue
     question = Question.query\
           .filter_by(question_id = answer.question_id )\
           .first()
