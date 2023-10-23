@@ -1,5 +1,5 @@
 from flask import request, jsonify, abort
-from models import User, Question, Answer,UserSurvey, Report
+from models import User, Question, Answer,UserSurvey, Report, CustomAnswer
 from database import db
 from datetime import datetime
 
@@ -69,10 +69,20 @@ def update(current_user):
       errors.append(f"answers[{index}]: La question avec l'identifiant {question_id} n'existe pas.")
       continue
     
-    #TODO: Validation answer + custom answer
+    #TODO: Validation answer
 
     new_answer = Answer(question_id = question_id, report_id = report.report_id, value = answer['value'], date_created = datetime.now())
     db.session.merge(new_answer)
+    
+    if 'custom_value' in answer:
+      custom_answer = CustomAnswer(question_id = question_id, report_id = report.report_id, value = answer['custom_value'], date_created = datetime.now())
+      db.session.merge(custom_answer)
+    else:
+      CustomAnswer.query\
+        .filter_by(question_id = question_id, report_id = report.report_id)\
+        .delete()
+      
+
     db.session.commit()
 
   if len(errors) > 0:
@@ -133,8 +143,32 @@ def find_all(current_user):
   answers = Answer.query\
     .filter_by(report_id = report.report_id)\
     .all()
+  
+  custom_answers = CustomAnswer.query\
+    .filter_by(report_id = report.report_id)\
+    .all()
+  
+  custom_dict = {}
+
+  for custom_answer in custom_answers:
+    custom_dict[custom_answer.question_id] = custom_answer
+  
+  res = []
+
+  for answer in answers:
+    item = {
+      'question_id': answer.question_id,
+      'value': answer.value,
+      'report_id': answer.report_id,
+      
+    }
+    if custom_dict.get(answer.question_id):
+      item['custom_value'] = custom_dict.get(answer.question_id).value
+
+    res.append(item)
+  
 
   if not answers:
     return abort(404)
   
-  return jsonify(answers), 200
+  return res, 200

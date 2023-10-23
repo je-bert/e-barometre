@@ -1,7 +1,4 @@
-<app-info-bubble
-  (click)="infoBubbleToggled.emit(question)"
-  [question]="question"
-></app-info-bubble>
+<app-info-bubble (click)="infoBubbleToggled.emit(question)" [question]="question"></app-info-bubble>
 
 <div [ngSwitch]="question.type" class="card shadow-lg tw-relative">
   <div class="card-body tw-p-12">
@@ -21,75 +18,47 @@
     <!-- Question types -->
 
     <ng-container *ngSwitchCase="'labeled-ladder'">
-      <app-labeled-ladder
-        (answerPicked)="answerPicked.emit($event)"
-        [question]="question"
-      ></app-labeled-ladder>
+      <app-labeled-ladder (answerPicked)="answerPicked.emit($event)" [question]="question"></app-labeled-ladder>
     </ng-container>
 
     <ng-container *ngSwitchCase="'numeric-ladder'">
-      <app-numeric-ladder
-        (answerPicked)="answerPicked.emit($event)"
-        [question]="question"
-      ></app-numeric-ladder>
+      <app-numeric-ladder (answerPicked)="answerPicked.emit($event)" [question]="question"></app-numeric-ladder>
     </ng-container>
 
     <ng-container *ngSwitchCase="'integer'">
-      <app-integer
-        (answerPicked)="answerPicked.emit($event)"
-        [question]="question"
-      ></app-integer>
+      <app-integer (answerPicked)="answerPicked.emit($event)" [question]="question"></app-integer>
     </ng-container>
 
     <ng-container *ngSwitchCase="'select-single'">
-      <app-select-single
-        (answerPicked)="answerPicked.emit($event)"
-        [question]="question"
-      ></app-select-single>
+      <app-select-single (answerPicked)="answerPicked.emit($event)" [question]="question"></app-select-single>
     </ng-container>
 
     <ng-container *ngSwitchCase="'select-multiple'">
-      <app-select-multiple
-        (answerPicked)="answerPicked.emit($event)"
-        [question]="question"
-      ></app-select-multiple>
+      <app-select-multiple (answerPicked)="answerPicked.emit($event)" [question]="question"></app-select-multiple>
     </ng-container>
 
     <ng-container *ngSwitchCase="'binary'">
-      <app-select-single
-        (answerPicked)="answerPicked.emit($event)"
-        [question]="question"
-      ></app-select-single>
+      <app-select-single (answerPicked)="answerPicked.emit($event)" [question]="question"></app-select-single>
     </ng-container>
 
     <!-- End Question types -->
 
     <ng-container *ngIf="question.hasOtherValueToSpecify">
       <div class="my-4 row align-items-center">
-        <label class="col-md-2 col-form-label tw-text-end" for="text-input"
-          >Spécifiez:</label
-        >
+        <label class="col-md-2 col-form-label tw-text-end" for="text-input">Spécifiez:</label>
         <div class="col-md-10">
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="question.otherValue"
-            name="Other value for {{ question.title }}"
-          />
+          <input type="text" (focus)="$event.preventDefault(); question.isConfirmed = false"
+            (blur)="answerPicked.emit({question, answer: question.type === 'select-multiple' ?'' : 'Custom'});"
+            class="form-control" [(ngModel)]="question.otherValue" name="Other value for {{ question.title }}" />
         </div>
       </div>
     </ng-container>
   </div>
 
-  <div
-    *ngIf="question.type === 'select-multiple'"
-    class="tw-flex tw-justify-center tw-mb-12"
-  >
-    <button
-      class="btn btn-primary"
-      [disabled]="question.answer === null"
-      (click)="$event.preventDefault(); confirmToggled.emit(question)"
-    >
+  <div *ngIf="question.type === 'select-multiple' || question.hasOtherValueToSpecify"
+    class="tw-flex tw-justify-center tw-mb-12">
+    <button class="btn btn-primary" [disabled]="question.answer === null"
+      (click)="$event.preventDefault(); confirmToggled.emit(question)">
       <span *ngIf="question.isConfirmed">Réponse confirmé</span>
       <span *ngIf="!question.isConfirmed">Confirmer les choix</span>
     </button>

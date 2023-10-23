@@ -71,12 +71,12 @@ def find_one(current_user, id):
 
     if answer != None:
       question['answer'] = answer.value
-      if answer.value and 'custom' in answer.value:
+      if answer.value and 'ustom' in answer.value:
         custom_answer = CustomAnswer.query\
           .filter_by(question_id = question['question_id'], report_id = report.report_id)\
           .first()
         if custom_answer != None:
-          question['custom_answer'] = custom_answer.value
+          question['custom_value'] = custom_answer.value
   return res, 200
 
 

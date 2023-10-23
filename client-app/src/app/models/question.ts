@@ -25,6 +25,7 @@ interface BaseQuestion {
   condition: string | null; // condition -> seulement pour questionnaire actuel pour que client puisse dynamiquement afficher ou cacher la question basé sur les réponses
   choices?: QuestionChoice[];
   info_bubble_text: string | null;
+  custom_value?: string;
   max_value?: number;
   min_value?: number;
 }

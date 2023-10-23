@@ -92,11 +92,12 @@ export class QuestionsService {
           questions.forEach((question) => {
             question.shouldBeDisplayed = !question.condition;
             question.answer = question.answer || null;
-            question.hasOtherValueToSpecify = false;
-            question.otherValue = '';
+            question.hasOtherValueToSpecify =
+              typeof question.answer === 'string' &&
+              question.answer.toLowerCase().includes('custom');
             question.isConfirmed = question.answer !== null || false;
-
             question.isInfoBubbleOpen = false;
+            question.otherValue = question.custom_value || '';
 
             switch (question.type) {
               case 'numeric-ladder':
@@ -276,7 +277,11 @@ export class QuestionsService {
         .pipe(
           map((response: any) =>
             response.map((answer: any) => {
-              return { question_id: answer.question_id, value: answer.value };
+              return {
+                question_id: answer.question_id,
+                value: answer.value,
+                custom_value: answer.custom_value,
+              };
             })
           )
         )
@@ -388,7 +393,11 @@ export class QuestionsService {
   private handleAutomaticallyMarkAsConfirmed(
     question: ClientSideQuestion
   ): void {
-    if (question.answer === 'custom') return;
+    if (
+      typeof question.answer === 'string' &&
+      question.answer.toLowerCase().includes('custom')
+    )
+      return;
 
     if (
       question.type === 'select-single' ||
@@ -407,7 +416,12 @@ export class QuestionsService {
 
     question.hasOtherValueToSpecify = false;
 
-    if (answer !== null && question.choices && answer === 'custom') {
+    if (
+      answer !== null &&
+      question.choices &&
+      typeof answer === 'string' &&
+      answer.toLowerCase().includes('custom')
+    ) {
       question.hasOtherValueToSpecify = true;
     }
 
@@ -415,7 +429,7 @@ export class QuestionsService {
 
     this.handleAutomaticallyMarkAsConfirmed(question);
 
-    let answers: { question_id: string; value: string }[] = [];
+    let answers: SaveQuestionAnswer[] = [];
 
     this.http
       .post<{ message: string }>(
@@ -425,6 +439,9 @@ export class QuestionsService {
             {
               question_id: question.question_id,
               value: answer,
+              custom_value: question.hasOtherValueToSpecify
+                ? question.otherValue
+                : undefined,
             },
           ],
         },
@@ -433,7 +450,11 @@ export class QuestionsService {
       .pipe(
         map((response: any) =>
           response.body.map((answer: any) => {
-            return { question_id: answer.question_id, value: answer.value };
+            return {
+              question_id: answer.question_id,
+              value: answer.value,
+              custom_value: answer.custom_value,
+            };
           })
         )
       )
