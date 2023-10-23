@@ -13,10 +13,10 @@ from api.invoices.invoices_service import get_user_subscription
 TEMPLATE_FILE = 'master-results-template.xlsx'
 
 def generate(user_id):
-  # subscription = get_user_subscription(user_id)
+  subscription = get_user_subscription(user_id)
 
-  # if subscription == None:
-  #   return jsonify({"message":"Vous n'avez pas de souscription active."}), 400
+  if subscription == None:
+    return jsonify({"message":"Vous n'avez pas de souscription active."}), 400
   
   user = User.query\
     .filter_by(user_id = user_id)\
@@ -90,10 +90,10 @@ def generate(user_id):
 
   report.is_completed = True
   # expire unique invoice
-  # if subscription != 'multiple':
-  #   Invoice.query\
-  #     .filter_by(user_id = user_id, status = 'paid', product_id = subscription)\
-  #     .update({Invoice.status: 'expired', Invoice.date_expiration: db.func.current_timestamp()})
+  if subscription != 'multiple':
+    Invoice.query\
+      .filter_by(user_id = user_id, status = 'paid', product_id = subscription)\
+      .update({Invoice.status: 'expired', Invoice.date_expiration: db.func.current_timestamp()})
   db.session.commit()
 
   return jsonify("Votre rapport a été généré!"), 200

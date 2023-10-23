@@ -10,22 +10,22 @@ def get_next(current_user):
     .filter_by(user_id = current_user.user_id, is_completed = False)\
     .first()
   
-  # current_subscription = get_user_subscription(current_user.user_id)
+  current_subscription = get_user_subscription(current_user.user_id)
   
-  # if current_subscription != 'multiple' :
-  #   completed_reports = Report.query\
-  #     .filter_by(user_id = current_user.user_id, is_completed = True, is_current_subscription = True)\
-  #     .all()
-  #   if len(completed_reports) > 0:
-  #     return jsonify({"survey_id": None}), 200
+  if current_subscription != 'multiple' :
+    completed_reports = Report.query\
+      .filter_by(user_id = current_user.user_id, is_completed = True, is_current_subscription = True)\
+      .all()
+    if len(completed_reports) > 0:
+      return jsonify({"survey_id": None}), 200
     
-  # if current_subscription == None:
-  #   completed_reports = Report.query\
-  #     .filter_by(user_id = current_user.user_id, is_completed = True)\
-  #     .all()
-  #   if len(completed_reports) > 0:
-  #     return jsonify({"survey_id": None}), 200
-  #   return jsonify(None), 200
+  if current_subscription == None:
+    completed_reports = Report.query\
+      .filter_by(user_id = current_user.user_id, is_completed = True)\
+      .all()
+    if len(completed_reports) > 0:
+      return jsonify({"survey_id": None}), 200
+    return jsonify(None), 200
   
   if not report:
       report = Report(
