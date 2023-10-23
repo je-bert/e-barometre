@@ -13,7 +13,7 @@ def find_one(current_user):
     'first_name': current_user.first_name,
     'last_name': current_user.last_name,
     'date_created': current_user.date_created,
-    'has_unpaid_invoice': False, # has_unpaid_invoice(current_user.user_id),
+    'has_unpaid_invoice': False # has_unpaid_invoice(current_user.user_id),
     'subscription': current_user.user_id # get_user_subscription(current_user.user_id)
   }
   return jsonify(value_to_return), 200
