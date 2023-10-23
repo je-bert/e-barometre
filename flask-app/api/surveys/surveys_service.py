@@ -71,7 +71,7 @@ def find_one(current_user, id):
 
     if answer != None:
       question['answer'] = answer.value
-      if answer.value and 'ustom' in answer.value:
+      if answer.value and 'custom' in answer.value.lower():
         custom_answer = CustomAnswer.query\
           .filter_by(question_id = question['question_id'], report_id = report.report_id)\
           .first()
