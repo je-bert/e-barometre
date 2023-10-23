@@ -40,11 +40,11 @@ product_ids = {
   os.environ.get("STRIPE_MULTIPLE_PRODUCT_ID"): "multiple"
 }
 
-web_domain_url = "https://e-demo2.netlify.app/"  #TODO: change this to the correct url
+web_domain_url = "https://e-demo2.netlify.app/"
 web_success_url = web_domain_url + "ebarometre?status=success&session_id={CHECKOUT_SESSION_ID}"
 web_cancel_url = web_domain_url + "ebarometre?status=cancelled"
 
-app_base_url = "http://localhost:4300/dashboard/my-account/orders" #TODO: change this to the correct url
+app_base_url = "https://e-client-demo.netlify.app/dashboard/my-account/orders"
 app_success_url = app_base_url + "?status=success&session_id={CHECKOUT_SESSION_ID}"
 app_cancel_url = app_base_url + "?status=cancelled"
 
