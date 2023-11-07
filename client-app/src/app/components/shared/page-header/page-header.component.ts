@@ -10,7 +10,5 @@ export class PageHeaderComponent {
 
   @Input() questionnaireColor?: string;
 
-  ngOnInit() {
-    console.log(this.title);
-  }
+  ngOnInit() {}
 }
