@@ -1,17 +1,12 @@
 <div class="tw-flex tw-justify-center tw-relative">
   <mat-radio-group class="tw-flex tw-justify-center tw-flex-wrap">
     <ng-container *ngFor="let answer of question.choices">
-      <mat-radio-button
-        class="tw-mb-4"
-        [ngClass]="{
+      <mat-radio-button class="tw-mb-4" [ngClass]="{
           'app-answer-so tw-absolute -tw-bottom-10 -tw-right-4 tw-mb-0':
             answer.label === 'Sans objet'
-        }"
-        (click)="answerPicked.emit({question, answer:answer.value})"
-        [value]="answer"
-        [checked]="answer.value?.toString() === question.answer?.toString()"
-        >{{ answer.label }}</mat-radio-button
-      >
+        }" (click)="answerPicked.emit({question, answer:answer.value})" [value]="answer"
+        [checked]="answer.value?.toString() === question.answer?.toString()">
+        {{ answer.label === 'Sans objet' ? "Sans objet / Je ne sais pas" : answer.label }}</mat-radio-button>
     </ng-container>
   </mat-radio-group>
 </div>
