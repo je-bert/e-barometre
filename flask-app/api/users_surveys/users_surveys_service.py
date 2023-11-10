@@ -65,7 +65,7 @@ def get_is_user_single(report_id):
 
   answer = Answer.query\
     .filter_by(report_id = report_id)\
-    .filter_by(question_id = 'B07')\
+    .filter_by(question_id = 'B08')\
     .first()
 
   if answer:
