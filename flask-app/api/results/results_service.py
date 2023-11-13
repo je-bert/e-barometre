@@ -10,6 +10,8 @@ import os
 from pyhtml2pdf import converter
 from api.invoices.invoices_service import get_user_subscription
 
+# =HLOOKUP(1,'Contexte | CSS'!S10:X41,3)
+
 TEMPLATE_FILE = 'master-results-template.xlsx'
 
 def generate(user_id):
@@ -54,6 +56,8 @@ def generate(user_id):
   ws = wb.get_sheet_by_name(worksheet_name)
   excel = ExcelCompiler(filename=output_file)
 
+
+
   answers = Answer.query\
     .filter_by(report_id = report.report_id)\
     .all()
@@ -88,7 +92,7 @@ def generate(user_id):
 
   source = os.path.abspath(f'master_results/{report.report_id}.html')
   target = os.path.abspath(f'master_results/{report.report_id}.pdf')
-  converter.convert(f'file:///{source}', target, print_options={'marginTop': 0, 'marginRight': 0, 'marginBottom': 0, 'marginLeft': 0})
+  # converter.convert(f'file:///{source}', target, print_options={'marginTop': 0, 'marginRight': 0, 'marginBottom': 0, 'marginLeft': 0})
 
   report.is_completed = True
   # expire unique invoice
@@ -109,12 +113,13 @@ def output_from_file(file_name):
     .join(AnalysisSubsection)\
     .order_by(AnalysisSection.order)\
     .all()
-  
+
+
   excel = ExcelCompiler(filename=file_name)
 
   sections = []
   themes = []
-  analysis =[]
+  analysis = []
   flag_introduction = None
   yellow_flags = []
   red_flags = []
@@ -122,9 +127,11 @@ def output_from_file(file_name):
   about = None
   insert_page_break = False
 
+
+
   for i in range (1, 400):
-    cell = excel.evaluate(f"'{worksheet_name}'!D{i}")
-    if cell and cell != '' and cell != ' ':
+    cell = excel.evaluate(f"'{worksheet_name}'!C{i}")
+    if cell and cell != '' and cell != ' ' and cell != 0 and cell != '0':
       value = excel.evaluate(f"'{worksheet_name}'!E{i}")
       if previous_cell == 'red_flag' and cell != 'red_flag':
         sections.append(render_template('reports/themes.html', analysis_items = analysis, observations = themes))
