@@ -45,7 +45,7 @@ def find_one_html(id):
   if not report:
     return "Not found", 404
 
-  if not os.path.isfile('master_results/{}.pdf'.format(id)):
+  if not os.path.isfile('master_results/{}.html'.format(id)):
     return "Not found", 404
   
   return send_file('master_results/{}.html'.format(id), mimetype='text/html')

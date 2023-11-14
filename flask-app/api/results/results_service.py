@@ -92,7 +92,7 @@ def generate(user_id):
 
   source = os.path.abspath(f'master_results/{report.report_id}.html')
   target = os.path.abspath(f'master_results/{report.report_id}.pdf')
-  # converter.convert(f'file:///{source}', target, print_options={'marginTop': 0, 'marginRight': 0, 'marginBottom': 0, 'marginLeft': 0})
+  converter.convert(f'file:///{source}', target, print_options={'marginTop': 0, 'marginRight': 0, 'marginBottom': 0, 'marginLeft': 0})
 
   report.is_completed = True
   # expire unique invoice
