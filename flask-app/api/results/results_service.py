@@ -10,7 +10,7 @@ import os
 from pyhtml2pdf import converter
 from api.invoices.invoices_service import get_user_subscription
 
-# =HLOOKUP(1,'Contexte | CSS'!S10:X41,3)
+
 
 TEMPLATE_FILE = 'master-results-template.xlsx'
 
@@ -105,14 +105,21 @@ def generate(user_id):
   return jsonify("Votre rapport a été généré!"), 200
 
 def output_from_file(file_name):
+
   if not os.path.exists(file_name):
     return abort(404)
   worksheet_name = 'Test de contenu du rapport'
 
-  sections = db.session.query(AnalysisSection)\
-    .join(AnalysisSubsection)\
-    .order_by(AnalysisSection.order)\
-    .all()
+  # sections = db.session.query(AnalysisSection)\
+  #   .join(AnalysisSubsection)\
+  #   .order_by(AnalysisSection.order)\
+  #   .all()
+
+  wb = load_workbook(file_name)
+
+  # wb['Test de contenu du rapport']['A411'].value = 'allo'
+
+  # wb.save(file_name)
 
 
   excel = ExcelCompiler(filename=file_name)
@@ -131,7 +138,7 @@ def output_from_file(file_name):
 
   for i in range (1, 400):
     cell = excel.evaluate(f"'{worksheet_name}'!C{i}")
-    if cell and cell != '' and cell != ' ' and cell != 0 and cell != '0':
+    if cell and cell != '':
       value = excel.evaluate(f"'{worksheet_name}'!E{i}")
       if previous_cell == 'red_flag' and cell != 'red_flag':
         sections.append(render_template('reports/themes.html', analysis_items = analysis, observations = themes))
@@ -144,8 +151,9 @@ def output_from_file(file_name):
         flag_introduction = None
         about = None
       previous_cell = cell
-      if not value or value == '' or value == ' ' or value == 0:
+      if not value or value == '' or value == ' ' or value == 0 or value == '0':
         continue
+      
       elif cell == 'section-title':
         if insert_page_break == True:
           insert_page_break = False
@@ -177,6 +185,12 @@ def output_from_file(file_name):
         yellow_flags.append(value)
       elif cell == 'red_flag':
         red_flags.append(value)
+      print("Cell " + str(i))
+      print("From workbook")
+      print(wb['Test de contenu du rapport']['B' + str(i)].value)
+      print("From pycell")
+      print(cell)
+      print(value)
 
   return render_template('reports/report-1/base.html', children = sections)
 
@@ -341,9 +355,10 @@ def generate_barometer_data(barometer, excel, about):
       "id": "barometer_7",
       "items": [],
     }
+    min_value = excel.evaluate("'TEST_pour PROTOTYPE'!AJ601")
     for i in range(30):
       value = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 571))
-      if isinstance(value, int) and value > 0:
+      if isinstance(value, int) and value > 0 and value >= min_value:
         title = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 571))
         data['items'].append({"name": title, "value": value})
         # Maximum of 7 items
@@ -353,3 +368,22 @@ def generate_barometer_data(barometer, excel, about):
     return data
   else:
     return {}
+
+
+
+
+
+# 'Cpts miroirs des parents' A38
+# =IF(AND(A32="non", A33="non", A34="non", A35="non", A36="non", A37="non"), 0, 1)
+
+# 'Contribution NC' I33
+# =IF(H33>=$H$40,HLOOKUP($I$8,$M$13:$P$42,21,FALSE),"")
+
+# 'Contribution NC' I41
+# =IF(ISNA(HLOOKUP($I$8,$N$13:$P$42,29,FALSE)),"",HLOOKUP($I$8,$N$13:$P$42,29,FALSE))
+
+# Test de contenu du rapport B381
+# ='Contribution NC'!P42
+
+
+# je n'ai jamais aucun Constat pour réponse de l'enfant dans mes tests, la section TEST_pour PROTOTYPE!AI570 est systématiquement vide pour moi
