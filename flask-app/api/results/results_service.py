@@ -357,9 +357,9 @@ def generate_barometer_data(barometer, excel, about):
     }
    
     for i in range(30):
-      value = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 571))
+      value = excel.evaluate("'TEST_pour PROTOTYPE'!AJ{}".format(i + 570))
       if isinstance(value, int) and value > 0 and value:
-        title = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 571))
+        title = excel.evaluate("'TEST_pour PROTOTYPE'!AI{}".format(i + 570))
         data['items'].append({"name": title, "value": value})
         # Maximum of 7 items
         if len(data['items']) >= 7:
