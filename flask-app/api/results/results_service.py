@@ -355,10 +355,10 @@ def generate_barometer_data(barometer, excel, about):
       "id": "barometer_7",
       "items": [],
     }
-    min_value = excel.evaluate("'TEST_pour PROTOTYPE'!AJ601")
+   
     for i in range(30):
       value = excel.evaluate("'TEST_pour PROTOTYPE'!E{}".format(i + 571))
-      if isinstance(value, int) and value > 0 and value >= min_value:
+      if isinstance(value, int) and value > 0 and value:
         title = excel.evaluate("'TEST_pour PROTOTYPE'!D{}".format(i + 571))
         data['items'].append({"name": title, "value": value})
         # Maximum of 7 items
@@ -373,17 +373,19 @@ def generate_barometer_data(barometer, excel, about):
 
 
 
-# 'Cpts miroirs des parents' A38
-# =IF(AND(A32="non", A33="non", A34="non", A35="non", A36="non", A37="non"), 0, 1)
 
-# 'Contribution NC' I33
-# =IF(H33>=$H$40,HLOOKUP($I$8,$M$13:$P$42,21,FALSE),"")
 
-# 'Contribution NC' I41
-# =IF(ISNA(HLOOKUP($I$8,$N$13:$P$42,29,FALSE)),"",HLOOKUP($I$8,$N$13:$P$42,29,FALSE))
 
-# Test de contenu du rapport B381
-# ='Contribution NC'!P42
+
+
+
+
+
 
 
 # je n'ai jamais aucun Constat pour réponse de l'enfant dans mes tests, la section TEST_pour PROTOTYPE!AI570 est systématiquement vide pour moi
+
+
+
+# 'Cpts miroirs des parents' A27 -> if(and)
+# 'Contribution NC' I -> tout mettre le bon lookup
