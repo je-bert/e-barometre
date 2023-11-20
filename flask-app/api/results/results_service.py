@@ -9,6 +9,7 @@ from pycel import ExcelCompiler
 import os
 from pyhtml2pdf import converter
 from api.invoices.invoices_service import get_user_subscription
+import json
 
 
 
@@ -185,12 +186,12 @@ def output_from_file(file_name):
         yellow_flags.append(value)
       elif cell == 'red_flag':
         red_flags.append(value)
-      print("Cell " + str(i))
-      print("From workbook")
-      print(wb['Test de contenu du rapport']['B' + str(i)].value)
-      print("From pycell")
-      print(cell)
-      print(value)
+      # print("Cell " + str(i))
+      # print("From workbook")
+      # print(wb['Test de contenu du rapport']['B' + str(i)].value)
+      # print("From pycell")
+      # print(cell)
+      # print(value)
 
   return render_template('reports/report-1/base.html', children = sections)
 
@@ -270,8 +271,9 @@ def generate_barometer_data(barometer, excel, about):
         } for i in range(8) if excel.evaluate("'TEST_pour PROTOTYPE'!C{}".format(i + 455))
       ],
     }
+    print(data['items'])
     # Sort the items based on the difference between first_value and second_value
-    data['items'] = sorted(data['items'], key=lambda x: abs(x['value_1'] - x['value_2']), reverse=True)
+    data['items'] = sorted(data['items'], key=lambda x: abs(int(x['value_1']) - int(x['value_2'])), reverse=True)
     return data
   elif barometer == "barometer-3":
     data = {
@@ -287,7 +289,7 @@ def generate_barometer_data(barometer, excel, about):
       ],
     }
     # Sort the items based on the difference between first_value and second_value
-    data['items'] = sorted(data['items'], key=lambda x: abs(x['value_1'] - x['value_2']), reverse=True)
+    data['items'] = sorted(data['items'], key=lambda x: abs(int(x['value_1']) - int(x['value_2'])), reverse=True)
     return data
   elif barometer == "barometer-4":
     data = {
@@ -315,7 +317,8 @@ def generate_barometer_data(barometer, excel, about):
     # Replace behaviors with behavior values without weight
     for item in data['items']:
       item['behaviors'] = [behavior['name'] for behavior in item['behaviors']]
-    return data
+      print('returning b4')
+    return json.dumps(data,ensure_ascii=False)
   elif barometer == "barometer-5":
     data = {
       "id": "barometer_5",
@@ -358,6 +361,9 @@ def generate_barometer_data(barometer, excel, about):
    
     for i in range(30):
       value = excel.evaluate("'TEST_pour PROTOTYPE'!AJ{}".format(i + 570))
+      print(value)
+      print(type(value))
+
       if isinstance(value, int) and value > 0 and value:
         title = excel.evaluate("'TEST_pour PROTOTYPE'!AI{}".format(i + 570))
         data['items'].append({"name": title, "value": value})
@@ -365,6 +371,7 @@ def generate_barometer_data(barometer, excel, about):
         if len(data['items']) >= 7:
           break
     data['items'] = sorted(data['items'], key=lambda d: d['value'], reverse=True)
+
     return data
   else:
     return {}
@@ -381,11 +388,6 @@ def generate_barometer_data(barometer, excel, about):
 
 
 
+# 'Indice D'exclusion'!H38
 
-
-# je n'ai jamais aucun Constat pour réponse de l'enfant dans mes tests, la section TEST_pour PROTOTYPE!AI570 est systématiquement vide pour moi
-
-
-
-# 'Cpts miroirs des parents' A27 -> if(and)
-# 'Contribution NC' I -> tout mettre le bon lookup
+#  =VLOOKUP(H37,AG14:AI17,3,FALSE)
