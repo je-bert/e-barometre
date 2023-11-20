@@ -289,9 +289,9 @@ def stripe_webhook():
     return "Success", 200
 
 def update_expired_invoices():
+    return
     from app import app
     with app.app_context():
-      print("Updating expired invoices")
       
       invoices = Invoice.query\
         .filter(Invoice.status == "paid", func.date(Invoice.date_expiration) < date.today())\
