@@ -64,7 +64,7 @@ def generate(user_id):
     .all()
 
   for answer in answers:
-    if answer.value == '-1':
+    if answer.value == '-1' or answer.value == '':
       continue
     question = Question.query\
           .filter_by(question_id = answer.question_id )\
@@ -81,6 +81,10 @@ def generate(user_id):
       for cell in ws["C"]:
         value = excel.evaluate(f"'{worksheet_name}'!{cell.coordinate}")
         if value == answer.question_id:
+          try:
+            intValue = int(answer.value)
+            ws.cell(row=cell.row, column=4).value = intValue
+          except ValueError:
             ws.cell(row=cell.row, column=4).value = answer.value
   
   wb.save(output_file)
@@ -317,7 +321,6 @@ def generate_barometer_data(barometer, excel, about):
     # Replace behaviors with behavior values without weight
     for item in data['items']:
       item['behaviors'] = [behavior['name'] for behavior in item['behaviors']]
-      print('returning b4')
     return json.dumps(data,ensure_ascii=False)
   elif barometer == "barometer-5":
     data = {
@@ -361,8 +364,7 @@ def generate_barometer_data(barometer, excel, about):
    
     for i in range(30):
       value = excel.evaluate("'TEST_pour PROTOTYPE'!AJ{}".format(i + 570))
-      print(value)
-      print(type(value))
+
 
       if isinstance(value, int) and value > 0 and value:
         title = excel.evaluate("'TEST_pour PROTOTYPE'!AI{}".format(i + 570))
@@ -372,7 +374,8 @@ def generate_barometer_data(barometer, excel, about):
           break
     data['items'] = sorted(data['items'], key=lambda d: d['value'], reverse=True)
 
-    return data
+
+    return json.dumps(data,ensure_ascii=False)
   else:
     return {}
 

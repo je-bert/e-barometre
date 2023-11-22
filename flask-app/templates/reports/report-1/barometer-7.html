@@ -1,13 +1,16 @@
-<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+<div
+  class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside"
+>
   <div class="w-full flex px-[24px] justify-center">
     <div
-      class="bg-white py-4 w-full items-center justify-center flex lg:w-[950px] max-w-[950px] rounded-[2rem] drop-shadow-xl text-center">
+      class="bg-white py-4 w-full items-center justify-center flex lg:w-[950px] max-w-[950px] rounded-[2rem] drop-shadow-xl text-center"
+    >
       <div id="b7"></div>
 
       <script type="module">
         import { html, render } from "https://esm.sh/htm/preact/standalone";
 
-        const data = JSON.parse(`{{ data | tojson | safe }}`);
+        const data = JSON.parse( {{ data | tojson | safe }});
 
         const COLORS = [
           "#fc8f2a",
@@ -16,6 +19,7 @@
           "#065380",
           "#34b1e2",
           "#64ced8",
+          '#0085EF'
         ];
 
         function B7({ data }) {

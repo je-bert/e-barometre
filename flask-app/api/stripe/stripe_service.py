@@ -346,3 +346,7 @@ def update_expired_invoices():
 sched = BackgroundScheduler(daemon=True)
 sched.add_job(update_expired_invoices, 'interval', minutes=1)
 sched.start()
+
+
+
+

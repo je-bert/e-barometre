@@ -27,12 +27,14 @@ def import_report_template():
   return make_response(jsonify({"message": "File uploaded"}), 200)
 
 def test_remport_template():
+  
   file = request.files['file']
+  print(file)
   file_name = 'test-report-template.xlsx'
   file.save(file_name)
   html = output_from_file('test-report-template.xlsx')
 
-  # Clean up
+
   if os.path.exists(file_name):
     os.remove(file_name)
 
