@@ -6,3 +6,7 @@ venv/
 ENV/
 env.bak/
 .DS_Store
+
+
+client-app/deploy.sh
+
