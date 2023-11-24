@@ -9,4 +9,5 @@ env.bak/
 
 
 client-app/deploy.sh
+flask-app/master_results/
 
