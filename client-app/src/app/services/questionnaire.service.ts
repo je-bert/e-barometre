@@ -125,15 +125,6 @@ export class QuestionsService {
                 break;
             }
 
-            if (question.choices) {
-              console.log(question.choices);
-              question.choices = question.choices.filter(
-                (choice) =>
-                  choice.label.toLowerCase() !== 'sans objet' &&
-                  !(typeof choice.value === 'number' && choice.value === -1)
-              );
-            }
-
             if (question.reverse_answers && question.choices) {
               question.choices = question.choices.reverse();
             }
