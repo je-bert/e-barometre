@@ -125,6 +125,15 @@ export class QuestionsService {
                 break;
             }
 
+            if (question.choices) {
+              console.log(question.choices);
+              question.choices = question.choices.filter(
+                (choice) =>
+                  choice.label.toLowerCase() !== 'sans objet' &&
+                  !(typeof choice.value === 'number' && choice.value === -1)
+              );
+            }
+
             if (question.reverse_answers && question.choices) {
               question.choices = question.choices.reverse();
             }
@@ -378,6 +387,8 @@ export class QuestionsService {
     question: ClientSideQuestion,
     answer: QuestionAnswer
   ): QuestionAnswer {
+    if (answer === '-1') return '-1';
+
     if (answer === null) return answer;
 
     if (question.type !== 'select-multiple') return answer;

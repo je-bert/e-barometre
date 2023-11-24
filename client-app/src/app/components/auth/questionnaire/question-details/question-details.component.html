@@ -1,6 +1,6 @@
 <app-info-bubble (click)="infoBubbleToggled.emit(question)" [question]="question"></app-info-bubble>
 
-<div [ngSwitch]="question.type" class="card shadow-lg tw-relative">
+<app-so [ngSwitch]="question.type" class="card shadow-lg tw-relative">
   <div class="card-body tw-p-12">
     <h5 class="card-title tw-text-center tw-mb-10 tw-font-semibold">
       {{ question.intro }}
@@ -53,14 +53,22 @@
         </div>
       </div>
     </ng-container>
-  </div>
 
-  <div *ngIf="question.type === 'select-multiple' || question.hasOtherValueToSpecify"
-    class="tw-flex tw-justify-center tw-mb-12">
-    <button class="btn btn-primary" [disabled]="question.answer === null"
-      (click)="$event.preventDefault(); confirmToggled.emit(question)">
-      <span *ngIf="question.isConfirmed">Réponse confirmé</span>
-      <span *ngIf="!question.isConfirmed">Confirmer les choix</span>
-    </button>
+
+    <div *ngIf="question.type === 'select-multiple' || question.hasOtherValueToSpecify"
+      class="tw-flex tw-justify-center tw-mt-12">
+      <button class="btn btn-primary" [disabled]="question.answer === null"
+        (click)="$event.preventDefault(); confirmToggled.emit(question)">
+        <span *ngIf="question.isConfirmed">Réponse confirmé</span>
+        <span *ngIf="!question.isConfirmed">Confirmer les choix</span>
+      </button>
+    </div>
+
+    <mat-radio-group [(ngModel)]="chosenSO" *ngIf="!question.required">
+      <mat-radio-button [ngClass]="'app-answer-so tw-absolute tw-bottom-6 tw-right-6 tw-mb-0'"
+        (click)="answerPicked.emit({question, answer: '-1'}); question.isConfirmed = true" [value]="'-1'">
+        {{ "Sans objet / Je ne sais pas" }}
+      </mat-radio-button>
+    </mat-radio-group>
   </div>
-</div>
+</app-so>

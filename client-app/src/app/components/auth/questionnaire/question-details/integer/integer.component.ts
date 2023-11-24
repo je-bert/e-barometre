@@ -25,24 +25,31 @@ export class IntegerComponent implements OnInit, OnDestroy {
     answer: QuestionAnswer;
   }>();
 
-  answerChanged$ = new Subject<void>();
+  answerChanged$ = new Subject<number>();
 
   destroy$ = new Subject<void>();
+  value = 0;
 
   constructor() {}
 
   ngOnInit(): void {
+    this.value =
+      this.question.answer === '-1'
+        ? this.question.min_value || 0
+        : +(this.question.answer || 0);
     this.answerChanged$
       .pipe(takeUntil(this.destroy$), debounceTime(750))
-      .subscribe(() => {
+      .subscribe((answer) => {
         console.log('answer changed!!!');
+        answer = Math.max(answer, this.question.min_value || 0);
+        answer = Math.min(answer, this.question.max_value || 0);
 
-        const answer = this.question.answer;
+        this.question.answer = answer.toString();
         const question = this.question;
 
         this.answerPicked.emit({
           question,
-          answer,
+          answer: answer.toString(),
         });
       });
   }
@@ -52,14 +59,18 @@ export class IntegerComponent implements OnInit, OnDestroy {
   }
 
   increment() {
-    const previousValue = +(this.question?.answer || 0);
-    this.question.answer = (previousValue + 1).toString();
-    this.answerChanged$.next();
+    this.value = Math.min(
+      this.value + 1,
+      this.question.max_value || Number.MAX_SAFE_INTEGER
+    );
+    this.answerChanged$.next(this.value);
   }
   decrement() {
-    const previousValue = +(this.question?.answer || 0);
-    this.question.answer = (previousValue - 1).toString();
-    this.answerChanged$.next();
+    this.value = Math.max(
+      this.value - 1,
+      this.question.min_value || Number.MIN_SAFE_INTEGER
+    );
+    this.answerChanged$.next(this.value);
   }
 
   ngOnDestroy() {

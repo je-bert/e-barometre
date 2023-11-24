@@ -218,6 +218,14 @@ app-question-details .btn-success {
 }
 
 app-integer {
+  .app-answer-so {
+    .mat-radio-label {
+      flex-direction: row-reverse !important;
+    }
+    .mat-radio-label-content {
+      margin-top: 0 !important;
+    }
+  }
   .form-control {
     border-color: var(--questionnaire-color) !important;
     color: var(--questionnaire-color) !important;
@@ -232,6 +240,38 @@ app-integer {
     color: var(--questionnaire-color) !important;
     font-weight: 500 !important;
     font-size: 1.5rem !important;
+  }
+}
+
+app-so {
+  .app-answer-so {
+    .mat-radio-label {
+      flex-direction: row-reverse !important;
+    }
+    .mat-radio-label-content {
+      margin-top: 0 !important;
+    }
+  }
+  .mat-ripple-element {
+    background-color: var(--questionnaire-color) !important;
+  }
+
+  .mat-radio-inner-circle {
+    background-color: var(--questionnaire-color) !important;
+  }
+
+  .mat-radio-outer-circle {
+    border-color: var(--questionnaire-color) !important;
+  }
+
+  .mat-radio-label-content {
+    @apply tw-font-medium tw-uppercase tw-text-base tw-mt-3 tw-mx-5;
+    color: var(--questionnaire-color) !important;
+    font-family: "Poppins" !important;
+  }
+
+  .mat-radio-label {
+    @apply tw-flex tw-flex-col;
   }
 }
 

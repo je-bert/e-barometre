@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { timer } from 'rxjs';
 
@@ -31,11 +32,18 @@ export class QuestionDetailsComponent {
   @Output() skipForNow = new EventEmitter<ClientSideQuestion>();
 
   self: HTMLElement | null = null;
+  chosenSO: string | null = null;
 
-  constructor(private elRef: ElementRef) {
+  constructor(private elRef: ElementRef, private cdr: ChangeDetectorRef) {
     this.self = elRef.nativeElement as HTMLElement;
 
     this.self.addEventListener('click', (event) => {
+      if (this.question.answer === '-1') {
+        this.chosenSO = '-1';
+      } else {
+        this.chosenSO = null;
+      }
+      this.cdr.detectChanges();
       if (!this.question.isConfirmed) return;
 
       timer(150).subscribe(() => {
@@ -47,5 +55,13 @@ export class QuestionDetailsComponent {
         );
       });
     });
+  }
+
+  ngOnInit(): void {
+    if (this.question.answer === '-1') {
+      this.chosenSO = '-1';
+    } else {
+      this.chosenSO = null;
+    }
   }
 }

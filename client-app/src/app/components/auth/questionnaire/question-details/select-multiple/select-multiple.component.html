@@ -1,26 +1,22 @@
 <div class="tw-w-full tw-flex tw-justify-center tw-flex-wrap">
-  <button
-    *ngFor="let answer of question.choices"
-    type="button"
-    (click)="answerPicked.emit({question, answer: answer.value})"
-    [ngClass]="{
+  <button *ngFor="let answer of question.choices" type="button"
+    (click)="answerPicked.emit({question, answer: answer.value})" [ngClass]="{
       'btn-outline-primary':
         answer.value !== question.answer &&
         !(
           question.answer &&
           answer.value &&
-          question.answer.indexOf(answer.value) > -1
+          question.answer.split(',').indexOf(answer.value) > -1
         ),
       'btn-success':
         answer.value === question.answer ||
         (question.answer &&
           answer.value &&
-          question.answer.indexOf(answer.value) > -1)
-    }"
-    class="btn btn-icon tw-mx-4 tw-mb-4 tw-whitespace-pre-wrap tw-break-words"
-  >
+          question.answer.split(',').indexOf(answer.value) > -1)
+    }" class="btn btn-icon tw-mx-4 tw-mb-4 tw-whitespace-pre-wrap tw-break-words">
     <p class="tw-mb-0">
       {{ answer.label }}
     </p>
   </button>
+
 </div>

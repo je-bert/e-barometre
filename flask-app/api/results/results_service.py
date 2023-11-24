@@ -64,7 +64,7 @@ def generate(user_id):
     .all()
 
   for answer in answers:
-    if answer.value == '-1' or answer.value == '':
+    if answer.value == '-1' or answer.value == '' or answer.value == None:
       continue
     question = Question.query\
           .filter_by(question_id = answer.question_id )\
