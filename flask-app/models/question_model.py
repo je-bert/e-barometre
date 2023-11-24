@@ -14,10 +14,20 @@ class Question(db.Model):
   intensity: int
   conditional_intensity: str
   order: int
+  min_value: int
+  max_value: int
+  active: int
+  violence_related: int
+  reverse_answers: int
+  required: int
   parent: str
-  intensity_method: str
+  ladderC: int
+  ladderE: int
+  ladderV: int
+  red_flag: int
   past_title: str
   past_intro: str
+  intensity_method: str
   question_id = db.Column(db.String(20), primary_key = True)
   survey_id = db.Column(db.String(20), db.ForeignKey( "survey.survey_id"))
   intro = db.Column(db.String(255), nullable = True)
@@ -33,6 +43,8 @@ class Question(db.Model):
   max_value = db.Column(db.Integer, nullable = True)
   active = db.Column(db.Integer, nullable = True)
   violence_related = db.Column(db.Integer, nullable = True)
+  reverse_answers = db.Column(db.Integer, nullable = True)
+  required = db.Column(db.Integer, nullable = True)
   parent = db.Column(db.String(20), nullable = True)
   ladderC	= db.Column(db.Integer, nullable = True)
   ladderE	= db.Column(db.Integer, nullable = True)

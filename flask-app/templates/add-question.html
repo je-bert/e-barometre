@@ -10,35 +10,43 @@
 ('info_bubble_text', 'Bulle d\'information','not required','text',''),
 ('condition', 'Condition','not required','text','Précision sur la question ou information additionnelle'),
 ('intensity', 'Intensité','not required','number','Sévérité du comportement sur une échelle de 1 : léger à 3 : sévère'),
-('conditional_intensity', 'Intensité conditionel','not required','text','Condition qui provoque un changement de l’intensité de base'),
+('conditional_intensity', 'Intensité conditionel','not required','text','Condition qui provoque un changement de
+l’intensité de base'),
 ('order','Ordre','required','number',''),
 ('min_value', 'Valeur minimum','required','number',''),
 ('max_value', 'Valeur maximum','required','number',''),
 ('parent','Parent','not required','text',''),
-('ladderC','Échelle C','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+('ladderC','Échelle C','not required','number','Entre le pourcentage réparti selon le caractère du comportement C :
+comportemental, E :
 Émotif, V : Verbal'),
-('ladderE', 'Échelle E','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+('ladderE', 'Échelle E','not required','number','Entre le pourcentage réparti selon le caractère du comportement C :
+comportemental, E :
 Émotif, V : Verbal'),
-('ladderV','Échelle V','not required','number','Entre le pourcentage réparti selon le caractère du comportement C : comportemental, E :
+('ladderV','Échelle V','not required','number','Entre le pourcentage réparti selon le caractère du comportement C :
+comportemental, E :
 Émotif, V : Verbal'),
 ('red_flag', 'Drapeau rouge','not required','text',''),
 ('active', 'Active','not required','checkbox',''),
-('violence_related', 'Reliée à la violence','not required','checkbox','Cochez si et seulement si la question est liée à la violence
+('violence_related', 'Reliée à la violence','not required','checkbox','Cochez si et seulement si la question est liée à
+la violence
 conjugale'),
+('required', 'Requis','not required','checkbox','Cochez si et seulement si la réponse est requise'),
+('reverse_answers', 'Réponses inversées','not required','checkbox','Cochez si et seulement si les réponses doivent être
+inversées'),
 ] -%}
 
 {%
-  set questionTypes = [
-  'numeric-ladder','select-multiple','select-single','labeled-ladder','integer','binary'
-  ]
-  -%}
+set questionTypes = [
+'numeric-ladder','select-multiple','select-single','labeled-ladder','integer','binary'
+]
+-%}
 
 {% block title %} Ajouter une question {% endblock %}
 
 {% block content %}
 <div class="w-full h-full p-5">
   <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
-  Ajouter une question
+    Ajouter une question
   </h1>
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
 
@@ -46,64 +54,70 @@ conjugale'),
 
     <div class="mb-6" data-tooltip="{{tooltip}}">
 
-    <!-- For the swithces -->
-    {% if (name == 'violence_related' or name == 'active') %}
-    <div class="relative z-0 w-full group">
-      <label class="relative inline-flex items-center mb-4 cursor-pointer">
-        <input name="{{name}}" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if value==1 else '' }}>
-        <div
-          class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-        </div>
-        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{title}}</span>
-      </label>
+      <!-- For the swithces -->
+      {% if (name == 'violence_related' or name == 'active' or name == 'required' or name == 'reverse_answers') %}
+      <div class="relative z-0 w-full group">
+        <label class="relative inline-flex items-center mb-4 cursor-pointer">
+          <input name="{{name}}" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if value==1 else ''
+            }}>
+          <div
+            class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+          </div>
+          <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{title}}</span>
+        </label>
+      </div>
+
+      {% elif name == 'label_id'%}
+      <div class="relative z-0 w-full group">
+        <label for="{{name}}"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">Label
+          ID</label>
+
+        <select name="{{name}}" id="{{name}}"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+          <option value="" disabled selected>Choisir une option</option>
+          {% for label in labels %}
+          <option value="{{label.label_id}}">{{label.label_id}} : {{label.title}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      {% elif name == 'type'%}
+      <div class="relative z-0 w-full group">
+        <label for="{{name}}"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">Type</label>
+        <select {{ disabled if not typeEdit }} name="{{name}}" id="{{name}}"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+          <option value="" disabled selected>Choisir une option</option>
+          {% for questionType in questionTypes %}
+          <option value="{{questionType}}">{{questionType}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- For the rest. Min and max won't be rendered if type is not integer -->
+      <!-- TODO make a js event on change to check the type, if integer make them required -->
+      {% else %}
+      <div class="relative z-0 w-full group" id="{{name}}Div">
+        <input type="{{inputType}}" name="{{name}}" id="{{name}}"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          {{'required' if required=='required' }} />
+        <label for="{{name}}"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{
+          title }}{{' *' if required=='required'}}</label>
+      </div>
+      {% endif %}
+
+
+      {% if tooltip != '' %}
+
+      <p class="text-sm text-gray-500 font-bold" style="font-size:0.5rem!important;">
+        {{ tooltip }}
+      </p>
+
+      {% endif %}
+
     </div>
-
-    {% elif name == 'label_id'%}
-    <div class="relative z-0 w-full group">
-      <label for="{{name}}"class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">Label ID</label>
-
-      <select name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-        <option value="" disabled selected>Choisir une option</option>
-        {% for label in labels %}
-        <option value="{{label.label_id}}">{{label.label_id}} : {{label.title}}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    {% elif name == 'type'%}
-    <div class="relative z-0 w-full group">
-      <label for="{{name}}"class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">Type</label>
-      <select {{ disabled if not typeEdit }} name="{{name}}" id="{{name}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-        <option value="" disabled selected>Choisir une option</option>
-        {% for questionType in questionTypes %}
-          <option value="{{questionType}}" >{{questionType}}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <!-- For the rest. Min and max won't be rendered if type is not integer -->
-    <!-- TODO make a js event on change to check the type, if integer make them required -->
-    {% else %}
-    <div class="relative z-0 w-full group" id="{{name}}Div">
-      <input type="{{inputType}}" name="{{name}}" id="{{name}}"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        {{'required' if required=='required'}} />
-      <label for="{{name}}"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">{{
-        title }}{{' *' if required=='required'}}</label>
-    </div>
-    {% endif %}
-
-
-    {% if tooltip != '' %}
-
-    <p class="text-sm text-gray-500 font-bold" style="font-size:0.5rem!important;">
-      {{ tooltip }}
-    </p>
-
-    {% endif %}
-
-  </div>
     {% endfor %}
     <div class="">
       <p id="error" class="my-2 text-sm text-red-600 dark:text-red-500"></p>
@@ -124,24 +138,23 @@ conjugale'),
     if (response.ok) {
       window.location = '/admin/surveys/{{survey_id}}';
     }
-    else{
-        error = await response.text();
-        $("#error").html(error).show();
-      }
+    else {
+      error = await response.text();
+      $("#error").html(error).show();
+    }
   });
 
-  $("#type").change(()=>{
-    if($("#type").val() != 'integer')
-    {
-      $("#min_value").prop('disabled',true);
+  $("#type").change(() => {
+    if ($("#type").val() != 'integer') {
+      $("#min_value").prop('disabled', true);
       $("#min_valueDiv").hide();
-      $("#max_value").prop('disabled',true);
+      $("#max_value").prop('disabled', true);
       $("#max_valueDiv").hide();
     }
-    else{
-      $("#min_value").prop('disabled',false);
+    else {
+      $("#min_value").prop('disabled', false);
       $("#min_valueDiv").show();
-      $("#max_value").prop('disabled',false);
+      $("#max_value").prop('disabled', false);
       $("#max_valueDiv").show();
     }
   })

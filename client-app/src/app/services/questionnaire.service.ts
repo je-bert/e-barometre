@@ -114,6 +114,7 @@ export class QuestionsService {
                   { label: '9', value: '9' },
                   { label: '10', value: '10' },
                 ];
+
                 break;
               case 'binary':
                 question.choices = [
@@ -122,6 +123,10 @@ export class QuestionsService {
                   { label: 'Non', value: '0' },
                 ];
                 break;
+            }
+
+            if (question.reverse_answers && question.choices) {
+              question.choices = question.choices.reverse();
             }
           });
 

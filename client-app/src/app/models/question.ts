@@ -28,6 +28,8 @@ interface BaseQuestion {
   custom_value?: string;
   max_value?: number;
   min_value?: number;
+  required?: boolean;
+  reverse_answers?: boolean;
 }
 
 type QuestionChoice = {

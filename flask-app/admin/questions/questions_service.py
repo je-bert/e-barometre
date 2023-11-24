@@ -83,6 +83,8 @@ def update_one(id):
 
   question.parent = data.get('parent', question.parent)
   question.red_flag = None  # TODO: Define behavior for red_flag
+  question.required = 1 if data.get('required') else 0
+  question.reverse_answers = 1 if data.get('reverse_answers') else 0
 
 
   print(question)
@@ -142,6 +144,8 @@ def add_one(id):
       question.ladderV = int(ladderV) if ladderV and ladderV.isdigit() else None
       question.parent = data.get('parent') if data.get('parent') else None
       question.red_flag = None #TODO: Is it a string?
+      question.required = 1 if data.get('required') else 0
+      question.reverse_answers = 1 if data.get('reverse_answers') else 0
 
       db.session.add(question)
       db.session.commit()
