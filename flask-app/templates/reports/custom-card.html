@@ -2,7 +2,14 @@
   class="{% if hide_lg %} lg:hidden {% endif %} flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
   <div
     class="bg-white py-4 grow px-[16px] md:px-[64px] lg:px-[128px] lg:w-[950px] rounded-[2rem] mx-[24px] drop-shadow-xl max-w-[950px] text-center">
-    <h3 class="mt-8">{% block title %} {% endblock %}</h3>
+    <h3 class="mt-8">{% block title %} {{ item.title }} {% endblock %}</h3>
+    {% if content is string %}
     <p>{{ content | safe }}</p>
+    {% else %}
+    {% for item in content %}
+    <p>{{ item | safe }}</p>
+    {% endfor %}
+    {% endif %}
   </div>
+
 </div>

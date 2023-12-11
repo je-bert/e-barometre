@@ -20,16 +20,15 @@ def init(app):
 
 def run_seeds(file_name = 'seeds.xlsx'):
   # importing models is required for ORM
-  from models import Survey, Category, User, Choice, Question, Label, LabelItem, Answer, CustomAnswer, ResetPasswordToken, AnalysisSection, AnalysisSubsection, Invoice, Report
+  from models import Survey, Category, User, Choice, Question, Label, LabelItem, Answer, CustomAnswer, ResetPasswordToken, AnalysisSection, AnalysisSubsection, Invoice, Report, AnalysisSubsectionTheme, AnalysisSubsectionSubtheme, AnalysisSubsectionItem
   if app_context != None:
     with app_context:
       xl = ExcelFile(file_name)
       db.reflect()
       db.drop_all() # Drop previous tables
       db.create_all()  # Create tables
-      for model in [Survey, Category, User, Choice, Question, Label, LabelItem, Answer, CustomAnswer, AnalysisSection, AnalysisSubsection, Invoice, Report]:
+      for model in [Survey, Category, User, Choice, Question, Label, LabelItem, Answer, CustomAnswer, AnalysisSection, AnalysisSubsection, Invoice, Report, AnalysisSubsectionTheme, AnalysisSubsectionSubtheme, AnalysisSubsectionItem]:
         if model.__tablename__ in xl.sheet_names:
           sheet = xl.parse(model.__tablename__)
           sheet.to_sql(name=model.__tablename__, con=db.engine, if_exists='append', index=False)
           print(" * DB: Created seeds for table", model.__tablename__)
-
