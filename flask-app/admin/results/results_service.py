@@ -66,6 +66,170 @@ def find_one_pdf(id):
   return send_file('master_results/{}.pdf'.format(id), mimetype='application/pdf')
 
 
+def find_one_auto_v2(id):
+  report = Report.query\
+    .filter_by(report_id = id)\
+    .first()
+  
+  if not report:
+    return "Not found", 404
+  
+  sections = []
+
+  analysis_sections = AnalysisSection.query\
+    .all()
+  
+  for analysis_section in analysis_sections:
+    sections.append(render_template('reports/section-title.html', content = analysis_section.title))
+    analysis_subsections = AnalysisSubsection.query\
+      .filter_by(analysis_section_id = analysis_section.analysis_section_id)\
+      .all()
+    
+    for analysis_subsection in analysis_subsections:
+      results = []
+      ranges = []
+      flag_introduction = analysis_subsection.flag_introduction if analysis_subsection.flag_introduction != None else ''
+      barometer = analysis_subsection.barometer
+      about_barometer =analysis_subsection.about_barometer 
+
+      themes = AnalysisSubsectionTheme.query\
+        .filter_by(analysis_subsection_id = analysis_subsection.analysis_subsection_id)\
+        .all()
+
+      max = 0
+      total = 0
+      avg = 0
+
+      if barometer == 'barometer-5':
+        # for each theme
+        for theme in themes:
+          subthemes = AnalysisSubsectionSubtheme.query\
+            .filter_by(analysis_subsection_theme_id = theme.analysis_subsection_theme_id)\
+            .all()
+          subtotal = 0
+          
+          for subtheme in subthemes:
+            ranges = subtheme.ranges.split(',')
+            question = Question.query\
+              .filter_by(question_id = subtheme.question_id)\
+              .first()
+            answer = Answer.query\
+              .filter_by(report_id = report.report_id , question_id = subtheme.question_id)\
+              .first()
+            
+            if answer == None or  answer.value == None or answer.value == '-1':
+              results.append({"id": theme.analysis_subsection_theme_id, "result": 0, "intensity": subtheme.intensity, "weight": subtheme.weight, "ignore": True})
+            else:
+              col = 0
+              answer = int(answer.value)
+              while (col < len(ranges)):
+                current_range = ranges[col].split(':')
+                if (len(current_range) != 2):
+                  continue
+                if (answer >= int(current_range[0]) and answer <= int(current_range[1])):
+                  break
+                col = col + 1
+              
+              if (col == len(ranges)):
+                continue
+              
+              result = 0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
+
+              if (col == len(ranges) - 1 and answer == int(current_range[1])):
+                result = 1
+              results.append({"id": subtheme.analysis_subsection_subtheme_id, "theme_id": theme.analysis_subsection_theme_id, "result": result, "intensity": subtheme.intensity, "weight": subtheme.weight, "ignore": False})
+      else: continue
+      max_weight = 0
+      answered_weight = 0
+      max_score = 0
+      score = 0
+      for result in results:
+        max_weight = max_weight + result['weight']
+        answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
+        max_score = max_score + result['intensity']
+        score = score + (0 if result['ignore'] else result['intensity'] * result['result'])
+
+      print( "answered: ", answered_weight, "/", max_weight, "result: ", score, "/", max_score)
+          
+  #     if len(themes) > 0:
+  #       avg = normal_round(avg / (len(themes))) # last theme removed
+  #     print("total: ", total, "max: ", max, "avg: ", avg)
+
+  #     # keep results only above average
+  #     results = [result for result in results if result["avg"] >= avg]
+
+      total = score / max_score
+      analysis = []
+      observations = []
+      yellow_flags = []
+      red_flags = []
+      ressources = []
+      ranges = []
+      hide = False
+
+      items = AnalysisSubsectionItem.query\
+        .filter_by(analysis_subsection_id = analysis_subsection.analysis_subsection_id, analysis_subsection_theme_id = None)\
+        .all()
+
+      for item in items:
+        if item.type == 'range':
+          if barometer == 'barometer-5':
+            ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
+        if total >= item.min and (total < item.max or total <= 1):
+          if item.type == 'hide':
+            hide = True
+            # break
+          elif item.type == 'observation':
+            analysis.append(item.content)
+          elif item.type == 'yellow_flag':
+            yellow_flags.append(item.content)
+          elif item.type == 'red_flag':
+            red_flags.append(item.content)
+          elif item.type == 'ressource':
+            ressources.append(item.content)
+            
+      # if hide:
+      #   continue
+
+  #     for result in results:
+  #       if result['avg'] >= avg:
+  #         for yellow_flag in result["yellow_flags"]:
+  #           yellow_flags.append(yellow_flag)
+  #         for red_flag in result["red_flags"]:
+  #           red_flags.append(red_flag)
+  #         subitems = AnalysisSubsectionItem.query\
+  #           .filter_by(analysis_subsection_id = analysis_subsection.analysis_subsection_id, analysis_subsection_theme_id = result['id'])\
+  #           .all()
+  #         for item in subitems:
+  #           if total >= item.min and total <= item.max:
+  #             if item.type == 'observation':
+  #               observations.append(item.content)
+  #             elif item.type == 'yellow_flag':
+  #               yellow_flags.append(item.content)
+  #             elif item.type == 'red_flag':
+  #               red_flags.append(item.content)
+  #             elif item.type == 'ressource':
+  #               red_flags.append(item.content)
+
+      sections.append(render_template('reports/subsection-title.html', content = analysis_subsection.title))
+      sections.append(render_template('reports/about-barometer.html', content = about_barometer))
+      if barometer == 'barometer-1' or barometer == 'barometer-5' or barometer == 'barometer-6':
+        # For barometer 1, 5 and 6, about barometer section is different on desktop
+        sections.pop()
+        sections.append(render_template('reports/about-barometer.html', content = about_barometer, hide_lg = True))
+    
+      if barometer == 'barometer-5' or barometer == 'barometer-2' or barometer == 'barometer-3':
+        sections.append(render_template("reports/report-1/" + barometer + ".html", data = generate_barometer_data(barometer, total, ranges), about = about_barometer))
+
+      sections.append(render_template('reports/themes.html', analysis_items = analysis, observations = observations))
+      if len(red_flags) > 0 or len(yellow_flags) > 0:
+        sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags, flag_introduction = flag_introduction))
+      if len(ressources) > 0:
+        sections.append(render_template('reports/ressources.html', content = ressources))
+
+  return render_template('reports/report-1/base.html', children = sections)
+
+
 def find_one_auto(id):
   report = Report.query\
     .filter_by(report_id = id)\
@@ -139,38 +303,38 @@ def find_one_auto(id):
           sub_red_flags = [flag['content'] for flag in sub_red_flags if flag["value"] >= sub_avg or flag['keep']]
           sub_yellow_flags = [flag['content'] for flag in sub_yellow_flags if flag["value"] >= sub_avg or flag['keep']]
           results.append({"id": theme.analysis_subsection_theme_id, "avg": sub_avg, "red_flags": sub_red_flags, "yellow_flags": sub_yellow_flags})
-      elif barometer == 'barometer-2' or barometer == 'barometer-3':
-        for theme in themes:
-          total = 0
-          subthemes = AnalysisSubsectionSubtheme.query\
-            .filter_by(analysis_subsection_theme_id = theme.analysis_subsection_theme_id)\
-            .all()
+      # elif barometer == 'barometer-2' or barometer == 'barometer-3':
+      #   for theme in themes:
+      #     total = 0
+      #     subthemes = AnalysisSubsectionSubtheme.query\
+      #       .filter_by(analysis_subsection_theme_id = theme.analysis_subsection_theme_id)\
+      #       .all()
           
-          if len(subthemes) != 2:
-            continue
+      #     if len(subthemes) != 2:
+      #       continue
 
-          pfa = subthemes[0] if subthemes[0].question_id.startswith('PFA') else subthemes[1]
-          pcr = subthemes[1] if subthemes[0].question_id.startswith('PFA') else subthemes[0]
-          answer_1 = answers.get(pfa.question_id) if answers.get(pfa.question_id) != None else 0
-          answer_2 = answers.get(pcr.question_id) if answers.get(pcr.question_id) != None else 0
-          answer_model_1 = Answer.query\
-              .filter_by(report_id = report.report_id , question_id = pfa.question_id)\
-              .first()
-          answer_model_2 = Answer.query\
-              .filter_by(report_id = report.report_id , question_id = pcr.question_id)\
-              .first()
-          answer_model_1 = int(answer_model_1.value) if answer_model_1 != None and answer_model_1.value != None and answer_model_1.value != '-1' else 0
-          answer_model_2 = int(answer_model_2.value) if answer_model_2 != None and answer_model_2.value != None and answer_model_2.value != '-1' else 0
-          if answer_model_1 > total:
-            total = answer_model_1
-          if answer_model_2 > total:
-            total = answer_model_2
-          subtotal = answer_1 + answer_2
-          avg = avg + subtotal
-          print(answer_1, answer_2, subtotal)
-          if subtotal > 0:
-            ranges.append({"name": theme.name, "value_1": answer_model_2, "value_2": answer_model_1})
-          results.append({"id": theme.analysis_subsection_theme_id, "avg": subtotal, "red_flags": [], "yellow_flags": []})
+      #     pfa = subthemes[0] if subthemes[0].question_id.startswith('PFA') else subthemes[1]
+      #     pcr = subthemes[1] if subthemes[0].question_id.startswith('PFA') else subthemes[0]
+      #     answer_1 = answers.get(pfa.question_id) if answers.get(pfa.question_id) != None else 0
+      #     answer_2 = answers.get(pcr.question_id) if answers.get(pcr.question_id) != None else 0
+      #     answer_model_1 = Answer.query\
+      #         .filter_by(report_id = report.report_id , question_id = pfa.question_id)\
+      #         .first()
+      #     answer_model_2 = Answer.query\
+      #         .filter_by(report_id = report.report_id , question_id = pcr.question_id)\
+      #         .first()
+      #     answer_model_1 = int(answer_model_1.value) if answer_model_1 != None and answer_model_1.value != None and answer_model_1.value != '-1' else 0
+      #     answer_model_2 = int(answer_model_2.value) if answer_model_2 != None and answer_model_2.value != None and answer_model_2.value != '-1' else 0
+      #     if answer_model_1 > total:
+      #       total = answer_model_1
+      #     if answer_model_2 > total:
+      #       total = answer_model_2
+      #     subtotal = answer_1 + answer_2
+      #     avg = avg + subtotal
+      #     print(answer_1, answer_2, subtotal)
+      #     if subtotal > 0:
+      #       ranges.append({"name": theme.name, "value_1": answer_model_2, "value_2": answer_model_1})
+      #     results.append({"id": theme.analysis_subsection_theme_id, "avg": subtotal, "red_flags": [], "yellow_flags": []})
 
           
       if len(themes) > 0:
@@ -194,11 +358,11 @@ def find_one_auto(id):
       for item in items:
         if item.type == 'range':
           if barometer == 'barometer-5' :
-            ranges.append({"name": item.content, "min": item.min, "max": item.max})
+            ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
         if total >= item.min and total <= item.max:
           if item.type == 'hide':
             hide = True
-            break
+            # break
           elif item.type == 'observation':
             analysis.append(item.content)
           elif item.type == 'yellow_flag':
@@ -208,8 +372,8 @@ def find_one_auto(id):
           elif item.type == 'ressource':
             ressources.append(item.content)
 
-      if hide:
-        continue
+      # if hide:
+      #   continue
 
       for result in results:
         if result['avg'] >= avg:
