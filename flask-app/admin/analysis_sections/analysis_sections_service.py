@@ -1,4 +1,4 @@
-from models import AnalysisSection, AnalysisSubsection
+from models import AnalysisSection, AnalysisSubsection, AnalysisSubsectionItem, AnalysisSubsectionTheme, AnalysisSubsectionSubtheme
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 from sqlalchemy import func
@@ -8,7 +8,7 @@ from sqlalchemy import func
 def find_all():
     analysis_sections = db.session.query(
       AnalysisSection.analysis_section_id, 
-      AnalysisSection.description, 
+      AnalysisSection.is_active, 
       AnalysisSection.order, 
       AnalysisSection.title, 
       func.count(AnalysisSubsection.analysis_subsection_id).label("subsections_count")
@@ -27,12 +27,21 @@ def find_one(id):
   if not analysis_section:
     return abort(404)
   
-  analysis_subsections = AnalysisSubsection.query\
-    .filter_by(analysis_section_id = id)\
-    .all()
-
-  if not analysis_subsections:
-    return abort(404)
+  analysis_subsections = db.session.query(
+      AnalysisSubsection.analysis_section_id, 
+      AnalysisSubsection.analysis_subsection_id, 
+      AnalysisSubsection.is_active, 
+      AnalysisSubsection.order, 
+      AnalysisSubsection.title, 
+      AnalysisSubsection.about_barometer, 
+      AnalysisSubsection.barometer, 
+      AnalysisSubsection.min_result,
+      AnalysisSubsection.min_weight,
+      func.count(AnalysisSubsectionTheme.analysis_subsection_theme_id).label("themes_count")
+      )\
+      .select_from(AnalysisSubsection).filter_by(analysis_section_id = id).outerjoin(AnalysisSubsectionTheme)\
+      .group_by(AnalysisSubsection.analysis_subsection_id)\
+      .all()
 
   return render_template('analysis-subsections.html',analysis_section = analysis_section, analysis_subsections = analysis_subsections)
 
@@ -49,7 +58,7 @@ def update_one(id):
 
   data = request.form
 
-  if not data.get('title') or not data.get('description') or not data.get('order'):
+  if not data.get('title') or not data.get('order'):
     return "Formulaire invalide.", 400
 
   analysis_section = AnalysisSection.query\
@@ -60,8 +69,8 @@ def update_one(id):
     return "La section d'analyse n'existe pas.", 404
 
   analysis_section.title = data.get('title')
-  analysis_section.description = data.get('description')
   analysis_section.order = data.get('order')
+  analysis_section.is_active = 1 if data.get('is_active') else 0
   db.session.commit()
   
   return jsonify(analysis_section)
@@ -84,8 +93,8 @@ def add_one():
       analysis_section = AnalysisSection()
       analysis_section.analysis_section_id = analysis_section_id
       analysis_section.title = data.get('title')
-      analysis_section.description = data.get('description')
       analysis_section.order = data.get('order')
+      analysis_section.is_active = 1 if data.get('is_active') else 0
       db.session.add(analysis_section)
       db.session.commit()
 
@@ -97,10 +106,6 @@ def delete_one(id):
     analysis_section = AnalysisSection.query\
         .filter_by(analysis_section_id = id)\
         .first()
-    
-    analysis_section_count = AnalysisSection.query.filter_by(analysis_section_id = id).count()
-    if analysis_section_count > 0:
-      return make_response("Il y a des élements dans la section d'analyse",404)
     
     if not analysis_section:
       return make_response("L'item n'existe pas.", 404)

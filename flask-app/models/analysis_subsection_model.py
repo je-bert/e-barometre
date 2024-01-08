@@ -8,17 +8,17 @@ class AnalysisSubsection(db.Model):
     title: str
     about_barometer: str
     order: int 
-    display_condition: str
     barometer: str
     min_result: float
     min_weight: float
+    is_active: bool
 
     analysis_subsection_id = db.Column(db.String(20), primary_key = True)
     analysis_section_id = db.Column(db.String(20), db.ForeignKey( "analysis_section.analysis_section_id"))
     title = db.Column(db.String(255))
     about_barometer = db.Column(db.String(255))
     order = db.Column(db.Integer)
-    display_condition = db.Column(db.String(255), nullable = True)
     barometer = db.Column(db.String(255))
     min_result = db.Column(db.Float)
     min_weight = db.Column(db.Float)
+    is_active = db.Column(db.Boolean, default = True)

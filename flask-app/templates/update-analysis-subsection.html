@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 {% set active_page = "analysis-sections" %}
 
-{% set schemaTypes = ['coparenting-convergence-divergence', 'child-faced-behaviors-index', 'coparenting-context',
-'harmful-behaviors-bubbles', 'parental-exclusion-index', 'child-symptoms', 'attitudes-during-custody-transfers',
-'family-relationship-changes', 'alienating-behaviors-bubbles', 'child-response-to-alienating-behaviors',
-'child-behaviors-index', 'child-response-bubbles', 'text'] %}
-
+{% set schemaTypes = ['jauge'] %}
 
 {% block title %} Sous-section d'analyse {% endblock %}
 
@@ -26,11 +22,12 @@
     </div>
 
     <div class="relative z-0 w-full mb-6 group">
-      <input type="text" name="description" id="description"
+      <input type="text" name="about_barometer" id="about_barometer"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder=" " value="{{analysis_subsection.description}}" required />
-      <label for="description"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description
+        placeholder=" " value="{{analysis_subsection.about_barometer}}" required />
+      <label for="about_barometer"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">À
+        propos du baromètre
         *</label>
     </div>
 
@@ -44,39 +41,46 @@
     </div>
 
     <div class="relative z-0 w-full mb-6 group">
-      <input type="text" name="display_condition" id="display_condition"
+      <input name="min_result" id="min_result"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder=" "
-        value="{{analysis_subsection.display_condition if analysis_subsection.display_condition != None else ''}}" />
-      <label for="display_condition"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Condition
-        d'affichage</label>
+        placeholder="" value="{{analysis_subsection.min_result}}" required />
+      <label for="min_result"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Résultat
+        minimum pour afficher dans le rapport
+        *</label>
     </div>
 
     <div class="relative z-0 w-full mb-6 group">
-      <select name="schema_type" id="schema_type" class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+      <input name="min_weight" id="min_weight"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        placeholder="" value="{{analysis_subsection.min_weight}}" required />
+      <label for="min_weight"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">%
+        répondu minimum pour afficher dans le rapport
+        *</label>
+    </div>
+
+    <div class="relative z-0 w-full mb-6 group">
+      <select name="schema_type" id="schema_type"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
         {% for schemaType in schemaTypes %}
-          <option {{ 'selected' if analysis_subsection.schema_type == schemaType }} value="{{schemaType}}" >{{schemaType}}</option>
+        <option {{ 'selected' if analysis_subsection.schema_type==schemaType }} value="{{schemaType}}">{{schemaType}}
+        </option>
         {% endfor %}
       </select>
       <label for="schema_type"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Type
         de schéma</label>
     </div>
-  
-    <!-- TODO add placeholder and value when backend implement field -->
-    <div {{'hidden' if analysis_subsection.schema_type != 'text' }} class="relative z-0 w-full mb-6 group" id="commentsDiv">
-      <input type="text" name="comments" id="comments"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        value="{{ analysis_subsection.comments }}" placeholder=" "  />
-      <label for="comments"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Commentaires</label>
-    </div>
+
 
     <div class="relative z-0 w-full mb-6 group">
       <label class="relative inline-flex items-center mb-4 cursor-pointer">
-        <input name="status" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if analysis_subsection.status == 'active' else '' }}>
-        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        <input name="is_active" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if
+          analysis_subsection.is_active else '' }}>
+        <div
+          class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+        </div>
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Actif</span>
       </label>
     </div>
@@ -98,18 +102,5 @@
       window.location = '/admin/analysis-sections/{{analysis_subsection.analysis_section_id}}';
     }
   });
-
-
-  $("#schema_type").change(()=>{
-    if($("#schema_type").val() == 'text')
-    {
-      $("#commentsDiv").show()
-      $("comments").prop('disabled',false);
-    }
-    else{
-      $("#commentsDiv").hide()
-      $("comments").prop('disabled',false);
-    }
-  })
 </script>
 {% endblock %}

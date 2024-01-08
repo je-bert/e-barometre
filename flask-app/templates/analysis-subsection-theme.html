@@ -5,18 +5,19 @@
 
 {% block content %}
 <div class="relative overflow-x-auto w-full p-5">
+
   <div class="flex justify-between items-center my-6">
     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-      {{ analysis_section.title }}
+      {{ analysis_subsection_theme.name }}
     </h1>
     <div class="flex justify-center items-center " data-tooltip-target="tooltip-default">
-      <a href="/admin/analysis-subsections/add/{{analysis_section.analysis_section_id}}"
+      <a href="/admin/analysis-subsection-subthemes/add/{{analysis_subsection_theme.analysis_subsection_theme_id}}"
         class="pb-1 h-10 w-10 bg-gray-100 rounded-full text-green-600 flex justify-center border-2 border-green-600 items-center hover:bg-green-600 hover:text-white text-2xl">+
       </a>
 
       <div id="tooltip-default" role="tooltip"
         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-        Ajouter un élement
+        Ajouter un item
         <div class="tooltip-arrow" data-popper-arrow></div>
       </div>
     </div>
@@ -25,56 +26,56 @@
     class="dark:divide-gray-700 divide-y text-sm text-left text-gray-500 dark:text-gray-400 shadow-md w-full max-w-full sm:rounded-lg bg-white dark:bg-gray-800">
     <thead class="text-xs">
       <tr>
-
         <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[40px]">
           ID
         </th>
-
         <th scope="col" class="px-5 py-3">
-          Titre
+          Question
         </th>
-
-        <th scope="col" class="px-5 py-3 hidden lg:table-cell w-[130px] text-center">
-          Thèmes
+        <th scope="col" class="px-5 py-3">
+          Échelles
         </th>
-
-        <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[90px] text-center">
-          Statut
+        <th scope="col" class="px-5 py-3">
+          Poids
         </th>
-
+        <th scope="col" class="px-5 py-3">
+          Intensité
+        </th>
         <th scope="col" class="px-5 py-3 w-[100px] text-center">
           Actions
         </th>
-
       </tr>
     </thead>
     <tbody class="dark:divide-gray-700 divide-y">
-      {% for analysis_subsection in analysis_subsections %}
+      {% for analysis_subsection_subtheme in analysis_subsection_subthemes %}
       <tr class="hover:bg-gray-50 dark:hover:bg-gray-600"
-        onclick="window.location='/admin/analysis-subsections/{{ analysis_subsection.analysis_subsection_id }}';">
+        onclick="window.location='/admin/analysis-subsection-subthemes/update/{{ analysis_subsection_subtheme.analysis_subsection_subtheme_id }}';">
         <td class="px-5 py-4 hidden sm:table-cell">
-          {{ analysis_subsection.analysis_subsection_id }}
+          {{ analysis_subsection_subtheme.analysis_subsection_subtheme_id }}
         </td>
         <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
           <div>
-            <p class="break-words">{{ analysis_subsection.title }}</p>
+            <p class="break-words">{{ analysis_subsection_subtheme.question_id }}</p>
           </div>
         </td>
-        <td class="px-5 py-4 hidden lg:table-cell">
-          <div class="flex items-center justify-center space-x-4 text-sm">
-            <p class="break-words">{{ analysis_subsection.themes_count }}</p>
+        <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
+          <div>
+            <p class="break-words">{{ analysis_subsection_subtheme.ranges }}</p>
           </div>
         </td>
-        <td class="px-5 py-4 hidden sm:table-cell text-center">
-          <span
-            class="px-2 py-1 text-xs font-semibold leading-tight rounded-lg {{ 'bg-green-700' if analysis_subsection.is_active else 'bg-orange-600' }} text-white">
-            {{ 'Actif' if analysis_subsection.is_active else 'Inactif' }}
-          </span>
+        <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
+          <div>
+            <p class="break-words">{{ analysis_subsection_subtheme.weight }}</p>
+          </div>
         </td>
-
+        <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
+          <div>
+            <p class="break-words">{{ analysis_subsection_subtheme.intensity }}</p>
+          </div>
+        </td>
         <td class="px-5 py-4">
           <div class="flex items-center justify-center space-x-4 text-sm">
-            <button onclick="onEditClick(event, '{{ analysis_subsection.analysis_subsection_id}}');"
+            <button onclick="onEditClick(event, '{{ analysis_subsection_subtheme.analysis_subsection_subtheme_id}}');"
               class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
               aria-label="Edit">
               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -83,7 +84,7 @@
                 </path>
               </svg>
             </button>
-            <button onclick="setSelectedId(event,'{{ analysis_subsection.analysis_subsection_id }}')"
+            <button onclick="setSelectedId(event,'{{ analysis_subsection_subtheme.analysis_subsection_subtheme_id }}')"
               class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
               aria-label="Delete">
               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
@@ -100,14 +101,14 @@
   </table>
 </div>
 
-{% set label='la sous-section d\'analyse' %}
-{% set endpoint='/admin/analysis-subsections/delete/' %}
+{% set label='la question' %}
+{% set endpoint='/admin/analysis-subsection-subthemes/delete/' %}
 {% include 'modal.html'%}
 
 <script>
-  function onEditClick(event, analysis_subsection_id) {
+  function onEditClick(event, analysis_subsection_subtheme_id) {
     event.stopPropagation();
-    window.location = '/admin/analysis-subsections/update/' + analysis_subsection_id;
+    window.location = '/admin/analysis-subsection-subthemes/update/' + analysis_subsection_subtheme_id;
   }
 </script>
 {% endblock %}

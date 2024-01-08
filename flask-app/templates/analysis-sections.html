@@ -34,12 +34,11 @@
           Titre
         </th>
 
-        <th scope="col" class="px-5 py-3 hidden md:table-cell">
-          Description
-        </th>
-
         <th scope="col" class="px-5 py-3 hidden lg:table-cell w-[130px] text-center">
           Sous-sections
+        </th>
+        <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[90px] text-center">
+          Statut
         </th>
 
         <th scope="col" class="px-5 py-3 w-[100px] text-center">
@@ -60,15 +59,16 @@
             <p class="break-words">{{ analysis_section.title }}</p>
           </div>
         </td>
-        <td scope="row" class="pl-5 py-4 hidden md:table-cell  text-gray-900 dark:text-white">
-          <div>
-            <p class="break-words">{{ analysis_section.description }}</p>
-          </div>
-        </td>
         <td class="px-5 py-4 hidden lg:table-cell">
           <div class="flex items-center justify-center space-x-4 text-sm">
             <p>{{ analysis_section.subsections_count }}</p>
           </div>
+        </td>
+        <td class="px-5 py-4 hidden sm:table-cell text-center">
+          <span
+            class="px-2 py-1 text-xs font-semibold leading-tight rounded-lg {{ 'bg-green-700' if analysis_section.is_active else 'bg-orange-600' }} text-white">
+            {{ 'Actif' if analysis_section.is_active else 'Inactif' }}
+          </span>
         </td>
         <td class="px-5 py-4">
           <div class="flex items-center justify-center space-x-4 text-sm">
@@ -81,8 +81,7 @@
                 </path>
               </svg>
             </button>
-            <button
-              onclick="setSelectedId(event,'{{ analysis_section.analysis_section_id }}')"
+            <button onclick="setSelectedId(event,'{{ analysis_section.analysis_section_id }}')"
               class="flex items-center justify-between text-sm font-medium leading-5 text-primary-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
               aria-label="Delete">
               <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">

@@ -9,6 +9,9 @@ from admin.auth import auth_router
 from admin.results import results_router
 from admin.analysis_sections import analysis_sections_router
 from admin.analysis_subsections import analysis_subsections_router
+from admin.analysis_subsection_items import analysis_subsection_items_router
+from admin.analysis_subsection_subthemes import analysis_subsection_subthemes_router
+from admin.analysis_subsection_themes import analysis_subsection_themes_router
 
 
 admin_router = Blueprint('admin_router', __name__)
@@ -22,6 +25,9 @@ admin_router.register_blueprint(auth_router, url_prefix='/auth')
 admin_router.register_blueprint(results_router, url_prefix='/results')
 admin_router.register_blueprint(analysis_sections_router,url_prefix='/analysis-sections')
 admin_router.register_blueprint(analysis_subsections_router,url_prefix='/analysis-subsections')
+admin_router.register_blueprint(analysis_subsection_subthemes_router,url_prefix='/analysis-subsection-subthemes')
+admin_router.register_blueprint(analysis_subsection_themes_router,url_prefix='/analysis-subsection-themes')
+admin_router.register_blueprint(analysis_subsection_items_router,url_prefix='/analysis-subsection-items')
 admin_router.register_blueprint(report_template_router,url_prefix='/report-template')
 
 

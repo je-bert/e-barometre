@@ -32,4 +32,4 @@ def find_one_html(id):
 @results_router.route('/<id>/auto',methods=['GET'])
 @auth
 def find_one_auto(id):
-  return results_service.find_one_auto_v2(id)
+  return results_service.find_one_auto(id)

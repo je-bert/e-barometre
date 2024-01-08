@@ -1,0 +1,26 @@
+<div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
+  <div class="flex flex-row w-full justify-center items-center lg:space-x-12 mx-[24px] max-w-[950px] grow lg:w-[950px]">
+    <div
+      class="bg-white hidden lg:flex flex-col py-4 px-[32px] rounded-[2rem] drop-shadow-xl mr-4 max-w-[950px] text-center">
+      <h3 class="mt-8">À propos du baromètre</h3>
+      <p>{{ about | safe }}</p>
+    </div>
+    <div
+      class="flex flex-col items-center justify-center rounded-full bg-white aspect-square w-[260px] drop-shadow-xl relative min-h-[255px] h-[255px]">
+      <h4 style="color: rgb(49 96 183)" class="uppercase text-sm">
+        Indice d'exclusion parentale
+      </h4>
+      <div class="relative w-[80%] my-6">
+        <div
+          style="background: linear-gradient(45deg, rgb(109 176 134) 0%, rgb(109 176 134) {{ data.green }}%, rgb(202 178 112) {{ data.yellow }}%, rgb(212 132 108) {{ data.orange }}%, rgb(201 91 111) 100%);"
+          class="absolute left-0 -top-[6px] w-full h-[12px] rounded-full"></div>
+        <div style="background-color: rgb(90 158 230);left:{{data.value}}%;"
+          class="absolute top-0 border-[2px] border-white transform -translate-x-1/2 -translate-y-1/2 rounded-full w-[18px] h-[18px]">
+        </div>
+      </div>
+      <h4 style="color: rgb(49 96 183)" class="uppercase text-sm">
+        {{ data.result }}
+      </h4>
+    </div>
+  </div>
+</div>
