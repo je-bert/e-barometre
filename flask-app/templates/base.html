@@ -76,3 +76,19 @@
 </body>
 
 </html>
+<script>
+  const sliders = document.querySelectorAll('.slider');
+
+  // Loop through each slider
+  sliders.forEach((slider, index) => {
+    // Get the corresponding slider value element
+    const sliderValueElement = slider.parentElement.querySelector('.slider-value');
+
+    sliderValueElement.textContent = slider.value;
+    // Update the display value when the slider value changes
+    slider.addEventListener('input', function () {
+      // Update the text content of the corresponding element with the current slider value
+      sliderValueElement.textContent = slider.value;
+    });
+  });
+</script>
