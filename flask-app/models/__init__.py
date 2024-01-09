@@ -8,11 +8,11 @@ from .question_model import *
 from .survey_model import *
 from .user_model import *
 from .reset_password_token_model import *
-from .analysis_subsection_model import *
-from .analysis_section_model import *
+from .barometer_item_model import *
+from .barometer_model import *
 from .user_survey_model import *
 from .invoice_model import *
 from .reports_model import *
-from .analysis_subsection_item_model import *
-from .analysis_subsection_subtheme_model import *
-from .analysis_subsection_theme_model import *
+from .section_model import *
+from .theme_model import *
+from .behavior_model import *

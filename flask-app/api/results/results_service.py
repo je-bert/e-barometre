@@ -1,5 +1,5 @@
 from flask import abort, jsonify, render_template
-from models import User, Answer, Question, AnalysisSection, AnalysisSubsection, Report, Invoice
+from models import User, Answer, Question, Report, Invoice
 import os
 from database import db
 from shutil import copyfile

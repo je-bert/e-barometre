@@ -1,8 +1,7 @@
 from flask import render_template, send_file
-from models import User, Report, Question, Answer, AnalysisSubsectionSubtheme, AnalysisSubsection, AnalysisSection, AnalysisSubsectionTheme, AnalysisSubsectionItem
+from models import User, Report, Question, Answer, Section, Barometer, BarometerItem, Theme, Behavior
 import os
 import math
-from questions import questions_service
 
 def find_all():
   if not os.path.exists('master_results'):
@@ -74,43 +73,43 @@ def find_one_auto(id):
   if not report:
     return "Not found", 404
   
-  sections = []
+  report_sections = []
 
-  analysis_sections = AnalysisSection.query\
+  sections = Section.query\
     .filter_by(is_active = True)\
     .all()
   
-  for analysis_section in analysis_sections:
-    sections.append(render_template('reports/section-title.html', content = analysis_section.title))
-    analysis_subsections = AnalysisSubsection.query\
-      .filter_by(analysis_section_id = analysis_section.analysis_section_id, is_active = True)\
+  for section in sections:
+    report_sections.append(render_template('reports/section-title.html', content = section.title))
+
+    barometers = Barometer.query\
+      .filter_by(section_id = section.id, is_active = True)\
       .all()
     
-    for analysis_subsection in analysis_subsections:
+    for barometer in barometers:
       results = {}
       ranges = []
       flag_introduction = None
-      barometer = analysis_subsection.barometer
-      about_barometer =analysis_subsection.about_barometer 
 
-      themes = AnalysisSubsectionTheme.query\
-        .filter_by(analysis_subsection_id = analysis_subsection.analysis_subsection_id, is_active = True)\
+      themes = Theme.query\
+        .filter_by(barometer_id = barometer.id, is_active = True)\
         .all()
 
-      if barometer == 'jauge':
+      if barometer.type == 'jauge':
         # for each theme
         for theme in themes:
-          subthemes = AnalysisSubsectionSubtheme.query\
-            .filter_by(analysis_subsection_theme_id = theme.analysis_subsection_theme_id, is_active = True)\
+          behaviors = Behavior.query\
+            .filter_by(theme_id = theme.id, is_active = True)\
             .all()
-          for subtheme in subthemes:
-            ranges = subtheme.ranges.split(',')
+          for behavior in behaviors:
+            ranges = behavior.ranges.split(',')
+
             answer = Answer.query\
-              .filter_by(report_id = report.report_id , question_id = subtheme.question_id)\
+              .filter_by(report_id = report.report_id , question_id = behavior.question_id)\
               .first()
             
             if answer == None or  answer.value == None or answer.value == '-1':
-               results[subtheme.analysis_subsection_subtheme_id] = {"theme_id": theme.analysis_subsection_theme_id, "result": 0, "intensity": subtheme.intensity, "weight": subtheme.weight, "ignore": True}
+               results[behavior.id] = {"theme_id": theme.id, "result": 0, "intensity": behavior.intensity, "weight": behavior.weight, "ignore": True}
             else:
               col = 0
               answer = int(answer.value)
@@ -124,12 +123,10 @@ def find_one_auto(id):
               
               if (col == len(ranges)):
                 continue
-              
               result = 0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
-
               if (col == len(ranges) - 1 and answer == int(current_range[1])):
                 result = 1
-              results[subtheme.analysis_subsection_subtheme_id] = { "theme_id": theme.analysis_subsection_theme_id, "result": result, "intensity": subtheme.intensity, "weight": subtheme.weight, "ignore": False}
+              results[behavior.id] = { "theme_id": theme.id, "result": result, "intensity": behavior.intensity, "weight": behavior.weight, "ignore": False}
       else: continue
       max_weight = 0
       answered_weight = 0
@@ -139,10 +136,11 @@ def find_one_auto(id):
       for result in results.values():
         max_weight = max_weight + result['weight']
         answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
-        max_score = max_score + result['intensity']
+        max_score = (max_score + result['intensity']) if result['ignore'] == False else max_score
         score = score + (0 if result['ignore'] else result['intensity'] * result['result'])
         results_by_theme_id[result['theme_id']] = results_by_theme_id.get(result['theme_id'], [])
         results_by_theme_id[result['theme_id']].append(score)
+        print(result['intensity']  * result['result'])
 
       avg_by_theme_id = {}
       for theme_id in results_by_theme_id:
@@ -155,9 +153,9 @@ def find_one_auto(id):
       for theme_id in avg_by_theme_id:
         barometer_avg = barometer_avg + avg_by_theme_id[theme_id]
       barometer_avg = barometer_avg / len(avg_by_theme_id)
-      # print( "answered: ", answered_weight, "/", max_weight, "result: ", score, "/", max_score, score / max_score)
+      print( "answered: ", answered_weight, "/", max_weight, "result: ", score, "/", max_score, score / max_score)
 
-      if score / max_score < analysis_subsection.min_result or answered_weight / max_weight < analysis_subsection.min_weight:
+      if score / max_score < barometer.min_result or answered_weight / max_weight < barometer.min_weight:
         # hide the section
         continue
 
@@ -169,19 +167,19 @@ def find_one_auto(id):
       ressources = []
       ranges = []
 
-      items = AnalysisSubsectionItem.query\
-        .filter_by(analysis_subsection_id = analysis_subsection.analysis_subsection_id, is_active = True)\
+      items = BarometerItem.query\
+        .filter_by(barometer_id = barometer.id, is_active = True)\
         .all()
 
       for item in items:
         value = total
-        if item.analysis_subsection_subtheme_id != None:
-          value = results[str(item.analysis_subsection_subtheme_id)]['result']
+        if item.behavior_id != None:
+          value = results[str(item.behavior_id)]['result']
           #if result['ignore'] == False and (result['intensity'] * result['result']) >= avg_by_theme_id[result['theme_id']] and avg_by_theme_id[result['theme_id']] >= barometer_avg
-        elif item.analysis_subsection_theme_id != None:
-          value = avg_by_theme_id[str(item.analysis_subsection_theme_id)]
+        elif item.theme_id != None:
+          value = avg_by_theme_id[str(item.theme_id)]
         if item.type == 'range':
-          if barometer == 'jauge':
+          if barometer.type == 'jauge':
             ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
         if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
           if item.type == 'observation':
@@ -195,23 +193,23 @@ def find_one_auto(id):
           elif item.type == 'ressource':
             ressources.append(item.content)
 
-      sections.append(render_template('reports/subsection-title.html', content = analysis_subsection.title))
-      sections.append(render_template('reports/about-barometer.html', content = about_barometer))
-      if barometer == 'barometer-1' or barometer == 'jauge' or barometer == 'barometer-6':
+      report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
+      report_sections.append(render_template('reports/about-barometer.html', content = barometer.about_barometer))
+      if barometer.type == 'barometer-1' or barometer.type == 'jauge' or barometer.type == 'barometer-6':
         # For barometer 1, 5 and 6, about barometer section is different on desktop
-        sections.pop()
-        sections.append(render_template('reports/about-barometer.html', content = about_barometer, hide_lg = True))
+        report_sections.pop()
+        report_sections.append(render_template('reports/about-barometer.html', content = barometer.about_barometer, hide_lg = True))
     
-      if barometer == 'jauge' or barometer == 'barometer-2' or barometer == 'barometer-3':
-        sections.append(render_template("reports/report-1/" + barometer + ".html", data = generate_barometer_data(barometer, total, ranges), about = about_barometer))
+      if barometer.type == 'jauge' or barometer.type == 'barometer-2' or barometer.type == 'barometer-3':
+        report_sections.append(render_template("reports/report-1/" + barometer.type + ".html", data = generate_barometer_data(barometer.type, total, ranges), about = barometer.about_barometer))
 
-      sections.append(render_template('reports/themes.html', analysis_items = analysis, observations = observations))
+      report_sections.append(render_template('reports/themes.html', analysis_items = analysis, observations = observations))
       if len(red_flags) > 0 or len(yellow_flags) > 0:
-        sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags, flag_introduction = flag_introduction))
+        report_sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags, flag_introduction = flag_introduction))
       if len(ressources) > 0:
-        sections.append(render_template('reports/ressources.html', content = ressources))
+        report_sections.append(render_template('reports/ressources.html', content = ressources))
 
-  return render_template('reports/report-1/base.html', children = sections)
+  return render_template('reports/report-1/base.html', children = report_sections)
 
 def generate_barometer_data(barometer, value, content):
   if barometer == "barometer-2" or barometer == "barometer-3":
