@@ -25,7 +25,6 @@
           question.intensity != None else 0}}{% if question.conditional_intensity %}, {% endif
           %}{{question.conditional_intensity if question.conditional_intensity else ''}}) - {{question.title}}
         </option>
-        </option>
         {% endfor %}
       </select>
       <label for="question_id"

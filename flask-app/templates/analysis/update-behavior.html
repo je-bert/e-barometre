@@ -18,8 +18,11 @@
       <select name="question_id" id="question_id"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
         {% for question in questions %}
+
         <option {{ 'selected' if behavior.question_id==question.question_id }} value="{{question.question_id}}">
-          {{question.question_id + ' - ' + question.title}}
+          {{question.question_id}} (Intensité: {{question.intensity if
+          question.intensity != None else 0}}{% if question.conditional_intensity %}, {% endif
+          %}{{question.conditional_intensity if question.conditional_intensity else ''}}) - {{question.title}}
         </option>
         {% endfor %}
       </select>
