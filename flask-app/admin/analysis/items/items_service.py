@@ -45,7 +45,7 @@ def update_one(id):
 
   data = request.form
 
-  if not data.get('content') or not data.get('min') or not data.get('max') or not data.get('type') or not data.get('link_to_choice'):
+  if not data.get('content') or not data.get('min') or not data.get('max') or not data.get('link_to_choice'):
     return "Formulaire invalide.", 400
 
   item = BarometerItem.query\
@@ -61,13 +61,12 @@ def update_one(id):
   item.behavior_id = link_to_choice[1] if link_to_choice[0] == 'behavior' else None
   item.min = float(data.get('min'))
   item.max = float(data.get('max'))
-  item.type = data.get('type')
   item.is_active = 1 if data.get('is_active') else 0
   db.session.commit()
   
   return jsonify(item)
 
-def add_one(id):
+def add_one(id, type = None):
   if request.method == 'POST':
       data = request.form
 
@@ -120,7 +119,7 @@ def add_one(id):
       .filter_by(id = id)\
       .first()
 
-    return render_template('analysis/add-item.html', barometer = barometer, link_to_choices = link_to_choices)
+    return render_template('analysis/add-item.html', barometer = barometer, link_to_choices = link_to_choices, type = type)
 
 def delete_one(id):
     item = BarometerItem.query\

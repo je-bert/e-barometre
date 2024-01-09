@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% set active_page = "analysis-sections" %}
 
-{% set schemaTypes = ['observation', 'yellow_flag', 'red_flag',
-'range', 'ressource', 'flag_introduction'] %}
+{% set titles = ({"observation" : "Observation", "range" : "Échelle", "flag_introduction": "Introduction",
+"yellow_flag": "Drapeau jaune","red_flag": "Drapeau rouge", "ressource": "Ressource"}) %}
 
+{% set names = ({"observation" : "l'observation", "range" : "l'échelle", "flag_introduction": "l'introduction",
+"yellow_flag": "le drapeau jaune","red_flag": "le drapeau rouge", "ressource": "la
+ressource"}) %}
 
-{% block title %} Élément #{{ item.id}} {% endblock %}
+{% block title %} {{titles[item.type]}} #{{ item.id}} {% endblock %}
 
 {% block content %}
 <div class="w-full h-full p-5">
@@ -15,7 +18,7 @@
         <path d="M15 6L9 12L15 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </a>
-    Modifier l'élément "{{ item.id }}"
+    Modifier {{names[item.type]}} "{{ item.id }}"
   </h1>
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
     <div class="relative z-0 w-full mb-6 group">
@@ -41,21 +44,6 @@
       <label for="link_to_choice"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Associer
         à
-        *</label>
-    </div>
-
-
-    <div class="relative z-0 w-full mb-6 group">
-      <select name="type" id="type"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-        {% for schemaType in schemaTypes %}
-        <option {{ 'selected' if item.type==schemaType }} value="{{schemaType}}">
-          {{schemaType}}
-        </option>
-        {% endfor %}
-      </select>
-      <label for="type"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Type
         *</label>
     </div>
 

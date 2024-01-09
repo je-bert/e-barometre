@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% set active_page = "analysis-sections" %}
+{% set titles = ({"observation" : "Nouvelle observation", "range" : "Nouvelle échelle", "flag_introduction": "Nouvelle
+introduction", "yellow_flag": "Nouveau drapeau jaune","red_flag": "Nouveau drapeau rouge", "ressource": "Nouvelle
+ressource"}) %}
 
-{% block title %} Nouvel élément {% endblock %}
-
-{% set schemaTypes = ['observation', 'yellow_flag', 'red_flag',
-'range', 'ressource', 'flag_introduction'] %}
+{% set names = ({"observation" : "une observation", "range" : "une échelle", "flag_introduction": "une
+introduction", "yellow_flag": "un drapeau jaune","red_flag": "un drapeau rouge", "ressource": "une
+ressource"}) %}
+{% block title %} {{titles[type]}} {% endblock %}
 
 {% block content %}
 <div class="w-full h-full p-5">
@@ -14,7 +17,7 @@
         <path d="M15 6L9 12L15 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </a>
-    Ajouter un élément au baromètre "{{ barometer.title }}"
+    Ajouter {{names[type]}} au baromètre "{{ barometer.title }}"
   </h1>
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
 
@@ -44,20 +47,7 @@
         *</label>
     </div>
 
-
-    <div class="relative z-0 w-full mb-6 group">
-      <select name="type" id="type"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 rounded-none bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
-        {% for schemaType in schemaTypes %}
-        <option value="{{schemaType}}">
-          {{schemaType}}
-        </option>
-        {% endfor %}
-      </select>
-      <label for="type"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Type
-        *</label>
-    </div>
+    <input type="hidden" name="type" id="type" value="{{type}}">
 
     <div class="relative z-0 w-full group mb-6" id="min">
       <input name="min" id="min"

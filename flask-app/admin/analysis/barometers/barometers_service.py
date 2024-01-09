@@ -25,8 +25,38 @@ def find_one(id):
       .select_from(Theme).filter_by(barometer_id = id).outerjoin(Behavior)\
       .group_by(Theme.id)\
       .all()
+  
+  ranges = []
+  ressources = []
+  observations = []
+  yellow_flags = []
+  red_flags = []
+  flag_introductions = []
+  for item in items:
+    if item.type == 'range':
+      ranges.append(item)
+    elif item.type == 'ressource':
+      ressources.append(item)
+    elif item.type == 'observation':
+      observations.append(item)
+    elif item.type == 'yellow_flag':
+      yellow_flags.append(item)
+    elif item.type == 'red_flag':
+      red_flags.append(item)
+    elif item.type == 'flag_introduction':
+      flag_introductions.append(item)
 
-  return render_template('analysis/view-one-barometer.html',barometer = barometer, items = items, themes = themes)
+  return render_template(
+    'analysis/view-one-barometer.html',
+    barometer = barometer, 
+    ranges = ranges, 
+    ressources = ressources,
+    observations = observations, 
+    yellow_flags = yellow_flags,
+    red_flags = red_flags,
+    flag_introductions = flag_introductions,
+    themes = themes
+  )
 
 def update_one(id):
   if request.method == 'GET':
