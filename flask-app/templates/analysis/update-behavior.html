@@ -30,14 +30,32 @@
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Question
         *</label>
     </div>
-    <div class="relative z-0 w-full mb-6 group">
-      <input type="text" value="{{behavior.ranges}}" name="ranges" id="ranges"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder="" required />
-      <label for="ranges"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Échelles
-        *</label>
+
+    {% if ranges %}
+
+    <div class="relative z-0 w-full mb-6 group flex flex-row items-center justify-between">
+      <div for="ranges"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+        Échelle
+        *</div>
+      {% for range in ranges %}
+      <div class="flex flex-col items-center justify-center mt-2">
+        <p class="text-sm text-gray-500 dark:text-gray-400">{{range.content}}</p>
+        <div class="w-24 h-8 space-x-4 flex">
+          <input
+            class="text-sm w-full h-full flex flex-col items-center justify-center text-center outline-none rounded border border-gray-200 bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+            type="number" min="0" name="range-{{range.id}}-min" id="range-{{range.id}}-min"
+            value="{{current_ranges[loop.index0].min}}" required>
+          <input
+            class="text-sm w-full h-full flex flex-col items-center justify-center text-center outline-none rounded border border-gray-200 bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+            type="number" min="0" name="range-{{range.id}}-max" id="range-{{range.id}}-max"
+            value="{{current_ranges[loop.index0].max}}" required>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+
+    {% endif %}
 
     <div class="relative z-0 w-full mb-6 group">
       <input name="weight" id="weight"

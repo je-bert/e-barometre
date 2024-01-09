@@ -38,9 +38,6 @@
         <th scope="col" class="hidden sm:table-cell px-5 py-3 w-[40px]">
           ID
         </th>
-        <th scope="col" class="px-5 py-3">
-          Référence
-        </th>
         <th scope="col" class="px-5 py-3 hidden md:table-cell">
           Contenu
         </th>
@@ -66,25 +63,6 @@
         <td class="px-5 py-4 hidden sm:table-cell">
           {{ item.id }}
         </td>
-        {% if item.behavior_id != None %}
-        <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
-          <div>
-            <p class="break-words">Comp. {{ item.behavior_id }}</p>
-          </div>
-        </td>
-        {% elif item.theme_id != None %}
-        <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
-          <div>
-            <p class="break-words">Thème {{ item.theme_id }}</p>
-          </div>
-        </td>
-        {% else %}
-        <td scope="row" class="pl-5 py-4  text-gray-900 dark:text-white">
-          <div>
-            <p class="break-words">Baromètre</p>
-          </div>
-        </td>
-        {% endif %}
         <td scope="row" class="pl-5 py-4 hidden md:table-cell  text-gray-900 dark:text-white">
           <div>
             <p class="break-words">{{ item.content }}</p>
@@ -126,6 +104,12 @@
       {% endfor %}
     </tbody>
   </table>
+
+  {% if ranges|length == 0 %}
+  <p class="mt-6">
+    Commencez par ajouter des échelles pour poursuivre la configuration de ce baromètre.
+  </p>
+  {% else %}
 
 
   <div class="flex justify-between items-center my-6">
@@ -788,6 +772,8 @@
       {% endfor %}
     </tbody>
   </table>
+
+  {% endif %}
 
 </div>
 

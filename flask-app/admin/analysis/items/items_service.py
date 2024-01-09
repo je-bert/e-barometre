@@ -45,7 +45,7 @@ def update_one(id):
 
   data = request.form
 
-  if not data.get('content') or not data.get('min') or not data.get('max') or not data.get('link_to_choice'):
+  if not data.get('content') or not data.get('min') or not data.get('max'):
     return "Formulaire invalide.", 400
 
   item = BarometerItem.query\
@@ -56,9 +56,10 @@ def update_one(id):
     return "L'item n'existe pas.", 404
   
   item.content = data.get('content')
-  link_to_choice = data.get('link_to_choice').split(",")
-  item.theme_id = link_to_choice[1] if link_to_choice[0] == 'theme' else None
-  item.behavior_id = link_to_choice[1] if link_to_choice[0] == 'behavior' else None
+  if data.get('link_to_choice') != None:
+    link_to_choice = data.get('link_to_choice').split(",")
+    item.theme_id = link_to_choice[1] if link_to_choice[0] == 'theme' else None
+    item.behavior_id = link_to_choice[1] if link_to_choice[0] == 'behavior' else None
   item.min = float(data.get('min'))
   item.max = float(data.get('max'))
   item.is_active = 1 if data.get('is_active') else 0
@@ -70,7 +71,7 @@ def add_one(id, type = None):
   if request.method == 'POST':
       data = request.form
 
-      if not data.get('content') or not data.get('min') or not data.get('max') or not data.get('type') or not data.get('link_to_choice'):
+      if not data.get('content') or not data.get('min') or not data.get('max') or not data.get('type'):
         return make_response("Formulaire invalide.", 400)
       
        
@@ -78,9 +79,10 @@ def add_one(id, type = None):
       item.id = generate_new_id() 
       item.barometer_id =  id
       item.content = data.get('content')
-      link_to_choice = data.get('link_to_choice').split(",")
-      item.theme_id = link_to_choice[1] if link_to_choice[0] == 'theme' else None
-      item.behavior_id = link_to_choice[1] if link_to_choice[0] == 'behavior' else None
+      if data.get('link_to_choice') != None:
+        link_to_choice = data.get('link_to_choice').split(",")
+        item.theme_id = link_to_choice[1] if link_to_choice[0] == 'theme' else None
+        item.behavior_id = link_to_choice[1] if link_to_choice[0] == 'behavior' else None
       item.min = float(data.get('min'))
       item.max = float(data.get('max'))
       item.type = data.get('type')
@@ -95,6 +97,10 @@ def add_one(id, type = None):
         .all()
       
     behaviors = []
+    for theme in themes:
+      behaviors += Behavior.query\
+        .filter_by(theme_id = theme.id)\
+        .all()
     link_to_choices = [{'id': None, 'name': 'Baromètre', 'type': 'none'}]
 
     for theme in themes:
@@ -103,16 +109,11 @@ def add_one(id, type = None):
         'name': "Thème " + (theme.name if theme.name else 'sans nom'),
         'type': 'theme'
       })
-      behaviors += Behavior.query\
-        .filter_by(theme_id = theme.id)\
-        .all()
-      
-      
     for behavior in behaviors:
       link_to_choices.append({
         'id': behavior.id,
         'name': "Comportement " + behavior.question_id,
-        'type': 'subtheme'
+        'type': 'behavior'
       })
 
     barometer = Barometer.query\
