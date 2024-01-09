@@ -40,8 +40,12 @@ def update_one(id):
       })
       if int(behavior.id) == item.behavior_id:
         current_link_to = link_to_choices[-1]
+
+    ranges = BarometerItem.query\
+      .filter_by(barometer_id = item.barometer_id, type = 'range')\
+      .all()
     
-    return render_template('analysis/update-item.html', item = item, link_to_choices = link_to_choices, current_link_to = current_link_to)
+    return render_template('analysis/update-item.html', item = item, link_to_choices = link_to_choices, current_link_to = current_link_to, ranges = ranges)
 
   data = request.form
 
@@ -120,7 +124,11 @@ def add_one(id, type = None):
       .filter_by(id = id)\
       .first()
 
-    return render_template('analysis/add-item.html', barometer = barometer, link_to_choices = link_to_choices, type = type)
+    ranges = BarometerItem.query\
+      .filter_by(barometer_id = id, type = 'range')\
+      .all()
+
+    return render_template('analysis/add-item.html', barometer = barometer, link_to_choices = link_to_choices, type = type, ranges = ranges)
 
 def delete_one(id):
     item = BarometerItem.query\
