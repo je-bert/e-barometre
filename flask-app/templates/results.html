@@ -1,7 +1,10 @@
 {% extends 'base.html' %} {% set active_page = "results" %} {% block title %}
 Résultats {% endblock %} {% block content %}
+
 <div class="relative overflow-x-auto w-full p-5">
-  <div class="flex w-full justify-around">
+  <h2 class="mt-6 text-2xl font-semibold text-gray-900">Tester le rapport pour un cas spécifique :</h2>
+  <p class="mb-2">Ces cas permettent de tester la nouvelle version du baromètre d'indice d'exclusion</p>
+  <div class="flex flex-wrap gap-4 bg-white w-fit p-4 rounded-lg shadow-md">
     <a class="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold uppercase"
       href="/admin/results/0/auto">Karine</a>
     <a class="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold uppercase"
