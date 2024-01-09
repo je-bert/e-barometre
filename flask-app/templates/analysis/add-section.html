@@ -4,8 +4,13 @@
 {% block title %} Nouvelle section d'analyse {% endblock %}
 {% block content %}
 <div class="w-full h-full p-5">
-  <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
-    Créer une section d'analyse
+  <h1 class="my-6 text-2xl font-semibold flex text-gray-900 items-start dark:text-white">
+    <a href="/admin/analysis/sections">
+      <svg class="w-6 h-6 mr-2 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 6L9 12L15 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+    Ajouter une section au rapport
   </h1>
   <form id="mainForm" class="bg-white dark:bg-gray-800 p-5 sm:rounded-lg shadow-md">
     <div class="relative z-0 w-full mb-6 group">

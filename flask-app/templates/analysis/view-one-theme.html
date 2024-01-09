@@ -7,7 +7,12 @@
 <div class="relative overflow-x-auto w-full p-5">
 
   <div class="flex justify-between items-center my-6">
-    <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
+    <h1 class="text-2xl font-semibold flex text-gray-900 items-start dark:text-white">
+      <a href="/admin/analysis/barometers/{{theme.barometer_id}}">
+        <svg class="w-6 h-6 mr-2 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 6L9 12L15 18" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
       Thème (#{{theme.id }}) - {{ theme.name }}
     </h1>
     <div class="flex justify-center items-center " data-tooltip-target="tooltip-default">
