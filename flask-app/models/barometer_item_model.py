@@ -14,9 +14,9 @@ class BarometerItem(db.Model):
   is_active: bool
 
   id = db.Column(db.String(20), primary_key = True)
-  barometer_id = db.Column(db.String(20), db.ForeignKey( "barometer.id"), nullable = False)
-  theme_id = db.Column(db.Integer, db.ForeignKey( "theme.id"), nullable = True)
-  behavior_id = db.Column(db.Integer, db.ForeignKey( "behavior.id"), nullable = True)
+  barometer_id = db.Column(db.String(20), db.ForeignKey( "barometer.id", ondelete='CASCADE'), nullable = False)
+  theme_id = db.Column(db.Integer, db.ForeignKey( "theme.id", ondelete='CASCADE'), nullable = True)
+  behavior_id = db.Column(db.Integer, db.ForeignKey( "behavior.id", ondelete='CASCADE'), nullable = True)
   content = db.Column(db.String(255))
   min = db.Column(db.Float(20))
   max = db.Column(db.Float(20))

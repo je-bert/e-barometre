@@ -16,7 +16,9 @@ class Barometer(db.Model):
     is_active: bool
 
     id = db.Column(db.String(20), primary_key = True)
-    section_id = db.Column(db.String(20), db.ForeignKey( "section.id"))
+    section_id = db.Column(db.String(20), db.ForeignKey( "section.id", ondelete='CASCADE'))
+    themes = db.relationship('Theme', cascade="all,delete", backref='barometer')
+    items = db.relationship('BarometerItem', cascade="all,delete", backref='barometer')
     title = db.Column(db.String(255))
     about_barometer = db.Column(db.String(255))
     order = db.Column(db.Integer)

@@ -53,3 +53,4 @@ class Question(db.Model):
   past_intro	= db.Column(db.String(255), nullable = True)
   past_title = db.Column(db.String(255), nullable = True)
   intensity_method = db.Column(db.String(255), nullable = True)
+  behaviors = db.relationship('Behavior', cascade="all,delete", backref='question')

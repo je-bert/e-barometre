@@ -9,6 +9,7 @@ class Section(db.Model):
     is_active: bool
 
     id = db.Column(db.String(20), primary_key = True)
+    barometers = db.relationship('Barometer', cascade="all,delete", backref='section')
     title = db.Column(db.String(255))
     order = db.Column(db.Integer)
     is_active = db.Column(db.Boolean, default = True)
