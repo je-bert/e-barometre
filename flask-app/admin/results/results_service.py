@@ -2,6 +2,7 @@ from flask import render_template, send_file
 from models import User, Report, Question, Answer, Section, Barometer, BarometerItem, Theme, Behavior
 import os
 import math
+from questions import questions_service
 
 def find_all():
   if not os.path.exists('master_results'):
@@ -69,10 +70,12 @@ def find_one_auto(id):
   report = Report.query\
     .filter_by(report_id = id)\
     .first()
+
   
   if not report:
     return "Not found", 404
   
+  intensity_dict = questions_service.generate_gradients(id)
   report_sections = []
 
   sections = Section.query\
@@ -108,8 +111,8 @@ def find_one_auto(id):
               .filter_by(report_id = report.report_id , question_id = behavior.question_id)\
               .first()
             
-            if answer == None or  answer.value == None or answer.value == '-1':
-               results[behavior.id] = {"theme_id": theme.id, "result": 0, "intensity": behavior.intensity, "weight": behavior.weight, "ignore": True}
+            if answer == None or  answer.value == None or answer.value == '-1' or behavior.question_id not in intensity_dict:
+               results[behavior.id] = {"theme_id": theme.id, "result": 0, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": True}
             else:
               col = 0
               answer = int(answer.value)
@@ -126,7 +129,7 @@ def find_one_auto(id):
               result = 0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
               if (col == len(ranges) - 1 and answer == int(current_range[1])):
                 result = 1
-              results[behavior.id] = { "theme_id": theme.id, "result": result, "intensity": behavior.intensity, "weight": behavior.weight, "ignore": False}
+              results[behavior.id] = { "theme_id": theme.id, "result": result, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": False}
       else: continue
       max_weight = 0
       answered_weight = 0

@@ -57,7 +57,7 @@ def compute_gradient(question_id, question, answers_dict, choices_dict, gradient
     conditionnal_intensity = cip.parse_conditional_intensity(question, answers_dict)
     if conditionnal_intensity is not None:
       intensity = conditionnal_intensity
-  compute_method = question['intensity_method'] if question['intensity_method'] is not None else "SUM"
+  compute_method = question['intensity_method'] if question['intensity_method'] is not None else "MAX"
   if intensity is None:
     #Get frequency from choice if question does not have intensity
     frequency = 0
@@ -75,7 +75,8 @@ def compute_gradient(question_id, question, answers_dict, choices_dict, gradient
     values = [int(value) for value in values if value.isdigit()]
     frequency = sum(values) if compute_method == "SUM" else max(values)
 
-  gradient = intensity * frequency
+  gradient = intensity
+  # gradient = intensity * frequency # IMPORTANT: removed for reports V2
   gradients[question_id] = gradient
 
   # Si la Q n'a pas de sous-question, on prend la valeur de celle-ci
@@ -91,6 +92,7 @@ def compute_gradient(question_id, question, answers_dict, choices_dict, gradient
      
   
   return max(childrenSum, gradient)
+  
 
 
 class TreeNode:
