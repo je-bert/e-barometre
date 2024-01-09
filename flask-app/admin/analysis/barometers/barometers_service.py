@@ -85,7 +85,9 @@ def update_one(id):
   barometer.about_barometer = data.get('about_barometer')
   barometer.order = data.get('order')
   barometer.min_result = float(data.get('min_result')) if data.get('min_result') else 0
+  barometer.min_result_note = data.get('min_result_note') if data.get('min_result_note') and data.get('min_result_note') != '' else None
   barometer.min_weight = float(data.get('min_weight')) if data.get('min_weight') else 0
+  barometer.min_weight_note = data.get('min_weight_note') if data.get('min_weight_note') and data.get('min_weight_note') != '' else None
   barometer.schema_type = data.get('schema_type') if data.get('schema_type') else None
   barometer.is_active = 1 if data.get('is_active') else 0
   db.session.commit()
@@ -105,7 +107,9 @@ def add_one(id):
       barometer.type = data.get('schema_type') if data.get('schema_type') else None
       barometer.is_active = 1 if data.get('is_active') else 0
       barometer.min_result = float(data.get('min_result')) if data.get('min_result') else 0
+      barometer.min_result_note = data.get('min_result_note') if data.get('min_result_note') and data.get('min_result_note') != '' else None
       barometer.min_weight = float(data.get('min_weight')) if data.get('min_weight') else 0
+      barometer.min_weight_note = data.get('min_weight_note') if data.get('min_weight_note') and data.get('min_weight_note') != '' else None
       
       db.session.add(barometer)
       db.session.commit()

@@ -10,7 +10,9 @@ class Barometer(db.Model):
     order: int 
     type: str
     min_result: float
+    min_result_note: str
     min_weight: float
+    min_weight_note: str
     is_active: bool
 
     id = db.Column(db.String(20), primary_key = True)
@@ -20,5 +22,7 @@ class Barometer(db.Model):
     order = db.Column(db.Integer)
     type = db.Column(db.String(255))
     min_result = db.Column(db.Float)
+    min_result_note = db.Column(db.String(255))
     min_weight = db.Column(db.Float)
+    min_weight_note = db.Column(db.String(255))
     is_active = db.Column(db.Boolean, default = True)

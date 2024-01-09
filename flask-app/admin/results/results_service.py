@@ -158,6 +158,12 @@ def find_one_auto(id):
       print( "answered: ", answered_weight, "/", max_weight, "result: ", score, "/", max_score, score / max_score)
 
       if score / max_score < barometer.min_result or answered_weight / max_weight < barometer.min_weight:
+        if barometer.min_weight_note != None and answered_weight / max_weight < barometer.min_weight:
+          report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
+          report_sections.append(render_template('reports/note.html', content = barometer.min_weight_note)) 
+        elif barometer.min_result_note != None and score / max_score < barometer.min_result:
+          report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
+          report_sections.append(render_template('reports/note.html', content = barometer.min_result_note))
         # hide the section
         continue
 
