@@ -32,7 +32,7 @@ def update_one(id):
   behavior.ranges = data.get('ranges')
   behavior.is_active = 1 if data.get('is_active') else 0
   behavior.weight = data.get('weight') if data.get('weight') else 0
-  behavior.itensity = data.get('itensity') if data.get('itensity') else 0
+  behavior.intensity = data.get('intensity') if data.get('intensity') else 0
   db.session.commit()
   return jsonify(behavior)
 

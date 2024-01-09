@@ -48,7 +48,7 @@ def update_one(id):
   if not data.get('content') or not data.get('min') or not data.get('max') or not data.get('type') or not data.get('link_to_choice'):
     return "Formulaire invalide.", 400
 
-  item = Behavior.query\
+  item = BarometerItem.query\
       .filter_by(id = id)\
       .first()
 

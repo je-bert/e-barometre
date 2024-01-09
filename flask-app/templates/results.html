@@ -1,6 +1,17 @@
 {% extends 'base.html' %} {% set active_page = "results" %} {% block title %}
 Résultats {% endblock %} {% block content %}
 <div class="relative overflow-x-auto w-full p-5">
+  <div class="flex w-full justify-around">
+    <a class="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold uppercase"
+      href="/admin/results/0/auto">Karine</a>
+    <a class="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold uppercase"
+      href="/admin/results/1/auto">Philippe</a>
+    <a class="bg-pink-500 text-white px-4 py-2 rounded-lg font-semibold uppercase"
+      href="/admin/results/2/auto">Sophia</a>
+    <a class="bg-purple-500 text-white px-4 py-2 rounded-lg font-semibold uppercase"
+      href="/admin/results/3/auto">Elo</a>
+    <a class="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold uppercase" href="/admin/results/4/auto">Chris</a>
+  </div>
   <h1 class="my-6 text-2xl font-semibold text-gray-900 dark:text-white">
     Résultats
   </h1>

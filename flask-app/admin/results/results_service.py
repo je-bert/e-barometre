@@ -140,7 +140,6 @@ def find_one_auto(id):
         score = score + (0 if result['ignore'] else result['intensity'] * result['result'])
         results_by_theme_id[result['theme_id']] = results_by_theme_id.get(result['theme_id'], [])
         results_by_theme_id[result['theme_id']].append(score)
-        print(result['intensity']  * result['result'])
 
       avg_by_theme_id = {}
       for theme_id in results_by_theme_id:
@@ -173,10 +172,10 @@ def find_one_auto(id):
 
       for item in items:
         value = total
-        if item.behavior_id != None:
+        if item.behavior_id != None and str(item.behavior_id) in results:
           value = results[str(item.behavior_id)]['result']
           #if result['ignore'] == False and (result['intensity'] * result['result']) >= avg_by_theme_id[result['theme_id']] and avg_by_theme_id[result['theme_id']] >= barometer_avg
-        elif item.theme_id != None:
+        elif item.theme_id != None and str(item.theme_id) in avg_by_theme_id:
           value = avg_by_theme_id[str(item.theme_id)]
         if item.type == 'range':
           if barometer.type == 'jauge':
