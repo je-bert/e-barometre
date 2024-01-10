@@ -45,14 +45,25 @@
         *</label>
     </div>
 
-    <div class="relative z-0 w-full mb-6 group">
-      <input name="min_result" id="min_result"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder="" value="{{barometer.min_result}}" required />
+    <div class="relative z-0 w-full group mb-12">
       <label for="min_result"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Résultat
         minimum pour afficher dans le rapport
         *</label>
+      <span class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
+      <input name="min_result" id="min_result" type="range" min="0" max="1" value="{{barometer.min_result}}" step="0.01"
+        class="slider box-border flex absolute -left-2 top-[38px] -right-2 h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        required />
+      {% for range in ranges %}
+      <span
+        class="-z-10 text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 {{ 'bg-gray-300' if loop.index % 2 == 1 else 'bg-gray-200'}} flex items-center justify-center">
+      </span>
+      <span
+        class="z-10 pointer-events-none text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 flex items-center justify-center">
+        {{range.content}}
+      </span>
+
+      {% endfor %}
     </div>
 
     <div class="relative z-0 w-full mb-6 group">
@@ -64,14 +75,16 @@
         à afficher dans le rapport si résultat sous le minimum</label>
     </div>
 
-    <div class="relative z-0 w-full mb-6 group">
-      <input name="min_weight" id="min_weight"
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder="" value="{{barometer.min_weight}}" required />
+
+    <div class="relative z-0 w-full group mb-12">
       <label for="min_weight"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">%
         répondu minimum pour afficher dans le rapport
         *</label>
+      <span class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
+      <input name="min_weight" id="min_weight" type="range" min="0" max="1" value="{{barometer.min_weight}}" step="0.01"
+        class="slider box-border flex absolute left-0 bg-gray-200 top-9 right-0 h-2 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        required />
     </div>
 
     <div class="relative z-0 w-full mb-6 group">

@@ -52,32 +52,37 @@ ressource"}) %}
 
     <div class="relative z-0 w-full group mb-12">
       <label for="min"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">Minimum
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Minimum
         *</label>
       <span class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
       <input name="min" id="min" type="range" min="0" max="1" value="0" step="0.01"
-        class="slider box-border flex absolute -left-2 top-9 -right-2 h-2 bg-transparent rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        class="slider box-border flex absolute -left-2 top-[38px] -right-2 h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         required />
       {% for range in ranges %}
       <span
         class="-z-10 text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 {{ 'bg-gray-300' if loop.index % 2 == 1 else 'bg-gray-200'}} flex items-center justify-center">
+      </span>
+      <span
+        class="z-10 pointer-events-none text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 flex items-center justify-center">
         {{range.content}}
       </span>
-
       {% endfor %}
     </div>
 
     <div class="relative z-0 w-full group mb-12">
       <label for="max"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 font-bold">Maximum
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Maximum
         *</label>
       <span class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
       <input name="max" id="max" type="range" min="0" max="1" value="1" step="0.01"
-        class="slider box-border flex absolute -left-2 top-9 -right-2 h-2 bg-transparent rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        class="slider box-border flex absolute -left-2 top-[38px] -right-2 h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         required />
       {% for range in ranges %}
       <span
         class="-z-10 text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 {{ 'bg-gray-300' if loop.index % 2 == 1 else 'bg-gray-200'}} flex items-center justify-center">
+      </span>
+      <span
+        class="z-10 pointer-events-none text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 flex items-center justify-center">
         {{range.content}}
       </span>
       {% endfor %}

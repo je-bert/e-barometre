@@ -67,7 +67,11 @@ def update_one(id):
     if not barometer:
       return abort(404)
     
-    return render_template('analysis/update-barometer.html', barometer = barometer)
+    ranges = BarometerItem.query\
+      .filter_by(barometer_id = id, type = 'range')\
+      .all()
+    
+    return render_template('analysis/update-barometer.html', barometer = barometer, ranges = ranges)
 
   data = request.form
 
