@@ -101,7 +101,6 @@ def add_one(id):
   if request.method == 'POST':
       data = request.form
 
-
       barometer = Barometer()
       barometer.id = generate_new_id() 
       barometer.section_id = id

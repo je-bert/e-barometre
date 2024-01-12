@@ -1,0 +1,30 @@
+{% macro nav(section_id, barometer_id, item_id, theme_id, behavior_id) %}
+
+<div class="flex w-full flex-wrap h-fit items-center gap-2">
+  <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/sections">Sections</a>
+  {% if section_id is defined %}
+  <span class="text-gray-500">/</span>
+  <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/sections/{{section_id}}">Section
+    {{section_id}}</a>
+  {% endif %}
+  {% if barometer_id is defined %}
+  <span class="text-gray-500">/</span>
+  <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/barometers/{{barometer_id}}">Baromètre
+    {{barometer_id}}</a>
+  {% endif %}
+  {% if item_id is defined %}
+  <span class="text-gray-500">/</span>
+  <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/items/update/{{item_id}}">Élément {{item_id}}</a>
+  {% endif %}
+  {% if theme_id is defined %}
+  <span class="text-gray-500">/</span>
+  <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/themes/{{theme_id}}">Thème {{theme_id}}</a>
+  {% endif %}
+  {% if behavior_id is defined %}
+  <span class="text-gray-500">/</span>
+  <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/behaviors/update/{{behavior_id}}">Comportement
+    {{behavior_id}}</a>
+  {% endif %}
+</div>
+
+{% endmacro %}

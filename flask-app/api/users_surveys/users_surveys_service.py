@@ -40,14 +40,14 @@ def get_next(current_user):
     .filter_by(report_id = report.report_id)\
     .all()
   
-  is_user_single = get_is_user_single(report.report_id)
+  is_other_parent_single = get_is_other_parent_single(report.report_id)
 
   kid_potentially_went_to_other_parent_house = get_kid_potentially_went_to_other_parent_house(report.report_id)
 
   surveys = Survey.query\
     .filter(Survey.survey_id.notin_([s.survey_id for s in completed_surveys]))
   
-  if is_user_single:
+  if is_other_parent_single:
     surveys= surveys.filter(Survey.survey_id != 'NC')
 
   if kid_potentially_went_to_other_parent_house == False:
@@ -61,7 +61,7 @@ def get_next(current_user):
 
   return jsonify(surveys[0]), 200
 
-def get_is_user_single(report_id):
+def get_is_other_parent_single(report_id):
 
   answer = Answer.query\
     .filter_by(report_id = report_id)\
