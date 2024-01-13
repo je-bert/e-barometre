@@ -111,8 +111,8 @@ def find_one_auto(id):
               .filter_by(report_id = report.report_id , question_id = behavior.question_id)\
               .first()
             
-            if answer == None or  answer.value == None or answer.value == '-1':
-               if  behavior.question_id in intensity_dict:
+            if answer == None or answer.value == None or answer.value == '-1':
+               if  behavior.question_id in intensity_dict and answer.value == '-1': # -1 means the question was s/o, but was shown to the user
                 results[behavior.id] = {"theme_id": theme.id, "result": 0, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": True}
             else:
               col = 0
