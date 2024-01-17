@@ -58,26 +58,28 @@ def update_one(id):
     if min_str != None and max_str != None:
       min = int(min_str)
       max = int(max_str)
-      if previous != None and previous != min:
-        if is_ascendant == None:
-          is_ascendant = previous < min
-        elif is_ascendant != (previous < min):
-          return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(previous) + (' > ' if is_ascendant else ' < ') + str(min), 400)
+      if previous != min:
+        if previous != None:
+          if is_ascendant == None:
+            is_ascendant = previous < min
+          elif is_ascendant != (previous < min):
+            return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(previous) + (' > ' if is_ascendant else ' < ') + str(min), 400)
       if len(ranges_str_builder) > 0:
         ranges_str_builder.append(',')
-      if is_ascendant == None and min != max:
-        is_ascendant =  min < max
-      elif is_ascendant != None and is_ascendant != (min < max):
-        return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(min) + (' > ' if is_ascendant else ' < ') + str(max), 400)
+      if min != max:
+        if is_ascendant == None:
+          is_ascendant =  min < max
+        elif is_ascendant != None and is_ascendant != (min < max):
+          return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(min) + (' > ' if is_ascendant else ' < ') + str(max), 400)
       ranges_str_builder.append(min_str + ':' + max_str)
       previous = max
-      print(ranges_str_builder)
     else:
       return make_response("Échelle invalide", 400)
   
   behavior.question_id = data.get('question_id')
   behavior.ranges = ''.join(ranges_str_builder)
   behavior.is_active = 1 if data.get('is_active') else 0
+  behavior.is_unavoidable = 1 if data.get('is_unavoidable') else 0
   behavior.weight = data.get('weight') if data.get('weight') else 0
   db.session.commit()
   return jsonify(behavior)
@@ -106,20 +108,21 @@ def add_one(id):
         if min_str != None and max_str != None:
           min = int(min_str)
           max = int(max_str)
-          if previous != None and previous != min:
-            if is_ascendant == None:
-              is_ascendant = previous < min
-            elif is_ascendant != (previous < min):
-              return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(previous) + (' > ' if is_ascendant else ' < ') + str(min), 400)
+          if previous != min:
+            if previous != None:
+              if is_ascendant == None:
+                is_ascendant = previous < min
+              elif is_ascendant != (previous < min):
+                return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(previous) + (' > ' if is_ascendant else ' < ') + str(min), 400)
           if len(ranges_str_builder) > 0:
             ranges_str_builder.append(',')
-          if is_ascendant == None and min != max:
-            is_ascendant =  min < max
-          elif is_ascendant != None and is_ascendant != (min < max):
-            return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(min) + (' > ' if is_ascendant else ' < ') + str(max), 400)
+          if min != max:
+            if is_ascendant == None:
+              is_ascendant =  min < max
+            elif is_ascendant != None and is_ascendant != (min < max):
+              return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(min) + (' > ' if is_ascendant else ' < ') + str(max), 400)
           ranges_str_builder.append(min_str + ':' + max_str)
           previous = max
-          print(ranges_str_builder)
         else:
           return make_response("Échelle invalide", 400)
 
@@ -129,6 +132,7 @@ def add_one(id):
       behavior.question_id = data.get('question_id')
       behavior.ranges = ''.join(ranges_str_builder)
       behavior.is_active = 1 if data.get('is_active') else 0
+      behavior.is_unavoidable = 1 if data.get('is_unavoidable') else 0
       behavior.weight = data.get('weight') if data.get('weight') else 0
       db.session.add(behavior)
       db.session.commit()
