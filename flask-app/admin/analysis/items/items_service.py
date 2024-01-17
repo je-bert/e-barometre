@@ -66,6 +66,8 @@ def update_one(id):
     item.behavior_id = link_to_choice[1] if link_to_choice[0] == 'behavior' else None
   item.min = float(data.get('min'))
   item.max = float(data.get('max'))
+  if(item.min > item.max):  
+    return make_response("Minimum et maximum invalides. Le minimum ne peut pas être plus grand que le maximum. " + str(item.min) + " <= " + str(item.max), 400)
   item.is_active = 1 if data.get('is_active') else 0
   db.session.commit()
   
@@ -90,7 +92,7 @@ def add_one(id, type = None):
       item.min = float(data.get('min'))
       item.max = float(data.get('max'))
       if(item.min > item.max):  
-        return make_response("Minimum et maximum invalides. Le minimum ne peut pas être plus grand que le maximum. " + item.min + " <= " + item.max, 400)
+        return make_response("Minimum et maximum invalides. Le minimum ne peut pas être plus grand que le maximum. " + str(item.min) + " <= " + str(item.max), 400)
       item.type = data.get('type')
       item.is_active = 1 if data.get('is_active') else 0
       db.session.add(item)
