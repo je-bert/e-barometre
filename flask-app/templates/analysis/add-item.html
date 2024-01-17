@@ -115,6 +115,14 @@ ressource"}) %}
 <script>
   $("#mainForm").submit(async function (event) {
     event.preventDefault();
+
+    const min = $("#min").val();
+    const max = $("#max").val();
+    if (min > max) {
+      $("#error").html("Le minimum ne peut pas être plus grand que le maximum").show();
+      return
+    }
+
     const formData = new FormData(document.getElementById('mainForm'));
     const response = await fetch(`/admin/analysis/items/add/{{barometer.id}}`, { body: formData, method: "post" });
     if (response.ok) {
