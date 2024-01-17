@@ -57,7 +57,7 @@ set questionTypes = [
       <!-- For the swithces -->
       {% if (name == 'violence_related' or name == 'active' or name == 'required' or name == 'reverse_answers') %}
       <div class="relative z-0 w-full group">
-        <label class="relative inline-flex items-center mb-4 cursor-pointer">
+        <label class="relative inline-flex items-center cursor-pointer">
           <input name="{{name}}" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if value==1 else ''
             }}>
           <div
@@ -120,7 +120,7 @@ set questionTypes = [
     </div>
     {% endfor %}
     <div class="">
-      <p id="error" class="my-2 text-sm text-red-600 dark:text-red-500"></p>
+      <p id="error" class="mb-6 text-sm text-red-600 dark:text-red-500"></p>
     </div>
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
       <button onclick="history.back()"

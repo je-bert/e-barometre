@@ -35,7 +35,7 @@
     </div>
 
     <div class="relative z-0 w-full mb-6 group">
-      <label class="relative inline-flex items-center mb-4 cursor-pointer">
+      <label class="relative inline-flex items-center cursor-pointer">
         <input name="is_active" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if section.is_active
           else '' }}>
         <div
@@ -43,6 +43,10 @@
         </div>
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Actif</span>
       </label>
+    </div>
+
+    <div class="">
+      <p id="error" class="mb-6 text-sm text-red-600 dark:text-red-500"></p>
     </div>
 
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
@@ -60,6 +64,9 @@
     const response = await fetch(`/admin/analysis/sections/update/{{section.id}}`, { body: formData, method: "post" });
     if (response.ok) {
       window.location = '/admin/analysis/sections';
+    } else {
+      error = await response.text();
+      $("#error").html(error).show();
     }
   });
 </script>

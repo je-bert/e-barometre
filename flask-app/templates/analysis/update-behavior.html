@@ -62,14 +62,15 @@
     <div class="relative z-0 w-full mb-6 group">
       <input name="weight" id="weight"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-        placeholder="" value="{{behavior.weight}}" required />
+        placeholder="" value="{{behavior.weight}}" />
       <label for="weight"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Poids
         répondu
         *</label>
     </div>
+
     <div class="relative z-0 w-full mb-6 group">
-      <label class="relative inline-flex items-center mb-4 cursor-pointer">
+      <label class="relative inline-flex items-center cursor-pointer">
         <input name="is_active" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if behavior.is_active
           else '' }}>
         <div
@@ -79,6 +80,9 @@
       </label>
     </div>
 
+    <div class="">
+      <p id="error" class="mb-6 text-sm text-red-600 dark:text-red-500"></p>
+    </div>
 
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
       <button onclick="history.back()"
@@ -95,6 +99,9 @@
     const response = await fetch(`/admin/analysis/behaviors/update/{{behavior.id}}`, { body: formData, method: "post" });
     if (response.ok) {
       window.location = '/admin/analysis/themes/{{behavior.theme_id}}';
+    } else {
+      error = await response.text();
+      $("#error").html(error).show();
     }
   });
 </script>

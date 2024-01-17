@@ -90,7 +90,7 @@ ressource"}) %}
     </div>
 
     <div class="relative z-0 w-full mb-6 group">
-      <label class="relative inline-flex items-center mb-4 cursor-pointer">
+      <label class="relative inline-flex items-center cursor-pointer">
         <input name="is_active" type="checkbox" value="active" class="sr-only peer" {{ 'checked' if item.is_active
           else '' }}>
         <div
@@ -98,6 +98,10 @@ ressource"}) %}
         </div>
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Actif</span>
       </label>
+    </div>
+
+    <div class="">
+      <p id="error" class="mb-6 text-sm text-red-600 dark:text-red-500"></p>
     </div>
 
     <div class="items-center space-y-4 sm:space-x-4 sm:flex sm:space-y-0">
@@ -115,6 +119,9 @@ ressource"}) %}
     const response = await fetch(`/admin/analysis/items/update/{{item.id}}`, { body: formData, method: "post" });
     if (response.ok) {
       window.location = '/admin/analysis/barometers/{{item.barometer_id}}';
+    } else {
+      error = await response.text();
+      $("#error").html(error).show();
     }
   });
 
