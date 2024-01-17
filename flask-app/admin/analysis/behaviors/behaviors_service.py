@@ -47,13 +47,31 @@ def update_one(id):
 
   if not data.get('question_id'):
     return "Formulaire invalide.", 400
+  
+  is_ascendant = None
+  previous = None
 
   ranges_str_builder = []
   for range in ranges:
-    if data.get('range-' +  range.id + '-min') != None and data.get('range-' +  range.id + '-max') != None:
+    min_str = data.get('range-' +  range.id + '-min')
+    max_str = data.get('range-' +  range.id + '-max')
+    if min_str != None and max_str != None:
+      min = int(min_str)
+      max = int(max_str)
+      if previous != None and previous != min:
+        if is_ascendant == None:
+          is_ascendant = previous < min
+        elif is_ascendant != (previous < min):
+          return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(previous) + (' > ' if is_ascendant else ' < ') + str(min), 400)
       if len(ranges_str_builder) > 0:
         ranges_str_builder.append(',')
-      ranges_str_builder.append(data.get('range-' +  range.id + '-min') + ':' + data.get('range-' +  range.id + '-max'))
+      if is_ascendant == None and min != max:
+        is_ascendant =  min < max
+      elif is_ascendant != None and is_ascendant != (min < max):
+        return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(min) + (' > ' if is_ascendant else ' < ') + str(max), 400)
+      ranges_str_builder.append(min_str + ':' + max_str)
+      previous = max
+      print(ranges_str_builder)
     else:
       return make_response("Échelle invalide", 400)
   
@@ -78,13 +96,30 @@ def add_one(id):
   
   if request.method == 'POST':
       data = request.form
+      is_ascendant = None
+      previous = None
 
       ranges_str_builder = []
       for range in ranges:
-        if data.get('range-' +  range.id + '-min') != None and data.get('range-' +  range.id + '-max') != None:
+        min_str = data.get('range-' +  range.id + '-min')
+        max_str = data.get('range-' +  range.id + '-max')
+        if min_str != None and max_str != None:
+          min = int(min_str)
+          max = int(max_str)
+          if previous != None and previous != min:
+            if is_ascendant == None:
+              is_ascendant = previous < min
+            elif is_ascendant != (previous < min):
+              return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(previous) + (' > ' if is_ascendant else ' < ') + str(min), 400)
           if len(ranges_str_builder) > 0:
             ranges_str_builder.append(',')
-          ranges_str_builder.append(data.get('range-' +  range.id + '-min') + ':' + data.get('range-' +  range.id + '-max'))
+          if is_ascendant == None and min != max:
+            is_ascendant =  min < max
+          elif is_ascendant != None and is_ascendant != (min < max):
+            return make_response("Échelle invalide: elle doit être soit ascendante, soit descendante. " + str(min) + (' > ' if is_ascendant else ' < ') + str(max), 400)
+          ranges_str_builder.append(min_str + ':' + max_str)
+          previous = max
+          print(ranges_str_builder)
         else:
           return make_response("Échelle invalide", 400)
 
