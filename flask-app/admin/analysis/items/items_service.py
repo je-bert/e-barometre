@@ -1,6 +1,7 @@
 from models import Barometer, BarometerItem, Theme , Behavior
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
+from utils import condition_parser as cp
 
 def update_one(id):
   if request.method == 'GET':
@@ -52,6 +53,11 @@ def update_one(id):
   if not data.get('content') or not data.get('min') or not data.get('max'):
     return "Formulaire invalide.", 400
 
+  if data.get('condition') != None and data.get('condition') != '':
+    if not cp.is_valid_condition_syntax(data.get('condition')):
+      return make_response("La condition n'est pas valide.", 400)
+      
+
   item = BarometerItem.query\
       .filter_by(id = id)\
       .first()
@@ -70,6 +76,7 @@ def update_one(id):
     return make_response("Minimum et maximum invalides. Le minimum ne peut pas être plus grand que le maximum. " + str(item.min) + " <= " + str(item.max), 400)
   item.is_active = 1 if data.get('is_active') else 0
   item.is_unavoidable = 1 if data.get('is_unavoidable') else 0
+  item.condition = None if data.get('condition') == '' else data.get('condition')
   db.session.commit()
   
   return jsonify(item)
@@ -80,6 +87,10 @@ def add_one(id, type = None):
 
       if not data.get('content') or not data.get('min') or not data.get('max') or not data.get('type'):
         return make_response("Formulaire invalide.", 400)
+      
+      if data.get('condition') != None and data.get('condition') != '':
+        if not cp.is_valid_condition_syntax(data.get('condition')):
+          return make_response("La condition n'est pas valide.", 400)
       
        
       item = BarometerItem()
@@ -97,6 +108,7 @@ def add_one(id, type = None):
       item.type = data.get('type')
       item.is_active = 1 if data.get('is_active') else 0
       item.is_unavoidable = 1 if data.get('is_unavoidable') else 0
+      item.condition = None if data.get('condition') == '' else data.get('condition')
       db.session.add(item)
       db.session.commit()
 

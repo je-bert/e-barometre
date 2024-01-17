@@ -3,6 +3,7 @@ from models import User, Report, Question, Answer, Section, Barometer, Barometer
 import os
 import math
 from questions import questions_service
+from utils import condition_parser as cp
 
 def find_all():
   if not os.path.exists('master_results'):
@@ -75,6 +76,10 @@ def find_one_auto(id):
     return "Not found", 404
   
   intensity_dict = questions_service.generate_gradients(id)
+  user_answers = Answer.query\
+    .filter_by(report_id = id)\
+    .all()
+  answers_dict = {answer.question_id: answer for answer in user_answers}
   report_sections = []
 
   sections = Section.query\
@@ -113,9 +118,10 @@ def find_one_auto(id):
             ranges = behavior.ranges.split(',')
             is_desc = ranges[0].split(':')[0] > ranges[-1].split(':')[1]
 
-            answer = Answer.query\
-              .filter_by(report_id = report.report_id , question_id = behavior.question_id)\
-              .first()
+            if behavior.question_id not in answers_dict:
+              answer = None
+            else:
+              answer = answers_dict.get(behavior.question_id)
             
             if answer == None or answer.value == None or answer.value == '-1':
                if  behavior.question_id in intensity_dict and answer.value == '-1': # -1 means the question was s/o, but was shown to the user
@@ -191,6 +197,9 @@ def find_one_auto(id):
 
       for item in items:
         value = total
+        if item.condition != None and item.condition != '':
+          if not cp.parse_condition(item.condition, answers_dict):
+            continue
         if item.behavior_id != None and str(item.behavior_id) in results:
           value = results[str(item.behavior_id)]['result']
           #if result['ignore'] == False and (result['intensity'] * result['result']) >= avg_by_theme_id[result['theme_id']] and avg_by_theme_id[result['theme_id']] >= barometer_avg
