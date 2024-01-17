@@ -55,7 +55,7 @@ ressource"}) %}
       <label for="min"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Minimum
         *</label>
-      <span class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
+      <span id="min-val" class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
       <input name="min" id="min" type="range" min="0" max="1" value="{{item.min}}" step="0.01"
         class="slider box-border flex absolute -left-2 top-[38px] -right-2 h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         required />
@@ -74,7 +74,7 @@ ressource"}) %}
       <label for="max"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Maximum
         *</label>
-      <span class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
+      <span id="max-val" class="slider-value text-sm text-gray-600 dark:text-gray-300 pt-2 flex">0</span>
       <input name="max" id="max" type="range" min="0" max="1" value="{{item.max}}" step="0.01"
         class="slider box-border flex absolute -left-2 top-[38px] -right-2 h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         required />
@@ -117,6 +117,14 @@ ressource"}) %}
     event.preventDefault();
     const formData = new FormData(document.getElementById('mainForm'));
     const response = await fetch(`/admin/analysis/items/update/{{item.id}}`, { body: formData, method: "post" });
+
+    const min = $("#min").val();
+    const max = $("#max").val();
+    if (min > max) {
+      $("#error").html("Le minimum ne peut pas être plus grand que le maximum").show();
+      return
+    }
+
     if (response.ok) {
       window.location = '/admin/analysis/barometers/{{item.barometer_id}}';
     } else {
@@ -125,5 +133,26 @@ ressource"}) %}
     }
   });
 
+  $(document).ready(function () {
+    $("#min").on("input", function () {
+      const min = $(this).val();
+      const max = $("#max").val();
+
+      if (max < min) {
+        $("#max").val(min);
+        $("#max-val").text(min);
+      }
+    });
+
+    $("#max").on("input", function () {
+      const max = $(this).val();
+      const min = $("#min").val();
+
+      if (max < min) {
+        $("#min").val(max);
+        $("#min-val").text(max);
+      }
+    });
+  });
 </script>
 {% endblock %}
