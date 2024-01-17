@@ -257,10 +257,10 @@ def find_one_auto(id):
       if len(ressources) > 0:
         report_sections.append(render_template('reports/ressources.html', content = ressources))
 
-  # Summary
+  # Other points to consider
   if len(summary_analysis) > 0 or len(summary_observations) > 0 or len(summary_yellow_flags) > 0 or len(summary_red_flags) > 0 or len(summary_ressources) > 0:
-    report_sections.append(render_template('reports/section-title.html', content = "Sommaire"))
-    report_sections.append(render_template('reports/about-barometer.html', content = "Lorem Ipsum"))
+    report_sections.append(render_template('reports/section-title.html', content = "Considérations importantes"))
+    report_sections.append(render_template('reports/about-barometer.html', content = "Dans cette section, nous abordons des aspects cruciaux qui n'ont pas trouvé leur place dans les sections précédentes du rapport, mais qui demeurent essentiels à considérer."))
     if len(summary_analysis) > 0 or len(summary_observations) > 0:
       report_sections.append(render_template('reports/themes.html', analysis_items = summary_analysis, observations = summary_observations))
     if len(summary_red_flags) > 0 or len(summary_yellow_flags) > 0:
