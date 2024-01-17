@@ -106,6 +106,8 @@ def find_one_auto(id):
             .all()
           for behavior in behaviors:
             ranges = behavior.ranges.split(',')
+            is_desc = ranges[0].split(':')[0] > ranges[-1].split(':')[1]
+            print(is_desc)
 
             answer = Answer.query\
               .filter_by(report_id = report.report_id , question_id = behavior.question_id)\
@@ -121,13 +123,17 @@ def find_one_auto(id):
                 current_range = ranges[col].split(':')
                 if (len(current_range) != 2):
                   continue
-                if (answer >= int(current_range[0]) and answer <= int(current_range[1])):
+                if (answer >= int(current_range[0]) and answer <= int(current_range[1]) or (is_desc and answer <= int(current_range[0]) and answer >= int(current_range[1]))):
                   break
                 col = col + 1
               
               if (col == len(ranges)):
                 continue
-              result = 0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
+              if (is_desc):
+                result =  0.25  * col + 0.25 * (int(current_range[0]) - answer) / (int(current_range[0]) - int(current_range[1]) + 1)
+                print(result)
+              else:
+                result =  0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
               if (col == len(ranges) - 1 and answer == int(current_range[1])):
                 result = 1
               results[behavior.id] = { "theme_id": theme.id, "result": result, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": False}
