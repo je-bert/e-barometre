@@ -12,6 +12,7 @@ class BarometerItem(db.Model):
   max: float
   type: str
   is_active: bool
+  is_unavoidable: bool
 
   id = db.Column(db.String(20), primary_key = True)
   barometer_id = db.Column(db.String(20), db.ForeignKey( "barometer.id", ondelete='CASCADE'), nullable = False)
@@ -22,3 +23,4 @@ class BarometerItem(db.Model):
   max = db.Column(db.Float(20))
   type = db.Column(db.String(20))
   is_active = db.Column(db.Boolean, default = True)
+  is_unavoidable = db.Column(db.Boolean, default = False)

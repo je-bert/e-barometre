@@ -71,7 +71,6 @@ def find_one_auto(id):
     .filter_by(report_id = id)\
     .first()
 
-  
   if not report:
     return "Not found", 404
   
@@ -88,6 +87,12 @@ def find_one_auto(id):
     barometers = Barometer.query\
       .filter_by(section_id = section.id, is_active = True)\
       .all()
+
+    summary_analysis = []
+    summary_observations = []
+    summary_yellow_flags = []
+    summary_red_flags = []
+    summary_ressources = []
     
     for barometer in barometers:
       results = {}
@@ -107,7 +112,6 @@ def find_one_auto(id):
           for behavior in behaviors:
             ranges = behavior.ranges.split(',')
             is_desc = ranges[0].split(':')[0] > ranges[-1].split(':')[1]
-            print(is_desc)
 
             answer = Answer.query\
               .filter_by(report_id = report.report_id , question_id = behavior.question_id)\
@@ -131,7 +135,6 @@ def find_one_auto(id):
                 continue
               if (is_desc):
                 result =  0.25  * col + 0.25 * (int(current_range[0]) - answer) / (int(current_range[0]) - int(current_range[1]) + 1)
-                print(result)
               else:
                 result =  0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
               if (col == len(ranges) - 1 and answer == int(current_range[1])):
@@ -163,6 +166,7 @@ def find_one_auto(id):
         barometer_avg = barometer_avg + avg_by_theme_id[theme_id]
       barometer_avg = barometer_avg / len(avg_by_theme_id)
       print( "answered: ", answered_weight, "/", max_weight, "result: ", score, "/", max_score, score / max_score)
+      hide = False
 
       if score / max_score < barometer.min_result or answered_weight / max_weight < barometer.min_weight:
         if barometer.min_weight_note != None and answered_weight / max_weight < barometer.min_weight:
@@ -171,8 +175,7 @@ def find_one_auto(id):
         elif barometer.min_result_note != None and score / max_score < barometer.min_result:
           report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
           report_sections.append(render_template('reports/note.html', content = barometer.min_result_note))
-        # hide the section
-        continue
+        hide = True
 
       total = score / max_score
       analysis = []
@@ -195,18 +198,39 @@ def find_one_auto(id):
           value = avg_by_theme_id[str(item.theme_id)]
         if item.type == 'range':
           if barometer.type == 'jauge':
-            ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
+            if hide == False:
+              ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
         if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
           if item.type == 'observation':
-            analysis.append(item.content)
+            if item.theme_id == None and item.behavior_id == None:
+              if hide and item.is_unavoidable:
+                summary_analysis.append(item.content)
+              else:
+                analysis.append(item.content)
+            else:
+              if hide and item.is_unavoidable:
+                summary_observations.append(item.content)
+              else:
+                observations.append(item.content)
           elif item.type == 'yellow_flag':
-            yellow_flags.append(item.content)
+            if hide and item.is_unavoidable:
+              summary_yellow_flags.append(item.content)
+            else:
+              yellow_flags.append(item.content)
           elif item.type == 'red_flag':
-            red_flags.append(item.content)
+            if hide and item.is_unavoidable:
+              summary_red_flags.append(item.content)
+            else:
+              red_flags.append(item.content)
           elif item.type == 'flag_introduction':
-            flag_introduction = item.content
+              flag_introduction = item.content
           elif item.type == 'ressource':
-            ressources.append(item.content)
+            if hide and item.is_unavoidable:
+              summary_ressources.append(item.content)
+            else:
+              ressources.append(item.content)
+      if hide:
+        continue
 
       report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
       report_sections.append(render_template('reports/about-barometer.html', content = barometer.about_barometer))
@@ -223,6 +247,17 @@ def find_one_auto(id):
         report_sections.append(render_template('reports/flags.html', yellow_flags = yellow_flags, red_flags = red_flags, flag_introduction = flag_introduction))
       if len(ressources) > 0:
         report_sections.append(render_template('reports/ressources.html', content = ressources))
+
+  # Summary
+  if len(summary_analysis) > 0 or len(summary_observations) > 0 or len(summary_yellow_flags) > 0 or len(summary_red_flags) > 0 or len(summary_ressources) > 0:
+    report_sections.append(render_template('reports/section-title.html', content = "Sommaire"))
+    report_sections.append(render_template('reports/about-barometer.html', content = "Lorem Ipsum"))
+    if len(summary_analysis) > 0 or len(summary_observations) > 0:
+      report_sections.append(render_template('reports/themes.html', analysis_items = summary_analysis, observations = summary_observations))
+    if len(summary_red_flags) > 0 or len(summary_yellow_flags) > 0:
+      report_sections.append(render_template('reports/flags.html', yellow_flags = summary_yellow_flags, red_flags = summary_red_flags, flag_introduction = "Lorem Ipsum"))
+    if len(summary_ressources) > 0:
+      report_sections.append(render_template('reports/ressources.html', content = summary_ressources))
 
   return render_template('reports/report-1/base.html', children = report_sections)
 

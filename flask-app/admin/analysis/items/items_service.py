@@ -69,6 +69,7 @@ def update_one(id):
   if(item.min > item.max):  
     return make_response("Minimum et maximum invalides. Le minimum ne peut pas être plus grand que le maximum. " + str(item.min) + " <= " + str(item.max), 400)
   item.is_active = 1 if data.get('is_active') else 0
+  item.is_unavoidable = 1 if data.get('is_unavoidable') else 0
   db.session.commit()
   
   return jsonify(item)
@@ -95,6 +96,7 @@ def add_one(id, type = None):
         return make_response("Minimum et maximum invalides. Le minimum ne peut pas être plus grand que le maximum. " + str(item.min) + " <= " + str(item.max), 400)
       item.type = data.get('type')
       item.is_active = 1 if data.get('is_active') else 0
+      item.is_unavoidable = 1 if data.get('is_unavoidable') else 0
       db.session.add(item)
       db.session.commit()
 
