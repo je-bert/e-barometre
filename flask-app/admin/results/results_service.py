@@ -68,6 +68,7 @@ def find_one_pdf(id):
 
 
 def find_one_auto(id):
+  is_admin = True
   report = Report.query\
     .filter_by(report_id = id)\
     .first()
@@ -108,7 +109,7 @@ def find_one_auto(id):
         .filter_by(barometer_id = barometer.id, is_active = True)\
         .all()
 
-      if barometer.type == 'jauge':
+      if barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
         # for each theme
         for theme in themes:
           behaviors = Behavior.query\
@@ -118,14 +119,13 @@ def find_one_auto(id):
             ranges = behavior.ranges.split(',')
             is_desc = ranges[0].split(':')[0] > ranges[-1].split(':')[1]
 
-            if behavior.question_id not in answers_dict:
-              answer = None
-            else:
+            answer = None
+            if behavior.question_id in answers_dict:
               answer = answers_dict.get(behavior.question_id)
             
             if answer == None or answer.value == None or answer.value == '-1':
-               if  behavior.question_id in intensity_dict and answer.value == '-1': # -1 means the question was s/o, but was shown to the user
-                results[behavior.id] = {"theme_id": theme.id, "result": 0, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": True}
+               if behavior.question_id in intensity_dict and answer != None and answer.value == '-1': # -1 means the question was s/o, but was shown to the user
+                results[behavior.id] = {"answer": answer.value if answer != None else answer,"question_id": behavior.question_id, "theme_id": theme.id, "result": 0, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": True}
             else:
               col = 0
               answer = int(answer.value)
@@ -145,45 +145,57 @@ def find_one_auto(id):
                 result =  0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
               if (col == len(ranges) - 1 and answer == int(current_range[1])):
                 result = 1
-              results[behavior.id] = { "theme_id": theme.id, "result": result, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": False}
+              results[behavior.id] = {"answer": answer, "question_id": behavior.question_id,  "theme_id": theme.id, "result": result, "intensity": intensity_dict[behavior.question_id] if behavior.question_id in intensity_dict else 0, "weight": behavior.weight, "ignore": False}
       else: continue
       max_weight = 0
       answered_weight = 0
       max_score = 0
       score = 0
       results_by_theme_id = {}
+      if is_admin:
+        report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+        report_sections.append('<table class="w-full admin-table">')
+        report_sections.append('<tr><th class="text-left">Comportement</th><th class="text-center">Réponse</th><th class="text-center">Intensité</th><th class="text-center">Poids</th><th class="text-center">Indice</th></tr>')
       for result in results.values():
         max_weight = max_weight + result['weight']
         answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
         max_score = (max_score + result['intensity']) if result['ignore'] == False else max_score
         score = score + (0 if result['ignore'] else result['intensity'] * result['result'])
         results_by_theme_id[result['theme_id']] = results_by_theme_id.get(result['theme_id'], [])
-        results_by_theme_id[result['theme_id']].append(score)
+        results_by_theme_id[result['theme_id']].append(0 if result['ignore'] else  result['result'])
+        if is_admin:
+          report_sections.append('<tr><td>{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td></tr>'.format(result['question_id'], result['answer'], result['intensity'], round(result['weight'],3), round(result['result'] * result['intensity'], 3)))
+      if is_admin:
+        report_sections.append('</table>')
 
       avg_by_theme_id = {}
       for theme_id in results_by_theme_id:
         avg = 0
         for result in results_by_theme_id[theme_id]:
           avg = avg + result
-        avg = avg / len(results_by_theme_id[theme_id])
+        avg = avg / (len(results_by_theme_id[theme_id]) if len(results_by_theme_id[theme_id]) != 0 else 1)
         avg_by_theme_id[theme_id] = avg
       barometer_avg = 0
       for theme_id in avg_by_theme_id:
         barometer_avg = barometer_avg + avg_by_theme_id[theme_id]
-      barometer_avg = barometer_avg / len(avg_by_theme_id)
-      print( "answered: ", answered_weight, "/", max_weight, "result: ", score, "/", max_score, score / max_score)
+      barometer_avg = barometer_avg / (len(avg_by_theme_id) if len(avg_by_theme_id) != 0 else 1)
       hide = False
 
-      if score / max_score < barometer.min_result or answered_weight / max_weight < barometer.min_weight:
-        if barometer.min_weight_note != None and answered_weight / max_weight < barometer.min_weight:
+      total = score / (max_score if max_score != 0 else 1)
+      weight_percentage = answered_weight / (max_weight if max_weight != 0 else 1)
+      if is_admin:
+        report_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
+        report_sections.append('<p class="text-center">Poids répondu: {} / {} = {}</p></div>'.format(round(answered_weight, 3), round(max_weight, 3), round(weight_percentage, 3)))
+      if total < barometer.min_result or weight_percentage < barometer.min_weight:
+        if barometer.min_weight_note != None and weight_percentage < barometer.min_weight:
           report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
           report_sections.append(render_template('reports/note.html', content = barometer.min_weight_note)) 
-        elif barometer.min_result_note != None and score / max_score < barometer.min_result:
+        elif barometer.min_result_note != None and total < barometer.min_result:
           report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
           report_sections.append(render_template('reports/note.html', content = barometer.min_result_note))
         hide = True
 
-      total = score / max_score
+
       analysis = []
       observations = []
       yellow_flags = []
@@ -206,7 +218,7 @@ def find_one_auto(id):
         elif item.theme_id != None and str(item.theme_id) in avg_by_theme_id:
           value = avg_by_theme_id[str(item.theme_id)]
         if item.type == 'range':
-          if barometer.type == 'jauge':
+          if barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
             if hide == False:
               ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
         if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
@@ -243,13 +255,13 @@ def find_one_auto(id):
 
       report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
       report_sections.append(render_template('reports/about-barometer.html', content = barometer.about_barometer))
-      if barometer.type == 'barometer-1' or barometer.type == 'jauge' or barometer.type == 'barometer-6':
+      if barometer.type == 'barometer-1' or barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
         # For barometer 1, 5 and 6, about barometer section is different on desktop
         report_sections.pop()
         report_sections.append(render_template('reports/about-barometer.html', content = barometer.about_barometer, hide_lg = True))
     
-      if barometer.type == 'jauge' or barometer.type == 'barometer-2' or barometer.type == 'barometer-3':
-        report_sections.append(render_template("reports/report-1/" + barometer.type + ".html", data = generate_barometer_data(barometer.type, total, ranges), about = barometer.about_barometer))
+      if barometer.type == 'linear-gauge' or barometer.type == 'barometer-2' or barometer.type == 'barometer-3' or barometer.type == 'circular-gauge':
+        report_sections.append(render_template("reports/report-1/" + barometer.type + ".html", data = generate_barometer_data(barometer.id, barometer.type, total, ranges), about = barometer.about_barometer))
 
       report_sections.append(render_template('reports/themes.html', analysis_items = analysis, observations = observations))
       if len(red_flags) > 0 or len(yellow_flags) > 0:
@@ -270,21 +282,20 @@ def find_one_auto(id):
 
   return render_template('reports/report-1/base.html', children = report_sections)
 
-def generate_barometer_data(barometer, value, content):
+def generate_barometer_data(id, barometer, value, content):
   if barometer == "barometer-2" or barometer == "barometer-3":
     data = {
-      "id": barometer,
+      "id": id,
       "label_1": "PARENT RÉPONDANT",
       "label_2": "CO PARENT",
       "items": content,
     }
-    print(data['items'])
     # Sort the items based on the difference between first_value and second_value
     data['items'] = sorted(data['items'], key=lambda x: abs((int(x['value_1']) if x['value_1'] != None else 0) - (int(x['value_2']) if x['value_2'] != None else 0)), reverse=True)
     return data
-  elif barometer == "jauge":
+  elif barometer == "linear-gauge":
     data = {
-      "id": "barometer_5",
+      "id": id,
       "value": value,
       "range": content ,
     }
@@ -296,6 +307,20 @@ def generate_barometer_data(barometer, value, content):
     data['green'] = (data['range'][0]['max'] / data['range'][3]['max']) * 100
     data['yellow'] = (data['range'][1]['max'] / data['range'][3]['max']) * 100
     data['orange'] = (data['range'][2]['max'] / data['range'][3]['max']) * 100
+    return data
+  elif barometer == "circular-gauge":
+    data = {
+      "id": id,
+      "value": value,
+      "range": [
+
+        content[0]['min'], # Green
+        content[1]['min'], # Yellow (min for risk)
+        content[2]['min'], # Orange
+        content[3]['min'], # Red
+        content[3]['max'], # Max
+      ]
+    }
     return data
   else:
     return {}
