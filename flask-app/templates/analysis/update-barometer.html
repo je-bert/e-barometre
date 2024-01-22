@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 {% set active_page = "analysis-sections" %}
 
-{% set schemaTypes = ['linear-gauge', 'circular-gauge'] %}
+{% set schemaTypes = ['linear-gauge', 'circular-gauge', 'mirror', 'action-reaction'] %}
 
 {% block title %} Baromètre #{{barometer.id}} {% endblock %}
 
@@ -142,7 +142,7 @@
     const formData = new FormData(document.getElementById('mainForm'));
     const response = await fetch(`/admin/analysis/barometers/update/{{barometer.id}}`, { body: formData, method: "post" });
     if (response.ok) {
-      window.location = '/admin/analysis/sections/{{barometer.section_id}}';
+      window.location = '/admin/analysis/barometers/{{barometer.id}}';
     } else {
       error = await response.text();
       $("#error").html(error).show();

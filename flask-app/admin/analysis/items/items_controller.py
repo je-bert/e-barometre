@@ -14,6 +14,11 @@ def update_one(id):
 def add_one(id):
     return items_service.add_one(id)
 
+@items_router.route('/add-range/<id>/<indicator_id>',methods=['GET'])
+@auth
+def add_one_range_indicator(id, indicator_id):
+    return items_service.add_one(id, 'range', indicator_id)
+
 @items_router.route('/add-range/<id>',methods=['GET'])
 @auth
 def add_one_range(id):

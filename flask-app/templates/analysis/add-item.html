@@ -61,6 +61,7 @@ ressource"}) %}
         class="slider box-border flex absolute -left-2 top-[38px] -right-2 h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         required />
       {% for range in ranges %}
+      {%if range.indicator_id == indicator_id %}
       <span
         class="-z-10 text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 {{ 'bg-gray-300' if loop.index % 2 == 1 else 'bg-gray-200'}} flex items-center justify-center">
       </span>
@@ -68,6 +69,7 @@ ressource"}) %}
         class="z-10 pointer-events-none text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 flex items-center justify-center">
         {{range.content}}
       </span>
+      {% endif %}
       {% endfor %}
     </div>
 
@@ -80,6 +82,7 @@ ressource"}) %}
         class="slider box-border flex absolute -left-2 top-[38px] -right-2 h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
         required />
       {% for range in ranges %}
+      {%if range.indicator_id == indicator_id %}
       <span
         class="-z-10 text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 {{ 'bg-gray-300' if loop.index % 2 == 1 else 'bg-gray-200'}} flex items-center justify-center">
       </span>
@@ -87,6 +90,7 @@ ressource"}) %}
         class="z-10 pointer-events-none text-sm text-gray-500 dark:text-gray-400 top-8 h-4 absolute start-[{{range.min*100}}%] end-[{{100 - range.max*100}}%] text-center bottom-0 flex items-center justify-center">
         {{range.content}}
       </span>
+      {% endif %}
       {% endfor %}
     </div>
 
@@ -100,6 +104,9 @@ ressource"}) %}
       </label>
     </div>
 
+    {%if indicator_id %}
+    <input type="hidden" name="indicator_id" id="indicator_id" value="{{indicator_id}}">
+    {% endif %}
 
 
     {% if type != 'flag_introduction' and type != 'range' %}

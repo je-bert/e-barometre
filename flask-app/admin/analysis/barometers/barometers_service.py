@@ -1,4 +1,4 @@
-from models import Barometer, BarometerItem, Theme, Behavior, Section
+from models import Barometer, BarometerItem, Theme, Behavior, Section, BarometerActor, Actor
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 from sqlalchemy import func
@@ -11,10 +11,6 @@ def find_one(id):
   if not barometer:
     return abort(404)
   
-  items = BarometerItem.query\
-    .filter_by(barometer_id = id)\
-    .all()
-  
   themes = db.session.query(
       Theme.id, 
       Theme.barometer_id, 
@@ -26,13 +22,20 @@ def find_one(id):
       .group_by(Theme.id)\
       .all()
   
+  for actor in barometer.actors:
+    item = Actor.query\
+      .filter_by(id = actor.actor_id)\
+      .first()
+    if item:
+      actor.name = item.name
+  
   ranges = []
   ressources = []
   observations = []
   yellow_flags = []
   red_flags = []
   flag_introductions = []
-  for item in items:
+  for item in barometer.items:
     if item.type == 'range':
       ranges.append(item)
     elif item.type == 'ressource':
@@ -46,16 +49,20 @@ def find_one(id):
     elif item.type == 'flag_introduction':
       flag_introductions.append(item)
 
+  items = {
+    'observation': observations,
+    'flag_introduction': flag_introductions,
+    'yellow_flag': yellow_flags,
+    'red_flag': red_flags,
+    'ressource': ressources,
+  }
+
   return render_template(
     'analysis/view-one-barometer.html',
     barometer = barometer, 
     ranges = ranges, 
-    ressources = ressources,
-    observations = observations, 
-    yellow_flags = yellow_flags,
-    red_flags = red_flags,
-    flag_introductions = flag_introductions,
-    themes = themes
+    items = items,
+    themes = themes,
   )
 
 def update_one(id):
@@ -94,6 +101,37 @@ def update_one(id):
   barometer.min_weight_note = data.get('min_weight_note') if data.get('min_weight_note') and data.get('min_weight_note') != '' else None
   barometer.type = data.get('type') if data.get('type') else None
   barometer.is_active = 1 if data.get('is_active') else 0
+
+  actors_to_add = 0
+
+  if barometer.type == 'mirror':
+    actors_to_add = 2
+
+  if actors_to_add != barometer.actors:
+    actors_to_add = actors_to_add - len(barometer.actors)
+
+    if actors_to_add > 0:
+      actors = Actor.query\
+        .all()
+    
+      if len(actors) < actors_to_add + len(barometer.actors):
+        return make_response("Il n'y a pas assez d'acteurs de disponible pour créer le baromètre. Vous devez d'abord créer des acteurs.", 400)
+
+      for i in range(actors_to_add):
+        actor = BarometerActor()
+        actor.id = generate_new_actor_id()
+        actor.barometer_id = barometer.id
+        actor.actor_id = actors[i + len(barometer.actors)].id
+        db.session.add(actor)
+    elif actors_to_add < 0:
+      actors_to_add = actors_to_add * -1
+      actors = BarometerActor.query\
+        .filter_by(barometer_id = barometer.id)\
+        .all()
+      
+      for i in range(actors_to_add):
+        db.session.delete(actors[(len(actors) - 1 - i)])
+
   db.session.commit()
   return jsonify(barometer)
 
@@ -113,8 +151,26 @@ def add_one(id):
       barometer.min_result_note = data.get('min_result_note') if data.get('min_result_note') and data.get('min_result_note') != '' else None
       barometer.min_weight = float(data.get('min_weight')) if data.get('min_weight') else 0
       barometer.min_weight_note = data.get('min_weight_note') if data.get('min_weight_note') and data.get('min_weight_note') != '' else None
-      
       db.session.add(barometer)
+
+      actors_to_add = 0
+
+      if barometer.type == 'mirror':
+        actors_to_add = 2
+
+      actors = Actor.query\
+        .all()
+      
+      if len(actors) < actors_to_add:
+        return make_response("Il n'y a pas assez d'acteurs de disponible pour créer le baromètre. Vous devez d'abord créer des acteurs.", 400)
+
+      for i in range(actors_to_add):
+        actor = BarometerActor()
+        actor.id = generate_new_actor_id()
+        actor.barometer_id = barometer.id
+        actor.actor_id = actors[i].id
+        db.session.add(actor)
+
       db.session.commit()
       return jsonify(barometer)
 
@@ -143,5 +199,15 @@ def generate_new_id():
   else:
     id = 1
   while Barometer.query.filter_by(id = id).first():
+    id += 1
+  return id
+
+def generate_new_actor_id():
+  last = BarometerActor.query.order_by(BarometerActor.id.desc()).first()
+  if last:
+    id = int(last.id) + 1
+  else:
+    id = 1
+  while BarometerActor.query.filter_by(id = id).first():
     id += 1
   return id

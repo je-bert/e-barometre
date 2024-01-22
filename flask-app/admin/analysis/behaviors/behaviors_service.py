@@ -1,4 +1,4 @@
-from models import Behavior, Question, Theme, BarometerItem
+from models import Behavior, Question, Theme, BarometerItem,BarometerActor ,Actor, Indicator,Barometer
 from flask import render_template, abort, request, make_response, jsonify
 from database import db
 
@@ -14,11 +14,26 @@ def update_one(id):
     .filter_by(id = behavior.theme_id)\
     .first()
   
-  ranges = BarometerItem.query\
-    .filter_by(barometer_id = theme.barometer_id, type = 'range')\
-    .all()
+  barometer = Barometer.query\
+    .filter_by(id = theme.barometer_id)\
+    .first()
   
-  ranges.sort(key=lambda x: x.min)
+  if not barometer:
+    return make_response("Le baromètre n'existe pas.", 400)
+  
+  if barometer.type == 'action-reaction':
+    ranges = Indicator.query\
+      .filter_by(barometer_id = theme.barometer_id)\
+      .all()
+  else:
+    ranges = BarometerItem.query\
+      .filter_by(barometer_id = theme.barometer_id, type = 'range')\
+      .all()
+    ranges.sort(key=lambda x: x.min) 
+
+  actors = BarometerActor.query\
+    .filter_by(barometer_id = theme.barometer_id)\
+    .all()
 
   if request.method == 'GET':
     
@@ -41,7 +56,14 @@ def update_one(id):
         'min': '0',
         'max': '0'
       })
-    return render_template('analysis/update-behavior.html', behavior = behavior, questions=questions, ranges = ranges, current_ranges = current_ranges)
+
+    for actor in actors:
+      item = Actor.query\
+        .filter_by(id = actor.actor_id)\
+        .first()
+      if item:
+        actor.name = item.name
+    return render_template('analysis/update-behavior.html', behavior = behavior, questions=questions, ranges = ranges, current_ranges = current_ranges, actors = actors)
 
   data = request.form
 
@@ -53,12 +75,12 @@ def update_one(id):
 
   ranges_str_builder = []
   for range in ranges:
-    min_str = data.get('range-' +  range.id + '-min')
-    max_str = data.get('range-' +  range.id + '-max')
+    min_str = data.get('range-' +  str(range.id) + '-min')
+    max_str = data.get('range-' +  str(range.id) + '-max')
     if min_str != None and max_str != None:
       min = int(min_str)
       max = int(max_str)
-      if previous != min:
+      if previous != min and barometer.type != 'action-reaction':
         if previous != None:
           if is_ascendant == None:
             is_ascendant = previous < min
@@ -75,11 +97,22 @@ def update_one(id):
       previous = max
     else:
       return make_response("Échelle invalide", 400)
+
+  actor = None
+  if len(actors) > 0:
+    if data.get('actor') == None or data.get('actor') == '':
+      return make_response("Vous devez sélectionner un acteur.", 400)
+    actor = BarometerActor.query\
+      .filter_by(id = data.get('actor'), barometer_id = theme.barometer_id)\
+      .first()
+    if not actor:
+      return make_response("L'acteur sélectionné n'existe pas.", 400)
   
   behavior.question_id = data.get('question_id')
   behavior.ranges = ''.join(ranges_str_builder)
   behavior.is_active = 1 if data.get('is_active') else 0
-  behavior.weight = data.get('weight') if (data.get('weight') and float(data.get('weight')) >= 0) else 0
+  behavior.weight = data.get('weight') if (data.get('weight') and data.get('weight').isdigit()) else 0
+  behavior.actor_id = actor.id if actor else None
   db.session.commit()
   return jsonify(behavior)
 
@@ -88,12 +121,28 @@ def add_one(id):
   theme = Theme.query\
     .filter_by(id = id)\
     .first()
+  
+  barometer = Barometer.query\
+    .filter_by(id = theme.barometer_id)\
+    .first()
+  
+  if not barometer:
+    return make_response("Le baromètre n'existe pas.", 400)
+  
 
-  ranges = BarometerItem.query\
-    .filter_by(barometer_id = theme.barometer_id, type = 'range')\
+  if barometer.type == 'action-reaction':
+    ranges = Indicator.query\
+      .filter_by(barometer_id = theme.barometer_id)\
+      .all()
+  else:
+    ranges = BarometerItem.query\
+      .filter_by(barometer_id = theme.barometer_id, type = 'range')\
+      .all()
+    ranges.sort(key=lambda x: x.min)
+
+  actors = BarometerActor.query\
+    .filter_by(barometer_id = theme.barometer_id)\
     .all()
-
-  ranges.sort(key=lambda x: x.min)
   
   if request.method == 'POST':
       data = request.form
@@ -107,7 +156,7 @@ def add_one(id):
         if min_str != None and max_str != None:
           min = int(min_str)
           max = int(max_str)
-          if previous != min:
+          if previous != min and barometer.type != 'action-reaction':
             if previous != None:
               if is_ascendant == None:
                 is_ascendant = previous < min
@@ -124,22 +173,40 @@ def add_one(id):
           previous = max
         else:
           return make_response("Échelle invalide", 400)
-
+        
+      actor = None
+      if len(actors) > 0:
+        if data.get('actor') == None or data.get('actor') == '':
+          return make_response("Vous devez sélectionner un acteur.", 400)
+        actor = BarometerActor.query\
+          .filter_by(id = data.get('actor'), barometer_id = theme.barometer_id)\
+          .first()
+        if not actor:
+          return make_response("L'acteur sélectionné n'existe pas.", 400)
+  
       behavior = Behavior()
       behavior.id = generate_new_id()
       behavior.theme_id = id
       behavior.question_id = data.get('question_id')
       behavior.ranges = ''.join(ranges_str_builder)
       behavior.is_active = 1 if data.get('is_active') else 0
-      behavior.weight = data.get('weight') if (data.get('weight') and float(data.get('weight')) >= 0) else 0
+      behavior.weight = data.get('weight') if (data.get('weight') and data.get('weight').isdigit()) else 0
+      behavior.actor_id = actor.id if actor else None
       db.session.add(behavior)
       db.session.commit()
       return jsonify(behavior)
 
+  for actor in actors:
+    item = Actor.query\
+      .filter_by(id = actor.actor_id)\
+      .first()
+    if item:
+      actor.name = item.name
+
   questions = Question.query\
     .all()
 
-  return render_template('analysis/add-behavior.html', theme = theme, questions = questions, ranges = ranges)
+  return render_template('analysis/add-behavior.html', theme = theme, questions = questions, ranges = ranges, actors = actors)
 
 def delete_one(id):
   item = Behavior.query\

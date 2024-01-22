@@ -389,8 +389,3 @@ def generate_barometer_data(barometer, excel, about):
 
 
 
-
-
-# 'Indice D'exclusion'!H38
-
-#  =VLOOKUP(H37,AG14:AI17,3,FALSE)

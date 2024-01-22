@@ -7,6 +7,8 @@ class BarometerItem(db.Model):
   barometer_id: str
   theme_id: int 
   behavior_id: int
+  actor_id: int
+  indicator_id: int
   content: str
   min: float
   max: float
@@ -19,6 +21,8 @@ class BarometerItem(db.Model):
   barometer_id = db.Column(db.String(20), db.ForeignKey( "barometer.id", ondelete='CASCADE'), nullable = False)
   theme_id = db.Column(db.Integer, db.ForeignKey( "theme.id", ondelete='CASCADE'), nullable = True)
   behavior_id = db.Column(db.Integer, db.ForeignKey( "behavior.id", ondelete='CASCADE'), nullable = True)
+  actor_id = db.Column(db.Integer, db.ForeignKey( "barometer_actor.id", ondelete='CASCADE'), nullable = True)
+  indicator_id = db.Column(db.Integer, db.ForeignKey( "indicator.id", ondelete='CASCADE'), nullable = True)
   content = db.Column(db.String(255))
   min = db.Column(db.Float(20))
   max = db.Column(db.Float(20))

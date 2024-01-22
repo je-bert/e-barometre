@@ -16,3 +16,6 @@ from .reports_model import *
 from .section_model import *
 from .theme_model import *
 from .behavior_model import *
+from .barometer_actor_model import *
+from .actor_model import *
+from .indicator_model import *

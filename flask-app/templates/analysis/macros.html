@@ -1,4 +1,4 @@
-{% macro nav(section_id, barometer_id, item_id, theme_id, behavior_id) %}
+{% macro nav(section_id, barometer_id, item_id, theme_id, behavior_id, actor_id) %}
 
 <div class="flex w-full flex-wrap h-fit items-center gap-2">
   <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/sections">Sections</a>
@@ -24,6 +24,11 @@
   <span class="text-gray-500">/</span>
   <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/behaviors/update/{{behavior_id}}">Comportement
     {{behavior_id}}</a>
+  {% endif %}
+  {% if actor_id is defined %}
+  <span class="text-gray-500">/</span>
+  <a class="text-blue-700 hover:text-blue-800" href="/admin/analysis/actors/update/{{actor_id}}">Acteur
+    {{actor_id}}</a>
   {% endif %}
 </div>
 

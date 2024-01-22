@@ -19,6 +19,8 @@ class Barometer(db.Model):
     section_id = db.Column(db.String(20), db.ForeignKey( "section.id", ondelete='CASCADE'))
     themes = db.relationship('Theme', cascade="all,delete", backref='barometer')
     items = db.relationship('BarometerItem', cascade="all,delete", backref='barometer')
+    actors = db.relationship('BarometerActor', cascade="all,delete", backref='barometer')
+    indicators = db.relationship('Indicator', cascade="all,delete", backref='barometer')
     title = db.Column(db.String(255))
     about_barometer = db.Column(db.String(255))
     order = db.Column(db.Integer)
