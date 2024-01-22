@@ -81,9 +81,11 @@
         <th scope="col" class="px-5 py-3 hidden md:table-cell">
           Nom
         </th>
+        {% if barometer.type != 'action-reaction' %}
         <th scope="col" class="px-5 py-3 w-[100px] text-center">
           Actions
         </th>
+        {% endif %}
       </tr>
     </thead>
     <tbody class="dark:divide-gray-700 divide-y">
@@ -93,11 +95,14 @@
         <td class="px-5 py-4 hidden sm:table-cell">
           {{ item.id }}
         </td>
+
         <td scope="row" class="pl-5 py-4 hidden md:table-cell  text-gray-900 dark:text-white">
           <div>
             <p class="break-words">{{ item.name }}</p>
           </div>
         </td>
+
+        {% if barometer.type != 'action-reaction' %}
         <td class="px-5 py-4">
           <div class="flex items-center justify-center space-x-4 text-sm">
             <button onclick="window.location='/admin/analysis/actors/update/{{ item.id }}';""
@@ -111,6 +116,7 @@
             </button>
           </div>
         </td>
+        {% endif %}
       </tr>
       {% endfor %}
     </tbody>
