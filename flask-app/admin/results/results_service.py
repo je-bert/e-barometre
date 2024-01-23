@@ -1,7 +1,6 @@
 from flask import render_template, send_file
 from models import User, Report, Question, Answer, Section, Barometer, BarometerItem, Theme, Behavior, BarometerActor, Actor, Indicator
 import os
-import math
 from questions import questions_service
 from utils import condition_parser as cp
 
@@ -68,7 +67,7 @@ def find_one_pdf(id):
 
 
 def find_one_auto(id):
-  is_admin = True
+  is_admin = True # TODO: Look if the user to fetch report is admin
   report = Report.query\
     .filter_by(report_id = id)\
     .first()
@@ -77,11 +76,21 @@ def find_one_auto(id):
     return "Not found", 404
   
   intensity_dict = questions_service.generate_gradients(id)
-  user_answers = Answer.query\
+  answers_dict = {answer.question_id: answer for answer in Answer.query\
     .filter_by(report_id = id)\
-    .all()
-  answers_dict = {answer.question_id: answer for answer in user_answers}
+    .all()}
   report_sections = []
+  other_considerations_section = {
+    "title": "Considérations importantes",
+    "about": "Dans cette section, nous abordons des aspects cruciaux qui n'ont pas trouvé leur place dans les sections précédentes du rapport, mais qui demeurent essentiels à considérer.",
+    "flag_introduction": None,
+    "analysis" : [],
+    "observations": [],
+    "yellow_flags": [],
+    "red_flags": [],
+    "ressources": [],
+    "hide": False
+  }
 
   sections = Section.query\
     .filter_by(is_active = True)\
@@ -94,392 +103,397 @@ def find_one_auto(id):
       .filter_by(section_id = section.id, is_active = True)\
       .all()
     
-    other_considerations_section = {
-      "title": "Considérations importantes",
-      "about": "Dans cette section, nous abordons des aspects cruciaux qui n'ont pas trouvé leur place dans les sections précédentes du rapport, mais qui demeurent essentiels à considérer.",
-      "flag_introduction": None,
-      "analysis" : [],
-      "observations": [],
-      "yellow_flags": [],
-      "red_flags": [],
-      "ressources": []
-    }
-    
     for barometer in barometers:
-      results = {}
-      behavior_results = {}
-      ranges = []
-      current_section = {
-        "title": barometer.title,
-        "about": barometer.about_barometer,
-        "flag_introduction": None,
-        "analysis" : [],
-        "observations": [],
-        "yellow_flags": [],
-        "red_flags": [],
-        "ressources": [],
-        "data": {}
-      }
-
-      themes = Theme.query\
-        .filter_by(barometer_id = barometer.id, is_active = True)\
-        .all()
-      if barometer.type == 'action-reaction':
-        for theme in themes:
-          behaviors = Behavior.query\
-            .filter_by(theme_id = theme.id, is_active = True)\
-            .all()
-          
-          indicators = Indicator.query\
-            .filter_by(barometer_id = barometer.id)\
-            .all()
-          results[theme.id] = {"name": theme.name, "behaviors": [], "ranges": [{"action": 0, "reaction": 0, "max_action": 0, "max_reaction": 0} for i in range(len(indicators))]}
-          for behavior in behaviors:
-            ranges = behavior.ranges.split(',')
-            if len(ranges) != len(indicators):
-              continue
-            intensity = intensity_dict[behavior.question_id] if behavior.question_id in intensity_dict else 0
-            col = 0
-            for r in ranges:
-              current_range = r.split(':')
-              if len(current_range) != 2 or int(current_range[0]) == 11:
-                continue
-              if behavior.actor_id == 5:
-                results[theme.id]['ranges'][col]['max_action'] = max(results[theme.id]['ranges'][col]['max_action'], 10 * intensity)
-              else:
-                results[theme.id]['ranges'][col]['max_reaction'] = max(results[theme.id]['ranges'][col]['max_reaction'], 10 * intensity)
-              col = col + 1
-            answer = answers_dict.get(behavior.question_id) if answers_dict.get(behavior.question_id) != None else None
-            if answer != None:
-              answer = int(answer.value)
-            results[theme.id]['behaviors'].append({'question_id': behavior.question_id, 'answer': answer, 'intensity': intensity, 'ranges': behavior.ranges, 'is_action': behavior.actor_id == 5})
-          
-        if is_admin:
-          report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
-          report_sections.append('<table class="w-full admin-table">')
-          report_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">Comportement</th><th class="text-center">Acteur</th><th class="text-center">Fréquence x Intensité</th>')
-          for indicator in indicators:
-            report_sections.append('<th class="text-center">{}</th>'.format(indicator.content))
-          report_sections.append('</tr>')
-        for result in results.values():
-          for b in result['behaviors']:
-            if is_admin:
-              if b['answer'] != None:
-                report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{} x {} = {}</td>'.format(b['question_id'], "Action" if b['is_action'] else "Réaction", b['answer'], b['intensity'], b['answer'] * (b['intensity'] if b['intensity'] != None else 0)))
-                ranges = b['ranges'].split(',')
-                col = 0
-                while (col < len(ranges)):
-                  current_range = ranges[col].split(':')
-                  if b['answer'] >= int(current_range[0]) and b['answer'] <= int(current_range[1]):
-                    symbol = 'V'
-                    if b['is_action']:
-                      result['ranges'][col]['action'] = max(result['ranges'][col]['action'], b['answer'] * b['intensity'])
-                    else:
-                      result['ranges'][col]['reaction'] = max(result['ranges'][col]['reaction'], b['answer'] * b['intensity'])
-                  else:
-                    symbol = 'F'
-                  report_sections.append('<td class="text-center">{}: {}</td>'.format( ranges[col], symbol))
-                  col = col + 1
-              else:
-                report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">-1</td>'.format( b['question_id'], "Action" if b['is_action'] else "Réaction"))
-                for i in range(len(indicators)):
-                  report_sections.append('<td class="text-center">{}: F</td>'.format(ranges[i]))
-              report_sections.append('</tr>')
-          report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td></td>'.format(result['name']))
-          for i in range(len(indicators)):
-            report_sections.append('<td class="text-center">{}/{} | {}/{} ({})</td>'.format(result['ranges'][i]['action'],result['ranges'][i]['max_action'], result['ranges'][i]['reaction'],result['ranges'][i]['max_reaction'], result['ranges'][i]['action'] + result['ranges'][i]['reaction']))
-            
-        if is_admin:
-          report_sections.append('</table></div>')
-      elif barometer.type == 'mirror':
-        actors = BarometerActor.query\
-          .filter_by(barometer_id = barometer.id)\
-          .join(Actor, Actor.id == BarometerActor.actor_id)\
-          .add_columns(Actor.name, BarometerActor.id)\
-          .all()
-        if len(actors) != 2:
-          results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None }
-          continue
-        current_section['data'] = {'items': [], 'actor_1': actors[0].name, 'actor_2': actors[1].name}
-        for theme in themes:
-          behaviors = Behavior.query\
-            .filter_by(theme_id = theme.id, is_active = True)\
-            .all()
-          
-          if len(behaviors) != 2:
-            results[theme.id] ={"name": theme.name,'actor_1': None, 'actor_2': None }
-            continue
-
-          actor_1 = behaviors[0] if behaviors[0].actor_id == actors[0].id else (behaviors[1].actor_id if behaviors[1].actor_id == actors[0].id else None)
-          actor_2 = behaviors[1] if behaviors[1].actor_id == actors[1].id else (behaviors[0].actor_id if behaviors[0].actor_id == actors[1].id else None)
-
-          if actor_1 == None or actor_2 == None or actor_1.actor_id == None or actor_2.actor_id == None or actor_1.actor_id == actor_2.actor_id:
-            results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None }
-            continue
-
-          actor_1.answer = answers_dict.get(actor_1.question_id) if answers_dict.get(actor_1.question_id) != None else None
-          actor_2.answer = answers_dict.get(actor_2.question_id) if answers_dict.get(actor_2.question_id) != None else None
-
-          if actor_1.answer == None or actor_2.answer == None or actor_1.answer.value == '-1' or actor_2.answer.value == '-1':
-            results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None }
-            continue
-          else:
-            actor_1.answer = int(actor_1.answer.value)
-            actor_2.answer = int(actor_2.answer.value)
-            actor_1.intensity = intensity_dict[actor_1.question_id]
-            actor_2.intensity = intensity_dict[actor_2.question_id]
-            actor_1.score = actor_1.answer * intensity_dict[actor_1.question_id]
-            actor_2.score = actor_2.answer * intensity_dict[actor_2.question_id]
-            actor_1.max_score = actor_1.intensity * 10
-            actor_2.max_score = actor_2.intensity * 10
-
-          difference = actor_1.score + actor_2.score
-
-          behavior_results[behaviors[0].id] = actor_1.answer
-          behavior_results[behaviors[1].id] = actor_2.answer
-
-          results[theme.id] = {"name": theme.name, "actor_1": actor_1, "actor_2": actor_2 }
-          if difference > 0:
-            current_section['data']['items'].append({"name": theme.name, "value_1": actor_1.answer, "value_2": actor_2.answer })
-
-        # max_weight = 0
-        # answered_weight = 0
-        score = 0
-        max_score = 0
-        if is_admin:
-          report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
-          report_sections.append('<table class="w-full admin-table">')
-          report_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">{}</th><th class="text-center">{}</th><th class="text-center">Écart</th></tr>'.format(current_section['data']['actor_1'], current_section['data']['actor_2']))
-        for result in results.values():
-          # max_weight = max_weight + result['weight']
-          # answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
-          if is_admin:
-            if result['actor_1'] != None and result['actor_2'] != None:
-              sum_score = result['actor_1'].score + result['actor_2'].score
-              score = score + sum_score
-              sum_max_score = result['actor_1'].max_score + result['actor_2'].max_score
-              max_score = max_score + sum_max_score
-              report_sections.append('<tr><td>{}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} / {} = {}</td></tr>'.format(result['name'], result['actor_1'].answer, result['actor_1'].intensity,result['actor_1'].score, result['actor_2'].answer, result['actor_2'].intensity,result['actor_2'].score, sum_score, sum_max_score, round(sum_score / sum_max_score, 3)))
-            else:
-              report_sections.append('<tr><td>{}</td><td class="text-center">-1</td><td class="text-center">-1</td><td class="text-center">-</td></tr>'.format(result['name']))
-        if is_admin:
-          report_sections.append('</table>')
-
-        total = score / (max_score if max_score != 0 else 1)
-        # weight_percentage = answered_weight / (max_weight if max_weight != 0 else 1)
-        if is_admin:
-          report_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p></div>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
-        # report_sections.append('<p class="text-#center">Poids répondu: {} / {} = {}</p></div>'.format(round(answered_weight, 3), round(max_weight, 3), round(weight_percentage, 3)))
-        # if total < barometer.min_result or weight_percentage < barometer.min_weight:
-        #   if barometer.min_weight_note != None and weight_percentage < barometer.min_weight:
-        #     report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
-        #     report_sections.append(render_template('reports/note.html', content = barometer.min_weight_note)) 
-        #   elif barometer.min_result_note != None and total < barometer.min_result:
-        #     report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
-        #     report_sections.append(render_template('reports/note.html', content = barometer.min_result_note))
-        #   hide = True
-
-        items = BarometerItem.query\
-          .filter_by(barometer_id = barometer.id, is_active = True)\
-          .all()
-
-        for item in items:
-          value = total
-          if item.condition != None and item.condition != '':
-            if not cp.parse_condition(item.condition, answers_dict):
-              continue
-          if item.behavior_id != None:
-            if str(item.behavior_id) in behavior_results:
-              value = (behavior_results[str(item.behavior_id)] / 10)
-            else: 
-              continue
-          elif item.theme_id != None:
-            if str(item.theme_id) in results and results[str(item.theme_id)]['actor_1'] != None and results[str(item.theme_id)]['actor_2'] != None:
-              value = (results[str(item.theme_id)]['actor_1'].score + results[str(item.theme_id)]['actor_2'].score) / (results[str(item.theme_id)]['actor_1'].max_score + results[str(item.theme_id)]['actor_2'].max_score)
-            else: 
-              continue
-          if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
-            if item.type == 'observation':
-              if item.theme_id == None and item.behavior_id == None:
-                if hide and item.is_unavoidable:
-                  other_considerations_section['analysis'].append(item.content)
-                else:
-                  current_section['analysis'].append(item.content)
-              else:
-                if hide and item.is_unavoidable:
-                  other_considerations_section['observations'].append(item.content)
-                else:
-                  current_section['observations'].append(item.content)
-            elif item.type == 'yellow_flag':
-              if hide and item.is_unavoidable:
-                other_considerations_section['yellow_flags'].append(item.content)
-              else:
-                current_section['yellow_flags'].append(item.content)
-            elif item.type == 'red_flag':
-              if hide and item.is_unavoidable:
-                other_considerations_section['red_flags'].append(item.content)
-              else:
-                current_section['red_flags'].append(item.content)
-            elif item.type == 'flag_introduction':
-                current_section['flag_introduction'] = item.content
-            elif item.type == 'ressource':
-              if hide and item.is_unavoidable:
-                other_considerations_section['ressources'].append(item.content)
-              else:
-                current_section['ressources'].append(item.content)
-        if hide:
-          continue
-      elif barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
-        # for each theme
-        for theme in themes:
-          behaviors = Behavior.query\
-            .filter_by(theme_id = theme.id, is_active = True)\
-            .all()
-          for behavior in behaviors:
-            ranges = behavior.ranges.split(',')
-            is_desc = ranges[0].split(':')[0] > ranges[-1].split(':')[1]
-
-            answer = None
-            if behavior.question_id in answers_dict:
-              answer = answers_dict.get(behavior.question_id)
-            
-            if answer == None or answer.value == None or answer.value == '-1':
-               if behavior.question_id in intensity_dict and answer != None and answer.value == '-1': # -1 means the question was s/o, but was shown to the user
-                results[behavior.id] = {"answer": answer.value if answer != None else answer,"question_id": behavior.question_id, "theme_id": theme.id, "result": 0, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": True}
-            else:
-              col = 0
-              answer = int(answer.value)
-              while (col < len(ranges)):
-                current_range = ranges[col].split(':')
-                if (len(current_range) != 2):
-                  continue
-                if (answer >= int(current_range[0]) and answer <= int(current_range[1]) or (is_desc and answer <= int(current_range[0]) and answer >= int(current_range[1]))):
-                  break
-                col = col + 1
-              
-              if (col == len(ranges)):
-                continue
-              if (is_desc):
-                result =  0.25  * col + 0.25 * (int(current_range[0]) - answer) / (int(current_range[0]) - int(current_range[1]) + 1)
-              else:
-                result =  0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
-              if (col == len(ranges) - 1 and answer == int(current_range[1])):
-                result = 1
-              results[behavior.id] = {"answer": answer, "question_id": behavior.question_id,  "theme_id": theme.id, "result": result, "intensity": intensity_dict[behavior.question_id] if behavior.question_id in intensity_dict else 0, "weight": behavior.weight, "ignore": False}
-
-        max_weight = 0
-        answered_weight = 0
-        max_score = 0
-        score = 0
-        results_by_theme_id = {}
-        ranges = []
-        if is_admin:
-          report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
-          report_sections.append('<table class="w-full admin-table">')
-          report_sections.append('<tr><th class="text-left">Comportement</th><th class="text-center">Réponse</th><th class="text-center">Intensité</th><th class="text-center">Poids</th><th class="text-center">Indice</th></tr>')
-        for result in results.values():
-          max_weight = max_weight + result['weight']
-          answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
-          max_score = (max_score + result['intensity']) if result['ignore'] == False else max_score
-          score = score + (0 if result['ignore'] else result['intensity'] * result['result'])
-          results_by_theme_id[result['theme_id']] = results_by_theme_id.get(result['theme_id'], [])
-          results_by_theme_id[result['theme_id']].append(0 if result['ignore'] else  result['result'])
-          if is_admin:
-            report_sections.append('<tr><td>{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td></tr>'.format(result['question_id'], result['answer'], result['intensity'], round(result['weight'],3), round(result['result'] * result['intensity'], 3)))
-        if is_admin:
-          report_sections.append('</table>')
-
-        avg_by_theme_id = {}
-        for theme_id in results_by_theme_id:
-          avg = 0
-          for result in results_by_theme_id[theme_id]:
-            avg = avg + result
-          avg = avg / (len(results_by_theme_id[theme_id]) if len(results_by_theme_id[theme_id]) != 0 else 1)
-          avg_by_theme_id[theme_id] = avg
-        barometer_avg = 0
-        for theme_id in avg_by_theme_id:
-          barometer_avg = barometer_avg + avg_by_theme_id[theme_id]
-        barometer_avg = barometer_avg / (len(avg_by_theme_id) if len(avg_by_theme_id) != 0 else 1)
-        hide = False
-
-        total = score / (max_score if max_score != 0 else 1)
-        weight_percentage = answered_weight / (max_weight if max_weight != 0 else 1)
-        if is_admin:
-          report_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
-          report_sections.append('<p class="text-center">Poids répondu: {} / {} = {}</p></div>'.format(round(answered_weight, 3), round(max_weight, 3), round(weight_percentage, 3)))
-        if total < barometer.min_result or weight_percentage < barometer.min_weight:
-          if barometer.min_weight_note != None and weight_percentage < barometer.min_weight:
-            report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
-            report_sections.append(render_template('reports/note.html', content = barometer.min_weight_note)) 
-          elif barometer.min_result_note != None and total < barometer.min_result:
-            report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
-            report_sections.append(render_template('reports/note.html', content = barometer.min_result_note))
-          hide = True
-
-        items = BarometerItem.query\
-          .filter_by(barometer_id = barometer.id, is_active = True)\
-          .all()
-
-        for item in items:
-          value = total
-          if item.condition != None and item.condition != '':
-            if not cp.parse_condition(item.condition, answers_dict):
-              continue
-          if item.behavior_id != None and str(item.behavior_id) in results:
-            value = results[str(item.behavior_id)]['result']
-            #if result['ignore'] == False and (result['intensity'] * result['result']) >= avg_by_theme_id[result['theme_id']] and avg_by_theme_id[result['theme_id']] >= barometer_avg
-          elif item.theme_id != None and str(item.theme_id) in avg_by_theme_id:
-            value = avg_by_theme_id[str(item.theme_id)]
-          if item.type == 'range':
-            if barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
-              if hide == False:
-                ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
-          if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
-            if item.type == 'observation':
-              if item.theme_id == None and item.behavior_id == None:
-                if hide and item.is_unavoidable:
-                  other_considerations_section['analysis'].append(item.content)
-                else:
-                  current_section['analysis'].append(item.content)
-              else:
-                if hide and item.is_unavoidable:
-                  other_considerations_section['observations'].append(item.content)
-                else:
-                  current_section['observations'].append(item.content)
-            elif item.type == 'yellow_flag':
-              if hide and item.is_unavoidable:
-                other_considerations_section['yellow_flags'].append(item.content)
-              else:
-                current_section['yellow_flags'].append(item.content)
-            elif item.type == 'red_flag':
-              if hide and item.is_unavoidable:
-                other_considerations_section['red_flags'].append(item.content)
-              else:
-                current_section['red_flags'].append(item.content)
-            elif item.type == 'flag_introduction':
-                current_section['flag_introduction'] = item.content
-            elif item.type == 'ressource':
-              if hide and item.is_unavoidable:
-                other_considerations_section['ressources'].append(item.content)
-              else:
-                current_section['ressources'].append(item.content)
-        if hide:
-          continue
-        current_section['data'] = {"value": total, "ranges": ranges}
-      else:
-        # type not yet implemented 
-        continue
-      
-      report_sections += generate_report_section(current_section, barometer)
+      generate_barometer(barometer, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
 
   report_sections += generate_report_section(other_considerations_section)
 
   return render_template('reports/report-1/base.html', children = report_sections)
+
+
+def generate_barometer(barometer, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+  current_section = {
+    "title": barometer.title,
+    "about": barometer.about_barometer,
+    "flag_introduction": None,
+    "analysis" : [],
+    "observations": [],
+    "yellow_flags": [],
+    "red_flags": [],
+    "ressources": [],
+    "data": {},
+    "hide": False
+  }
   
+  if barometer.type == 'action-reaction':
+    generate_action_reaction_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
+  elif barometer.type == 'mirror':
+    generate_mirror_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
+  elif barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
+    generate_gauge_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
+  else:
+    current_section['hide'] = True
+  report_sections += generate_report_section(current_section, barometer)
+  
+def generate_gauge_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+  results = {}
+  themes = Theme.query\
+    .filter_by(barometer_id = barometer.id, is_active = True)\
+    .all()
+  for theme in themes:
+    behaviors = Behavior.query\
+      .filter_by(theme_id = theme.id, is_active = True)\
+      .all()
+    for behavior in behaviors:
+      ranges = behavior.ranges.split(',')
+      is_desc = ranges[0].split(':')[0] > ranges[-1].split(':')[1]
+
+      answer = None
+      if behavior.question_id in answers_dict:
+        answer = answers_dict.get(behavior.question_id)
+      
+      if answer == None or answer.value == None or answer.value == '-1':
+          if behavior.question_id in intensity_dict and answer != None and answer.value == '-1': # -1 means the question was s/o, but was shown to the user
+            results[behavior.id] = {"answer": answer.value if answer != None else answer,"question_id": behavior.question_id, "theme_id": theme.id, "result": 0, "intensity": intensity_dict[behavior.question_id], "weight": behavior.weight, "ignore": True}
+      else:
+        col = 0
+        answer = int(answer.value)
+        while (col < len(ranges)):
+          current_range = ranges[col].split(':')
+          if (len(current_range) != 2):
+            continue
+          if (answer >= int(current_range[0]) and answer <= int(current_range[1]) or (is_desc and answer <= int(current_range[0]) and answer >= int(current_range[1]))):
+            break
+          col = col + 1
+        
+        if (col == len(ranges)):
+          continue
+        if (is_desc):
+          result =  0.25  * col + 0.25 * (int(current_range[0]) - answer) / (int(current_range[0]) - int(current_range[1]) + 1)
+        else:
+          result =  0.25 * col + 0.25 * (answer - int(current_range[0])) / (int(current_range[1]) - int(current_range[0]) + 1)
+        if (col == len(ranges) - 1 and answer == int(current_range[1])):
+          result = 1
+        results[behavior.id] = {"answer": answer, "question_id": behavior.question_id,  "theme_id": theme.id, "result": result, "intensity": intensity_dict[behavior.question_id] if behavior.question_id in intensity_dict else 0, "weight": behavior.weight, "ignore": False}
+
+  max_weight = 0
+  answered_weight = 0
+  max_score = 0
+  score = 0
+  results_by_theme_id = {}
+  ranges = []
+  if is_admin:
+    report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+    report_sections.append('<table class="w-full admin-table">')
+    report_sections.append('<tr><th class="text-left">Comportement</th><th class="text-center">Réponse</th><th class="text-center">Intensité</th><th class="text-center">Poids</th><th class="text-center">Indice</th></tr>')
+  for result in results.values():
+    max_weight = max_weight + result['weight']
+    answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
+    max_score = (max_score + result['intensity']) if result['ignore'] == False else max_score
+    score = score + (0 if result['ignore'] else result['intensity'] * result['result'])
+    results_by_theme_id[result['theme_id']] = results_by_theme_id.get(result['theme_id'], [])
+    results_by_theme_id[result['theme_id']].append(0 if result['ignore'] else  result['result'])
+    if is_admin:
+      report_sections.append('<tr><td>{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td></tr>'.format(result['question_id'], result['answer'], result['intensity'], round(result['weight'],3), round(result['result'] * result['intensity'], 3)))
+  if is_admin:
+    report_sections.append('</table>')
+
+  avg_by_theme_id = {}
+  for theme_id in results_by_theme_id:
+    avg = 0
+    for result in results_by_theme_id[theme_id]:
+      avg = avg + result
+    avg = safe_division(avg, len(results_by_theme_id[theme_id]))
+    avg_by_theme_id[theme_id] = avg
+  barometer_avg = 0
+  for theme_id in avg_by_theme_id:
+    barometer_avg = barometer_avg + avg_by_theme_id[theme_id]
+  barometer_avg = safe_division(barometer_avg, len(avg_by_theme_id))
+  hide = False
+
+  total = safe_division(score, max_score)
+  weight_percentage = safe_division(answered_weight, max_weight)
+  if is_admin:
+    report_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
+    report_sections.append('<p class="text-center">Poids répondu: {} / {} = {}</p></div>'.format(round(answered_weight, 3), round(max_weight, 3), round(weight_percentage, 3)))
+  if total < barometer.min_result or weight_percentage < barometer.min_weight:
+    if barometer.min_weight_note != None and weight_percentage < barometer.min_weight:
+      report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
+      report_sections.append(render_template('reports/note.html', content = barometer.min_weight_note)) 
+    elif barometer.min_result_note != None and total < barometer.min_result:
+      report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
+      report_sections.append(render_template('reports/note.html', content = barometer.min_result_note))
+    hide = True
+
+  items = BarometerItem.query\
+    .filter_by(barometer_id = barometer.id, is_active = True)\
+    .all()
+
+  for item in items:
+    value = total
+    if item.condition != None and item.condition != '':
+      if not cp.parse_condition(item.condition, answers_dict):
+        continue
+    if item.behavior_id != None and str(item.behavior_id) in results:
+      value = results[str(item.behavior_id)]['result']
+      #if result['ignore'] == False and (result['intensity'] * result['result']) >= avg_by_theme_id[result['theme_id']] and avg_by_theme_id[result['theme_id']] >= barometer_avg
+    elif item.theme_id != None and str(item.theme_id) in avg_by_theme_id:
+      value = avg_by_theme_id[str(item.theme_id)]
+    if item.type == 'range':
+      if barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
+        if hide == False:
+          ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
+    if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
+      if item.type == 'observation':
+        if item.theme_id == None and item.behavior_id == None:
+          if hide and item.is_unavoidable:
+            other_considerations_section['analysis'].append(item.content)
+          else:
+            current_section['analysis'].append(item.content)
+        else:
+          if hide and item.is_unavoidable:
+            other_considerations_section['observations'].append(item.content)
+          else:
+            current_section['observations'].append(item.content)
+      elif item.type == 'yellow_flag':
+        if hide and item.is_unavoidable:
+          other_considerations_section['yellow_flags'].append(item.content)
+        else:
+          current_section['yellow_flags'].append(item.content)
+      elif item.type == 'red_flag':
+        if hide and item.is_unavoidable:
+          other_considerations_section['red_flags'].append(item.content)
+        else:
+          current_section['red_flags'].append(item.content)
+      elif item.type == 'flag_introduction':
+          current_section['flag_introduction'] = item.content
+      elif item.type == 'ressource':
+        if hide and item.is_unavoidable:
+          other_considerations_section['ressources'].append(item.content)
+        else:
+          current_section['ressources'].append(item.content)
+  if not hide:
+    current_section['data'] = {"value": total, "ranges": ranges}
+  else:
+    current_section['hide'] = True
+  return current_section
+  
+def generate_mirror_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+  hide = False # TODO: Implement hide depending on results or weight
+  behavior_results = {}
+  results = {}
+  themes = Theme.query\
+        .filter_by(barometer_id = barometer.id, is_active = True)\
+        .all()
+  actors = BarometerActor.query\
+    .filter_by(barometer_id = barometer.id)\
+    .join(Actor, Actor.id == BarometerActor.actor_id)\
+    .add_columns(Actor.name, BarometerActor.id)\
+    .all()
+
+  if len(actors) != 2:
+    return current_section
+
+  current_section['data'] = {'items': [], 'actor_1': actors[0].name, 'actor_2': actors[1].name}
+  for theme in themes:
+    behaviors = Behavior.query\
+      .filter_by(theme_id = theme.id, is_active = True)\
+      .all()
+    
+    if len(behaviors) != 2:
+      results[theme.id] ={"name": theme.name,'actor_1': None, 'actor_2': None }
+      continue
+
+    actor_1 = behaviors[0] if behaviors[0].actor_id == actors[0].id else (behaviors[1].actor_id if behaviors[1].actor_id == actors[0].id else None)
+    actor_2 = behaviors[1] if behaviors[1].actor_id == actors[1].id else (behaviors[0].actor_id if behaviors[0].actor_id == actors[1].id else None)
+
+    if actor_1 == None or actor_2 == None or actor_1.actor_id == None or actor_2.actor_id == None or actor_1.actor_id == actor_2.actor_id:
+      results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None }
+      continue
+
+    actor_1.answer = answers_dict.get(actor_1.question_id) if answers_dict.get(actor_1.question_id) != None else None
+    actor_2.answer = answers_dict.get(actor_2.question_id) if answers_dict.get(actor_2.question_id) != None else None
+
+    if actor_1.answer == None or actor_2.answer == None or actor_1.answer.value == '-1' or actor_2.answer.value == '-1':
+      results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None }
+      continue
+    else:
+      actor_1.answer = int(actor_1.answer.value)
+      actor_2.answer = int(actor_2.answer.value)
+      actor_1.intensity = intensity_dict[actor_1.question_id]
+      actor_2.intensity = intensity_dict[actor_2.question_id]
+      actor_1.score = actor_1.answer * intensity_dict[actor_1.question_id]
+      actor_2.score = actor_2.answer * intensity_dict[actor_2.question_id]
+      actor_1.max_score = actor_1.intensity * 10
+      actor_2.max_score = actor_2.intensity * 10
+
+    difference = actor_1.score + actor_2.score
+
+    behavior_results[behaviors[0].id] = actor_1.answer
+    behavior_results[behaviors[1].id] = actor_2.answer
+
+    results[theme.id] = {"name": theme.name, "actor_1": actor_1, "actor_2": actor_2 }
+    if difference > 0:
+      current_section['data']['items'].append({"name": theme.name, "value_1": actor_1.answer, "value_2": actor_2.answer })
+
+  # max_weight = 0
+  # answered_weight = 0
+  score = 0
+  max_score = 0
+  if is_admin:
+    report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+    report_sections.append('<table class="w-full admin-table">')
+    report_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">{}</th><th class="text-center">{}</th><th class="text-center">Écart</th></tr>'.format(current_section['data']['actor_1'], current_section['data']['actor_2']))
+  for result in results.values():
+    # max_weight = max_weight + result['weight']
+    # answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
+    if is_admin:
+      if result['actor_1'] != None and result['actor_2'] != None:
+        sum_score = result['actor_1'].score + result['actor_2'].score
+        score = score + sum_score
+        sum_max_score = result['actor_1'].max_score + result['actor_2'].max_score
+        max_score = max_score + sum_max_score
+        report_sections.append('<tr><td>{}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} / {} = {}</td></tr>'.format(result['name'], result['actor_1'].answer, result['actor_1'].intensity,result['actor_1'].score, result['actor_2'].answer, result['actor_2'].intensity,result['actor_2'].score, sum_score, sum_max_score, round(sum_score / sum_max_score, 3)))
+      else:
+        report_sections.append('<tr><td>{}</td><td class="text-center">-1</td><td class="text-center">-1</td><td class="text-center">-</td></tr>'.format(result['name']))
+  if is_admin:
+    report_sections.append('</table>')
+
+  total = safe_division(score, max_score)
+  if is_admin:
+    report_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p></div>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
+
+  items = BarometerItem.query\
+    .filter_by(barometer_id = barometer.id, is_active = True)\
+    .all()
+
+  for item in items:
+    value = total
+    if item.condition != None and item.condition != '':
+      if not cp.parse_condition(item.condition, answers_dict):
+        continue
+    if item.behavior_id != None:
+      if str(item.behavior_id) in behavior_results:
+        value = (behavior_results[str(item.behavior_id)] / 10)
+      else: 
+        continue
+    elif item.theme_id != None:
+      if str(item.theme_id) in results and results[str(item.theme_id)]['actor_1'] != None and results[str(item.theme_id)]['actor_2'] != None:
+        value = (results[str(item.theme_id)]['actor_1'].score + results[str(item.theme_id)]['actor_2'].score) / (results[str(item.theme_id)]['actor_1'].max_score + results[str(item.theme_id)]['actor_2'].max_score)
+      else: 
+        continue
+    if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
+      if item.type == 'observation':
+        if item.theme_id == None and item.behavior_id == None:
+          if hide and item.is_unavoidable:
+            other_considerations_section['analysis'].append(item.content)
+          else:
+            current_section['analysis'].append(item.content)
+        else:
+          if hide and item.is_unavoidable:
+            other_considerations_section['observations'].append(item.content)
+          else:
+            current_section['observations'].append(item.content)
+      elif item.type == 'yellow_flag':
+        if hide and item.is_unavoidable:
+          other_considerations_section['yellow_flags'].append(item.content)
+        else:
+          current_section['yellow_flags'].append(item.content)
+      elif item.type == 'red_flag':
+        if hide and item.is_unavoidable:
+          other_considerations_section['red_flags'].append(item.content)
+        else:
+          current_section['red_flags'].append(item.content)
+      elif item.type == 'flag_introduction':
+          current_section['flag_introduction'] = item.content
+      elif item.type == 'ressource':
+        if hide and item.is_unavoidable:
+          other_considerations_section['ressources'].append(item.content)
+        else:
+          current_section['ressources'].append(item.content)
+  return current_section
+
+def generate_action_reaction_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+  results = {}
+  themes = Theme.query\
+    .filter_by(barometer_id = barometer.id, is_active = True)\
+    .all()
+  for theme in themes:
+    behaviors = Behavior.query\
+      .filter_by(theme_id = theme.id, is_active = True)\
+      .all()
+    
+    indicators = Indicator.query\
+      .filter_by(barometer_id = barometer.id)\
+      .all()
+    results[theme.id] = {"name": theme.name, "behaviors": [],"action":{"PF":0, "PC": 0,"NC": 0},"reaction":{"E":0},"max_action":{"PF":0, "PC": 0,"NC": 0},"max_reaction":{"E":0}, "ranges": [{"action": {"PF":0, "PC": 0,"NC": 0}, "reaction": 0, "max_action": {"PF":0, "PC": 0,"NC": 0}, "max_reaction": 0} for i in range(len(indicators))]}
+    for behavior in behaviors:
+      ranges = behavior.ranges.split(',')
+      if len(ranges) != len(indicators):
+        continue
+      intensity = intensity_dict[behavior.question_id] if behavior.question_id in intensity_dict else 0
+      col = 0
+      for r in ranges:
+        current_range = r.split(':')
+        if len(current_range) != 2 or int(current_range[0]) == 11:
+          continue
+        if behavior.actor_id == 5:
+          results[theme.id]['max_action'][behavior.question_id[0:2]] = max(results[theme.id]['max_action'][behavior.question_id[0:2]], 10 * intensity)
+          results[theme.id]['ranges'][col]['max_action'][behavior.question_id[0:2]] = max(results[theme.id]['ranges'][col]['max_action'][behavior.question_id[0:2]], 10 * intensity)
+        else:
+          results[theme.id]['max_reaction'][behavior.question_id[0]] = max(results[theme.id]['max_reaction'][behavior.question_id[0]], 10 * intensity)
+          results[theme.id]['ranges'][col]['max_reaction'] = max(results[theme.id]['ranges'][col]['max_reaction'], 10 * intensity)
+        col = col + 1
+      answer = answers_dict.get(behavior.question_id) if answers_dict.get(behavior.question_id) != None else None
+      if answer != None:
+        answer = int(answer.value)
+      results[theme.id]['behaviors'].append({'question_id': behavior.question_id, 'answer': answer, 'intensity': intensity, 'ranges': behavior.ranges, 'is_action': behavior.actor_id == 5})
+    
+  if is_admin:
+    report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+    report_sections.append('<table class="w-full admin-table">')
+    report_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">Comportement</th><th class="text-center">Acteur</th><th class="text-center">Fréquence x Intensité</th>')
+    for indicator in indicators:
+      report_sections.append('<th class="text-center">{}</th>'.format(indicator.content))
+    report_sections.append('</tr>')
+  for result in results.values():
+    for b in result['behaviors']:
+      if is_admin:
+        if b['answer'] != None and b['answer'] != -1:
+          report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{} x {} = {}</td>'.format(b['question_id'], "Action" if b['is_action'] else "Réaction", b['answer'], b['intensity'], b['answer'] * (b['intensity'] if b['intensity'] != None else 0)))
+          ranges = b['ranges'].split(',')
+          col = 0
+          while (col < len(ranges)):
+            current_range = ranges[col].split(':')
+            if b['answer'] >= int(current_range[0]) and b['answer'] <= int(current_range[1]):
+              symbol = 'V'
+              if b['is_action']:
+                result['action'][b['question_id'][0:2]] = max(result['action'][b['question_id'][0:2]], b['answer'] * b['intensity'])
+                result['ranges'][col]['action'][b['question_id'][0:2]] = max(result['ranges'][col]['action'][b['question_id'][0:2]], b['answer'] * b['intensity'])
+              else:
+                result['reaction'][b['question_id'][0]] = max(result['reaction'][b['question_id'][0]], b['answer'] * b['intensity'])
+                result['ranges'][col]['reaction'] = max(result['ranges'][col]['reaction'], b['answer'] * b['intensity'])
+            else:
+              symbol = 'F'
+            report_sections.append('<td class="text-center">{}: {}</td>'.format( ranges[col], symbol))
+            col = col + 1
+        else:
+          report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">-1</td>'.format( b['question_id'], "Action" if b['is_action'] else "Réaction"))
+          for i in range(len(indicators)):
+            report_sections.append('<td class="text-center">{}: F</td>'.format(ranges[i]))
+        report_sections.append('</tr>')
+    report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td class="text-center">{}/{} | {}/{} ({})</td>'.format(result['name'],sum(result['action'].values()),sum(result['max_action'].values()), sum(result['reaction'].values()),sum(result['max_reaction'].values()), sum(result['action'].values()) + sum(result['reaction'].values())))
+    for i in range(len(indicators)):
+      report_sections.append('<td class="text-center">{}/{} | {}/{} ({})</td>'.format(sum(result['ranges'][i]['action'].values()),sum(result['ranges'][i]['max_action'].values()), result['ranges'][i]['reaction'],result['ranges'][i]['max_reaction'], sum(result['ranges'][i]['action'].values()) + result['ranges'][i]['reaction']))
+      
+  if is_admin:
+    report_sections.append('</table></div>')
+
+  return current_section
 
 
 def generate_report_section(content, barometer = None):
-  if barometer == None and len(content['analysis']) == 0 and len(content['observations']) == 0 and len(content['yellow_flags']) == 0 and len(content['red_flags']) == 0 and len(content['ressources']) == 0:
+  if barometer == None and len(content['analysis']) == 0 and len(content['observations']) == 0 and len(content['yellow_flags']) == 0 and len(content['red_flags']) == 0 and len(content['ressources']) == 0 or content['hide'] == True:
     return []
   report_sections = []
   report_sections.append(render_template('reports/subsection-title.html', content = content['title']))
@@ -548,3 +562,6 @@ def generate_mirror_data(id, content):
   }
   data['items'] = sorted(data['items'], key=lambda x: abs(int(x['value_1']) - int(x['value_2'])), reverse=True)
   return data
+
+def safe_division(a, b):
+  return a / (b if b != 0 else 1)
