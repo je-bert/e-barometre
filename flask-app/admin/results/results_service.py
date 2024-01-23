@@ -1,5 +1,5 @@
 from flask import render_template, send_file
-from models import User, Report, Question, Answer, Section, Barometer, BarometerItem, Theme, Behavior, BarometerActor, Actor
+from models import User, Report, Question, Answer, Section, Barometer, BarometerItem, Theme, Behavior, BarometerActor, Actor, Indicator
 import os
 import math
 from questions import questions_service
@@ -124,8 +124,74 @@ def find_one_auto(id):
       themes = Theme.query\
         .filter_by(barometer_id = barometer.id, is_active = True)\
         .all()
-      
-      if barometer.type == 'mirror':
+      if barometer.type == 'action-reaction':
+        for theme in themes:
+          behaviors = Behavior.query\
+            .filter_by(theme_id = theme.id, is_active = True)\
+            .all()
+          
+          indicators = Indicator.query\
+            .filter_by(barometer_id = barometer.id)\
+            .all()
+          results[theme.id] = {"name": theme.name, "behaviors": [], "ranges": [{"action": 0, "reaction": 0, "max_action": 0, "max_reaction": 0} for i in range(len(indicators))]}
+          for behavior in behaviors:
+            ranges = behavior.ranges.split(',')
+            if len(ranges) != len(indicators):
+              continue
+            intensity = intensity_dict[behavior.question_id] if behavior.question_id in intensity_dict else 0
+            col = 0
+            for r in ranges:
+              current_range = r.split(':')
+              if len(current_range) != 2 or int(current_range[0]) == 11:
+                continue
+              if behavior.actor_id == 5:
+                results[theme.id]['ranges'][col]['max_action'] = results[theme.id]['ranges'][col]['max_action']+ 10 * intensity
+              else:
+                results[theme.id]['ranges'][col]['max_reation'] = results[theme.id]['ranges'][col]['max_reaction'] + 10 * intensity
+              col = col + 1
+            answer = answers_dict.get(behavior.question_id) if answers_dict.get(behavior.question_id) != None else None
+            if answer != None:
+              answer = int(answer.value)
+            results[theme.id]['behaviors'].append({'question_id': behavior.question_id, 'answer': answer, 'intensity': intensity, 'ranges': behavior.ranges, 'is_action': behavior.actor_id == 5})
+          
+        if is_admin:
+          report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+          report_sections.append('<table class="w-full admin-table">')
+          report_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">Comportement</th><th class="text-center">Acteur</th><th class="text-center">Fréquence x Intensité</th>')
+          for indicator in indicators:
+            report_sections.append('<th class="text-center">{}</th>'.format(indicator.content))
+          report_sections.append('</tr>')
+        for result in results.values():
+          for b in result['behaviors']:
+            if is_admin:
+              if b['answer'] != None:
+                report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{} x {} = {}</td>'.format(b['question_id'], "Action" if b['is_action'] else "Réaction", b['answer'], b['intensity'], b['answer'] * (b['intensity'] if b['intensity'] != None else 0)))
+                ranges = b['ranges'].split(',')
+                col = 0
+                while (col < len(ranges)):
+                  current_range = ranges[col].split(':')
+                  if b['answer'] >= int(current_range[0]) and b['answer'] <= int(current_range[1]):
+                    symbol = 'V'
+                    if b['is_action']:
+                      result['ranges'][col]['action'] = max(result['ranges'][col]['action'], b['answer'] * b['intensity'])
+                    else:
+                      result['ranges'][col]['reaction'] = max(result['ranges'][col]['reaction'], b['answer'] * b['intensity'])
+                  else:
+                    symbol = 'F'
+                  report_sections.append('<td class="text-center">{}: {}</td>'.format( ranges[col], symbol))
+                  col = col + 1
+              else:
+                report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">-1</td>'.format( b['question_id'], "Action" if b['is_action'] else "Réaction"))
+                for i in range(len(indicators)):
+                  report_sections.append('<td class="text-center">{}: F</td>'.format(ranges[i]))
+              report_sections.append('</tr>')
+          report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td></td>'.format(result['name']))
+          for i in range(len(indicators)):
+            report_sections.append('<td class="text-center">{}/{} | {}/{} ({})</td>'.format(result['ranges'][i]['action'],result['ranges'][i]['max_action'], result['ranges'][i]['reaction'],result['ranges'][i]['max_reaction'], result['ranges'][i]['action'] + result['ranges'][i]['reaction']))
+            
+        if is_admin:
+          report_sections.append('</table></div>')
+      elif barometer.type == 'mirror':
         actors = BarometerActor.query\
           .filter_by(barometer_id = barometer.id)\
           .join(Actor, Actor.id == BarometerActor.actor_id)\
@@ -409,6 +475,7 @@ def find_one_auto(id):
   report_sections += generate_report_section(other_considerations_section)
 
   return render_template('reports/report-1/base.html', children = report_sections)
+  
 
 
 def generate_report_section(content, barometer = None):
