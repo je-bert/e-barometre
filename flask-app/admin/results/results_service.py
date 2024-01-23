@@ -145,9 +145,9 @@ def find_one_auto(id):
               if len(current_range) != 2 or int(current_range[0]) == 11:
                 continue
               if behavior.actor_id == 5:
-                results[theme.id]['ranges'][col]['max_action'] = results[theme.id]['ranges'][col]['max_action']+ 10 * intensity
+                results[theme.id]['ranges'][col]['max_action'] = max(results[theme.id]['ranges'][col]['max_action'], 10 * intensity)
               else:
-                results[theme.id]['ranges'][col]['max_reation'] = results[theme.id]['ranges'][col]['max_reaction'] + 10 * intensity
+                results[theme.id]['ranges'][col]['max_reaction'] = max(results[theme.id]['ranges'][col]['max_reaction'], 10 * intensity)
               col = col + 1
             answer = answers_dict.get(behavior.question_id) if answers_dict.get(behavior.question_id) != None else None
             if answer != None:
