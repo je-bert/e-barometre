@@ -426,7 +426,7 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
     indicators = Indicator.query\
       .filter_by(barometer_id = barometer.id)\
       .all()
-    results[theme.id] = {"name": theme.name, "behaviors": [],"action":{"PF":0, "PC": 0,"NC": 0},"reaction":{"E":0},"max_action":{"PF":0, "PC": 0,"NC": 0},"max_reaction":{"E":0}, "ranges": [{"action": {"PF":0, "PC": 0,"NC": 0}, "reaction": 0, "max_action": {"PF":0, "PC": 0,"NC": 0}, "max_reaction": 0} for i in range(len(indicators))]}
+    results[theme.id] = {"name": theme.name, "behaviors": [], "ranges": [{"action": {"PF":0, "PC": 0,"NC": 0}, "reaction": 0, "max_action": {"PF":0, "PC": 0,"NC": 0}, "max_reaction": 0} for i in range(len(indicators))]}
     for behavior in behaviors:
       ranges = behavior.ranges.split(',')
       if len(ranges) != len(indicators):
@@ -438,10 +438,8 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
         if len(current_range) != 2 or int(current_range[0]) == 11:
           continue
         if behavior.actor_id == 5:
-          results[theme.id]['max_action'][behavior.question_id[0:2]] = max(results[theme.id]['max_action'][behavior.question_id[0:2]], 10 * intensity)
           results[theme.id]['ranges'][col]['max_action'][behavior.question_id[0:2]] = max(results[theme.id]['ranges'][col]['max_action'][behavior.question_id[0:2]], 10 * intensity)
         else:
-          results[theme.id]['max_reaction'][behavior.question_id[0]] = max(results[theme.id]['max_reaction'][behavior.question_id[0]], 10 * intensity)
           results[theme.id]['ranges'][col]['max_reaction'] = max(results[theme.id]['ranges'][col]['max_reaction'], 10 * intensity)
         col = col + 1
       answer = answers_dict.get(behavior.question_id) if answers_dict.get(behavior.question_id) != None else None
@@ -468,10 +466,8 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
             if b['answer'] >= int(current_range[0]) and b['answer'] <= int(current_range[1]):
               symbol = 'V'
               if b['is_action']:
-                result['action'][b['question_id'][0:2]] = max(result['action'][b['question_id'][0:2]], b['answer'] * b['intensity'])
                 result['ranges'][col]['action'][b['question_id'][0:2]] = max(result['ranges'][col]['action'][b['question_id'][0:2]], b['answer'] * b['intensity'])
               else:
-                result['reaction'][b['question_id'][0]] = max(result['reaction'][b['question_id'][0]], b['answer'] * b['intensity'])
                 result['ranges'][col]['reaction'] = max(result['ranges'][col]['reaction'], b['answer'] * b['intensity'])
             else:
               symbol = 'F'
@@ -482,7 +478,7 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
           for i in range(len(indicators)):
             report_sections.append('<td class="text-center">{}: F</td>'.format(ranges[i]))
         report_sections.append('</tr>')
-    report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td class="text-center invisible">{}/{} | {}/{} ({})</td>'.format(result['name'],sum(result['action'].values()),sum(result['max_action'].values()), sum(result['reaction'].values()),sum(result['max_reaction'].values()), sum(result['action'].values()) + sum(result['reaction'].values())))
+    report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td></td>'.format(result['name']))
     for i in range(len(indicators)):
       report_sections.append('<td class="text-center">{}/{} | {}/{} ({})</td>'.format(sum(result['ranges'][i]['action'].values()),sum(result['ranges'][i]['max_action'].values()), result['ranges'][i]['reaction'],result['ranges'][i]['max_reaction'], sum(result['ranges'][i]['action'].values()) + result['ranges'][i]['reaction']))
       
