@@ -482,7 +482,7 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
           for i in range(len(indicators)):
             report_sections.append('<td class="text-center">{}: F</td>'.format(ranges[i]))
         report_sections.append('</tr>')
-    report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td class="text-center">{}/{} | {}/{} ({})</td>'.format(result['name'],sum(result['action'].values()),sum(result['max_action'].values()), sum(result['reaction'].values()),sum(result['max_reaction'].values()), sum(result['action'].values()) + sum(result['reaction'].values())))
+    report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td class="text-center invisible">{}/{} | {}/{} ({})</td>'.format(result['name'],sum(result['action'].values()),sum(result['max_action'].values()), sum(result['reaction'].values()),sum(result['max_reaction'].values()), sum(result['action'].values()) + sum(result['reaction'].values())))
     for i in range(len(indicators)):
       report_sections.append('<td class="text-center">{}/{} | {}/{} ({})</td>'.format(sum(result['ranges'][i]['action'].values()),sum(result['ranges'][i]['max_action'].values()), result['ranges'][i]['reaction'],result['ranges'][i]['max_reaction'], sum(result['ranges'][i]['action'].values()) + result['ranges'][i]['reaction']))
       
