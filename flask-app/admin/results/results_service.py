@@ -353,7 +353,7 @@ def generate_mirror_results(barometer, current_section,report_sections, other_co
         score = score + sum_score
         sum_max_score = result['actor_1'].max_score + result['actor_2'].max_score
         max_score = max_score + sum_max_score
-        report_sections.append('<tr><td>{}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} / {} = {}</td></tr>'.format(result['name'], result['actor_1'].answer, result['actor_1'].intensity,result['actor_1'].score, result['actor_2'].answer, result['actor_2'].intensity,result['actor_2'].score, sum_score, sum_max_score, round(sum_score / sum_max_score, 3)))
+        report_sections.append('<tr><td>{}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} / {} = {}</td></tr>'.format(result['name'], result['actor_1'].answer, result['actor_1'].intensity,result['actor_1'].score, result['actor_2'].answer, result['actor_2'].intensity,result['actor_2'].score, sum_score, sum_max_score, round(safe_division(sum_score, sum_max_score), 3)))
       else:
         report_sections.append('<tr><td>{}</td><td class="text-center">-1</td><td class="text-center">-1</td><td class="text-center">-</td></tr>'.format(result['name']))
   if is_admin:
@@ -379,7 +379,7 @@ def generate_mirror_results(barometer, current_section,report_sections, other_co
         continue
     elif item.theme_id != None:
       if str(item.theme_id) in results and results[str(item.theme_id)]['actor_1'] != None and results[str(item.theme_id)]['actor_2'] != None:
-        value = (results[str(item.theme_id)]['actor_1'].score + results[str(item.theme_id)]['actor_2'].score) / (results[str(item.theme_id)]['actor_1'].max_score + results[str(item.theme_id)]['actor_2'].max_score)
+        value = safe_division((results[str(item.theme_id)]['actor_1'].score + results[str(item.theme_id)]['actor_2'].score) , (results[str(item.theme_id)]['actor_1'].max_score + results[str(item.theme_id)]['actor_2'].max_score))
       else: 
         continue
     if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
@@ -414,6 +414,7 @@ def generate_mirror_results(barometer, current_section,report_sections, other_co
   return current_section
 
 def generate_action_reaction_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+  current_section['data'] = {"indicators": [], "items":[]}
   results = {}
   themes = Theme.query\
     .filter_by(barometer_id = barometer.id, is_active = True)\
@@ -426,22 +427,12 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
     indicators = Indicator.query\
       .filter_by(barometer_id = barometer.id)\
       .all()
-    results[theme.id] = {"name": theme.name, "behaviors": [], "ranges": [{"action": {"PF":0, "PC": 0,"NC": 0}, "reaction": 0, "max_action": {"PF":0, "PC": 0,"NC": 0}, "max_reaction": 0} for i in range(len(indicators))]}
+    results[theme.id] = {"name": theme.name, "behaviors": [], "ranges": [{"PF": {"value":0, "max":0, "min":0}, "PC": {"value":0, "max":0, "min":0},"NC": {"value":0, "max":0, "min":0}, "E":{"value":0, "max":0, "min":0}} for i in range(len(indicators))]}
     for behavior in behaviors:
       ranges = behavior.ranges.split(',')
       if len(ranges) != len(indicators):
         continue
       intensity = intensity_dict[behavior.question_id] if behavior.question_id in intensity_dict else 0
-      col = 0
-      for r in ranges:
-        current_range = r.split(':')
-        if len(current_range) != 2 or int(current_range[0]) == 11:
-          continue
-        if behavior.actor_id == 5:
-          results[theme.id]['ranges'][col]['max_action'][behavior.question_id[0:2]] = max(results[theme.id]['ranges'][col]['max_action'][behavior.question_id[0:2]], 10 * intensity)
-        else:
-          results[theme.id]['ranges'][col]['max_reaction'] = max(results[theme.id]['ranges'][col]['max_reaction'], 10 * intensity)
-        col = col + 1
       answer = answers_dict.get(behavior.question_id) if answers_dict.get(behavior.question_id) != None else None
       if answer != None:
         answer = int(answer.value)
@@ -463,27 +454,76 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
           col = 0
           while (col < len(ranges)):
             current_range = ranges[col].split(':')
+            score = 0
             if b['answer'] >= int(current_range[0]) and b['answer'] <= int(current_range[1]):
               symbol = 'V'
+              # score = safe_division(b['answer'] - int(current_range[0]) + 1, int(current_range[1]) - int(current_range[0]) + 1)
+              indice = b['answer'] * b['intensity']
+              max = b['intensity'] * int(current_range[1])
+              min = b['intensity'] * int(current_range[0])
               if b['is_action']:
-                result['ranges'][col]['action'][b['question_id'][0:2]] = max(result['ranges'][col]['action'][b['question_id'][0:2]], b['answer'] * b['intensity'])
+                if indice > result['ranges'][col][b['question_id'][0:2]]['value']:
+                  result['ranges'][col][b['question_id'][0:2]]['value'] = indice
+                if max > result['ranges'][col][b['question_id'][0:2]]['max']:
+                  result['ranges'][col][b['question_id'][0:2]]['max'] = max
+                if min > result['ranges'][col][b['question_id'][0:2]]['min']:
+                  result['ranges'][col][b['question_id'][0:2]]['min'] = min
               else:
-                result['ranges'][col]['reaction'] = max(result['ranges'][col]['reaction'], b['answer'] * b['intensity'])
+                if indice > result['ranges'][col][b['question_id'][0]]['value']:
+                  result['ranges'][col][b['question_id'][0]]['value'] = indice
+                if max > result['ranges'][col][b['question_id'][0]]['max']:
+                  result['ranges'][col][b['question_id'][0]]['max'] = max 
+                if min > result['ranges'][col][b['question_id'][0]]['min']:
+                  result['ranges'][col][b['question_id'][0]]['min'] = min 
             else:
               symbol = 'F'
-            report_sections.append('<td class="text-center">{}: {}</td>'.format( ranges[col], symbol))
+              # score = 0
+              indice = 0
+            report_sections.append('<td class="text-center {}">{}: {}</td>'.format( "opacity-50" if symbol == 'F' else '',symbol, ranges[col]))
             col = col + 1
         else:
           report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">-1</td>'.format( b['question_id'], "Action" if b['is_action'] else "Réaction"))
           for i in range(len(indicators)):
-            report_sections.append('<td class="text-center">{}: F</td>'.format(ranges[i]))
+            report_sections.append('<td class="text-center opacity-50">F: {}</td>'.format(ranges[i]))
         report_sections.append('</tr>')
     report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td></td>'.format(result['name']))
     for i in range(len(indicators)):
-      report_sections.append('<td class="text-center">{}/{} | {}/{} ({})</td>'.format(sum(result['ranges'][i]['action'].values()),sum(result['ranges'][i]['max_action'].values()), result['ranges'][i]['reaction'],result['ranges'][i]['max_reaction'], sum(result['ranges'][i]['action'].values()) + result['ranges'][i]['reaction']))
+      value = sum(value['value'] for value in result['ranges'][i].values())
+      reaction = 'V' if result['ranges'][i]['E']['value'] > 0 else 'F'
+      action = 'V' if value - result['ranges'][i]['E']['value'] > 0 else 'F'
+      if i == 0 and action == 'V' and reaction == 'V':
+        current_section['data']['items'].append({"name": result['name'], "value": value})
+      max = sum(value['max'] for value in result['ranges'][i].values())
+      min = sum(value['min'] for value in result['ranges'][i].values())
+      report_sections.append('<td class="text-center">({}|{}){} < {} < {} ({})</td>'.format(action, reaction,round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
       
   if is_admin:
-    report_sections.append('</table></div>')
+    ranges = [
+      {"min": 0, "max": 0.25, "name": "Aucun"},
+      {"min": 0.25, "max": 0.5, "name": "Faible"},
+      {"min": 0.5, "max": 0.75, "name": "Possible"},
+      {"min": 0.75, "max": 1, "name": "Probable"}
+      ]
+    
+    report_sections.append('</tr></table>')
+    for i in range(len(indicators)):
+      ranges = []
+      value = 0
+      min = 0
+      max = 0
+      items = BarometerItem.query\
+      .filter_by(barometer_id = barometer.id, is_active = True, type = 'range', indicator_id = indicator.id)\
+      .all()
+      for item in items:
+        ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
+      for result in results.values():
+        value += sum(value['value'] for value in result['ranges'][i].values())
+        max += sum(value['max'] for value in result['ranges'][i].values())
+        min += sum(value['min'] for value in result['ranges'][i].values())
+      current_section['data']['indicators'].append({"value": safe_division(value - min + 1, max - min + 1) if value != 0 else 0, "ranges": ranges, "id": indicators[i].id, "content": indicators[i].content})
+      report_sections.append('<p class="text-center mt-6">Résultat {}: {} < {} < {} ({})</p>'.format(indicators[i].content, round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
+    report_sections.append('</div>')
+    
 
   return current_section
 
@@ -512,6 +552,8 @@ def generate_barometer_data(id, barometer, content):
     return generate_circular_gauge_data(id, content)
   elif barometer == "mirror":
     return generate_mirror_data(id, content)
+  elif barometer == "action-reaction":
+    return generate_action_reaction_data(id, content)
   else:
     return {}
   
@@ -547,6 +589,33 @@ def generate_circular_gauge_data(id, content):
     if r['min'] <= data['value'] <= r['max']:
       data['result'] = r['name']
       break
+  return data
+
+def generate_action_reaction_data(id, content):
+  data = {
+      "id": id,
+      "indicators": [],
+      "items": content['items']
+    }
+  data['items'] = sorted(data['items'], key=lambda d: d['value'], reverse=True)
+  data['items'] = data['items'][0:7] # take the 7 first items
+  for indicator in content['indicators']:
+    temp = {
+      "id": 'action-reaction-' + data['id'] + "-" + str(indicator['id']),
+      "value": indicator['value'],
+      "content": indicator['content'],
+      "range": [
+        indicator['ranges'][0]['min'], # Green
+        indicator['ranges'][1]['min'], # Yellow (min for risk)
+        indicator['ranges'][2]['min'], # Orange
+        indicator['ranges'][3]['min'], # Red
+        indicator['ranges'][3]['max'], # Max
+      ]}
+    for r in indicator['ranges']:
+      if r['min'] <= temp['value'] <= r['max']:
+        temp['result'] = r['name']
+        break
+    data['indicators'].append(temp)
   return data
   
 def generate_mirror_data(id, content):
