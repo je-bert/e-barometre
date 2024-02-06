@@ -448,9 +448,9 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
   for result in results.values():
     for b in result['behaviors']:
       if is_admin:
+        ranges = b['ranges'].split(',')
         if b['answer'] != None and b['answer'] != -1:
           report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{} x {} = {}</td>'.format(b['question_id'], "Action" if b['is_action'] else "Réaction", b['answer'], b['intensity'], b['answer'] * (b['intensity'] if b['intensity'] != None else 0)))
-          ranges = b['ranges'].split(',')
           col = 0
           while (col < len(ranges)):
             current_range = ranges[col].split(':')
