@@ -111,7 +111,7 @@ def update_one(id):
   behavior.question_id = data.get('question_id')
   behavior.ranges = ''.join(ranges_str_builder)
   behavior.is_active = 1 if data.get('is_active') else 0
-  behavior.weight = data.get('weight') if (data.get('weight') and data.get('weight').isdigit()) else 0
+  behavior.weight = data.get('weight') if (data.get('weight') and data.get('weight').replace(".", "").isnumeric()) else 0
   behavior.actor_id = actor.id if actor else None
   db.session.commit()
   return jsonify(behavior)

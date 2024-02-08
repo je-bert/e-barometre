@@ -7,11 +7,11 @@
     </div>
 
     <div
-      class="bg-white flex justify-center py-2 rounded-[2rem] drop-shadow-xl mx-4 text-center min-h-[210px] h-[210px]">
-      <div style="width: 400px; height: 210px " class="relative overflow-y-hidden">
-        <svg class="absolute -top-2.5 rounded-[10rem]" width="400px" height="210px" viewBox="0 -35 100 200">
+      class="bg-white flex justify-center py-2 rounded-[2rem] drop-shadow-xl mx-4 text-center min-h-[230px] h-[230px]">
+      <div style="width: 400px; height: 230px " class="relative overflow-y-hidden">
+        <svg class="absolute -top-2.5 rounded-[10rem]" width="400px" height="230px" viewBox="0 -55 100 200">
           <defs>
-            <linearGradient id="b6-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id="{{ data['id'] }}-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="" style="stop-color: #7bb284; stop-opacity: 1" />
               <stop offset="" style="stop-color: #deb064; stop-opacity: 1" />
 
@@ -19,7 +19,7 @@
             </linearGradient>
           </defs>
 
-          <ellipse cx="50" cy="100" rx="98" ry="88" fill="url(#b6-grad1)" />
+          <ellipse cx="50" cy="100" rx="98" ry="88" fill="url(#{{ data['id'] }}-grad1)" />
 
           <ellipse cx="46" cy="105" rx="75" ry="60" style="fill: white; stroke-width: 2" />
 
@@ -32,27 +32,32 @@
             font-weight="500" font-family="Poppins" letter-spacing="0.02">
             {{data['result']}}
           </text>
+          <text fill="#0085EF" x="50" y="-20" text-anchor="middle" alignment-baseline="middle" font-size="14"
+            font-weight="500" font-family="Poppins" letter-spacing="0.02">
+            {{data['content']}}
+          </text>
         </svg>
-        <img id="b6-pin" class="absolute bottom-[30%] left-[15%]"
+        <img id="{{ data['id'] }}-pin" class="absolute bottom-[30%] left-[15%]"
           src="{{ url_for('static', filename='img/b6-pin.png', _external=True) }}" />
       </div>
 
       <script type="module">
         const data = JSON.parse(`{{ data | tojson | safe }}`);
 
-        const pin = document.getElementById("b6-pin");
+        const pin = document.getElementById("{{ data['id'] }}-pin");
 
         pin.setAttribute(
           "style",
           `
       transform:rotate(${getRotation(
             data.value
-          )}deg) scale(0.3); transform-origin: 85% 70%`
+          )}deg) scale(0.3); transform-origin: 85% 70%;bottom: 20%;`
         );
+
 
         const stops = getOffsets(data.range);
 
-        const stopElements = document.querySelectorAll("#b6-grad1 stop");
+        const stopElements = document.querySelectorAll("#{{ data['id'] }}-grad1 stop");
 
         console.log(stopElements);
 

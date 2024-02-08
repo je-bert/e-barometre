@@ -124,7 +124,7 @@
 
   {% endif %}
 
-  {% if barometer.type == 'action-reaction' %}
+  {% if barometer.indicators | length > 0 %}
 
   {% for indicator in barometer.indicators %}
   <div class="flex justify-between items-center my-6">
