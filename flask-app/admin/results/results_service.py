@@ -80,6 +80,7 @@ def find_one_auto(id):
     .filter_by(report_id = id)\
     .all()}
   report_sections = []
+  admin_sections = []
   other_considerations_section = {
     "title": "Considérations importantes",
     "about": "Dans cette section, nous abordons des aspects cruciaux qui n'ont pas trouvé leur place dans les sections précédentes du rapport, mais qui demeurent essentiels à considérer.",
@@ -104,14 +105,19 @@ def find_one_auto(id):
       .all()
     
     for barometer in barometers:
-      generate_barometer(barometer, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
+      generate_barometer(barometer, report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections)
 
   report_sections += generate_report_section(other_considerations_section)
+  if is_admin:
+    report_sections.append('<div class="w-full flex flex-col items-center space-y-8">')
+    report_sections.append(render_template('reports/section-title.html', content = "Section administrative"))
+    report_sections += admin_sections
+    report_sections.append('</div>')
 
   return render_template('reports/report-1/base.html', children = report_sections)
 
 
-def generate_barometer(barometer, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+def generate_barometer(barometer, report_sections, other_considerations_section, answers_dict, intensity_dict,  admin_sections):
   current_section = {
     "title": barometer.title,
     "about": barometer.about_barometer,
@@ -126,16 +132,16 @@ def generate_barometer(barometer, report_sections, other_considerations_section,
   }
   
   if barometer.type == 'action-reaction':
-    generate_action_reaction_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
+    generate_action_reaction_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections)
   elif barometer.type == 'mirror':
-    generate_mirror_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
+    generate_mirror_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections)
   elif barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
-    generate_gauge_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin)
+    generate_gauge_results(barometer, current_section, report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections)
   else:
     current_section['hide'] = True
   report_sections += generate_report_section(current_section, barometer)
   
-def generate_gauge_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+def generate_gauge_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections):
   results = {}
   themes = Theme.query\
     .filter_by(barometer_id = barometer.id, is_active = True)\
@@ -182,10 +188,10 @@ def generate_gauge_results(barometer, current_section,report_sections, other_con
   score = 0
   results_by_theme_id = {}
   ranges = []
-  if is_admin:
-    report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
-    report_sections.append('<table class="w-full admin-table">')
-    report_sections.append('<tr><th class="text-left">Comportement</th><th class="text-center">Réponse</th><th class="text-center">Intensité</th><th class="text-center">Poids</th><th class="text-center">Indice</th></tr>')
+
+  admin_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+  admin_sections.append('<table class="w-full admin-table">')
+  admin_sections.append('<tr><th class="text-left">Comportement</th><th class="text-center">Réponse</th><th class="text-center">Intensité</th><th class="text-center">Poids</th><th class="text-center">Indice</th></tr>')
   for result in results.values():
     max_weight = max_weight + result['weight']
     answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
@@ -193,10 +199,8 @@ def generate_gauge_results(barometer, current_section,report_sections, other_con
     score = score + (0 if result['ignore'] else result['intensity'] * result['result'])
     results_by_theme_id[result['theme_id']] = results_by_theme_id.get(result['theme_id'], [])
     results_by_theme_id[result['theme_id']].append(0 if result['ignore'] else  result['result'])
-    if is_admin:
-      report_sections.append('<tr><td>{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td></tr>'.format(result['question_id'], result['answer'], result['intensity'], round(result['weight'],3), round(result['result'] * result['intensity'], 3)))
-  if is_admin:
-    report_sections.append('</table>')
+    admin_sections.append('<tr><td>{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{}</td></tr>'.format(result['question_id'], result['answer'], result['intensity'], round(result['weight'],3), round(result['result'] * result['intensity'], 3)))
+  admin_sections.append('</table>')
 
   avg_by_theme_id = {}
   for theme_id in results_by_theme_id:
@@ -213,9 +217,9 @@ def generate_gauge_results(barometer, current_section,report_sections, other_con
 
   total = safe_division(score, max_score)
   weight_percentage = safe_division(answered_weight, max_weight)
-  if is_admin:
-    report_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
-    report_sections.append('<p class="text-center">Poids répondu: {} / {} = {}</p></div>'.format(round(answered_weight, 3), round(max_weight, 3), round(weight_percentage, 3)))
+  
+  admin_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
+  admin_sections.append('<p class="text-center">Poids répondu: {} / {} = {}</p></div>'.format(round(answered_weight, 3), round(max_weight, 3), round(weight_percentage, 3)))
   if total < barometer.min_result or weight_percentage < barometer.min_weight:
     if barometer.min_weight_note != None and weight_percentage < barometer.min_weight:
       report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
@@ -278,7 +282,7 @@ def generate_gauge_results(barometer, current_section,report_sections, other_con
     current_section['hide'] = True
   return current_section
   
-def generate_mirror_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+def generate_mirror_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections):
   hide = False # TODO: Implement hide depending on results or weight
   behavior_results = {}
   results = {}
@@ -301,21 +305,23 @@ def generate_mirror_results(barometer, current_section,report_sections, other_co
       .all()
     
     if len(behaviors) != 2:
-      results[theme.id] ={"name": theme.name,'actor_1': None, 'actor_2': None }
+      results[theme.id] ={"name": theme.name,'actor_1': None, 'actor_2': None, 'weight': 0, 'max_weight': 0 }
       continue
+      
+    max_weight = behaviors[0].weight + behaviors[1].weight
 
     actor_1 = behaviors[0] if behaviors[0].actor_id == actors[0].id else (behaviors[1].actor_id if behaviors[1].actor_id == actors[0].id else None)
     actor_2 = behaviors[1] if behaviors[1].actor_id == actors[1].id else (behaviors[0].actor_id if behaviors[0].actor_id == actors[1].id else None)
 
     if actor_1 == None or actor_2 == None or actor_1.actor_id == None or actor_2.actor_id == None or actor_1.actor_id == actor_2.actor_id:
-      results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None , 'result': 0 }
+      results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None , 'result': 0 , 'weight': 0, 'max_weight': max_weight }
       continue
 
     actor_1.answer = answers_dict.get(actor_1.question_id) if answers_dict.get(actor_1.question_id) != None else None
     actor_2.answer = answers_dict.get(actor_2.question_id) if answers_dict.get(actor_2.question_id) != None else None
 
     if actor_1.answer == None or actor_2.answer == None or actor_1.answer.value == '-1' or actor_2.answer.value == '-1':
-      results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None, 'result': 0 }
+      results[theme.id] = {"name": theme.name,'actor_1': None, 'actor_2': None, 'result': 0 , 'weight': 0, 'max_weight': max_weight}
       continue
     else:
       actor_1.answer = int(actor_1.answer.value)
@@ -333,36 +339,43 @@ def generate_mirror_results(barometer, current_section,report_sections, other_co
     behavior_results[behaviors[0].id] = actor_1.answer
     behavior_results[behaviors[1].id] = actor_2.answer
 
-    results[theme.id] = {"name": theme.name, "actor_1": actor_1, "actor_2": actor_2, 'result': theme_result }
+    results[theme.id] = {"name": theme.name, "actor_1": actor_1, "actor_2": actor_2, 'result': theme_result , 'weight': behaviors[0].weight + behaviors[1].weight, 'max_weight': max_weight}
     if difference > 0:
       current_section['data']['items'].append({"name": theme.name, "value_1": actor_1.answer, "value_2": actor_2.answer,'result': theme_result  })
 
-  # max_weight = 0
-  # answered_weight = 0
+  max_weight = 0
+  answered_weight = 0
   score = 0
   max_score = 0
-  if is_admin:
-    report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
-    report_sections.append('<table class="w-full admin-table">')
-    report_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">{}</th><th class="text-center">{}</th><th class="text-center">Écart</th></tr>'.format(current_section['data']['actor_1'], current_section['data']['actor_2']))
+  admin_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+  admin_sections.append('<table class="w-full admin-table">')
+  admin_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">{}</th><th class="text-center">{}</th><th class="text-center">Poids répondu</th><th class="text-center">Écart</th></tr>'.format(current_section['data']['actor_1'], current_section['data']['actor_2']))
   for result in results.values():
-    # max_weight = max_weight + result['weight']
-    # answered_weight = answered_weight + (0 if result['ignore'] else result['weight'])
-    if is_admin:
-      if result['actor_1'] != None and result['actor_2'] != None:
-        sum_score = result['actor_1'].score + result['actor_2'].score
-        score = score + sum_score
-        sum_max_score = result['actor_1'].max_score + result['actor_2'].max_score
-        max_score = max_score + sum_max_score
-        report_sections.append('<tr><td>{}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} / {} = {}</td></tr>'.format(result['name'], result['actor_1'].answer, result['actor_1'].intensity,result['actor_1'].score, result['actor_2'].answer, result['actor_2'].intensity,result['actor_2'].score, sum_score, sum_max_score, round(result['result'], 3)))
-      else:
-        report_sections.append('<tr><td>{}</td><td class="text-center">-1</td><td class="text-center">-1</td><td class="text-center">-</td></tr>'.format(result['name']))
-  if is_admin:
-    report_sections.append('</table>')
+    max_weight = max_weight + result['max_weight']
+    answered_weight = answered_weight + result['weight']
+    if result['actor_1'] != None and result['actor_2'] != None:
+      sum_score = result['actor_1'].score + result['actor_2'].score
+      score = score + sum_score
+      sum_max_score = result['actor_1'].max_score + result['actor_2'].max_score
+      max_score = max_score + sum_max_score
+      admin_sections.append('<tr><td>{}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} x {} = {}</td><td class="text-center">{} / {}</td><td class="text-center">{} / {} = {}</td></tr>'.format(result['name'], result['actor_1'].answer, result['actor_1'].intensity,result['actor_1'].score, result['actor_2'].answer, result['actor_2'].intensity,result['actor_2'].score, result['weight'], result['max_weight'], sum_score, sum_max_score, round(result['result'], 3)))
+    else:
+      admin_sections.append('<tr><td>{}</td><td class="text-center">-1</td><td class="text-center">-1</td><td class="text-center">{} / {}</td><td class="text-center">-</td></tr>'.format(result['name'], result['weight'], result['max_weight']))
+  admin_sections.append('</table>')
 
   total = safe_division(score, max_score)
-  if is_admin:
-    report_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p></div>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
+  weight_percentage = safe_division(answered_weight, max_weight)
+
+  admin_sections.append('<p class="text-center mt-6">Résultat: {} / {} = {}</p>'.format(round(score, 3), round(max_score, 3), round(total, 3)))
+  admin_sections.append('<p class="text-center">Poids répondu: {} / {} = {}</p></div>'.format(round(answered_weight, 3), round(max_weight, 3), round(weight_percentage, 3)))
+  if total < barometer.min_result or weight_percentage < barometer.min_weight:
+    if barometer.min_weight_note != None and weight_percentage < barometer.min_weight:
+      report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
+      report_sections.append(render_template('reports/note.html', content = barometer.min_weight_note)) 
+    elif barometer.min_result_note != None and total < barometer.min_result:
+      report_sections.append(render_template('reports/subsection-title.html', content = barometer.title))
+      report_sections.append(render_template('reports/note.html', content = barometer.min_result_note))
+    hide = True
 
   items = BarometerItem.query\
     .filter_by(barometer_id = barometer.id, is_active = True)\
@@ -412,9 +425,11 @@ def generate_mirror_results(barometer, current_section,report_sections, other_co
           other_considerations_section['ressources'].append(item.content)
         else:
           current_section['ressources'].append(item.content)
+  if hide:
+    current_section['hide'] = True
   return current_section
 
-def generate_action_reaction_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, is_admin):
+def generate_action_reaction_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections):
   current_section['data'] = {"indicators": [], "items":[]}
   results = {}
   themes = Theme.query\
@@ -439,55 +454,54 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
         answer = int(answer.value)
       results[theme.id]['behaviors'].append({'question_id': behavior.question_id, 'answer': answer, 'intensity': intensity, 'ranges': behavior.ranges, 'is_action': behavior.actor_id == 5, 'weight': behavior.weight})
     
-  if is_admin:
-    report_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
-    report_sections.append('<table class="w-full admin-table">')
-    report_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">Comportement</th><th class="text-center">Acteur</th><th class="text-center">Fréquence x Intensité x Poids</th>')
-    for indicator in indicators:
-      report_sections.append('<th class="text-center">{}</th>'.format(indicator.content))
-    report_sections.append('</tr>')
+  admin_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
+  admin_sections.append('<table class="w-full admin-table">')
+  admin_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">Comportement</th><th class="text-center">Acteur</th><th class="text-center">Fréquence x Intensité x Poids</th>')
+  for indicator in indicators:
+    admin_sections.append('<th class="text-center">{}</th>'.format(indicator.content))
+  admin_sections.append('</tr>')
   for result in results.values():
     for b in result['behaviors']:
-      if is_admin:
-        ranges = b['ranges'].split(',')
-        if b['answer'] != None and b['answer'] != -1:
-          report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{} x {} x {} = {}</td>'.format(b['question_id'], "Action" if b['is_action'] else "Réaction", b['answer'], b['intensity'], b['weight'], b['answer'] * b['weight'] * (b['intensity'] if b['intensity'] != None else 0)))
-          col = 0
-          while (col < len(ranges)):
-            current_range = ranges[col].split(':')
-            score = 0
-            if b['answer'] >= int(current_range[0]):
-              symbol = 'V'
-              # score = safe_division(b['answer'] - int(current_range[0]) + 1, int(current_range[1]) - int(current_range[0]) + 1)
-              indice = (b['answer'] if b['answer'] < int(current_range[1]) else int(current_range[1])) * b['intensity'] * b['weight']
-              max = b['intensity'] * int(current_range[1]) * b['weight']
-              min = b['intensity'] * int(current_range[0]) * b['weight']
-              if b['is_action']:
-                if indice > result['ranges'][col][b['question_id'][0:2]]['value']:
-                  result['ranges'][col][b['question_id'][0:2]]['value'] = indice
-                if max > result['ranges'][col][b['question_id'][0:2]]['max']:
-                  result['ranges'][col][b['question_id'][0:2]]['max'] = max
-                if min > result['ranges'][col][b['question_id'][0:2]]['min']:
-                  result['ranges'][col][b['question_id'][0:2]]['min'] = min
-              else:
-                if indice > result['ranges'][col][b['question_id'][0]]['value']:
-                  result['ranges'][col][b['question_id'][0]]['value'] = indice
-                if max > result['ranges'][col][b['question_id'][0]]['max']:
-                  result['ranges'][col][b['question_id'][0]]['max'] = max 
-                if min > result['ranges'][col][b['question_id'][0]]['min']:
-                  result['ranges'][col][b['question_id'][0]]['min'] = min 
+  
+      ranges = b['ranges'].split(',')
+      if b['answer'] != None and b['answer'] != -1:
+        admin_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">{} x {} x {} = {}</td>'.format(b['question_id'], "Action" if b['is_action'] else "Réaction", b['answer'], b['intensity'], b['weight'], b['answer'] * b['weight'] * (b['intensity'] if b['intensity'] != None else 0)))
+        col = 0
+        while (col < len(ranges)):
+          current_range = ranges[col].split(':')
+          score = 0
+          if b['answer'] >= int(current_range[0]):
+            symbol = 'V'
+            # score = safe_division(b['answer'] - int(current_range[0]) + 1, int(current_range[1]) - int(current_range[0]) + 1)
+            indice = (b['answer'] if b['answer'] < int(current_range[1]) else int(current_range[1])) * b['intensity'] * b['weight']
+            max = b['intensity'] * int(current_range[1]) * b['weight']
+            min = b['intensity'] * int(current_range[0]) * b['weight']
+            if b['is_action']:
+              if indice > result['ranges'][col][b['question_id'][0:2]]['value']:
+                result['ranges'][col][b['question_id'][0:2]]['value'] = indice
+              if max > result['ranges'][col][b['question_id'][0:2]]['max']:
+                result['ranges'][col][b['question_id'][0:2]]['max'] = max
+              if min > result['ranges'][col][b['question_id'][0:2]]['min']:
+                result['ranges'][col][b['question_id'][0:2]]['min'] = min
             else:
-              symbol = 'F'
-              # score = 0
-              indice = 0
-            report_sections.append('<td class="text-center {}">{}: {}</td>'.format( "opacity-50" if symbol == 'F' else '',symbol, ranges[col]))
-            col = col + 1
-        else:
-          report_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">-1</td>'.format( b['question_id'], "Action" if b['is_action'] else "Réaction"))
-          for i in range(len(indicators)):
-            report_sections.append('<td class="text-center opacity-50">F: {}</td>'.format(ranges[i]))
-        report_sections.append('</tr>')
-    report_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td></td>'.format(result['name']))
+              if indice > result['ranges'][col][b['question_id'][0]]['value']:
+                result['ranges'][col][b['question_id'][0]]['value'] = indice
+              if max > result['ranges'][col][b['question_id'][0]]['max']:
+                result['ranges'][col][b['question_id'][0]]['max'] = max 
+              if min > result['ranges'][col][b['question_id'][0]]['min']:
+                result['ranges'][col][b['question_id'][0]]['min'] = min 
+          else:
+            symbol = 'F'
+            # score = 0
+            indice = 0
+          admin_sections.append('<td class="text-center {}">{}: {}</td>'.format( "opacity-50" if symbol == 'F' else '',symbol, ranges[col]))
+          col = col + 1
+      else:
+        admin_sections.append('<tr><td></td><td class="text-center">{}</td><td class="text-center">{}</td><td class="text-center">-1</td>'.format( b['question_id'], "Action" if b['is_action'] else "Réaction"))
+        for i in range(len(indicators)):
+          admin_sections.append('<td class="text-center opacity-50">F: {}</td>'.format(ranges[i]))
+      admin_sections.append('</tr>')
+    admin_sections.append('<tr class="font-bold"><td>{}</td><td></td><td></td><td></td>'.format(result['name']))
     for i in range(len(indicators)):
       value = sum(value['value'] for value in result['ranges'][i].values())
       reaction = 'V' if result['ranges'][i]['E']['value'] > 0 else 'F'
@@ -496,28 +510,27 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
         current_section['data']['items'].append({"name": result['name'], "value": value})
       max = sum(value['max'] for value in result['ranges'][i].values())
       min = sum(value['min'] for value in result['ranges'][i].values())
-      report_sections.append('<td class="text-center">({}|{}){} < {} < {} ({})</td>'.format(action, reaction,round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
-      
-  if is_admin:    
-    report_sections.append('</tr></table>')
-    for i in range(len(indicators)):
-      ranges = []
-      value = 0
-      min = 0
-      max = 0
-      items = BarometerItem.query\
-      .filter_by(barometer_id = barometer.id, is_active = True, type = 'range', indicator_id = indicators[i].id)\
-      .all()
-      for item in items:
-        ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
-        print (item.content)
-      for result in results.values():
-        value += sum(value['value'] for value in result['ranges'][i].values())
-        max += sum(value['max'] for value in result['ranges'][i].values())
-        min += sum(value['min'] for value in result['ranges'][i].values())
-      current_section['data']['indicators'].append({"value": safe_division(value - min + 1, max - min + 1) if value != 0 else 0, "ranges": ranges, "id": indicators[i].id, "content": indicators[i].content})
-      report_sections.append('<p class="text-center mt-6">Résultat {}: {} < {} < {} ({})</p>'.format(indicators[i].content, round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
-    report_sections.append('</div>')
+      admin_sections.append('<td class="text-center">({}|{}){} < {} < {} ({})</td>'.format(action, reaction,round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
+       
+  admin_sections.append('</tr></table>')
+  for i in range(len(indicators)):
+    ranges = []
+    value = 0
+    min = 0
+    max = 0
+    items = BarometerItem.query\
+    .filter_by(barometer_id = barometer.id, is_active = True, type = 'range', indicator_id = indicators[i].id)\
+    .all()
+    for item in items:
+      ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
+      print (item.content)
+    for result in results.values():
+      value += sum(value['value'] for value in result['ranges'][i].values())
+      max += sum(value['max'] for value in result['ranges'][i].values())
+      min += sum(value['min'] for value in result['ranges'][i].values())
+    current_section['data']['indicators'].append({"value": safe_division(value - min + 1, max - min + 1) if value != 0 else 0, "ranges": ranges, "id": indicators[i].id, "content": indicators[i].content})
+    admin_sections.append('<p class="text-center mt-6">Résultat {}: {} < {} < {} ({})</p>'.format(indicators[i].content, round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
+  admin_sections.append('</div>')
     
 
   return current_section
