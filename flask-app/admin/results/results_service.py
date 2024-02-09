@@ -476,20 +476,20 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
             indice = (b['answer'] if b['answer'] < int(current_range[1]) else int(current_range[1])) * b['intensity'] * b['weight']
             max = b['intensity'] * int(current_range[1]) * b['weight']
             min = b['intensity'] * int(current_range[0]) * b['weight']
-            if b['is_action']:
-              if indice > result['ranges'][col][b['question_id'][0:2]]['value']:
-                result['ranges'][col][b['question_id'][0:2]]['value'] = indice
-              if max > result['ranges'][col][b['question_id'][0:2]]['max']:
-                result['ranges'][col][b['question_id'][0:2]]['max'] = max
-              if min > result['ranges'][col][b['question_id'][0:2]]['min']:
-                result['ranges'][col][b['question_id'][0:2]]['min'] = min
+            if b['question_id'] == 'B11a1': #TODO: Improve by adding actors?
+              key = 'PF'
+            elif b['question_id'] == 'B11b':
+              key = 'PC'
+            elif b['is_action']:
+              key = b['question_id'][0:2] 
             else:
-              if indice > result['ranges'][col][b['question_id'][0]]['value']:
-                result['ranges'][col][b['question_id'][0]]['value'] = indice
-              if max > result['ranges'][col][b['question_id'][0]]['max']:
-                result['ranges'][col][b['question_id'][0]]['max'] = max 
-              if min > result['ranges'][col][b['question_id'][0]]['min']:
-                result['ranges'][col][b['question_id'][0]]['min'] = min 
+              key = b['question_id'][0]
+            if indice > result['ranges'][col][key]['value']:
+              result['ranges'][col][key]['value'] = indice
+            if max > result['ranges'][col][key]['max']:
+              result['ranges'][col][key]['max'] = max
+            if min > result['ranges'][col][key]['min']:
+              result['ranges'][col][key]['min'] = min
           else:
             symbol = 'F'
             # score = 0
@@ -523,7 +523,6 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
     .all()
     for item in items:
       ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
-      print (item.content)
     for result in results.values():
       value += sum(value['value'] for value in result['ranges'][i].values())
       max += sum(value['max'] for value in result['ranges'][i].values())
