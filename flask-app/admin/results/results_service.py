@@ -283,7 +283,7 @@ def generate_gauge_results(barometer, current_section,report_sections, other_con
   return current_section
   
 def generate_mirror_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections):
-  hide = False # TODO: Implement hide depending on results or weight
+  hide = False
   behavior_results = {}
   results = {}
   themes = Theme.query\
@@ -430,6 +430,8 @@ def generate_mirror_results(barometer, current_section,report_sections, other_co
   return current_section
 
 def generate_action_reaction_results(barometer, current_section,report_sections, other_considerations_section, answers_dict, intensity_dict, admin_sections):
+  hide = False
+  total_by_behavior_id = {}
   current_section['data'] = {"indicators": [], "items":[]}
   results = {}
   themes = Theme.query\
@@ -443,7 +445,7 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
     indicators = Indicator.query\
       .filter_by(barometer_id = barometer.id)\
       .all()
-    results[theme.id] = {"name": theme.name, "behaviors": [], "ranges": [{"PF": {"value":0, "max":0, "min":0}, "PC": {"value":0, "max":0, "min":0},"NC": {"value":0, "max":0, "min":0}, "E":{"value":0, "max":0, "min":0}} for i in range(len(indicators))]}
+    results[theme.id] = {"id": theme.id, "name": theme.name, "behaviors": [], "ranges": [{"PF": {"value":0, "max":0, "min":0}, "PC": {"value":0, "max":0, "min":0},"NC": {"value":0, "max":0, "min":0}, "E":{"value":0, "max":0, "min":0}} for i in range(len(indicators))]}
     for behavior in behaviors:
       ranges = behavior.ranges.split(',')
       if len(ranges) != len(indicators):
@@ -452,8 +454,8 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
       answer = answers_dict.get(behavior.question_id) if answers_dict.get(behavior.question_id) != None else None
       if answer != None:
         answer = int(answer.value)
-      results[theme.id]['behaviors'].append({'question_id': behavior.question_id, 'answer': answer, 'intensity': intensity, 'ranges': behavior.ranges, 'is_action': behavior.actor_id == 5, 'weight': behavior.weight})
-    
+      results[theme.id]['behaviors'].append({'id': behavior.id,'question_id': behavior.question_id, 'answer': answer, 'intensity': intensity, 'ranges': behavior.ranges, 'is_action': behavior.actor_id == 5, 'weight': behavior.weight})
+  
   admin_sections.append('<div class="border w-[80%] border-blue-500"><h3 class="text-center mt-6">{}</h3>'.format(barometer.title))
   admin_sections.append('<table class="w-full admin-table">')
   admin_sections.append('<tr><th class="text-left">Thème</th><th class="text-center">Comportement</th><th class="text-center">Acteur</th><th class="text-center">Fréquence x Intensité x Poids</th>')
@@ -476,6 +478,7 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
             indice = (b['answer'] if b['answer'] < int(current_range[1]) else int(current_range[1])) * b['intensity'] * b['weight']
             max = b['intensity'] * int(current_range[1]) * b['weight']
             min = b['intensity'] * int(current_range[0]) * b['weight']
+            total_by_behavior_id[b['id']] = safe_division(indice - min + 1, max - min + 1) if indice != 0 else 0
             if b['question_id'] == 'B11a1': #TODO: Improve by adding actors?
               key = 'PF'
             elif b['question_id'] == 'B11b':
@@ -513,6 +516,8 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
       admin_sections.append('<td class="text-center">({}|{}){} < {} < {} ({})</td>'.format(action, reaction,round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
        
   admin_sections.append('</tr></table>')
+  total = 0
+  total_by_theme_id = {}
   for i in range(len(indicators)):
     ranges = []
     value = 0
@@ -527,9 +532,62 @@ def generate_action_reaction_results(barometer, current_section,report_sections,
       value += sum(value['value'] for value in result['ranges'][i].values())
       max += sum(value['max'] for value in result['ranges'][i].values())
       min += sum(value['min'] for value in result['ranges'][i].values())
+      total_by_theme_id[result['id']] = safe_division(value - min + 1, max - min + 1) if value != 0 else 0
+    if indicators[i].content == 'AP':
+      total = safe_division(value - min + 1, max - min + 1) if value != 0 else 0
     current_section['data']['indicators'].append({"value": safe_division(value - min + 1, max - min + 1) if value != 0 else 0, "ranges": ranges, "id": indicators[i].id, "content": indicators[i].content})
     admin_sections.append('<p class="text-center mt-6">Résultat {}: {} < {} < {} ({})</p>'.format(indicators[i].content, round(min,2),round(value,2), round(max,2), round(safe_division(value - min + 1, max - min + 1) if value != 0 else 0,2)))
   admin_sections.append('</div>')
+
+  items = BarometerItem.query\
+    .filter_by(barometer_id = barometer.id, is_active = True)\
+    .all()
+
+  for item in items:
+    value = total
+    if item.condition != None and item.condition != '':
+      if not cp.parse_condition(item.condition, answers_dict):
+        continue
+    if item.behavior_id != None and str(item.behavior_id) in total_by_behavior_id:
+      value = total_by_behavior_id[str(item.behavior_id)]
+    elif item.theme_id != None and str(item.theme_id) in total_by_theme_id:
+      value = total_by_theme_id[str(item.theme_id)]
+    if item.type == 'range':
+      if barometer.type == 'linear-gauge' or barometer.type == 'circular-gauge':
+        if hide == False:
+          ranges.append({"name": item.content, "min": float(item.min), "max": float(item.max)})
+    if value >= item.min and (value < item.max if item.max != 1 else value <= item.max):
+      if item.type == 'observation':
+        if item.theme_id == None and item.behavior_id == None:
+          if hide and item.is_unavoidable:
+            other_considerations_section['analysis'].append(item.content)
+          else:
+            current_section['analysis'].append(item.content)
+        else:
+          if hide and item.is_unavoidable:
+            other_considerations_section['observations'].append(item.content)
+          else:
+            current_section['observations'].append(item.content)
+      elif item.type == 'yellow_flag':
+        if hide and item.is_unavoidable:
+          other_considerations_section['yellow_flags'].append(item.content)
+        else:
+          current_section['yellow_flags'].append(item.content)
+      elif item.type == 'red_flag':
+        if hide and item.is_unavoidable:
+          other_considerations_section['red_flags'].append(item.content)
+        else:
+          current_section['red_flags'].append(item.content)
+      elif item.type == 'flag_introduction':
+          current_section['flag_introduction'] = item.content
+      elif item.type == 'ressource':
+        if hide and item.is_unavoidable:
+          other_considerations_section['ressources'].append(item.content)
+        else:
+          current_section['ressources'].append(item.content)
+          
+  if hide:
+    current_section['hide'] = True
     
 
   return current_section
