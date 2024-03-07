@@ -1,17 +1,13 @@
 <div class="flex py-6 md:py-12 w-full grow flex-col items-center avoid-break-inside">
-  <div class="flex flex-row w-full justify-center items-center lg:space-x-12 mx-[24px] max-w-[950px] grow lg:w-[950px]">
-    <div
-      class="bg-white hidden lg:flex flex-col py-4 px-[32px] rounded-[2rem] drop-shadow-xl mr-4 max-w-[950px] text-center">
-      <h3 class="mt-8">À propos du baromètre</h3>
-      <p>{{ about | safe }}</p>
-    </div>
+  <div
+    class="bg-white drop-shadow-xl rounded-[2rem] flex flex-wrap w-full justify-center items-center mx-[24px] max-w-[950px] grow">
+    {% for indicator in data.indicators %}
 
-    <div
-      class="bg-white flex justify-center py-2 rounded-[2rem] drop-shadow-xl mx-4 text-center min-h-[230px] h-[230px]">
-      <div style="width: 400px; height: 230px " class="relative overflow-y-hidden">
-        <svg class="absolute -top-2.5" width="400px" height="230px" viewBox="0 -55 100 200">
+    <div class="flex justify-center text-center min-h-[230px] h-[230px]">
+      <div style="width: 300px; height: 230px " class="relative overflow-y-hidden">
+        <svg class="absolute -top-2.5" width="300px" height="230px" viewBox="0 -55 100 200">
           <defs>
-            <linearGradient id="{{ data['id'] }}-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id="{{ indicator.id }}-grad1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="" style="stop-color: #7bb284; stop-opacity: 1" />
               <stop offset="" style="stop-color: #deb064; stop-opacity: 1" />
 
@@ -19,7 +15,7 @@
             </linearGradient>
           </defs>
 
-          <ellipse cx="50" cy="100" rx="98" ry="88" fill="url(#{{ data['id'] }}-grad1)" />
+          <ellipse cx="50" cy="100" rx="98" ry="88" fill="url(#{{ indicator.id }}-grad1)" />
 
           <ellipse cx="46" cy="105" rx="75" ry="60" style="fill: white; stroke-width: 2" />
 
@@ -27,37 +23,36 @@
 
           <line x1="-54" y1="107.5" x2="154" y2="107.5" style="stroke: #6895e5; stroke-width: 1"></line>
           <ellipse cx="50" cy="100" rx="104" ry="98" fill="transparent" stroke="#6895e5" />
-          <rect x="-200" y="108" width="500" height="100" fill="white"></rect>
+          <rect x="-200" y="108" width="800" height="600" fill="white"></rect>
           <text fill="#0085EF" x="50" y="130" text-anchor="middle" alignment-baseline="middle" font-size="14"
             font-weight="500" font-family="Poppins" letter-spacing="0.02">
-            {{data['result']}}
+            {{indicator['result']}}
           </text>
           <text fill="#0085EF" x="50" y="-20" text-anchor="middle" alignment-baseline="middle" font-size="14"
             font-weight="500" font-family="Poppins" letter-spacing="0.02">
-            {{data['content']}}
+            {{indicator['content']}}
           </text>
         </svg>
-        <img id="{{ data['id'] }}-pin" class="absolute bottom-[30%] left-[15%]"
+        <img id="{{ indicator.id }}-pin" class="absolute"
           src="{{ url_for('static', filename='img/b6-pin.png', _external=True) }}" />
       </div>
 
       <script type="module">
-        const data = JSON.parse(`{{ data | tojson | safe }}`);
+        const data = JSON.parse(`{{ indicator | tojson | safe }}`);
 
-        const pin = document.getElementById("{{ data['id'] }}-pin");
+        const pin = document.getElementById(`{{ indicator.id }}-pin`);
 
         pin.setAttribute(
           "style",
           `
       transform:rotate(${getRotation(
             data.value
-          )}deg) scale(0.3); transform-origin: 85% 70%;bottom: 20%;`
+          )}deg) scale(0.3); transform-origin: 85% 70%;bottom: 20%; left: 10px;`
         );
-
 
         const stops = getOffsets(data.range);
 
-        const stopElements = document.querySelectorAll("#{{ data['id'] }}-grad1 stop");
+        const stopElements = document.querySelectorAll("#{{ indicator.id }}-grad1 stop");
 
         console.log(stopElements);
 
@@ -87,5 +82,7 @@
         }
       </script>
     </div>
+
+    {% endfor %}
   </div>
 </div>
